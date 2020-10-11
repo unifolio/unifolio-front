@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import styled from 'styled-components';
-import Responsive from './Responsive.js';
+import Responsive from '../common/Responsive.js';
 
 import palette from "../../lib/styles/palette.js";
 
@@ -60,8 +60,8 @@ const HomeHeader = ( props ) => {
       <HomeHeaderLayout>
         <div onClick={onClickHeaderItem} className="homeheader-item active" data-location="waiting-people">출자 대기중인 출자자</div>
         <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-associations">결성 대기중인 개인투자조합</div>
-        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>
-        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="manage-association">조합관리</div>
+        {/* <div onClick={onClickHeaderItem} className="homeheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>
+        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="manage-association">조합관리</div> */}
       </HomeHeaderLayout>
     </HomeHeaderPosition>
   );

@@ -14,7 +14,7 @@ const WaitingPeople = () => {
     <>
       { Array(9).fill(0).map((each, i) => 
         { return (
-          <WaitingPeopleCell>
+          <WaitingPeopleCell key={`${i}`}>
             <Card idx={i+1}/>
           </WaitingPeopleCell>
         )}

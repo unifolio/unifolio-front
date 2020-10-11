@@ -30,6 +30,7 @@ const NavbarLayout = styled(Responsive)`
 
     .button {
       margin-left: 1rem;
+      color: white;
     }
     
   }
@@ -45,6 +46,7 @@ const Navbar = () => {
           <div className="header-right">
             <Link to="/" className="button landing">랜딩</Link>
             <Link to="/home" className="button home">홈</Link>
+            <Link to="/my" className="button my">마이페이지</Link>
             <Link to="/signin" className="button signin">로그인</Link>
           </div>
         </NavbarLayout>

@@ -6,6 +6,8 @@ import { Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
+import MyPage from './pages/MyPage';
+import AssociationCreatePage from './pages/AssociationCreatePage';
 
 import Navbar from './components/common/Navbar';
 
@@ -15,6 +17,8 @@ function App() {
       <Navbar />
       <Route component={ LandingPage } path="/" exact />
       <Route component={ HomePage } path="/home" />
+      <Route component={ MyPage } path="/my" />
+      <Route component={ AssociationCreatePage } path="/association-create" />
     </>
   );
 }
