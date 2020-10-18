@@ -8,16 +8,19 @@ import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
 import MyPage from './pages/MyPage';
 import AssociationCreatePage from './pages/AssociationCreatePage';
+import AssociationManagePage from './pages/AssociationManagePage';
 
 import Navbar from './components/common/Navbar';
+
 
 function App() {
   return (
     <>
       <Navbar />
       <Route component={ LandingPage } path="/" exact />
-      <Route component={ HomePage } path="/home" />
+      <Route component={ HomePage } path="/finding-association" />
       <Route component={ MyPage } path="/my" />
+      <Route component={ AssociationManagePage } path="/association-manage" />
       <Route component={ AssociationCreatePage } path="/association-create" />
     </>
   );

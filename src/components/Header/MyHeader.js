@@ -16,7 +16,7 @@ const MyHeaderPosition = styled(Responsive)`
 const MyHeaderLayout = styled.div`
   height:100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-items: center;
 
@@ -32,8 +32,6 @@ const MyHeaderLayout = styled.div`
   .active {
     box-shadow: 0 4px 2px -2px ${palette.blue[0]};
     color: ${palette.blue[0]}
-    /* border-bottom-style: solid;
-    border-width: thin; */
   }
 `;
 
@@ -43,7 +41,6 @@ const MyHeader = ( props ) => {
   // const [isActive, setIsActive] = useState(false);
   useEffect( () => {
     console.log("홈헤더 rendered", current);
-    // 이터러블 객체이지만 Array를 상속받지 않아서 map()사용은 안됨.
     document.querySelector(".active").className = "myheader-item";
     if (current === undefined) {
       document.querySelector(".myheader-item").className += " active";
@@ -59,7 +56,6 @@ const MyHeader = ( props ) => {
     <MyHeaderPosition className="MyHeader">
       <MyHeaderLayout>
         <div onClick={onClickHeaderItem} className="myheader-item active" data-location="profile">프로필</div>
-        <div onClick={onClickHeaderItem} className="myheader-item" data-location="manage-association">조합관리</div>
         <div onClick={onClickHeaderItem} className="myheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>
         
       </MyHeaderLayout>

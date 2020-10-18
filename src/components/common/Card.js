@@ -10,7 +10,7 @@ const CardLayout = styled.div`
 `;
 
 const Card = (props) => {
-  const { idx } = props;
+  const { idx, openModal } = props;
 
   return (
     <CardLayout>
@@ -23,7 +23,7 @@ const Card = (props) => {
       경력1<br />
       경력2<br />
       경력3<br />
-      <button>문의하기</button>
+      <button onClick={() => openModal(idx)}>문의하기</button>
     </CardLayout>
   );
 }

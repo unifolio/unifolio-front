@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import qs from 'qs';
 
@@ -8,10 +8,10 @@ import FilterSection from '../components/common/FilterSection';
 
 import WaitingPeople from '../components/WaitingPeople';
 import WaitingAssociations from '../components/WaitingAssociations';
+import WaitingInfo from '../components/WaitingInfo';
 
 const HomePagePosition = styled(Responsive)`
   position: relative;
-  height: calc(100vh - 8rem);
   max-width: 100%;
   display: flex;
 `;
@@ -25,27 +25,62 @@ const HomeMainSection = styled.div`
   grid-template-rows: 1fr 1fr 1fr;
 `;
 
+const HomeModalPosition = styled.div`
+  width:100vw;
+  height: 100vh;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index:2;
+
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items:center;
+`;
+
+const HomeModalMain = styled.div`
+  
+  width:30vw;
+  height:30vw;
+  background-color:white;
+
+  display:flex;
+  flex-flow:column;
+  z-index:3;
+`;
+
 const HomeSideSection = styled.div`
-  display: inline-grid;
-  grid-template-rows: 1fr repeat(5, 3fr);
   width:20%;
-  height:100%;
+  height:calc(100vh - 8rem);
+  position:sticky;
+  top: 4rem;
+
   border-color: gray;  
   border-left-style: solid;
   border-width: thin;
+
+  display: inline-grid;
+  grid-template-rows: 1fr repeat(5, 3fr);
 `;
 
 const MainPage = (props) => {
   const { location } = props;
-  const query = qs.parse(location.search, { ignoreQueryPrefix: true });  
-  const mainRef = React.createRef();
-  const sideRef = React.createRef();
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const [modalContentIdx, setModalContentIdx] = useState(null);  
+  const mainRef = React.createRef(), sideRef = React.createRef(), modalRef = React.createRef();
+  
+  useEffect(() => {
+    console.log("modalRef.style", modalRef.current);
+    modalRef.current.style.display = "none";
+  }, [])
+  
 
   const mainSectionSelector = (current) => {
     console.log("mainSectionSelector",  current);
     switch(current){
       case "waiting-people":
-        return <WaitingPeople />;
+        return <WaitingPeople openModal={toggleModal}/>;
       case "waiting-associations":
         return <WaitingAssociations />;
       default:
@@ -62,7 +97,6 @@ const MainPage = (props) => {
         return ["조합 상태","투자 분야", "출자 총액", "최소 출자액"];
       default:
         return [];
-        // return <div style={{width:"100%"}}> 상단의 메뉴를 선택해주세요 </div>
       }
     }
 
@@ -79,11 +113,29 @@ const MainPage = (props) => {
     }
   }
 
+  const toggleModal = (idx) => {
+    console.log(typeof(idx));
+    if (typeof(idx) == "boolean" && idx == false){
+      
+      document.querySelector("body").style.overflow = "";
+      modalRef.current.style.display = "none";
+      return;
+    }
+    if (typeof(idx) == "number")
+      setModalContentIdx(idx);
+    
+    if (modalContentIdx != null || idx != null) {
+      document.querySelector("body").style.overflow = "hidden";
+      modalRef.current.style.display = "flex";
+    }
+    
+  }
+
   return (
     <>
       <HomeHeader current={query.mode} />
       <br />
-      <HomePagePosition className="HomePage">
+      <HomePagePosition className="HomePage"> 
         <HomeMainSection ref={mainRef}>
           { mainSectionSelector(query.mode) }
         </HomeMainSection>
@@ -99,6 +151,11 @@ const MainPage = (props) => {
         </HomeSideSection>
         <button id="filterOpenButton" onClick={ () => {toggleFilter(false)} } style={{"position":"absolute", "left":"90%", "display":"none"}}> 필터 열기 </button>
       </HomePagePosition>
+      <HomeModalPosition ref={modalRef} onClick={() => { toggleModal(false) }}>
+        <HomeModalMain onClick={(e) => {e.stopPropagation();}}>
+          <WaitingInfo idx={modalContentIdx} />
+        </HomeModalMain>
+      </HomeModalPosition>
     </>
   );
 }

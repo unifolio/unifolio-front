@@ -16,15 +16,16 @@ const HomeHeaderPosition = styled(Responsive)`
 const HomeHeaderLayout = styled.div`
   height:100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-items: center;
 
   .homeheader-item {
-    color:grey;
-    height:100%;
     width:80%;
+    height:100%;
+    color:grey;
     font-size:1.3rem;
+    
     display:inherit;
     place-items:center;
 
@@ -44,24 +45,22 @@ const HomeHeader = ( props ) => {
   useEffect( () => {
     console.log("홈헤더 rendered", current);
     // 이터러블 객체이지만 Array를 상속받지 않아서 map()사용은 안됨.
-    document.querySelector(".active").className = "homeheader-item";
-    if (current === undefined) {
-      document.querySelector(".homeheader-item").className += " active";
-    } else {
-      document.querySelectorAll(`.homeheader-item[data-location=${current}]`)[0].className += " active";
-    }
-    
+    if (document.querySelector(".active") != null)
+        document.querySelector(".active").className = "homeheader-item";
+    if (current === undefined){
+      return;
+    } 
+    document.querySelectorAll(`.homeheader-item[data-location=${current}]`)[0].className += " active";
   })
   const onClickHeaderItem = (e) => {
-    history.push(`/home?mode=${e.target.dataset.location}`);
+    history.push(`/finding-association?mode=${e.target.dataset.location}`);
   }
   return (
     <HomeHeaderPosition className="HomeHeader">
       <HomeHeaderLayout>
-        <div onClick={onClickHeaderItem} className="homeheader-item active" data-location="waiting-people">출자 대기중인 출자자</div>
+        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-people">출자 대기중인 출자자</div>
         <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-associations">결성 대기중인 개인투자조합</div>
-        {/* <div onClick={onClickHeaderItem} className="homeheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>
-        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="manage-association">조합관리</div> */}
+        {/* <div onClick={onClickHeaderItem} className="homeheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>*/}
       </HomeHeaderLayout>
     </HomeHeaderPosition>
   );

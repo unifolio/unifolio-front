@@ -13,14 +13,13 @@ import PersonalAssociationCreate05 from "../components/association_create/Person
 
 const AssociationPagePosition = styled(Responsive)`
   position: relative;
-  height: calc(100vh - 8rem);
   max-width: 100%;
   display: flex;
 `;
 
 const AssociationMainSection = styled.div`
   width:100%;
-  height:100%;
+  height:calc(100vh - 8rem);
   padding-right:1rem;
   padding-left:10rem;
   display:grid;

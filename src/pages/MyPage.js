@@ -24,6 +24,7 @@ const MyPagePosition = styled(Responsive)`
 const MyMainSection = styled.div`
   width:100%;
   height:100%;
+  margin-top:10rem;
   padding-right:1rem;
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -33,10 +34,7 @@ const MyMainSection = styled.div`
     --create-association-1-col-child-grid-column: auto / span 2;
     grid-column: var(--create-association-1-col-child-grid-column);
   }
-  .MyPageMainSection:nth-child(2) {
-    --create-association-1-col-child-grid-column: auto / span 2;
-    grid-column: var(--create-association-1-col-child-grid-column);
-  }
+  
 `;
 
 const MyPage = (props) => {
@@ -60,9 +58,6 @@ const MyPage = (props) => {
     switch(current){
       case "create-association":   
         return <CreateAssociation />;
-      case "manage-association":
-        console.log("manage-association not usable");
-        return <div style={{width:"100%"}}> manage-association </div>
       case "profile":
         console.log("profile not usable");
         return <div style={{width:"100%"}}> profile </div>;
@@ -77,11 +72,7 @@ const MyPage = (props) => {
       <br />
       <MyPagePosition className="MyPage">
         <MyMainSection ref={mainRef}>
-          <div className="MyPagePadding"></div>
-          <div className="MyPageMainSection" >
-            개인투자조합 설명 lore Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-          { mainSectionSelector(query.mode) }
+          { mainSectionSelector(query.mode) }  
         </MyMainSection>
       </MyPagePosition>
     </>

@@ -12,7 +12,7 @@ const WaitingPeopleCell = styled.div`
 const WaitingAssociations = () => {
   return (
     <>
-      { Array(9).fill(0).map((each, i) => 
+      { Array(27).fill(0).map((each, i) => 
         { return (
           <WaitingPeopleCell key={`${i}`}>
             <Card idx={i+1}/>

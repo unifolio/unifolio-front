@@ -9,13 +9,17 @@ const WaitingPeopleCell = styled.div`
   display:flex;
 `;
 
-const WaitingPeople = () => {
+const WaitingPeople = (props) => {
+  const { openModal } = props;
+  const openModalEmit = (idx) => {
+    openModal(idx);
+  }
   return (
     <>
-      { Array(9).fill(0).map((each, i) => 
+      { Array(27).fill(0).map((each, i) => 
         { return (
           <WaitingPeopleCell key={`${i}`}>
-            <Card idx={i+1}/>
+            <Card idx={i+1} openModal={openModalEmit}/>
           </WaitingPeopleCell>
         )}
       )}
