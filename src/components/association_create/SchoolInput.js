@@ -1,7 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 
 const SchoolInput = (props) => {
-  const { type, count } = props;
+  
+  const { type, count, onSchoolChange } = props;
+
+  const handleSchoolChange = useCallback((e) => {
+    let value = e.target.value;
+    onSchoolChange({value, count});
+  });
   
   const deleteSchoolInput = (count) => {
     let target = document.querySelector(`.school-${count}`);    
@@ -13,31 +19,36 @@ const SchoolInput = (props) => {
       return (
         <div className={`school-${count}`}>
           고등학교
-          <input type="text" name={`school-${count}`} placeholder="학교명"/> <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
+          <input type="text" name={`school-${count}`} placeholder="학교명" onChange={handleSchoolChange}/> 
+          <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
         </div>
       );
     case "univ":
       return (
         <div className={`school-${count}`}>
           대학교 (학사)
-          <input type="text" name={`school-${count}`} placeholder="학교명"/> <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
+          <input type="text" name={`school-${count}`} placeholder="학교명" onChange={handleSchoolChange}/> 
+          <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
         </div>
       );
     case "grad":
       return (
         <div className={`school-${count}`}>
           대학원 (석사)
-          <input type="text" name={`school-${count}`} placeholder="학교명"/> <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
+          <input type="text" name={`school-${count}`} placeholder="학교명" onChange={handleSchoolChange}/> 
+          <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
         </div>
       );
       case "doc":
         return (
           <div className={`school-${count}`}>
             대학원 (박사)
-            <input type="text" name={`school-${count}`} placeholder="학교명"/> <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
+            <input type="text" name={`school-${count}`} placeholder="학교명" onChange={handleSchoolChange}/> 
+            <button onClick={() => {deleteSchoolInput(count)}}>삭제</button>
           </div>
         );
     default:
+      console.log(type, count)
       return <div> error </div>
   }
 }

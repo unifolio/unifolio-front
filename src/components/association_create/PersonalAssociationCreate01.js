@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState, useCallback} from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
@@ -9,6 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 
+import { addPersonalInfo } from '../../modules/reducers/unionCreate';
 import SchoolInput from './SchoolInput';
 import CareerInput from './CareerInput';
 
@@ -17,6 +18,7 @@ const PersonalAssociationCreate01 = () => {
   const [careerInputs, setCareerInputs] = useState([]);
   const [schoolCount, setSchoolCount ] = useState(2);
   const [careerCount, setCareerCount ] = useState(1);
+  const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -33,7 +35,7 @@ const PersonalAssociationCreate01 = () => {
     let selects = document.querySelector("select#school");
     let selected = selects.options[selects.selectedIndex].value;
     let tmpSchoolInputs = schoolInputs
-    tmpSchoolInputs.push( [count, selected] );
+    tmpSchoolInputs.push( [count, selected, ""] );
     setSchoolInputs(tmpSchoolInputs);
     setSchoolCount(count + 1);
   }
@@ -42,9 +44,23 @@ const PersonalAssociationCreate01 = () => {
     let selects = document.querySelector("select#career");
     let selected = selects.options[selects.selectedIndex].value;
     let tmpCareerInputs = careerInputs
-    tmpCareerInputs.push( [count, selected] );
+    tmpCareerInputs.push( [count, selected, ""] );
     setCareerInputs(tmpCareerInputs);
     setCareerCount(count + 1);
+  }
+
+  const onSchoolChange = (schoolInfo) => {
+    console.log(schoolInfo)
+    let tmpSchoolInputs = schoolInputs;
+    tmpSchoolInputs.map(schoolInput => {
+      schoolInput[0] == schoolInfo.count ? schoolInput[2] = schoolInfo.value : schoolInput[2] = schoolInput[2];
+    });
+    setSchoolInputs(tmpSchoolInputs);
+  }
+
+  const handleNext = () => {
+    dispatch(addPersonalInfo({schoolInputs}))
+    // window.location.href = "/association-create/personal-2"
   }
 
   return (
@@ -68,7 +84,7 @@ const PersonalAssociationCreate01 = () => {
             </div> <br />
             <div className="school-inputs">
                 { schoolInputs.map((each, index) => 
-                  <SchoolInput type={each[1]} count={each[0]} key={index}/>
+                  <SchoolInput type={each[1]} count={each[0]} key={index} onSchoolChange={onSchoolChange}/>
                 )}
             </div>
 
@@ -95,7 +111,7 @@ const PersonalAssociationCreate01 = () => {
 
             <div className="mb-8"></div>
             <br />
-            <Link to="/association-create/personal-2">다음 단계 진행하기</Link>
+            <button onClick={handleNext}>다음 단계 진행하기</button>
             
         </div>
       </div>

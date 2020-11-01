@@ -11,6 +11,8 @@ import AssociationCreatePage from './pages/AssociationCreatePage';
 import AssociationManagePage from './pages/AssociationManagePage';
 
 import Navbar from './components/common/Navbar';
+import SignupPage from './pages/SignupPage';
+import SigninPage from './pages/SigninPage';
 
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
       <Route component={ MyPage } path="/my" />
       <Route component={ AssociationManagePage } path="/association-manage" />
       <Route component={ AssociationCreatePage } path="/association-create" />
+      <Route component={ SignupPage } path="/signup" />
+      <Route component={ SigninPage } path="/signin" />
     </>
   );
 }
