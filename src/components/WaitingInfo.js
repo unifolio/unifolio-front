@@ -12,17 +12,24 @@ const WaitingInfoBlock = styled.div`
 `;
 
 const WaitingInfo = (props) => {
-  const {idx} = props
+  const {idx, info} = props
+
+  if(info === null){
+    return(<></>);
+  }
+
   return (
     <WaitingInfoPosition>
       <WaitingInfoBlock>
-        <h3>{idx}</h3><br/>
-        이름<br />
-        학력<br />
+        <h3>{idx}</h3>
+        {console.log("모달", info)}
+        이름 : {info.username}<br />
+        소개 : {info.introduction}<br />
+        <h4>학력</h4>
         학력1<br />
         학력2<br />
-        경력<br />
-        경력1<br />
+        <h4>경력</h4>
+        경력1 : {info.corporate_name}<br />
         경력2<br />
         경력3<br />
       </WaitingInfoBlock>

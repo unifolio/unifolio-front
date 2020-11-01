@@ -68,6 +68,7 @@ const MainPage = (props) => {
   const { location } = props;
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [modalContentIdx, setModalContentIdx] = useState(null);  
+  const [modalContent, setModalContent] = useState(null);
   const mainRef = React.createRef(), sideRef = React.createRef(), modalRef = React.createRef();
   
   useEffect(() => {
@@ -113,18 +114,21 @@ const MainPage = (props) => {
     }
   }
 
-  const toggleModal = (idx) => {
-    console.log(typeof(idx));
-    if (typeof(idx) == "boolean" && idx == false){
+  const toggleModal = (cardObj) => {
+    console.log(typeof(cardObj));
+    console.log(cardObj);
+    if (typeof(cardObj) == "boolean" && cardObj == false){
       
       document.querySelector("body").style.overflow = "";
       modalRef.current.style.display = "none";
       return;
     }
-    if (typeof(idx) == "number")
-      setModalContentIdx(idx);
-    
-    if (modalContentIdx != null || idx != null) {
+    if (typeof(cardObj.idx) == "number"){
+      setModalContentIdx(cardObj.idx);
+      setModalContent(cardObj.info);
+    }
+      
+    if (modalContentIdx != null || cardObj != null) {
       document.querySelector("body").style.overflow = "hidden";
       modalRef.current.style.display = "flex";
     }
@@ -153,7 +157,7 @@ const MainPage = (props) => {
       </HomePagePosition>
       <HomeModalPosition ref={modalRef} onClick={() => { toggleModal(false) }}>
         <HomeModalMain onClick={(e) => {e.stopPropagation();}}>
-          <WaitingInfo idx={modalContentIdx} />
+          <WaitingInfo info={modalContent} idx={modalContentIdx} />
         </HomeModalMain>
       </HomeModalPosition>
     </>
