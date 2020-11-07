@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import style from '../lib/styles';
 
-
 const SigninPosition = styled.div`
   height:calc(100vh - 4rem);
   ${style.layout.marginContainer}
@@ -15,10 +14,10 @@ const SigninPosition = styled.div`
 
 const SigninBlock = styled.div`
   width: 60%;
+  margin-top: 10%;
   
   display:flex;
   flex-direction:column; 
-  margin-top: 10%;
   
   h1 {
     display:flex;

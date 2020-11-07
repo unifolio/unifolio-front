@@ -1,7 +1,36 @@
 import React, {useState, useCallback} from 'react';
+import styled from 'styled-components';
+
+import style from '../lib/styles';
+
+const SignupRowBlock = styled.div`
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
+const SignupForm = styled.form`
+  display:flex;
+  flex-direction:column;
+`
+const SignupEmailInput = styled.input.attrs(
+  props => ({ type: "text", name: "email", placeholder: "User ID" })
+)`
+  ${style.layout.signInput}
+`;
+const SignupPasswordInput = styled.input.attrs(
+  props => ({type: "password", name:"password", placeholder: "Password"})
+)`
+  ${style.layout.signInput}
+`
+const SignupPasswordChkInput = styled.input.attrs(
+  props => ({type: "password", name:"password_check", placeholder: "Password Check"})
+)`
+  ${style.layout.signInput}
+`
 
 const Signup01 = (props) => {
-  const { onClickNext } = props;
+  const { onClickNext, className } = props;
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
   const [passwordCheck, SetPasswordCheck] = useState("");
@@ -20,19 +49,19 @@ const Signup01 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({email, password, passwordCheck}, 1);
+    onClickNext({email, password, passwordCheck}, 1, e.target.parentNode);
   });
 
   return (
-    <>
+    <SignupRowBlock className={className}>
       <h1> 회원가입 </h1>
-      <form onSubmit={handleSubmit}>
-        email : <input type="text" name="email" onChange={handleEmailChange} /> <br />
-        pwd : <input type="password" name="password" onChange={handlePasswordChange}/> <br />
-        pwd_chk : <input type="password" name="password_check" onChange={handlePasswordCheckChange}/> <br />
+      <SignupForm onSubmit={handleSubmit}>
+        <SignupEmailInput onChange={handleEmailChange} /> <br />
+        <SignupPasswordInput onChange={handlePasswordChange} /> <br />
+        <SignupPasswordChkInput onChange={handlePasswordCheckChange} /> <br />
         <button type="submit"> 다음으로 </button>
-      </form>
-    </>
+      </SignupForm>
+    </SignupRowBlock>
   );
 }
 

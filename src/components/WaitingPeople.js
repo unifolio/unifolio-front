@@ -19,6 +19,7 @@ const WaitingPeople = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // 임시
       // const fetchUsers = await API.getUsers();
       // setUsers(fetchUsers.results);
       setUsers([]);

@@ -1,7 +1,48 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import styled from 'styled-components';
+import style from '../lib/styles';
+
+const SignupRowBlock = styled.div`
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
+const SignupForm = styled.form`
+  display:flex;
+  flex-direction:column;
+`
+const SignupNameInput = styled.input.attrs(
+  props => ({ type: "text", name: "name", placeholder: "이름" })
+)`
+  ${style.layout.signInput}
+`;
+
+const SignupRRNInput = styled.input.attrs(
+  props => ({type: "text", name:"rrn", placeholder: "주민등록번호"})
+)`
+  ${style.layout.signInput}
+`
+
+const SignupPostCodeInput = styled.input.attrs(
+  props => ({type: "text", name:"postcode", id:"postcode", placeholder: "우편번호", readOnly: true, required:true})
+)`
+  ${style.layout.signInput}
+`;
+
+const SignupAddressInput = styled.input.attrs(
+  props => ({type: "text", name:"address", id:"address", placeholder: "주소", readOnly: true, required:true})
+)`
+  ${style.layout.signInput}
+`;
+const SignupDetailAddressInput = styled.input.attrs(
+  props => ({type: "text", name:"detail_address", id:"detail_address", placeholder: "상세 주소", required:true})
+)`
+  ${style.layout.signInput}
+`;
 
 const Signup02 = (props) => {
-  const { onClickNext } = props;
+  const { onClickNext, className } = props;
   const [name, SetName] = useState("");
   const [rrn, SetRRN] = useState("");
   const [postcode, SetPostCode] = useState("");
@@ -9,6 +50,7 @@ const Signup02 = (props) => {
   const [addressDetail, SetAddressDetail] = useState("");
   
   useEffect(() => {
+    
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.onload = () => { console.log("is onload ?"); }
@@ -50,25 +92,24 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({name, rrn, postcode, address, addressDetail}, 2);
+    onClickNext({name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
   });
 
   
 
   return (
-    <>
-    <h1> 회원가입 </h1>
-    <form onSubmit={handleSubmit}>
-      이름 : <input type="text" name="name" onChange={handleChangeName}/> <br />
-      주민등록번호 : <input type="text" name="rrn" onChange={handleChangeRRN} /> <br />
-      <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
-      <input type="text" id="postcode" name="postcode" placeholder="우편번호" readOnly={true} onClick={() => {clickPostAdress()}}  required=""/> <br />
-      <input type="text" id="address" name="address" placeholder="주소" readOnly={true}  onClick={() => {clickPostAdress()}} required="" /><br />
-      <input type="text" id="detail_address"name="detail_address" placeholder="상세주소" required="" onChange={handleChangeAddressDetail}/><br />
-      <button type="submit"> 다음으로 </button>
-    </form>
-      
-    </>
+    <SignupRowBlock className={className}>
+      <h1> 회원가입 </h1>
+      <SignupForm onSubmit={handleSubmit}>
+        <SignupNameInput onChange={handleChangeName}/> <br />
+        <SignupRRNInput onChange={handleChangeRRN} /> <br />
+        <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
+        <SignupPostCodeInput onClick={clickPostAdress}/> <br />
+        <SignupAddressInput onClick={clickPostAdress}/> <br />
+        <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
+        <button type="submit"> 다음으로 </button>
+      </SignupForm>  
+    </SignupRowBlock>
   );
 }
 

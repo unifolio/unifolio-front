@@ -1,7 +1,32 @@
 import React, {useState, useCallback} from 'react';
+import styled from 'styled-components';
+import style from '../lib/styles';
+
+const SignupRowBlock = styled.div`
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
+const SignupForm = styled.form`
+  display:flex;
+  flex-direction:column;
+`
+const SignupPhoneNumberInput = styled.input.attrs(
+  props => ({ type: "text", name: "phoneNumber", placeholder: "휴대폰번호" })
+)`
+  ${style.layout.signInput}
+`;
+
+const SignupAuthCodeInput = styled.input.attrs(
+  props => ({type: "number", name:"authCode", id:"authCodeInputField", placeholder: "인증번호", required:true})
+)`
+  display: none;
+  ${style.layout.signInput}
+`;
 
 const Signup03 = (props) => {
-  const { onClickNext } = props;
+  const { onClickNext, className } = props;
   const [phoneNumber, SetPhoneNumber] = useState("");
   const [authCode, SetAuthCode] = useState("");
 
@@ -20,19 +45,19 @@ const Signup03 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({phoneNumber, authCode}, 3);
+    onClickNext({phoneNumber, authCode}, 3, e.target.parentNode);
   });
 
   return (
-    <>
+    <SignupRowBlock className={className}>
       <h1> 회원가입 </h1>
-      <form onSubmit={handleSubmit}>
-        휴대폰번호 : <input type="text" name="phoneNumber" onChange={handlePhoneNumberChange} /> <br />
+      <SignupForm onSubmit={handleSubmit}>
+        <SignupPhoneNumberInput  onChange={handlePhoneNumberChange} /> <br />
         <button type="button" onClick={authCodeRequest}> 인증번호 받기 </button> <br />
-        인증번호 : <input type="number" id="authCodeInputField" name="authCode" style={{"display":"none"}} onChange={handleAuthCodeChange}/> <br />
+        <SignupAuthCodeInput  onChange={handleAuthCodeChange}/> <br />
         <button type="submit"> 다음으로 </button>
-      </form>
-    </>
+      </SignupForm>
+    </SignupRowBlock>
   );
 }
 
