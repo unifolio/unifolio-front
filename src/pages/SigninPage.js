@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
-import style from '../lib/styles';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+import style from '../lib/styles';
+
 
 const SigninPosition = styled.div`
   height:calc(100vh - 4rem);
@@ -9,7 +11,6 @@ const SigninPosition = styled.div`
   
   display:flex;
   justify-content: center;
-  
 `
 
 const SigninBlock = styled.div`
@@ -113,7 +114,7 @@ const SigninPage = () => {
         </SigninBlockSocials>
         <SigninBlockRow> 
           Don't have any account? 
-          <Link> Sign-up </Link>
+          <Link to="/signup"> Sign-up </Link>
         </SigninBlockRow>
       </SigninBlock>
       
