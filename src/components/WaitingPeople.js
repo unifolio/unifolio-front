@@ -19,8 +19,9 @@ const WaitingPeople = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchUsers = await API.getUsers();
-      setUsers(fetchUsers.results);
+      // const fetchUsers = await API.getUsers();
+      // setUsers(fetchUsers.results);
+      setUsers([]);
     }
     fetchData();
   }, []);

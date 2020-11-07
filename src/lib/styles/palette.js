@@ -2,7 +2,7 @@ const palette = {
   blue: [
     "#3533F0"
   ],
-  pink:[
+  pink: [
     "#fc8181"
   ]
 }
