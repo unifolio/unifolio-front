@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import style from '../lib/styles';
+import * as API from '../lib/api'
 
 const SigninPosition = styled.div`
   height:calc(100vh - 4rem);
@@ -79,11 +80,16 @@ const SigninPage = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   }
-  const handleSignin = () => {
-    if (email != "ryou9305@naver.com" || password != "123123"){
-      alert("이메일과 비밀번호를 확인해주세요");
-    } else {
-      window.location.href = "/finding-association?mode=waiting-people"
+  const handleSignin = async () => {
+    //  api
+    const response = await API.postUserDataToGetUserToken({"username":email, password})
+    console.log(response)
+    if (response.status === 401) {
+      alert("ID, 패스워드를 확인해주세요")
+    }
+    if (response.status === 200) {
+      localStorage.setItem("unifolioAccess", response.data.access);
+      window.location.href = "/finding-association?mode=waiting-people";
     }
   }
   const handleRememberChange = (e) => {

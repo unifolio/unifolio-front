@@ -45,7 +45,7 @@ const Signup03 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({phoneNumber, authCode}, 3, e.target.parentNode);
+    onClickNext({"phone_number":phoneNumber, authCode}, 3, e.target.parentNode);
   });
 
   return (

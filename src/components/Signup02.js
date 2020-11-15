@@ -92,7 +92,7 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
+    onClickNext({"username":name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
   });
 
   

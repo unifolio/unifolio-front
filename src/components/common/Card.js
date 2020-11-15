@@ -11,7 +11,7 @@ const CardLayout = styled.div`
 
 const Card = (props) => {
   const { idx, info, openModal } = props;
-
+  console.log(info);
   return (
     <CardLayout>
       <h3>{idx}</h3>

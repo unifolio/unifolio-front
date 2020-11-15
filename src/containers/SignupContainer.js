@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import styled from 'styled-components';
 
-import { addIDPW, addPersonalInfo, addPhone, addAgreement } from '../modules/reducers/signup';
+import { addIDPW, addPersonalInfo, addPhone, addAgreement, getSignupStateThunk } from '../modules/reducers/signup';
 
 import Signup01 from '../components/Signup01';
 import Signup02 from '../components/Signup02';
 import Signup03 from '../components/Signup03';
 import Signup04 from '../components/Signup04';
+
+import * as API from '../lib/api'
 
 const SignupBlock = styled.div`
   width:100%;
@@ -40,14 +42,17 @@ const SignupContainer = () => {
         dispatch(addPhone(formData));
         break;
       case 4:
-        target.classList.add('deactivate');
-        target.parentNode.children[process].classList.remove('deactivate');
-        dispatch(addAgreement(formData));
+        // target.classList.add('deactivate');
+        // target.parentNode.children[process].classList.remove('deactivate');
+        dispatch(addAgreement(formData))
+        dispatch(getSignupStateThunk()).then((data) => {
+          API.postUserData(data)
+        })
+        
         break;
       default:
         console.log("onClickNext error");
     }
-    
     
   }
   return (

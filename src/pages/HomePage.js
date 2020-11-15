@@ -83,7 +83,8 @@ const MainPage = (props) => {
       case "waiting-people":
         return <WaitingPeople openModal={toggleModal}/>;
       case "waiting-associations":
-        return <WaitingAssociations />;
+        return <WaitingPeople openModal={toggleModal}/>;
+        // return <WaitingAssociations />;
       default:
         return <div style={{width:"100%"}}> 상단의 메뉴를 선택해주세요 </div>
     }
