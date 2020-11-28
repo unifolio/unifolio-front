@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
-import style from '../lib/styles';
+import styles from '../../lib/styles';
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;
@@ -16,17 +16,17 @@ const SignupForm = styled.form`
 const SignupEmailInput = styled.input.attrs(
   props => ({ type: "text", name: "email", placeholder: "User ID" })
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 const SignupPasswordInput = styled.input.attrs(
   props => ({type: "password", name:"password", placeholder: "Password"})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `
 const SignupPasswordChkInput = styled.input.attrs(
   props => ({type: "password", name:"password_check", placeholder: "Password Check"})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `
 
 const Signup01 = (props) => {

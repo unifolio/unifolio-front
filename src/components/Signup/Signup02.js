@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import style from '../lib/styles';
+import styles from '../../lib/styles';
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;
@@ -15,35 +15,42 @@ const SignupForm = styled.form`
 const SignupNameInput = styled.input.attrs(
   props => ({ type: "text", name: "name", placeholder: "이름" })
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
+`;
+
+const SignupNickNameInput = styled.input.attrs(
+  props => ({ type: "text", name: "name", placeholder: "닉네임" })
+)`
+  ${styles.layout.signInput}
 `;
 
 const SignupRRNInput = styled.input.attrs(
   props => ({type: "text", name:"rrn", placeholder: "주민등록번호"})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `
 
 const SignupPostCodeInput = styled.input.attrs(
   props => ({type: "text", name:"postcode", id:"postcode", placeholder: "우편번호", readOnly: true, required:true})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 
 const SignupAddressInput = styled.input.attrs(
   props => ({type: "text", name:"address", id:"address", placeholder: "주소", readOnly: true, required:true})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 const SignupDetailAddressInput = styled.input.attrs(
   props => ({type: "text", name:"detail_address", id:"detail_address", placeholder: "상세 주소", required:true})
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 
 const Signup02 = (props) => {
   const { onClickNext, className } = props;
   const [name, SetName] = useState("");
+  const [nickname, SetNickName] = useState("");
   const [rrn, SetRRN] = useState("");
   const [postcode, SetPostCode] = useState("");
   const [address, SetAddress] = useState("");
@@ -81,6 +88,9 @@ const Signup02 = (props) => {
   const handleChangeName = useCallback((e) => {
     SetName(e.target.value);
   });
+  const handleChangeNickName = useCallback((e) => {
+    SetNickName(e.target.value);
+  });
 
   const handleChangeRRN = useCallback((e) => {
     SetRRN(e.target.value);
@@ -92,7 +102,7 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({"username":name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
+    onClickNext({nickname, name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
   });
 
   
@@ -102,6 +112,7 @@ const Signup02 = (props) => {
       <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
         <SignupNameInput onChange={handleChangeName}/> <br />
+        <SignupNickNameInput onChange={handleChangeNickName}/> <br />
         <SignupRRNInput onChange={handleChangeRRN} /> <br />
         <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
         <SignupPostCodeInput onClick={clickPostAdress}/> <br />

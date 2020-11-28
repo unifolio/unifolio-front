@@ -11,19 +11,19 @@ export const getUsers = () => {
   return response;
 }
 
-export const postUserDataToGetUserToken = (formData) => {
+export const postUserDataToGetToken = (data) => {
   const config = {
     headers: { "Content-Type": "application/json" }
   }
-  let data = new FormData();
-  data.append("username", formData.username);
-  data.append("password", formData.password);
-  const response = axios.post("http://127.0.0.1:8000/api/token/", data, config)
+  // let data = new FormData();
+  // data.append("email", formData.email);
+  // data.append("password", formData.email);
+  const response = axios.post("http://127.0.0.1:8000/api/v1/token/", data, config)
     .then((resolve) => {
       return resolve;
     })
     .catch((error) => {
-      console.log("postUserDataToGetUserToken EEEEE", error.response);
+      console.log("postUserDataToGetToken Error", error.response);
       return error.response;
     });
   return response;

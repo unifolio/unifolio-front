@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
-import style from '../lib/styles';
+import styles from '../../lib/styles';
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;
@@ -15,14 +15,14 @@ const SignupForm = styled.form`
 const SignupPhoneNumberInput = styled.input.attrs(
   props => ({ type: "text", name: "phoneNumber", placeholder: "휴대폰번호" })
 )`
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 
 const SignupAuthCodeInput = styled.input.attrs(
   props => ({type: "number", name:"authCode", id:"authCodeInputField", placeholder: "인증번호", required:true})
 )`
   display: none;
-  ${style.layout.signInput}
+  ${styles.layout.signInput}
 `;
 
 const Signup03 = (props) => {
@@ -32,7 +32,7 @@ const Signup03 = (props) => {
 
   const authCodeRequest = () => {
     alert(Math.floor(Math.random()*10000));
-    document.querySelector("#authCodeInputField").style.display = "block";
+    document.querySelector("#authCodeInputField").styles.display = "block";
   }
 
   const handlePhoneNumberChange = useCallback((e) => {
@@ -45,7 +45,7 @@ const Signup03 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({"phone_number":phoneNumber, authCode}, 3, e.target.parentNode);
+    onClickNext({phoneNumber, authCode}, 3, e.target.parentNode);
   });
 
   return (
