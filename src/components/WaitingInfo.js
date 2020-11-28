@@ -23,7 +23,7 @@ const WaitingInfo = (props) => {
       <WaitingInfoBlock>
         <h3>{idx}</h3>
         {console.log("모달", info)}
-        이름 : {info.username}<br />
+        이름 : {info.name}<br />
         소개 : {info.introduction}<br />
         <h4>학력</h4>
         학력1<br />

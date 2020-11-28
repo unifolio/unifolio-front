@@ -31,7 +31,6 @@ const SignupBlock = styled.div`
 
 const SignupPage = () => {
   
-  
   return (
     <SignupPosition>
       <SignupBlock>
