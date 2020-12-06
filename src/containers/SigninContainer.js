@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-// import * as API from '../lib/api';
+import { useDispatch } from 'react-redux';
 import { API } from '../lib/api';
 
+import { addUserData } from '../modules/reducers/signin';
 import Signin from '../components/Signin/Signin';
 
 const SigninContainer = () => {
+	const dispatch = useDispatch();
 	// API
 	const onClickSignin = async (data) => {
 		//  api
@@ -14,7 +16,14 @@ const SigninContainer = () => {
 		}
 		if (response.status === 200) {
 			localStorage.setItem('unifolioAccess', response.data.access);
-			window.location.href = '/finding-association?mode=waiting-people';
+			const token = { token: response.data.access };
+			const responseTokenUser = await API.post().tokenUser(token);
+			console.log('responseTokenUser', responseTokenUser.status);
+			if (responseTokenUser.status == 200) {
+				localStorage.setItem('unifolioUser', JSON.stringify(responseTokenUser.data.data));
+				// await dispatch(addUserData(responseTokenUser.data));
+				window.location.href = '/profile';
+			}
 		}
 	};
 

@@ -38,7 +38,7 @@ const SignupContainer = () => {
 				dispatch(addAgreement(formData));
 				dispatch(getSignupStateThunk()).then(async (data) => {
 					const response = await API.post().newUser(data);
-					if (response.status != 'ok') {
+					if (response.condition != 'ok') {
 						alert('not ok');
 					} else {
 						alert('회원가입이 완료되었습니다');

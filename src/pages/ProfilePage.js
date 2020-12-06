@@ -11,39 +11,52 @@ import AdditionalInfoContainer from '../containers/AdditionalInfoContainer';
 import CreateAssociation from '../components/CreateAssociation';
 // import ManageAssociation from '../components/ManageAssociation';
 
-const styleVar = createGlobalStyle`
-  --create-association-1-cols: 1fr 1fr;
-  --create-association-1-rows: 1fr 3fr;
-  --create-association-1-col-child-grid-column: auto / span 2;
-`;
-
-const MyPagePosition = styled(Responsive)`
+const ProfilePagePosition = styled(Responsive)`
 	position: relative;
 	height: calc(100vh - 8rem);
 	max-width: 100%;
+
 	display: flex;
 	flex-direction: column;
 `;
 
-const MyMainSection = styled.div`
+const ProfilePageMainSection = styled.div`
 	width: 100%;
 	height: 100%;
 	margin-top: 10rem;
 	padding-right: 1rem;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1.5fr 1.5fr;
 
-	.MyPageMainSection:nth-child(1) {
-		--create-association-1-col-child-grid-column: auto / span 2;
-		grid-column: var(--create-association-1-col-child-grid-column);
+	display: flex;
+	flex-direction: column;
+	section {
+		margin-bottom: 3rem;
+	}
+
+	.column {
+		display: flex;
+		flex-direction: row;
+
+		.row {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+
+	.row {
+		display: flex;
+		flex-direction: column;
+
+		.column {
+			display: flex;
+			flex-direction: row;
+		}
 	}
 `;
 
 const ProfilePage = (props) => {
 	const { location } = props;
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-	const mainRef = React.createRef();
+	// const mainRef = React.createRef();
 
 	const [status, setStatus] = useState(query.mode !== undefined ? query.mode : 'profile');
 
@@ -77,15 +90,19 @@ const ProfilePage = (props) => {
 		<>
 			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
 			<br />
-			<MyPagePosition className="MyPage">
+			<ProfilePagePosition className="ProfilePage">
 				{status === 'profile' && (
 					<>
 						<DefaultInfoContainer />
 						<AdditionalInfoContainer />
 					</>
 				)}
-				{status !== 'profile' && <MyMainSection ref={mainRef}>{mainSectionSelector(query.mode)}</MyMainSection>}
-			</MyPagePosition>
+				{status !== 'profile' && (
+					<ProfilePageMainSection>
+						<CreateAssociation />
+					</ProfilePageMainSection>
+				)}
+			</ProfilePagePosition>
 		</>
 	);
 };

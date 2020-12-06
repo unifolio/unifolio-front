@@ -54,7 +54,7 @@ class API {
 				const response = axios
 					.post('http://127.0.0.1:8000/users/api/v1/token/', data)
 					.then((resolve) => {
-						return resolve.data;
+						return resolve;
 					})
 					.catch((error) => {
 						return error.response;

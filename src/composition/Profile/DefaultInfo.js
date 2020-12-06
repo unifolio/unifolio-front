@@ -16,13 +16,6 @@ const DefaultInfo = (props) => {
 				each.style.display = 'none';
 			}
 		});
-		// if (document.querySelector('#phone_number').style.display == 'none') {
-		// 	document.querySelector('#phone_number_input').style.display = 'none';
-		// 	document.querySelector('#phone_number').style.display = 'block';
-		// } else {
-		// 	document.querySelector('#phone_number_input').style.display = 'block';
-		// 	document.querySelector('#phone_number').style.display = 'none';
-		// }
 	};
 
 	return (
