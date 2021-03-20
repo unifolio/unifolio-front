@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import qs from 'qs';
 
-import Responsive from '../components/common/Responsive';
-import ProfileHeader from '../components/Header/ProfileHeader';
+import Responsive from 'components/common/Responsive';
+import ProfileHeader from 'components/Header/ProfileHeader';
 
-import DefaultInfoContainer from '../containers/DefaultInfoContainer';
-import AdditionalInfoContainer from '../containers/AdditionalInfoContainer';
+import DefaultInfoContainer from 'containers/DefaultInfoContainer';
+import AdditionalInfoContainer from 'containers/AdditionalInfoContainer';
 
-import CreateAssociation from '../components/CreateAssociation';
+import CreateUnion from 'composition/Profile/CreateUnion';
 // import ManageAssociation from '../components/ManageAssociation';
 
 const ProfilePagePosition = styled(Responsive)`
@@ -72,7 +72,7 @@ const ProfilePage = (props) => {
 		}
 		switch (current) {
 			case 'create-association':
-				return <CreateAssociation />;
+				return <CreateUnion />;
 			case 'profile':
 				console.log('profile not usable');
 				return <div style={{ width: '100%' }}> profile </div>;
@@ -99,7 +99,7 @@ const ProfilePage = (props) => {
 				)}
 				{status !== 'profile' && (
 					<ProfilePageMainSection>
-						<CreateAssociation />
+						<CreateUnion />
 					</ProfilePageMainSection>
 				)}
 			</ProfilePagePosition>

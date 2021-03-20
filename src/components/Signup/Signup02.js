@@ -88,6 +88,7 @@ const Signup02 = (props) => {
   const handleChangeName = useCallback((e) => {
     SetName(e.target.value);
   });
+  
   const handleChangeNickName = useCallback((e) => {
     SetNickName(e.target.value);
   });
@@ -102,7 +103,7 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({nickname, name, rrn, postcode, address, addressDetail}, 2, e.target.parentNode);
+    onClickNext({nickname, name, rrn, address_postcode: postcode, address, address_detail: addressDetail}, 2, e.target.parentNode);
   });
 
   

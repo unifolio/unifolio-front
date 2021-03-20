@@ -15,12 +15,15 @@ const Spacer = styled.div`
 	height: 4rem;
 `;
 
-const NavbarLayout = styled(Responsive)`
+const NavbarLayout = styled.div`
 	height: 100%;
-	display: grid;
-	grid-template-columns: 1fr 3fr;
-	align-items: center;
 	background-color: ${palette.blue[0]};
+	padding-left: 1rem;
+	padding-right: 2rem;
+
+	display: flex;
+	justify-content: space-between;
+  align-items: center;
 
 	.logo {
 	}

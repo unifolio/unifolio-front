@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const DefaultInfo = (props) => {
-	const { user } = props;
-	useEffect(() => {
-		console.log(user);
-	});
+	const { user, handleSubmit } = props;
 
-	const onToggleInfo = (e) => {
-		window.t = e.target;
+	useEffect(() => {
+		console.log('info', user);
+	}, [user]);
+
+	const onClickEditButton = (e) => {
 		Array.from(e.target.parentNode.parentNode.children).forEach((each) => {
 			if (each.style.display == 'none') {
 				each.style.display = 'block';
@@ -16,6 +16,8 @@ const DefaultInfo = (props) => {
 				each.style.display = 'none';
 			}
 		});
+		const phoneNumber = e.target.parentNode.children[0]?.value;
+		if (phoneNumber) handleSubmit({ phoneNumber: phoneNumber });
 	};
 
 	return (
@@ -29,22 +31,17 @@ const DefaultInfo = (props) => {
 			<div className="row">
 				<div className="left-column">이메일</div>
 				<div className="right-column">
-					<div style={{ display: 'block' }}>
-						{user?.email} <button onClick={onToggleInfo}> 수정하기 </button>
-					</div>
-					<div style={{ display: 'none' }}>
-						<input type="text" placeholder={user?.email} /> <button onClick={onToggleInfo}> 입력 완료 </button>
-					</div>
+					<div style={{ display: 'block' }}>{user?.email}</div>
 				</div>
 			</div>
 			<div className="row">
 				<div className="left-column">연락처</div>
 				<div className="right-column">
 					<div style={{ display: 'block' }}>
-						{user?.phone_number} <button onClick={onToggleInfo}> 수정하기 </button>
+						{user?.phone_number} <button onClick={onClickEditButton}> 수정하기 </button>
 					</div>
 					<div style={{ display: 'none' }}>
-						<input type="text" placeholder={user?.phone_number} /> <button onClick={onToggleInfo}> 입력 완료 </button>
+						<input type="text" placeholder={user?.phone_number} /> <button onClick={onClickEditButton}> 입력 완료 </button>
 					</div>
 				</div>
 			</div>
@@ -56,10 +53,10 @@ const DefaultInfo = (props) => {
 				<div className="left-column">등록주소</div>
 				<div className="right-column">
 					<div style={{ display: 'block' }}>
-						{user?.address} {user?.address_detail} <button onClick={onToggleInfo}> 수정하기 </button>
+						{user?.address} {user?.address_detail} <button onClick={onClickEditButton}> 수정하기 </button>
 					</div>
 					<div style={{ display: 'none' }}>
-						<input type="text" placeholder={`${user?.address} ${user?.address_detail}`} /> <button onClick={onToggleInfo}> 입력 완료 </button>
+						<input type="text" placeholder={`${user?.address} ${user?.address_detail}`} /> <button onClick={onClickEditButton}> 입력 완료 </button>
 					</div>
 				</div>
 			</div>

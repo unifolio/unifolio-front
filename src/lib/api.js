@@ -1,86 +1,145 @@
 import axios from 'axios';
 
-class API {
-	get() {
-		const api = {
-			users: () => {
-				const response = axios
-					.get('http://127.0.0.1:8000/users/api/v1/users/')
-					.then((resolve) => {
-						return resolve;
-					})
-					.catch((error) => {
-						return error.response;
-					});
-				return response;
-			},
-		};
-		// const user = () => {
-		// 	localStorage.setItem("unifolioAccess", response.data.access);
-		// };
-	}
-	post() {
-		const api = {
-			newToken: (data) => {
-				const config = {
-					headers: { 'Content-Type': 'application/json' },
-				};
-				const response = axios
-					.post('http://127.0.0.1:8000/api/v1/token/', data, config)
-					.then((resolve) => {
-						return resolve;
-					})
-					.catch((error) => {
-						console.log('post.newToken Error', error.response);
-						return error.response;
-					});
-				return response;
-			},
+const API = {
+  get: {
+    users: () => {
+      const response = axios
+        .get('http://127.0.0.1:8000/users/')
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+    unions: (id) => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/unions/${id}`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+    get_protocol: (id) => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/unions/${id}/get_protocol`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+    create_protocol: (id) => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/unions/${id}/create_protocol`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+  },
+  post: {
+    newToken: (data) => {
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      };
+      const response = axios
+        .post('http://127.0.0.1:8000/api/v1/token/', data, config)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          console.log('post.newToken Error', error.response);
+          return error.response;
+        });
+      return response;
+    },
 
-			newUser: (formData) => {
-				console.log('postUserData formData', formData);
-				const response = axios
-					.post('http://127.0.0.1:8000/users/api/v1/users/new', formData)
-					.then((resolve) => {
-						return resolve.data;
-					})
-					.catch((error) => {
-						return error.response;
-					});
-				return response;
-			},
+    newUser: async (formData) => {
+      console.log('postUserData formData', formData);
+      // const response = await axios.post('http://127.0.0.1:8000/users/new/', formData);
+      // console.log("response", response)
+      
+      const result = await axios
+        // .post('http://127.0.0.1:8000/users/api/v1/users/new', formData)
+        .post('http://127.0.0.1:8000/users/new/', formData)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.log(error)
+          return error.response;
+        });
+      console.log(result)
+      return result;
+    },
 
-			tokenUser: (data) => {
-				const response = axios
-					.post('http://127.0.0.1:8000/users/api/v1/token/', data)
-					.then((resolve) => {
-						return resolve;
-					})
-					.catch((error) => {
-						return error.response;
-					});
-				return response;
-			},
-		};
+    tokenUser: (data) => {
+      const response = axios
+        .post('http://127.0.0.1:8000/users/token/', data)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
 
-		return api;
-	}
+    newUnion: (data) => {
+      const response = axios.post('http://127.0.0.1:8000/unions/new/', data)
+        .then(async (resolve) => {
+          return await resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+  },
+  patch: {
+    user: (id, data) => {
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      };
+      const response = axios
+        .patch(`http://127.0.0.1:8000/users/${id}/`, data, config)
+        .then((resolve) => {
+          console.log(resolve);
+          return resolve;
+        })
+        .catch((error) => {
+          console.log('patch user Error', error.response);
+          return error.response;
+        });
+      console.log(response);
+      return response;
+    },
+  }
 }
 
-const instance = new API();
-export { instance as API };
+export default API;
 
-export const getUsers = () => {
-	const response = axios
-		.get('http://127.0.0.1:8000/users/api/v1/users/')
-		.then((resolve) => {
-			return resolve;
-		})
-		.catch((error) => {
-			return error.response;
-		});
-	return response;
-};
+// export const getUsers = () => {
+// 	const response = axios
+// 		.get('http://127.0.0.1:8000/users/')
+// 		.then((resolve) => {
+// 			return resolve;
+// 		})
+// 		.catch((error) => {
+// 			return error.response;
+// 		});
+// 	return response;
+// };
 
 // export const postUserDataToGetToken = (data) => {
 // 	const config = {

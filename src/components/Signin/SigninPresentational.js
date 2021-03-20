@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import styles from '../../lib/styles';
 
-const Signin = ( props ) => {
+const SigninPresentational = ( props ) => {
   const { onClickSignin } = props;
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -121,4 +121,4 @@ const SigninPasswordInput = styled.input.attrs(
   padding: 0 1rem;
 `
 
-export default Signin;
+export default SigninPresentational;
