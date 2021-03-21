@@ -49,7 +49,7 @@ const Signup01 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({email, password, passwordCheck}, 1, e.target.parentNode);
+    onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
   });
 
   return (

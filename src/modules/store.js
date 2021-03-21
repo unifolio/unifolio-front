@@ -4,9 +4,7 @@ import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './reducers/root';
-import reduxLogger from '../middlewares/reduxLogger';
-
-
+// import reduxLogger from '../middlewares/reduxLogger';
 
 const store = createStore(rootReducer, 
   composeWithDevTools(applyMiddleware(ReduxThunk, logger))
