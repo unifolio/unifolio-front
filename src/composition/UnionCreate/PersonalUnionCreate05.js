@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button, Checkbox, Card } from 'antd';
 
@@ -13,7 +14,7 @@ const PersonalUnionCreate05 = (props) => {
 	};
 
 	return (
-		<div className={className} ref={layoutRef}>
+		<PersonalUnionCreate05Layout className={className} ref={layoutRef}>
 			<div className="container w-2/5 mx-auto">
 				<div className="my-5">
 					<div className="flex items-center">
@@ -37,8 +38,21 @@ const PersonalUnionCreate05 = (props) => {
 					</Button>
 				</div>
 			</div>
-		</div>
+		</PersonalUnionCreate05Layout>
 	);
 };
+
+const PersonalUnionCreate05Layout = styled.div`
+  
+  span {
+    margin-left: 10px;
+    margin-right: 10px;
+
+    display:flex;
+    align-items: center;
+    flex-shrink: 0; // == flex-basis: content-size 
+  }
+
+`;
 
 export default PersonalUnionCreate05;

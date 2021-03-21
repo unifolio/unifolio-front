@@ -1,11 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Input, Button, Select } from 'antd';
 import styled from 'styled-components';
 
+// const stateComparison = (prev, next) => {
+//   // if
+//   for (const name in prev.value) {
+//     console.log("alive", name, prev.value[name], next.value[name])
+//     if (prev.value[name] !== next.value[name]) {
+//       return false;
+//     }
+//   }
+//   return true;
+// }
+
 const EducationInput = (props) => {
-	const { type, count, onEducationChange, onEducationDelete } = props;
-  console.log("init", count)
-	const handleEducationChange = (e) => {
+	const { type, count, value, onEducationChange, onEducationDelete } = props;
+	
+  const handleEducationChange = (e) => {
     if (!e.target) { // select일 때
       let { value, name } = e;
       onEducationChange({ value, name, count: name.slice(-1) });
@@ -16,23 +27,9 @@ const EducationInput = (props) => {
 		onEducationChange({ value, name,  count: name.slice(-1) });
 	};
 
-	const deleteEducationInput = (cnt) => {
-    console.log(cnt)
-    const target = `.school-${cnt}`
-    console.log(target);
-    console.log(document.querySelector(target));
-    console.log(target);
-    console.log(document.querySelector(".school-"+String(cnt)))
-    console.log(target);
-    console.log(document.querySelector(`.school-${cnt}`))
-    console.log(document.querySelector(`.school-${cnt}`))
-    console.log(document.querySelector(`.school-${cnt}`))
-    console.log(document.querySelector(`.school-${cnt}`))
-    console.log(document.querySelector(`.school-${cnt}`))
-    console.log(cnt)
-
-		document.querySelector(`.school-${cnt}`).remove();
-		onEducationDelete(cnt);
+	const deleteEducationInput = (count) => {
+		// document.querySelector(`.school-${cnt}`).remove();
+		onEducationDelete(count);
 	};
 
 	switch (type) {
@@ -42,18 +39,20 @@ const EducationInput = (props) => {
 					<div className="column title">고등학교</div>
 					<div className="column contents">
 						<div className="row">
-							<Input className={"row-8"} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
+							<Input className={"row-8"} value={value.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
                   value: value,
                 })}}
+                
               >
                 <Select.Option value="attending">재학</Select.Option>
                 <Select.Option value="graduate">졸업</Select.Option>
               </Select>
+              
 							<Button
-								onClick={() => { deleteEducationInput(count); }}
+								onClick={() => {deleteEducationInput(count)}}
 								style={{ height: 'auto' }}
 							>
 								삭제
@@ -68,8 +67,8 @@ const EducationInput = (props) => {
 					<div className="column title">대학교 (학사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} size="large" placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} value={value.university} size="large" placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} value={value.university_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
@@ -95,8 +94,8 @@ const EducationInput = (props) => {
 					<div className="column title">대학원 (석사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} size="large" placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} value={value.university_master} size="large" placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} value={value.university_master_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
@@ -122,8 +121,8 @@ const EducationInput = (props) => {
 					<div className="column title">대학원 (박사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} size="large" placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} size="large" value={value.university_doctor}  placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} size="large" value={value.university_doctor_major}  placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
@@ -189,4 +188,4 @@ const SchoolContent = styled.div`
 	}
 `;
 
-export default EducationInput;
+export default React.memo(EducationInput)//, stateComparison);

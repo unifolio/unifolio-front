@@ -27,12 +27,12 @@ const PersonalUnionCreate01 = (props) => {
     const educationData = [{
       count: 1,
       type: "highschool",
-      info: { attend_status: null, highschool: null }
+      info: { attend_status: null, highschool: "" }
     },
     {
       count: 2,
       type: "university",
-      info: { attend_status: null, university:null, university_major:null }
+      info: { attend_status: null, university:"", university_major:null }
     }];
 
     setEducationInputs([...educationData]);
@@ -110,7 +110,8 @@ const PersonalUnionCreate01 = (props) => {
   }
 
   const onEducationChange = ({ count, name, value }) => {
-    for (const educationInput of educationInputs) {
+    
+    const changedEducationInputs = educationInputs.map((educationInput) => {
       if (educationInput.count === Number(count)) {
         if (name.includes("attend-status"))
           educationInput.info["attend_status"] = value
@@ -119,15 +120,16 @@ const PersonalUnionCreate01 = (props) => {
         if (name.includes("major"))
           educationInput.info[`${educationInput.type}_major`] = value;
       }
-    }
+      
+      return educationInput;
+    });
 
-    console.log(educationInputs);
-    // setEducationInputs([...educationInputs]); // 이게 없어도 되네...?
+    setEducationInputs([...changedEducationInputs]);
+    console.log(educationInputs)
 	};
 
   const onCareerChange1 = ({ count, name, value }) => {
-
-    for (const careerInput of careerInputs1) {
+    const changedCareerInputs1 = careerInputs1.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("attend-status"))
           careerInput.info["attend_status"] = value;
@@ -140,33 +142,36 @@ const PersonalUnionCreate01 = (props) => {
         if (name.includes("period-end"))
           careerInput.info["period_end"] = value;
       }
-    }
-    console.log(count, name, value)
-    console.log(careerInputs1);
-    // setEducationInputs([...educationInputs]); // 이게 없어도 되네...?
+      return careerInput;
+    })
+    
+    setCareerInputs1([...changedCareerInputs1]);
+    console.log(careerInputs1)
 	};
 
   const onEducationDelete = (count) => {
     const filteredEducationInputs = educationInputs.filter((education) => {
       return education.count !== count;
     });
-    setEducationInputs(filteredEducationInputs);
+    setEducationInputs([...filteredEducationInputs]);
   }
 
-  // legacy start // 
-  
   const onCareerDelete = (count) => {
-		let tmpCareerInputs = careerInputs;
+
+    // const filteredEducationInputs = educationInputs.filter((education) => {
+    //   return education.count !== count;
+    // });
+    // setEducationInputs([...filteredEducationInputs]);
+
+    let tmpCareerInputs = careerInputs1;
 		for (const [i, each] of tmpCareerInputs.entries()) {
 			if (each[0] == count) tmpCareerInputs.splice(i, 1);
 		}
-		setCareerInputs(tmpCareerInputs);
-	};
-
-  // legacy start // 
+		setCareerInputs1(tmpCareerInputs);
+  }
 
 	const layoutRef = useRef();
-	const handleNext = (e) => {
+	const handleNext = () => {
 		// 데이터 넘김
 		// console.log('handleNext', layoutRef.current);
 		onClickNext({ educationInputs, careerInputs1 }, 1, layoutRef.current);
@@ -195,7 +200,7 @@ const PersonalUnionCreate01 = (props) => {
 			</div>
 			<div className="school-inputs">
         {educationInputs.map((input, index) => (
-            <EducationInput type={input.type} count={input.count} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
+            <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
           )
 				)}
 			</div>

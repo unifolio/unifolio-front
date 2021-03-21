@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Input, Button, Table, Space } from 'antd';
 
@@ -59,7 +60,7 @@ const PersonalUnionCreate04 = (props) => {
 	};
 
 	return (
-		<div className={className} ref={layoutRef}>
+		<PersonalUnionCreate04Layout className={className} ref={layoutRef}>
 			<div className="container">
 				<div className="my-5">
 					<div className="flex items-center my-1 mb-3">
@@ -87,8 +88,22 @@ const PersonalUnionCreate04 = (props) => {
 					</Button>
 				</div>
 			</div>
-		</div>
+		</PersonalUnionCreate04Layout>
 	);
 };
+
+
+const PersonalUnionCreate04Layout = styled.div`
+  
+  span {
+    margin-left: 10px;
+    margin-right: 10px;
+
+    display:flex;
+    align-items: center;
+    flex-shrink: 0; // == flex-basis: content-size 
+  }
+
+`;
 
 export default PersonalUnionCreate04;

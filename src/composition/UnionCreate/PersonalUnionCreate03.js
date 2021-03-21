@@ -10,20 +10,28 @@ const PersonalUnionCreate03 = (props) => {
 		address: '',
 		address_detail: '',
 		address_postcode: '',
-		phone_union: '',
-		fax_union: '',
-		email_union: '',
+		phone_union_1: '',
+    phone_union_2: '',
+    phone_union_3: '',
+		fax_union_1: '',
+    fax_union_2: '',
+    fax_union_3: '',
+		email_union_id: '',
+    email_union_domain: ''
 	});
-	const { address, address_detail, address_postcode, phone_union, fax_union, email_union } = unionCreate03Inputs;
+	const { 
+    address, address_detail, address_postcode, 
+    phone_union_1, phone_union_2, phone_union_3, 
+    fax_union_1, fax_union_2, fax_union_3, 
+    email_union_id 
+  } = unionCreate03Inputs;
 
   useEffect(() => {
     document.querySelector(".ant-input-disabled").className = document.querySelector(".ant-input-disabled").className.split(" ").slice(0,1).join(" ");
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     document.body.appendChild(script);
-    
-    
-	}, [unionCreate03Inputs]);
+	}, []);
 
 	const clickPostAdress = (open = false) => {
     if (open === false) {
@@ -34,7 +42,6 @@ const PersonalUnionCreate03 = (props) => {
     
     new window.daum.Postcode({
       oncomplete: (data) => {
-        
         let address_postcode = data.zonecode;
         let address = data.address;
         setUnionCreate03Inputs({
@@ -42,39 +49,36 @@ const PersonalUnionCreate03 = (props) => {
 					['address_postcode']: address_postcode,
 					['address']: address,
 				});
-        console.log(setUnionCreate03Inputs);
-        console.log(unionCreate03Inputs)
-        // SetPostCode(postcode);
-        // SetAddress(address);
-        // console.log(address_postcode, address);
         onClickPostAddress({address_postcode, address});
       }
     }).open();
 
-		
 	};
   const onClickPostAddress = ({address_postcode, address}) => {
     console.log("onClickPostAddress",address_postcode, address);
     document.querySelector("input[name=address_postcode]").value = address_postcode;
     document.querySelector("input[name=address]").value = address;
-    console.log(unionCreate03Inputs)
   }
 
-	// const onClickPostAdress = async (open = false) => {
-	// 	if (open === false && document.querySelector('input[name=postcode]').value !== '') return;
-
-	// 	new window.daum.Postcode({
-	// 		oncomplete: (data) => {
-	// 			let postcode = data.zonecode;
-	// 			let address = data.address;
-	// 			setInputs({
-	// 				...inputs,
-	// 				['address_postcode']: postcode,
-	// 				['address']: address,
-	// 			});
-	// 		},
-	// 	}).open();
-	// };
+  const onChangeSelect = ({type, value}) => {
+    console.log(type, value)
+    switch(type) {
+      case "email":
+        if (value === "@self") {
+          document.querySelector(".email_union_domain_select").style.display = "none";
+          document.querySelector(".email_union_domain").style.display = "block";
+          return;
+        }
+        setUnionCreate03Inputs({
+          ...unionCreate03Inputs,
+          ['email_union_domain']: value,
+        });
+        break;
+      default:
+        console.log("error");
+        break;
+    }
+  }
 
 	const onChange = (e) => {
 		setUnionCreate03Inputs({
@@ -98,7 +102,7 @@ const PersonalUnionCreate03 = (props) => {
             <h2>조합 사무소 주소</h2>
           </div>
           <div className="contents">
-            <Input name={`address`} size="large" placeholder="주소 (도로명 검색)" readOnly
+            <Input name={`address`} value={address} size="large" placeholder="주소 (도로명 검색)" readOnly
               onClick={(e) => {
                 e.target.blur();
                 clickPostAdress();
@@ -106,8 +110,8 @@ const PersonalUnionCreate03 = (props) => {
             />
           </div>
           <div className="column">
-            <Input name={`address_detail`} style={{ width: '60%' }} size="large" placeholder="상세주소 입력" onChange={onChange} />
-            <Input name={`address_postcode`} size="large" style={{ width: '40%' }} placeholder="우편번호" readOnly
+            <Input name={`address_detail`} value={address_detail} style={{ width: '60%' }} size="large" placeholder="상세주소 입력" onChange={onChange} />
+            <Input name={`address_postcode`} value={address_postcode} size="large" style={{ width: '40%' }} placeholder="우편번호" readOnly
               // onChange={onChange}
               onClick={(e) => {
                 e.target.blur();
@@ -123,11 +127,11 @@ const PersonalUnionCreate03 = (props) => {
             <h2>조합 사무소 전화번호</h2>
           </div>
           <div className="column contents">
-            <Input name={`phone_union_1`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`phone_union_1`} value={phone_union_1} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
             <span>-</span>
-            <Input name={`phone_union_2`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`phone_union_2`} value={phone_union_2} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
             <span>-</span>
-            <Input name={`phone_union_3`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`phone_union_3`} value={phone_union_3} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
           </div>
         </div>
       </section>
@@ -137,11 +141,11 @@ const PersonalUnionCreate03 = (props) => {
             <h2>조합 사무소 FAX</h2>
           </div>
           <div className="column contents">
-            <Input name={`fax_union_1`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`fax_union_1`} value={fax_union_1} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
             <span>-</span>
-            <Input name={`fax_union_2`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`fax_union_2`} value={fax_union_2} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
             <span>-</span>
-            <Input name={`fax_union_3`} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
+            <Input name={`fax_union_3`} value={fax_union_3} style={{ width: '30%' }} size="large" placeholder="" onChange={onChange} />
           </div>
         </div>
       </section>
@@ -151,14 +155,16 @@ const PersonalUnionCreate03 = (props) => {
             <h2>조합 사무소 E-mail</h2>
           </div>
           <div className="column contents">
-            <Input name={`email_union_id`} style={{ width: '30%' }} size="large" placeholder="메일 계정" onChange={onChange} />
-            <Select name="email_union_domain" placeholder="메일 도메인 선택" size="large">
+            <Input name={`email_union_id`} value={email_union_id} style={{ width: '30%' }} size="large" placeholder="메일 계정" onChange={onChange} />
+            <Select className={"email_union_domain_select"} placeholder="메일 도메인 선택" size="large" 
+              onChange={(value) => { console.log(value); onChangeSelect({type:"email", value}) }}
+            >
 							<Select.Option value="@gmail.com">gmail.com</Select.Option>
 							<Select.Option value="@naver.com">naver.com</Select.Option>
 							<Select.Option value="@hanmail.net">hanmail.net</Select.Option>
-							<Select.Option value="">직접 입력</Select.Option>
+							<Select.Option value="@self">직접 입력</Select.Option>
 						</Select>
-            
+            <Input name={`email_union_domain`} className={"email_union_domain"} onChange={onChange} placeholder={"직접 입력"} size="large"/>
           </div>
         </div>
       </section>
@@ -176,11 +182,18 @@ const PersonalUnionCreate03Layout = styled.div`
     cursor:pointer;
   }
 
-  .ant-input + span, span + .ant-input, .ant-input + .ant-select, .ant-input + .ant-input {
+  .ant-input + span, span + .ant-input, .ant-input + .ant-select, .ant-input + .ant-input, .ant-select + .ant-input {
     margin-left: 15px;
   }
 
-  span
+  span {
+    margin-left: 10px;
+    margin-right: 10px;
+
+    display:flex;
+    align-items: center;
+    flex-shrink: 0; // == flex-basis: content-size 
+  }
 
   .ant-input + .ant-input {
     margin-left: 15px;
@@ -200,6 +213,9 @@ const PersonalUnionCreate03Layout = styled.div`
     display:flex;
   }
 
+  .email_union_domain {
+    display: none;
+  }
 `
 
 export default PersonalUnionCreate03;

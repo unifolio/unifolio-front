@@ -5,45 +5,19 @@ import { Input, Button, Select } from 'antd';
 
 const CareerInput = (props) => {
 	const { type, count, onCareerChange1, onCareerDelete } = props;
-	const [careerFirm, setCareerFirm] = useState(null);
-	const [careerPosition, setCareerPosition] = useState(null);
-	const [careerStatus, setCareerStatus] = useState(null);
-	const [careerPeriod, setCareerPeriod] = useState(null);
 
   const handleCareerChange1 = (e) => {
     if (!e.target) { // select일 때
       let { value, name } = e;
-      onCareerChange1({ value, name, idx: name.slice(-1) });
+      onCareerChange1({ value, name, count: name.slice(-1) });
       return;
     }
 
     let { value, name } = e.target;
-    onCareerChange1({ value, name, idx: name.slice(-1) });
+    onCareerChange1({ value, name, count: name.slice(-1) });
   }
-  
-	// const handleCareerChange = useCallback((e) => {
-	// 	let value = e.target.value;
-	// 	let name = e.target.name;
-	// 	// console.log('handleCareerChange ', name, value);
-	// 	switch (name) {
-	// 		case 'career-firm':
-	// 			setCareerFirm({ value });
-	// 			break;
-	// 		case 'career-position':
-	// 			setCareerPosition({ value });
-	// 			break;
-	// 		case 'career-status':
-	// 			setCareerStatus({ value });
-	// 			break;
-	// 		case 'career-period':
-	// 			setCareerPeriod({ value });
-	// 			break;
-  //     default:
-  //       break;
-	// 	}
-	// 	onCareerChange({ count, careerFirm, careerPosition, careerStatus, careerPeriod });
-	// });
 
+  /* legacy */ 
 	const deleteCareerInput = (count) => {
 		let target = document.querySelector(`.career-${count}`);
 		target.parentNode.removeChild(target);
@@ -53,9 +27,6 @@ const CareerInput = (props) => {
 		case 'general':
 			return (
 				<CareerContent className={`career-${count}`} style={{ width: '100%' }}>
-          {/* <div className="column title">
-            <h2>일반 경력사항 </h2>
-          </div> */}
           <div className="column contents">
 						<div className="row">
               <Input className={"career firm"} placeholder="회사명" size="large" name={`career-firm-${count}`} onChange={handleCareerChange1} />
@@ -80,9 +51,6 @@ const CareerInput = (props) => {
 		case 'financial':
 			return (
 				<CareerContent className={`career-${count}`}>
-          {/* <div className="column title">
-            <h2>관련 경력사항(투자 및 컨설팅 분야)</h2>
-          </div> */}
           <div className="column contents">
 						<div className="row">
               <Input className={"career firm"} placeholder="회사명"  size="large" name={`career-firm-${count}`} onChange={handleCareerChange1} />

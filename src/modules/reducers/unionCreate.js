@@ -7,13 +7,11 @@
 const ADD_EXECUTIVE_MEMBER_INFO = 'unionCreate/ADD_EXECUTIVE_MEMBER_INFO';
 const ADD_UNION_DEFAULT_INFO = 'unionCreate/ADD_UNION_DEFAULT_INFO';
 const ADD_UNION_OFFICE_INFO = 'unionCreate/ADD_UNION_OFFICE_INFO';
+
 const GET_UNION_CREATE_STATE = 'unionCreate/GET_UNION_CREATE_STATE';
+const GET_UNION_CREATE_STATE_SUCCESS = 'unionCreate/GET_UNION_CREATE_STATE_SUCCESS';
 
 /* 액션 생성함수 선언 */
-// export const addSchool = (formData) => ({
-//   type: ADD_SCHOOL,
-//   signupData: formData
-// });
 
 export const addExecutiveMemberInfo = (formData) => ({
 	type: ADD_EXECUTIVE_MEMBER_INFO,
@@ -30,8 +28,19 @@ export const addUnionOfficeInfo = (formData) => ({
 export const getUnionCreateState = () => ({
 	type: GET_UNION_CREATE_STATE,
 });
+
 export const getUnionCreateStateThunk = () => (dispatch, getState) => {
-	dispatch(getUnionCreateState());
+	dispatch({type: GET_UNION_CREATE_STATE}); // 요청시작
+  
+  try {
+    dispatch({type: GET_UNION_CREATE_STATE_SUCCESS}); // 요청 성공
+    return getState().unionCreate;
+  } catch (e) {
+    console.log(e);
+  }
+
+  
+  dispatch(getUnionCreateState());
 	return Promise.resolve(getState().unoinCreateData);
 };
 
@@ -40,8 +49,6 @@ const initialState = {};
 
 export default function unionCreate(state = initialState, action) {
 	switch (action.type) {
-		// case ADD_IDPW:
-		//   return {...state, ...action.signupData }
 		case ADD_EXECUTIVE_MEMBER_INFO:
 			return { ...action.unionCreateData };
 		case ADD_UNION_DEFAULT_INFO:
@@ -49,7 +56,21 @@ export default function unionCreate(state = initialState, action) {
 		case ADD_UNION_OFFICE_INFO:
 			return { ...state, ...action.unionCreateData };
 		case GET_UNION_CREATE_STATE:
-			return state;
+			return {
+        ...state,
+        status: {
+          loading: true,
+          error: null
+        }
+      };
+    case GET_UNION_CREATE_STATE_SUCCESS:
+      return {
+        ...state, 
+        status: {
+          loading: false,
+          error: null
+        }
+      };
 		default:
 			return state;
 	}
