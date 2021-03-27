@@ -26,20 +26,15 @@ const WaitingPeople = (props) => {
         setUsers([]);
       } else if (fetchUsers.status === 200) {
         console.log(fetchUsers.data);
-			  setUsers(fetchUsers.data);
+			  setUsers(fetchUsers.data.results);
       }
 		};
 		fetchData();
 	}, []);
-
-	if (users == []) {
-		return;
-	} else {
-		console.log(users);
-	}
-	return (
+	
+  return (
 		<>
-			{users.map((user, i) => {
+			{users?.map((user, i) => {
 				return (
 					<WaitingPeopleCell key={`${i}`}>
 						<Card idx={i + 1} info={user} openModal={openModalEmit} />
