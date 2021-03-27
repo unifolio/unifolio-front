@@ -39,7 +39,7 @@ const EducationInput = (props) => {
 					<div className="column title">고등학교</div>
 					<div className="column contents">
 						<div className="row">
-							<Input className={"row-8"} value={value.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
+							<Input className={"row-8"} value={value?.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,

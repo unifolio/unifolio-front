@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
@@ -66,10 +66,6 @@ const UnionCreateContainer = () => {
 	return (
 		<PersonalUnionCreateLayout>
 			<PersonalUnionCreate01 onClickNext={onClickNext} />
-      {/* <PersonalUnionCreate02 onClickNext={onClickNext} className={''} />
-			<PersonalUnionCreate03 onClickNext={onClickNext} className={''} />
-			<PersonalUnionCreate04 onClickNext={onClickNext} className={''} />
-			<PersonalUnionCreate05 onClickNext={onClickNext} className={''} /> */}
 			<PersonalUnionCreate02 onClickNext={onClickNext} className={'deactivate'} />
 			<PersonalUnionCreate03 onClickNext={onClickNext} className={'deactivate'} />
 			<PersonalUnionCreate04 onClickNext={onClickNext} className={'deactivate'} />

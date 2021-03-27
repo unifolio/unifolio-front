@@ -228,7 +228,7 @@ const AdditionalInfo = (props) => {
         <div className="row">
           <div className="school-inputs">
             {educationInputs.map((input, index) => (
-                <EducationInput type={input.type} count={input.idx} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
+                <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
               )
             )}
           </div>
