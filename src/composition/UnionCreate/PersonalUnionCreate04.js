@@ -75,8 +75,13 @@ const PersonalUnionCreate04 = (props) => {
 	const layoutRef = useRef();
 	const handleNext = (e) => {
 		// 데이터 넘김
-		// console.log('handleNext', layoutRef.current);
-		// onClickNext({ EducationInputs, careerInputs }, 1, layoutRef.current);
+    const parsedData = {
+      ...unionCreate04Inputs,
+      ["invest_year"]: JSON.stringify(unionCreate04Inputs.invest_year),
+      ["recovery_year"]: JSON.stringify(unionCreate04Inputs.recovery_year)
+    }
+    
+    onClickNext(parsedData, 4, layoutRef.current);
 	};
 
   const onRowAddButtonClick = () => {

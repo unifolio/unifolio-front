@@ -36,12 +36,12 @@ const AdditionalInfo = (props) => {
     const careerData = [{
       idx: 0,
       type: "general",
-      info: { attend_status: null, firm: null, position: null, period_start: null, period_end: null }
+      info: { status: null, company: null, position: null, start_date: null, end_date: null }
     },
     {
       idx: 1,
       type: "financial",
-      info: { attend_status: null, firm: null, position: null, period_start: null, period_end: null }
+      info: { status: null, company: null, position: null, start_date: null, end_date: null }
     }];
 
     setCareerInputs([...careerData]);
@@ -89,7 +89,7 @@ const AdditionalInfo = (props) => {
       idx: careerInputs.length, // count,
       type: careerSelect.current, //selected,
       info: {
-        attend_status: null
+        status: null
       }
     }
 
@@ -127,16 +127,16 @@ const AdditionalInfo = (props) => {
 
     for (const careerInput of careerInputs) {
       if (careerInput.idx === Number(idx)) {
-        if (name.includes("attend-status"))
-          careerInput.info["attend_status"] = value;
-        if (name.includes("firm"))
-          careerInput.info["firm"] = value;
+        if (name.includes("status"))
+          careerInput.info["status"] = value;
+        if (name.includes("company"))
+          careerInput.info["company"] = value;
         if (name.includes("position"))
           careerInput.info["position"] = value;
-        if (name.includes("period-start"))
-          careerInput.info["period_start"] = value;
-        if (name.includes("period-end"))
-          careerInput.info["period_end"] = value;
+        if (name.includes("start-date"))
+          careerInput.info["start_date"] = value;
+        if (name.includes("end-date"))
+          careerInput.info["end_date"] = value;
       }
     }
     console.log(careerInputs);

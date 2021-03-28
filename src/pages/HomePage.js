@@ -7,7 +7,7 @@ import HomeHeader from '../components/Header/HomeHeader';
 import FilterSection from '../components/common/FilterSection';
 
 import WaitingPeople from '../components/WaitingPeople';
-import WaitingAssociations from '../components/WaitingAssociations';
+import WaitingUnions from '../components/WaitingUnions';
 import WaitingInfo from '../components/WaitingInfo';
 
 const HomePagePosition = styled(Responsive)`
@@ -82,9 +82,9 @@ const MainPage = (props) => {
 		switch (current) {
 			case 'waiting-people':
 				return <WaitingPeople openModal={toggleModal} />;
-			case 'waiting-associations':
-				return <WaitingPeople openModal={toggleModal} />;
-			// return <WaitingAssociations />;
+			case 'waiting-unions':
+				// return <WaitingPeople openModal={toggleModal} />;
+			  return <WaitingUnions openModal={toggleModal} />;
 			default:
 				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
 		}
@@ -95,7 +95,7 @@ const MainPage = (props) => {
 		switch (current) {
 			case 'waiting-people':
 				return ['최대 출자 가능액', '경력 분야'];
-			case 'waiting-associations':
+			case 'waiting-unions':
 				return ['조합 상태', '투자 분야', '출자 총액', '최소 출자액'];
 			default:
 				return [];

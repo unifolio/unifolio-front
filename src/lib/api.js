@@ -1,10 +1,11 @@
 import axios from 'axios';
+const END_POINT = "http://127.0.0.1:8000";
 
 const API = {
   get: {
     users: () => {
       const response = axios
-        .get('http://127.0.0.1:8000/users/')
+        .get(`${END_POINT}/users/`)
         .then((resolve) => {
           return resolve;
         })
@@ -13,9 +14,20 @@ const API = {
         });
       return response;
     },
-    unions: (id) => {
+    unions: () => {
       const response = axios
-        .get(`http://127.0.0.1:8000/unions/${id}`)
+        .get(`${END_POINT}/unions/`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
+    union: (id) => {
+      const response = axios
+        .get(`${END_POINT}/${id}`)
         .then((resolve) => {
           return resolve;
         })
@@ -82,7 +94,17 @@ const API = {
       console.log(result)
       return result;
     },
-
+    getUserByToken: (data) => {
+      const response = axios
+        .post(`${END_POINT}/users/token/`, data)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
     tokenUser: (data) => {
       const response = axios
         .post('http://127.0.0.1:8000/users/token/', data)
@@ -96,7 +118,7 @@ const API = {
     },
 
     newUnion: (data) => {
-      const response = axios.post('http://127.0.0.1:8000/unions/new/', data)
+      const response = axios.post(`${END_POINT}/unions/create/`, data)
         .then(async (resolve) => {
           return await resolve;
         })

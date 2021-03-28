@@ -7,20 +7,13 @@ const PersonalUnionCreate03 = (props) => {
 	const { onClickNext, className } = props;
 
 	const [unionCreate03Inputs, setUnionCreate03Inputs] = useState({
-		address: '',
-		address_detail: '',
-		address_postcode: '',
-		phone_union_1: '',
-    phone_union_2: '',
-    phone_union_3: '',
-		fax_union_1: '',
-    fax_union_2: '',
-    fax_union_3: '',
-		email_union_id: '',
-    email_union_domain: ''
+		address_business_union: '', address_detail_business_union: '', address_postcode_union: '',
+		phone_union_1: '', phone_union_2: '', phone_union_3: '',
+		fax_union_1: '', fax_union_2: '', fax_union_3: '',
+		email_union_id: '', email_union_domain: ''
 	});
 	const { 
-    address, address_detail, address_postcode, 
+    address_business_union, address_detail_business_union, address_postcode_union, 
     phone_union_1, phone_union_2, phone_union_3, 
     fax_union_1, fax_union_2, fax_union_3, 
     email_union_id 
@@ -35,33 +28,32 @@ const PersonalUnionCreate03 = (props) => {
 
 	const clickPostAdress = (open = false) => {
     if (open === false) {
-      if (document.querySelector("input[name=address_postcode]").value !== "") {
+      if (document.querySelector("input[name=address_postcode_union]").value !== "") {
         return;
       }
     }
     
     new window.daum.Postcode({
       oncomplete: (data) => {
-        let address_postcode = data.zonecode;
-        let address = data.address;
+        let address_postcode_union = data.zonecode;
+        let address_business_union = data.address;
         setUnionCreate03Inputs({
 					...unionCreate03Inputs,
-					['address_postcode']: address_postcode,
-					['address']: address,
+					['address_postcode_union']: address_postcode_union,
+					['address_business_union']: address_business_union,
 				});
-        onClickPostAddress({address_postcode, address});
+        onClickPostAddress({address_postcode_union, address_business_union});
       }
     }).open();
 
 	};
-  const onClickPostAddress = ({address_postcode, address}) => {
-    console.log("onClickPostAddress",address_postcode, address);
-    document.querySelector("input[name=address_postcode]").value = address_postcode;
-    document.querySelector("input[name=address]").value = address;
+  const onClickPostAddress = ({address_postcode_union, address_business_union}) => {
+    console.log("onClickPostAddress",address_postcode_union, address_business_union);
+    document.querySelector("input[name=address_postcode_union]").value = address_postcode_union;
+    document.querySelector("input[name=address_business_union]").value = address_business_union;
   }
 
   const onChangeSelect = ({type, value}) => {
-    console.log(type, value)
     switch(type) {
       case "email":
         if (value === "@self") {
@@ -91,7 +83,21 @@ const PersonalUnionCreate03 = (props) => {
 	const layoutRef = useRef();
 	const handleNext = (e) => {
 		// 데이터 넘김
-		onClickNext(unionCreate03Inputs, 3, layoutRef.current);
+    // phone_union_1: '', phone_union_2: '', phone_union_3: '',
+		// fax_union: '', fax_union_1: '', fax_union_2: '', fax_union_3: '',
+		// email_union_id: '', email_union_domain: ''
+
+    const parsedState = {};
+    parsedState['phone_union'] = `${unionCreate03Inputs['phone_union_1']}-${unionCreate03Inputs['phone_union_2']}-${unionCreate03Inputs['phone_union_3']}`;
+    parsedState['fax_union'] = `${unionCreate03Inputs['fax_union_1']}-${unionCreate03Inputs['fax_union_2']}-${unionCreate03Inputs['fax_union_3']}`;
+    parsedState['email_union'] = `${unionCreate03Inputs['email_union_id']}${unionCreate03Inputs['email_union_domain']}`;
+    
+    const returnState = {
+      ...unionCreate03Inputs,
+      ...parsedState
+    }
+
+		onClickNext(returnState, 3, layoutRef.current);
 	};
 
 	return (
@@ -102,7 +108,7 @@ const PersonalUnionCreate03 = (props) => {
             <h2>조합 사무소 주소</h2>
           </div>
           <div className="contents">
-            <Input name={`address`} value={address} size="large" placeholder="주소 (도로명 검색)" readOnly
+            <Input name={`address_business_union`} value={address_business_union} size="large" placeholder="주소 (도로명 검색)" readOnly
               onClick={(e) => {
                 e.target.blur();
                 clickPostAdress();
@@ -110,8 +116,8 @@ const PersonalUnionCreate03 = (props) => {
             />
           </div>
           <div className="column">
-            <Input name={`address_detail`} value={address_detail} style={{ width: '60%' }} size="large" placeholder="상세주소 입력" onChange={onChange} />
-            <Input name={`address_postcode`} value={address_postcode} size="large" style={{ width: '40%' }} placeholder="우편번호" readOnly
+            <Input name={`address_detail_business_union`} value={address_detail_business_union} style={{ width: '60%' }} size="large" placeholder="상세주소 입력" onChange={onChange} />
+            <Input name={`address_postcode_union`} value={address_postcode_union} size="large" style={{ width: '40%' }} placeholder="우편번호" readOnly
               // onChange={onChange}
               onClick={(e) => {
                 e.target.blur();
@@ -178,7 +184,7 @@ const PersonalUnionCreate03Layout = styled.div`
     margin-top: 50px;
   }
 
-  .ant-input[name=address], .ant-input[name=address_postcode] {
+  .ant-input[name=address_business_union], .ant-input[name=address_postcode_union] {
     cursor:pointer;
   }
 

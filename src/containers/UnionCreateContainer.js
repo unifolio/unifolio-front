@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import API from '../lib/api';
 
-import { addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, getUnionCreateStateThunk } from 'modules/reducers/unionCreate';
+import { addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, addUnionInvestInfo, getUnionCreateStateThunk } from 'modules/reducers/unionCreate';
 
 import PersonalUnionCreate01 from 'composition/UnionCreate/PersonalUnionCreate01';
 import PersonalUnionCreate02 from 'composition/UnionCreate/PersonalUnionCreate02';
@@ -16,7 +16,7 @@ import PersonalUnionCreate05 from 'composition/UnionCreate/PersonalUnionCreate05
 const UnionCreateContainer = () => {
 	const dispatch = useDispatch();
 
-	const onClickNext = (formData, process, target) => {
+	const onClickNext = async (formData, process, target) => {
 		console.log(formData, target);
 		switch (process) {
 			case 1:
@@ -34,16 +34,21 @@ const UnionCreateContainer = () => {
 				target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addUnionOfficeInfo(formData));
 				break;
-			case 6:
-				dispatch(getUnionCreateStateThunk()).then(async (data) => {
-					const response = await API.post.newUnion(data);
-					if (response.condition != 'ok') {
-						alert('not ok');
-					} else {
-						alert('회원가입이 완료되었습니다');
-						window.location.href = '/signin';
-					}
-				});
+      case 4:
+        target.classList.add('deactivate');
+        target.parentNode.children[process].classList.remove('deactivate');
+        dispatch(addUnionInvestInfo(formData));
+        break;
+			case 5:
+        const data = dispatch(getUnionCreateStateThunk());
+        const response = await API.post.newUnion(data);
+        if (response.status === 200 || response.status === 201) {
+          alert('조합 생성이 완료되었습니다');
+        } else {
+          alert('not ok');
+          console.log(response)
+          // window.location.href = '/signin';
+        }
 				break;
 			// case 4:
 			// 	// target.classList.add('deactivate');

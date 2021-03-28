@@ -58,10 +58,10 @@ const Navbar = () => {
 						<Link to="/" className="button landing">
 							로고
 						</Link>
-						<Link to="/finding-association" className="button home">
+						<Link to="/finding" className="button home">
 							조합 찾기
 						</Link>
-						<Link to="/association-manage" className="button manage">
+						<Link to="/union-manage" className="button manage">
 							조합 관리
 						</Link>
 					</div>

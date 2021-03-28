@@ -5,25 +5,53 @@ import { Button, Form, Select } from 'antd';
 
 import EducationInput from 'components/Inputs/EducationInput';
 import CareerInput from 'components/Inputs/CareerInput';
+import API from 'lib/api';
 
 const PersonalUnionCreate01 = (props) => {
   const { onClickNext, className } = props;
   
+  const [owner, setOwner] = useState(null);
   const [educationInputs, setEducationInputs] = useState([]);
   const educationSelect = useRef();
 
-  const [careerInputs1, setCareerInputs1] = useState([]);
-  const careerSelect1 = useRef();
+  const [careerInputs, setCareerInputs] = useState([]);
+  const careerSelect = useRef();
 
-  const counts = useRef({
-    education: 2,
-    career: 2
-  });
-  
-  /// legacy
-	const [careerInputs, setCareerInputs] = useState([]);
+  const counts = useRef({ education: 2, career: 2 });
 
   useEffect(() => {
+
+    const fetchUserData = async () => {
+      const accessToken = localStorage.getItem('unifolioAccess');
+      if (!accessToken) {
+        alert("로그인 정보가 없습니다 로그인 페이지로 이동합니다.");
+      }
+      const response = await API.post.getUserByToken({
+        token: localStorage.unifolioAccess
+      })
+      if (response.status !== 200 ) {
+        alert('로그인이 만료되었습니다. 다시 로그인 해주세요');
+        // localStorage.removeItem('unifolioAccess');
+        // localStorage.removeItem('unifolioUser');
+      } else {
+        console.log(response.data.data)
+        setOwner({
+          "name": response.data.data.name,
+          "rrn": response.data.data.rrn,
+          "address_postcode": response.data.data.address_postcode,
+          "address": response.data.data.address,
+          "address_detail": response.data.data.address_detail,
+          "phone_number": response.data.data.phone_number,
+          "education": [],
+          "career": [],
+          "invest_history": []
+        })
+      }
+    }
+    if (owner === null) {
+      fetchUserData()
+    }
+
     const educationData = [{
       count: 1,
       type: "highschool",
@@ -40,16 +68,16 @@ const PersonalUnionCreate01 = (props) => {
     const careerData = [{
       count: 1,
       type: "general",
-      info: { attend_status: null, firm: null, position: null, period_start: null, period_end: null }
+      info: { status: null, company: null, position: null, start_date: null, end_date: null }
     },
     {
       count: 2,
       type: "financial",
-      info: { attend_status: null, firm: null, position: null, period_start: null, period_end: null }
+      info: { status: null, company: null, position: null, start_date: null, end_date: null }
     }];
 
-    setCareerInputs1([...careerData]);
-  }, [])
+    setCareerInputs([...careerData]);
+  }, [owner])
   
   const addEducationInput = () => {
 
@@ -74,24 +102,24 @@ const PersonalUnionCreate01 = (props) => {
     setEducationInputs([...educationInputs, data]);
   }
 
-  const addCareerInput1 = () => {
+  const addCareerInput = () => {
 
-    if (careerSelect1.current === undefined) {
+    if (careerSelect.current === undefined) {
       alert("경력 정보를 선택해주세요.");
       return;
     }
 
     let data = {
       count: counts.current.career + 1, // count,
-      type: careerSelect1.current, //selected,
+      type: careerSelect.current, //selected,
       info: {
-        attend_status: null
+        status: null
       }
     }
 
-    data.info[careerSelect1.current] = null;
+    data.info[careerSelect.current] = null;
     counts.current.career += 1;
-    setCareerInputs1([...careerInputs1, data]);
+    setCareerInputs([...careerInputs, data]);
   }
 
   
@@ -102,7 +130,7 @@ const PersonalUnionCreate01 = (props) => {
         educationSelect.current = value;
         break;
       case "career":
-        careerSelect1.current = value;
+        careerSelect.current = value;
         break;
       default:
         break;
@@ -128,25 +156,25 @@ const PersonalUnionCreate01 = (props) => {
     console.log(educationInputs)
 	};
 
-  const onCareerChange1 = ({ count, name, value }) => {
-    const changedCareerInputs1 = careerInputs1.map((careerInput) => {
+  const onCareerChange = ({ count, name, value }) => {
+    const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
-        if (name.includes("attend-status"))
-          careerInput.info["attend_status"] = value;
-        if (name.includes("firm"))
-          careerInput.info["firm"] = value;
+        if (name.includes("status"))
+          careerInput.info["status"] = value;
+        if (name.includes("company"))
+          careerInput.info["company"] = value;
         if (name.includes("position"))
           careerInput.info["position"] = value;
-        if (name.includes("period-start"))
-          careerInput.info["period_start"] = value;
-        if (name.includes("period-end"))
-          careerInput.info["period_end"] = value;
+        if (name.includes("start-date"))
+          careerInput.info["start_date"] = value;
+        if (name.includes("end-date"))
+          careerInput.info["end_date"] = value;
       }
       return careerInput;
     })
     
-    setCareerInputs1([...changedCareerInputs1]);
-    console.log(careerInputs1)
+    setCareerInputs([...changedCareerInputs]);
+    console.log(careerInputs)
 	};
 
   const onEducationDelete = (count) => {
@@ -163,19 +191,35 @@ const PersonalUnionCreate01 = (props) => {
     // });
     // setEducationInputs([...filteredEducationInputs]);
 
-    let tmpCareerInputs = careerInputs1;
+    let tmpCareerInputs = careerInputs;
 		for (const [i, each] of tmpCareerInputs.entries()) {
 			if (each[0] == count) tmpCareerInputs.splice(i, 1);
 		}
-		setCareerInputs1(tmpCareerInputs);
+		setCareerInputs(tmpCareerInputs);
   }
 
 	const layoutRef = useRef();
 	const handleNext = () => {
-		// 데이터 넘김
-		// console.log('handleNext', layoutRef.current);
-		onClickNext({ educationInputs, careerInputs1 }, 1, layoutRef.current);
-		// window.location.href = '/association-create/personal-2';
+    // owner {} 래핑 가공 데이터 넘김
+    let educationData = [];
+    educationInputs.forEach((education) => {
+      educationData.push(education.info);
+    })
+
+    let investHistoryData = [];
+    let careerData = [];
+    careerInputs.forEach((career) => {
+      if (career.type === "general") { careerData.push(career.info) }
+      else if (career.type === "financial") { investHistoryData.push(career.info) }
+    })
+
+    const ownerData = {
+      ...owner,
+      education: educationData,
+      career: careerData,
+      invest_history: investHistoryData
+    }
+		onClickNext({ owner: ownerData }, 1, layoutRef.current);
 	};
 
 	return (
@@ -216,7 +260,7 @@ const PersonalUnionCreate01 = (props) => {
 					</Form.Item>
 				</Form>
 				<Button
-          size="large" style={{ display: 'flex', marginLeft:'10px' }} onClick={addCareerInput1}>
+          size="large" style={{ display: 'flex', marginLeft:'10px' }} onClick={addCareerInput}>
 					추가
 				</Button>
 			</div>
@@ -224,9 +268,9 @@ const PersonalUnionCreate01 = (props) => {
         <div className="career-input-general"> 
           <h2>일반 경력사항 </h2>
           <div className="career-input-general-contents">
-            {careerInputs1.map((input, index) => {
+            {careerInputs.map((input, index) => {
               return input.type === "general" && (
-                  <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange1={onCareerChange1} onCareerDelete={onCareerDelete} />
+                  <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
                 )
               })
             }
@@ -235,9 +279,9 @@ const PersonalUnionCreate01 = (props) => {
         <div className="career-input-financial"> 
           <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
           <div className="career-input-financial-contents">
-          {careerInputs1.map((input, index) => {
+          {careerInputs.map((input, index) => {
               return input.type === "financial" && (
-                  <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange1={onCareerChange1} onCareerDelete={onCareerDelete} />
+                  <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
                 )
               })
             }
