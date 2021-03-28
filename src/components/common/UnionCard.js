@@ -71,7 +71,9 @@ const UnionCard = (props) => {
         </div>  
       </section>
 			<section className="bottom-button">
-        <button onClick={() => openModal({ idx, union })}>참여 하기</button>
+        <div className="row center">
+          <button className="participate-button unifolio-blue" onClick={() => openModal({ idx, union })}>참여 하기</button>
+        </div>
       </section>
 		</CardLayout>
 	);
@@ -93,6 +95,15 @@ const CardLayout = styled.div`
     }
   }
 
+  button {
+    &.participate-button {
+      width: 100%
+    }
+    &.unifolio-blue {
+      color: blue;
+    }
+  }
+
   span {
     &.grey {
       color: #847F7F;
@@ -106,6 +117,9 @@ const CardLayout = styled.div`
     width: 100%;
     
     display: flex;
+    &.center {
+      justify-content: center;
+    }
   }
   
   .column {
@@ -120,8 +134,13 @@ const CardLayout = styled.div`
       flex-basis: 80px;
     }
   }
+
   .column + .column {
     margin-left: 10px;
+  }
+
+  section + section {
+    margin-top: 10px;
   }
 
 `;
