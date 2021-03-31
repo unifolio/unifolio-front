@@ -54,7 +54,7 @@ const HomeModalPosition = styled.div`
 	left: 0;
 	z-index: 2;
 
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(255, 255, 255, 0.5);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -75,8 +75,9 @@ const HomeModalMain = styled.div`
 	height: 30vw;
 	min-width: 720px;
 	min-height: 426px;
-	
+	border-radius:10px;
 	background-color: white;
+	box-shadow: 0 5px 7px -1px gray;
 
 	z-index: 3;
 
@@ -213,7 +214,7 @@ const MainPage = (props) => {
 						e.stopPropagation();
 					}}
 				>
-					<WaitingInfo info={modalContent} idx={modalContentIdx} />
+					<WaitingInfo info={modalContent} idx={modalContentIdx} toggleModal={toggleModal}/>
 				</HomeModalMain>
 			</HomeModalPosition>
 		</>
