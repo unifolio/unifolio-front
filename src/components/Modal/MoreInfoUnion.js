@@ -1,22 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import CancelImage from '../assets/images/cancel.png';
+import CancelImage from '../../assets/images/cancel.png';
 
-const WaitingInfo = (props) => {
-	const { idx, info,toggleModal } = props;
-
-	if (info === null) {
-		return <></>;
-	}
-
+const MoreInfoUnion = (props) => {
+	const { idx, info, toggleModal } = props;
+  console.log("WaitingInfo", info)
+	if (info === null) return null;
+	
 	return (
 		<WaitingInfoPosition>
 			<WaitingInfoBlock>
-				<CancelButton onClick={()=>toggleModal(false)}>
+				<CancelButton onClick={ () => toggleModal(false) }>
 					<img src={CancelImage} alt="닫기"/>
 				</CancelButton>
 				<InfoSection>
-					<HeadCategory>운용사 정보</HeadCategory>
+					<HeadCategory>더 많은 정보를 보고 싶다면?</HeadCategory>
 					<HeadSummary>
 						<BigFont>A 엑셀러레이터</BigFont>
 						<Discription>A 엑셀러레이터는 인공지능 전문가들을 필두로 하여 가능성이 높은 스타트업에 투자를 해왔습니다. 총 N 년간의 노하우로 보다 높은 수익률을 보장합니다.</Discription>
@@ -54,12 +52,6 @@ const WaitingInfo = (props) => {
 		</WaitingInfoPosition>
 	);
 };
-
-// const WaitingInfoPosition = styled.div`
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// `;
 
 const WaitingInfoPosition = styled.section`
 	width:100%;
@@ -170,4 +162,4 @@ const RecordBigFont = styled(BigFont)`
 	}
 `;
 
-export default WaitingInfo;
+export default MoreInfoUnion;
