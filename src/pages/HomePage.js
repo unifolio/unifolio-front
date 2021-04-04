@@ -57,7 +57,7 @@ const HomeModalPosition = styled.div`
 	z-index: 2;
 
 	background-color: rgba(255, 255, 255, 0.5);
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 `;
@@ -107,15 +107,22 @@ const HomeSideSection = styled.aside`
 const MainPage = (props) => {
 	const { location } = props;
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-	const [modalContentIdx, setModalContentIdx] = useState(null);
-	const [modalContent, setModalContent] = useState(null);
+  const [modalContents, setModalContents] = useState({});
+	// const [modalContentIdx, setModalContentIdx] = useState(null);
+	// const [modalContent, setModalContent] = useState(null);
 	const mainRef = React.createRef(),
 		sideRef = React.createRef(),
 		modalRef = React.createRef();
 
 	useEffect(() => {
-		console.log('modalRef.style', modalRef.current);
-		modalRef.current.style.display = 'none';
+		// console.log('modalRef.style', modalRef.current);
+		// modalRef.current.style.display = 'none';
+    if (Object.keys(modalContents).length !== 0 ) {
+			document.querySelector('body').style.overflow = 'hidden';
+			modalRef.current.style.display = 'flex';
+		} else {
+      modalRef.current.style.display = 'none';
+    }
 	}, [modalRef]);
 
 	const mainSectionSelector = (current) => {
@@ -124,7 +131,6 @@ const MainPage = (props) => {
 			case 'waiting-people':
 				return <WaitingPeople openModal={toggleModal} />;
 			case 'waiting-unions':
-				// return <WaitingPeople openModal={toggleModal} />;
 			  return <WaitingUnions openModal={toggleModal} />;
 			default:
 				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
@@ -157,19 +163,22 @@ const MainPage = (props) => {
 	};
 
 	const toggleModal = (cardObj) => {
-		console.log(typeof cardObj);
-		console.log(cardObj);
-		if (typeof cardObj == 'boolean' && cardObj === false) {
+		console.log("====toggleModal====", cardObj)
+    // 모달 닫기
+		if (typeof cardObj === 'boolean' && !cardObj) {
 			document.querySelector('body').style.overflow = '';
 			modalRef.current.style.display = 'none';
+      setModalContents({});
 			return;
 		}
-		if (typeof cardObj.idx == 'number') {
-			setModalContentIdx(cardObj.idx);
-			setModalContent(cardObj.info);
+    
+    // 모달 set
+		if (typeof cardObj.idx === 'number') {
+      setModalContents(cardObj)
+			// setModalContentIdx(cardObj.idx); // setModalContent(cardObj.info);
 		}
 
-		if (modalContentIdx != null || cardObj != null) {
+		if (modalContents.idx !== null || cardObj !== null) {
 			document.querySelector('body').style.overflow = 'hidden';
 			modalRef.current.style.display = 'flex';
 		}
@@ -215,7 +224,7 @@ const MainPage = (props) => {
 						e.stopPropagation();
 					}}
 				>
-					<WaitingInfo info={modalContent} idx={modalContentIdx} toggleModal={toggleModal}/>
+					<WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal}/>
 				</HomeModalMain>
 			</HomeModalPosition>
 		</>

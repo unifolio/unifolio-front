@@ -14,9 +14,9 @@ const DefaultInfoContainer = () => {
       };
       console.log("token:", token);
 			if (token.token === null) {
-				alert('로그인 기록이 없습니다 1');
+				// alert('로그인 기록이 없습니다 1');
 				// localStorage.removeItem('unifolioUser');
-				// window.location.href = '/signin';
+				window.location.href = '/signin';
 			}
       
       const response = await API.post.tokenToGetUser(token);
@@ -29,7 +29,7 @@ const DefaultInfoContainer = () => {
         alert('로그인이 만료되었습니다. 다시 로그인 해주세요');
 				localStorage.removeItem('unifolioAccess');
 				localStorage.removeItem('unifolioUser');
-				// window.location.href = '/signin';
+				window.location.href = '/signin';
 			}
 		};
 		if (user === null) {

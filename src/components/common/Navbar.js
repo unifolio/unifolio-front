@@ -1,8 +1,56 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import Responsive from './Responsive.js';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette.js';
+
+
+
+const Navbar = () => {
+  const isLogin = () => {
+    const accessToken = localStorage.getItem('unifolioAccess');
+      if (!accessToken) return false;
+      return true;
+  }
+  const signout = () => {
+    console.log("clicked")
+    localStorage.removeItem('unifolioAccess');
+    window.location.href = "/";
+  }
+  // useEffect(() => {
+  //   isLogin
+  // }, [])
+
+	return (
+		<>
+			<NavbarPosition className="Navbar">
+				<NavbarLayout>
+					<div className="header-left">
+						<Link to="/" className="button landing">
+							로고
+						</Link>
+						<Link to="/finding" className="button home">
+							조합 찾기
+						</Link>
+						<Link to="/union-manage" className="button manage">
+							조합 관리
+						</Link>
+					</div>
+					<div className="header-right">
+						<Link to="/profile" className="button my">
+							마이페이지
+						</Link>
+            { isLogin() 
+              ? <span className="button signout" onClick={signout}> 로그아웃 </span>
+              : <Link to="/signin" className="button signin"> 로그인 </Link>
+            }
+					</div>
+				</NavbarLayout>
+			</NavbarPosition>
+			<Spacer />
+		</>
+	);
+};
 
 const NavbarPosition = styled.div`
 	position: fixed;
@@ -35,6 +83,7 @@ const NavbarLayout = styled.div`
 		.button {
 			margin-left: 1rem;
 			color: white;
+      cursor: pointer;
 		}
 	}
 
@@ -45,39 +94,9 @@ const NavbarLayout = styled.div`
 		.button {
 			margin-left: 1rem;
 			color: white;
+      cursor: pointer;
 		}
 	}
 `;
-
-const Navbar = () => {
-	return (
-		<>
-			<NavbarPosition className="Navbar">
-				<NavbarLayout>
-					<div className="header-left">
-						<Link to="/" className="button landing">
-							로고
-						</Link>
-						<Link to="/finding" className="button home">
-							조합 찾기
-						</Link>
-						<Link to="/union-manage" className="button manage">
-							조합 관리
-						</Link>
-					</div>
-					<div className="header-right">
-						<Link to="/profile" className="button my">
-							마이페이지
-						</Link>
-						<Link to="/signin" className="button signin">
-							로그인
-						</Link>
-					</div>
-				</NavbarLayout>
-			</NavbarPosition>
-			<Spacer />
-		</>
-	);
-};
 
 export default Navbar;
