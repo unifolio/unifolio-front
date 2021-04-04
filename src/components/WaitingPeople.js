@@ -24,7 +24,6 @@ const WaitingPeople = (props) => {
       const fetchUsers = await API.get.users();
       if (fetchUsers.status === 500) {
         console.log("fetchUsers is 500");
-        setUsers([]);
       } else if (fetchUsers.status === 200) {
         console.log(fetchUsers.data);
 			  setUsers(fetchUsers.data.results);

@@ -15,16 +15,9 @@ const ResponsiveBlock = styled.div`
   }
 `;
 
-const Responsive = (props) => {
-  console.log(props);
-  // console.log(props.children)
-  const { children, ...rest } = props;
-  console.log(rest);
-
-  return (
-    <ResponsiveBlock { ...rest }> { children } </ResponsiveBlock>
-      
-  );
+const Responsive = ({ children, ...rest }) => {
+  
+  return <ResponsiveBlock { ...rest }> { children } </ResponsiveBlock>;
 }
 
 export default Responsive;
