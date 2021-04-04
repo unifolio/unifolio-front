@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Input, Button, Select } from 'antd';
+import { Input, Button } from 'antd';
+
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
 
 const PersonalUnionCreate02 = React.memo((props) => {
 	const { onClickNext, className } = props;
@@ -10,7 +12,8 @@ const PersonalUnionCreate02 = React.memo((props) => {
 		invest_category_1: '',
 		invest_category_2: '',
 		invest_category_3: '',
-		
+		invest_category: [],
+
     recruitment_start_date: '',
 		recruitment_end_date: '',
 		expected_amount: null,
@@ -33,7 +36,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
 
   // destructured state values
   const { 
-    name, invest_category_1, invest_category_2, invest_category_3, 
+    name, invest_category_1, invest_category_2, invest_category_3, invest_category,
     recruitment_start_date, recruitment_end_date, expected_amount,
     amount_per_account, total_account,
     amount_operator_ratio, amount_operator, num_of_account_by_operator,
@@ -45,12 +48,32 @@ const PersonalUnionCreate02 = React.memo((props) => {
     calculate();
   }, [
     unionCreate02Inputs.amount_per_account, unionCreate02Inputs.expected_amount, 
-    unionCreate02Inputs.amount_operator_ratio, unionCreate02Inputs.total_account,
-    unionCreate02Inputs.amount_lp_ratio,
+    unionCreate02Inputs.num_of_account_by_operator, unionCreate02Inputs.min_of_account, 
+    // unionCreate02Inputs.amount_lp_ratio, total_account
   ])
 
 	const onChange = (e) => {
     
+    if (e.type.includes("calendar")) { // 캘린더일 때
+      const date = new Date(e.value);
+      const yy = date.getFullYear();
+      const mm = date.getMonth() < 9 ? `0${date.getMonth()+1}` : date.getMonth()+1;
+      const dd = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+      if (e.type === "start-calendar") {
+        setUnionCreate02Inputs({ 
+          ...unionCreate02Inputs,
+          ["recruitment_start_date"]: `${yy}-${mm}-${dd}`
+        });
+      } else {
+        setUnionCreate02Inputs({ 
+          ...unionCreate02Inputs,
+          ["recruitment_end_date"]: `${yy}-${mm}-${dd}`
+        });
+      }
+      
+      return;
+    }
+
     if (!e.target) { // select일 때
       let { value, name } = e;
       setUnionCreate02Inputs({ 
@@ -60,11 +83,22 @@ const PersonalUnionCreate02 = React.memo((props) => {
       return;
     }
 
+    if (e.target.name.includes("invest_category")) {
+      const targetRound = e.target.name.split("_").pop();
+      let investCategories = unionCreate02Inputs.invest_category;
+      investCategories[targetRound-1] = e.target.value;
+      setUnionCreate02Inputs({
+        ...unionCreate02Inputs,
+        ["invest_category"]: [...investCategories],
+        [e.target.name]: e.target.value,
+      });
+      return;
+    }
+
 		setUnionCreate02Inputs({
 			...unionCreate02Inputs,
 			[e.target.name]: e.target.value,
 		});
-    console.log(unionCreate02Inputs, e.target.name, e.target.value);
 		
 	};
 
@@ -77,26 +111,63 @@ const PersonalUnionCreate02 = React.memo((props) => {
     if (isNotNull(amount_per_account) && isNotNull(expected_amount)) {
       newState["total_account"] = expected_amount/amount_per_account;
     }
-    if (isNotNull(amount_operator_ratio) && isNotNull(expected_amount) && isNotNull(total_account)) {
-      newState["amount_operator"] = expected_amount * amount_operator_ratio/100;
-      newState["num_of_account_by_operator"] = total_account * amount_operator_ratio/100;
-      newState["amount_lp_ratio"] = 100 - amount_operator_ratio;
+    if (isNotNull(num_of_account_by_operator) && isNotNull(expected_amount) && isNotNull(total_account) && isNotNull(amount_per_account)) {
+      newState["amount_operator"] = amount_per_account * num_of_account_by_operator;
+      newState["amount_operator_ratio"] = num_of_account_by_operator/total_account * 100;
     }
-    if (isNotNull(amount_per_account) && isNotNull(amount_lp_ratio) && isNotNull(total_account)){
-      newState["amount_lp"] = expected_amount * amount_lp_ratio/100;
+    if (isNotNull(min_of_account) && isNotNull(amount_operator) &&isNotNull(amount_operator_ratio)){
       newState["num_of_account_by_lp"] = total_account - num_of_account_by_operator;
+      newState["amount_lp"] = expected_amount - amount_operator;
+      newState["amount_lp_ratio"] = 100 - amount_operator_ratio;
     }
     setUnionCreate02Inputs({ ...unionCreate02Inputs, ...newState });
   }
 
 	const layoutRef = useRef();
+  const $startCalendar = useRef();
+  const $endCalendar = useRef();
+  const $toggleBack = useRef();
+
 	const handleNext = (e) => {
 		// 데이터 넘김
-		onClickNext(unionCreate02Inputs, 2, layoutRef.current);
+    const calculateState = {};
+    const checkList = ['expected_amount', 'amount_per_account', 'amount_operator', 'amount_lp']
+    for (const name in unionCreate02Inputs) {
+      if (checkList.includes(name)) {
+        calculateState[name] = unionCreate02Inputs[name] * 1000000;
+      } else if (name === 'invest_category') {
+        calculateState[name] = JSON.stringify(invest_category);
+      }
+    }
+    
+    const returnState = {
+      ...unionCreate02Inputs,
+      ...calculateState
+    }
+
+		onClickNext(returnState, 2, layoutRef.current);
 	};
+
+  const toggleCalender = ({target}) => {
+    
+    if (target.className.includes("toggle-back")) {
+      [$toggleBack, $startCalendar, $endCalendar].forEach(($elem) => {
+        $elem.current.style.display = "none";
+      })
+    } else {
+      
+      $toggleBack.current.style.display = "block";
+      if (target.className.includes("start-calendar")) {
+        $startCalendar.current.style.display = "block"
+      } else if (target.className.includes("end-calendar")) {
+        $endCalendar.current.style.display = "block"
+      }
+    }
+  }
 
 	return (
 		<PersonalUnionCreate02Layout className={className} ref={layoutRef}>
+      <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
       <Input name={`hidden`} size="large" disabled type={"hidden"}/> {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
         <div className="row">
@@ -128,9 +199,19 @@ const PersonalUnionCreate02 = React.memo((props) => {
         </div>
         <div className="column contents">
           <div className="row">
-            <Input name={`recruitment_start_date`} value={recruitment_start_date} style={{ width: '30%' }} size="large" placeholder="모집 시작 날짜" onChange={onChange} />
+            <div className="row wrapper">
+              <Input className={"start-calendar"} value={recruitment_start_date} style={{ width: '30%' }} size="large" placeholder="모집 시작 날짜" onFocus={toggleCalender} />
+              <div ref={$startCalendar} style={{position: "absolute", marginTop: "60px", display: "none", zIndex: 2}}>
+                <Calendar onChange={(value) => { onChange({type:"start-calendar", value: value}) }} />
+              </div>
+            </div>
             <span> ~ </span>
-            <Input name={`recruitment_end_date`} value={recruitment_end_date} style={{ width: '30%' }} size="large" placeholder="모집 마감 날짜" onChange={onChange} />
+            <div className="row wrapper">
+              <Input className={"end-calendar"} value={recruitment_end_date} style={{ width: '30%' }} size="large" placeholder="모집 마감 날짜" onFocus={toggleCalender} />
+              <div ref={$endCalendar} style={{position: "absolute", marginTop: "60px", display: "none", zIndex: 2}}>
+                <Calendar onChange={(value) => { onChange({type:"end-calendar", value: value}) }}  />
+              </div>
+            </div>
           </div>     
 				</div>
       </section>
@@ -143,7 +224,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
             <div className="column amount-contents">
               <div className="row">
                 <Input name={`expected_amount`} type="number" value= {unionCreate02Inputs.expected_amount} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} /> 
-                <span>만원</span>
+                <span>백만원</span>
               </div>
             </div>
           </div>
@@ -158,7 +239,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
             <div className="column amount-contents">
               <div className="row">
                 <Input name={`amount_per_account`} type="number" value={unionCreate02Inputs.amount_per_account} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} /> 
-                <span>만원</span>
+                <span>백만원</span>
               </div>
             </div>
             <div className="column amount-contents">
@@ -179,21 +260,21 @@ const PersonalUnionCreate02 = React.memo((props) => {
           <div className="row">
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`amount_operator_ratio`} value={amount_operator_ratio} style={{ width: '30%' }} size="large" placeholder="운용사 출자 예정 비율" onChange={onChange} /> 
-                <span>%</span>
+                <span>총</span>
+                <Input name={`num_of_account_by_operator`} value={num_of_account_by_operator} style={{ width: '30%' }} className={"ant-input-lg"} onChange={onChange}/> 
+                <span>구좌</span>
               </div>
             </div>
             <div className="column amount-contents">
               <div className="row">
                 <Input name={`amount_operator`} value={amount_operator} style={{ width: '30%' }} size="large" disabled /> 
-                <span>만원</span>
+                <span>백만원</span>
               </div>
             </div>
             <div className="column amount-contents">
               <div className="row">
-                <span>총</span>
-                <Input name={`num_of_account_by_operator`} value={num_of_account_by_operator} style={{ width: '30%' }} className={"ant-input-lg"} disabled /> 
-                <span>구좌</span>
+                <Input name={`amount_operator_ratio`} value={amount_operator_ratio} style={{ width: '30%' }} size="large" placeholder="운용사 출자 예정 비율" disabled /> 
+                <span>%</span>
               </div>
             </div>
           </div>
@@ -214,18 +295,6 @@ const PersonalUnionCreate02 = React.memo((props) => {
           <div className="row">
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`amount_lp_ratio`} value={amount_lp_ratio} style={{ width: '30%' }} size="large" disabled /> 
-                <span>%</span>
-              </div>
-            </div>
-            <div className="column amount-contents">
-              <div className="row">
-                <Input name={`amount_lp`} value={amount_lp} style={{ width: '30%' }} size="large" disabled /> 
-                <span>만원</span>
-              </div>
-            </div>
-            <div className="column amount-contents">
-              <div className="row">
                 <span>총</span>
                 <Input name={`num_of_account_by_lp`} value={num_of_account_by_lp} style={{ width: '30%' }} size="large" disabled /> 
                 <span>구좌</span>
@@ -235,6 +304,18 @@ const PersonalUnionCreate02 = React.memo((props) => {
               <div className="row">
                 <Input name={`min_of_account`} value={min_of_account} style={{ width: '30%' }} size="large" placeholder={"최소 구좌 갯수"} onChange={onChange}/> 
                 <span>구좌</span>
+              </div>
+            </div>
+            <div className="column amount-contents">
+              <div className="row">
+                <Input name={`amount_lp`} value={amount_lp} style={{ width: '30%' }} size="large" disabled /> 
+                <span>백만원</span>
+              </div>
+            </div>
+            <div className="column amount-contents">
+              <div className="row">
+                <Input name={`amount_lp_ratio`} value={amount_lp_ratio} style={{ width: '30%' }} size="large" disabled /> 
+                <span>%</span>
               </div>
             </div>
           </div>
@@ -267,6 +348,15 @@ const PersonalUnionCreate02 = React.memo((props) => {
     </PersonalUnionCreate02Layout>
 	);
 });
+
+const ToggleBack = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+
+  display: none;
+  position: absolute;
+`; 
 
 const PersonalUnionCreate02Layout = styled.div`
   width: 100%;

@@ -2,6 +2,65 @@ import React from 'react';
 import styled from 'styled-components';
 import CancelImage from '../assets/images/cancel.png';
 
+const WaitingInfo = (props) => {
+	const { idx, info,toggleModal } = props;
+
+	if (info === null) {
+		return <></>;
+	}
+
+	return (
+		<WaitingInfoPosition>
+			<WaitingInfoBlock>
+				<CancelButton onClick={()=>toggleModal(false)}>
+					<img src={CancelImage} alt="닫기"/>
+				</CancelButton>
+				<InfoSection>
+					<HeadCategory>운용사 정보</HeadCategory>
+					<HeadSummary>
+						<BigFont>A 엑셀러레이터</BigFont>
+						<Discription>A 엑셀러레이터는 인공지능 전문가들을 필두로 하여 가능성이 높은 스타트업에 투자를 해왔습니다. 총 N 년간의 노하우로 보다 높은 수익률을 보장합니다.</Discription>
+					</HeadSummary>
+				</InfoSection>
+				<InfoSection>
+					<Category>투자 분야</Category>
+					<FieldList>
+						<li>
+							<Tag>커머스</Tag>
+						</li>
+						<li>
+							<Tag>IT</Tag>
+						</li>
+					</FieldList>
+				</InfoSection>
+				<InfoSection>
+					<Category>투자 이력</Category>
+					<RecordList>
+						<RecordListItem>
+							<RecordTag>커머스</RecordTag>
+							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
+						</RecordListItem>
+						<RecordListItem>
+							<RecordTag>커머스</RecordTag>
+							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
+						</RecordListItem>
+						<RecordListItem>
+							<RecordTag>커머스</RecordTag>
+							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
+						</RecordListItem>
+					</RecordList>
+				</InfoSection>
+			</WaitingInfoBlock>
+		</WaitingInfoPosition>
+	);
+};
+
+// const WaitingInfoPosition = styled.div`
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// `;
+
 const WaitingInfoPosition = styled.section`
 	width:100%;
 	height:100%;
@@ -110,57 +169,5 @@ const RecordBigFont = styled(BigFont)`
 		font-size:0.75rem;
 	}
 `;
-const WaitingInfo = (props) => {
-	const { idx, info,toggleModal } = props;
-
-	if (info === null) {
-		return <></>;
-	}
-
-	return (
-		<WaitingInfoPosition>
-			<WaitingInfoBlock>
-				<CancelButton onClick={()=>toggleModal(false)}>
-					<img src={CancelImage} alt="닫기"/>
-				</CancelButton>
-				<InfoSection>
-					<HeadCategory>운용사 정보</HeadCategory>
-					<HeadSummary>
-						<BigFont>A 엑셀러레이터</BigFont>
-						<Discription>A 엑셀러레이터는 인공지능 전문가들을 필두로 하여 가능성이 높은 스타트업에 투자를 해왔습니다. 총 N 년간의 노하우로 보다 높은 수익률을 보장합니다.</Discription>
-					</HeadSummary>
-				</InfoSection>
-				<InfoSection>
-					<Category>투자 분야</Category>
-					<FieldList>
-						<li>
-							<Tag>커머스</Tag>
-						</li>
-						<li>
-							<Tag>IT</Tag>
-						</li>
-					</FieldList>
-				</InfoSection>
-				<InfoSection>
-					<Category>투자 이력</Category>
-					<RecordList>
-						<RecordListItem>
-							<RecordTag>커머스</RecordTag>
-							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
-						</RecordListItem>
-						<RecordListItem>
-							<RecordTag>커머스</RecordTag>
-							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
-						</RecordListItem>
-						<RecordListItem>
-							<RecordTag>커머스</RecordTag>
-							<RecordBigFont>티몬 A 시리즈에 펀딩했습니다</RecordBigFont>
-						</RecordListItem>
-					</RecordList>
-				</InfoSection>
-			</WaitingInfoBlock>
-		</WaitingInfoPosition>
-	);
-};
 
 export default WaitingInfo;

@@ -53,13 +53,13 @@ const HomeHeader = ( props ) => {
     document.querySelectorAll(`.homeheader-item[data-location=${current}]`)[0].className += " active";
   })
   const onClickHeaderItem = (e) => {
-    history.push(`/finding-association?mode=${e.target.dataset.location}`);
+    history.push(`/finding?mode=${e.target.dataset.location}`);
   }
   return (
     <HomeHeaderPosition className="HomeHeader">
       <HomeHeaderLayout>
         <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-people">출자 대기중인 출자자</div>
-        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-associations">결성 대기중인 개인투자조합</div>
+        <div onClick={onClickHeaderItem} className="homeheader-item" data-location="waiting-unions">결성 대기중인 개인투자조합</div>
         {/* <div onClick={onClickHeaderItem} className="homeheader-item" data-location="create-association">신규 개인투자 조합 만들기</div>*/}
       </HomeHeaderLayout>
     </HomeHeaderPosition>
