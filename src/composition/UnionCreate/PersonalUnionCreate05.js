@@ -10,7 +10,7 @@ const PersonalUnionCreate05 = (props) => {
 	const handleSuccess = (e) => {
 		// 데이터 넘김
 		// console.log('handleNext', layoutRef.current);
-		onClickNext({}, 6, layoutRef.current);
+		onClickNext({}, 5, layoutRef.current);
 	};
 
 	return (
