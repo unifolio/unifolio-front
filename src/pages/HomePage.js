@@ -31,24 +31,21 @@ const MainPage = (props) => {
     }
 	}, [$modalRef]);
 
-  const isLogin = () => {
-    const accessToken = localStorage.getItem('unifolioAccess');
-      if (!accessToken) return false;
-      return true;
-  }
-
   const modalSectionSelector = (current) => {
     switch (current) {
 			case 'waiting-people':
-        return isLogin() 
-        ? <WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
-        : <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
+        return <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
+        // api 경력 조회 프로세스 만든 후
+        // return isLogin() 
+        // ? <WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
+        // : <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
         
 			case 'waiting-unions':
-        return isLogin() 
-        ? <WaitingUnions info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
-        : <MoreInfoUnion toggleModal={toggleModal} />
-			  // return <WaitingUnions openModal={toggleModal} />;
+        return <MoreInfoUnion toggleModal={toggleModal} />
+        // api 경력 조회 프로세스 만든 후
+        // return isLogin() 
+        // ? <WaitingUnions info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
+        // : <MoreInfoUnion toggleModal={toggleModal} />
 			default:
 				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
 		}
