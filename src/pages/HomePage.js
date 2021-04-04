@@ -7,8 +7,147 @@ import HomeHeader from '../components/Header/HomeHeader';
 import FilterSection from '../components/common/FilterSection';
 
 import WaitingPeople from '../components/WaitingPeople';
-import WaitingUnions from '../components/WaitingUnions';
-import WaitingInfo from '../components/WaitingInfo';
+
+import WaitingUnions from '../components/Modal/WaitingUnions';
+import WaitingInfo from '../components/Modal/WaitingInfo';
+import MoreInfoPerson from '../components/Modal/MoreInfoPerson';
+import MoreInfoUnion from '../components/Modal/MoreInfoUnion';
+
+const MainPage = (props) => {
+	const { location } = props;
+	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+  const [modalContents, setModalContents] = useState({});
+	
+	const $mainRef = React.createRef(),
+		$sideRef = React.createRef(),
+		$modalRef = React.createRef();
+
+	useEffect(() => {
+    if (Object.keys(modalContents).length !== 0 ) {
+			document.querySelector('body').style.overflow = 'hidden';
+			$modalRef.current.style.display = 'flex';
+		} else {
+      $modalRef.current.style.display = 'none';
+    }
+	}, [$modalRef]);
+
+  const isLogin = () => {
+    const accessToken = localStorage.getItem('unifolioAccess');
+      if (!accessToken) return false;
+      return true;
+  }
+
+  const modalSectionSelector = (current) => {
+    switch (current) {
+			case 'waiting-people':
+        return isLogin() 
+        ? <WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
+        : <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
+        
+			case 'waiting-unions':
+        return isLogin() 
+        ? <WaitingUnions info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
+        : <MoreInfoUnion toggleModal={toggleModal} />
+			  // return <WaitingUnions openModal={toggleModal} />;
+			default:
+				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
+		}
+  }
+
+	const mainSectionSelector = (current) => {
+		
+		switch (current) {
+			case 'waiting-people':
+				return <WaitingPeople openModal={toggleModal} />;
+			case 'waiting-unions':
+			  return <WaitingUnions openModal={toggleModal} />;
+			default:
+				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
+		}
+	};
+
+	const sideSectionSelector = (current) => {
+		
+		switch (current) {
+			case 'waiting-people':
+				return ['최대 출자 가능액', '경력 분야'];
+			case 'waiting-unions':
+				return ['조합 상태', '투자 분야', '출자 총액', '최소 출자액'];
+			default:
+				return [];
+		}
+	};
+
+	const toggleFilter = (flag) => {
+    const $filterOpenButton = document.querySelector('#filterOpenButton');
+		if (flag) {
+			$mainRef.current.style.width = '100%';
+			$sideRef.current.style.display = 'none';
+			$filterOpenButton.style.display = '';
+		} else {
+			$sideRef.current.style.width = '20%';
+			$sideRef.current.style.display = 'inline-grid';
+			$mainRef.current.style.width = '79%';
+			$filterOpenButton.style.display = 'none';
+		}
+	};
+
+	const toggleModal = (cardObj) => {
+		console.log("====toggleModal====", cardObj)
+    // 모달 닫기
+		if (typeof cardObj === 'boolean' && !cardObj) {
+			document.querySelector('body').style.overflow = '';
+			$modalRef.current.style.display = 'none';
+      setModalContents({});
+			return;
+		}
+    
+    // 모달 set
+		if (typeof cardObj.idx === 'number') {
+      setModalContents(cardObj)
+		}
+
+		if (modalContents.idx !== null || cardObj !== null) {
+			document.querySelector('body').style.overflow = 'hidden';
+			$modalRef.current.style.display = 'flex';
+		}
+	};
+
+	return (
+		<>
+			<HomeHeader current={query.mode} />
+			<HomePagePosition className="HomePage">
+				<HomeMainSectionPosition>
+					<HomeMainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
+				</HomeMainSectionPosition>
+				<HomeSideSection ref={$sideRef}>
+					<FilterHeader>
+						<span> 필터 검색 </span>
+						<div onClick={() => { toggleFilter(true); }} style={{ display: 'inherit', justifyItems: 'center' }}> 
+              X
+            </div>
+					</FilterHeader>
+					{sideSectionSelector(query.mode).map((filterTitle, idx) => {
+						console.log(filterTitle, '-', idx, '-', idx);
+						return <FilterSection title={filterTitle} key={`${idx}-${idx}`} />;
+					})}
+				</HomeSideSection>
+				<button id="filterOpenButton"
+					onClick={() => { toggleFilter(false); }}
+					style={{ position: 'absolute', left: '90%', display: 'none' }}
+				>
+					필터 열기
+				</button>
+			</HomePagePosition>
+			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
+				<HomeModalMain onClick={(e) => { e.stopPropagation(); }} >
+          {/* 위치 판별 후 렌더 */}
+          {modalSectionSelector(query.mode)}
+				</HomeModalMain>
+			</HomeModalPosition>
+		</>
+	);
+};
 
 const HomePagePosition = styled(Responsive)`
 	position: relative;
@@ -103,132 +242,5 @@ const HomeSideSection = styled.aside`
 	display: inline-grid;
 	grid-template-rows: 1fr repeat(5, 3fr);
 `;
-
-const MainPage = (props) => {
-	const { location } = props;
-	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const [modalContents, setModalContents] = useState({});
-	// const [modalContentIdx, setModalContentIdx] = useState(null);
-	// const [modalContent, setModalContent] = useState(null);
-	const mainRef = React.createRef(),
-		sideRef = React.createRef(),
-		modalRef = React.createRef();
-
-	useEffect(() => {
-		// console.log('modalRef.style', modalRef.current);
-		// modalRef.current.style.display = 'none';
-    if (Object.keys(modalContents).length !== 0 ) {
-			document.querySelector('body').style.overflow = 'hidden';
-			modalRef.current.style.display = 'flex';
-		} else {
-      modalRef.current.style.display = 'none';
-    }
-	}, [modalRef]);
-
-	const mainSectionSelector = (current) => {
-		console.log('mainSectionSelector', current);
-		switch (current) {
-			case 'waiting-people':
-				return <WaitingPeople openModal={toggleModal} />;
-			case 'waiting-unions':
-			  return <WaitingUnions openModal={toggleModal} />;
-			default:
-				return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
-		}
-	};
-
-	const sideSectionSelector = (current) => {
-		console.log('sideSectionSelector', current);
-		switch (current) {
-			case 'waiting-people':
-				return ['최대 출자 가능액', '경력 분야'];
-			case 'waiting-unions':
-				return ['조합 상태', '투자 분야', '출자 총액', '최소 출자액'];
-			default:
-				return [];
-		}
-	};
-
-	const toggleFilter = (flag) => {
-		if (flag) {
-			mainRef.current.style.width = '100%';
-			sideRef.current.style.display = 'none';
-			document.querySelector('#filterOpenButton').style.display = '';
-		} else {
-			sideRef.current.style.width = '20%';
-			sideRef.current.style.display = 'inline-grid';
-			mainRef.current.style.width = '79%';
-			document.querySelector('#filterOpenButton').style.display = 'none';
-		}
-	};
-
-	const toggleModal = (cardObj) => {
-		console.log("====toggleModal====", cardObj)
-    // 모달 닫기
-		if (typeof cardObj === 'boolean' && !cardObj) {
-			document.querySelector('body').style.overflow = '';
-			modalRef.current.style.display = 'none';
-      setModalContents({});
-			return;
-		}
-    
-    // 모달 set
-		if (typeof cardObj.idx === 'number') {
-      setModalContents(cardObj)
-			// setModalContentIdx(cardObj.idx); // setModalContent(cardObj.info);
-		}
-
-		if (modalContents.idx !== null || cardObj !== null) {
-			document.querySelector('body').style.overflow = 'hidden';
-			modalRef.current.style.display = 'flex';
-		}
-	};
-
-	return (
-		<>
-			<HomeHeader current={query.mode} />
-			<HomePagePosition className="HomePage">
-				<HomeMainSectionPosition>
-					<HomeMainSection ref={mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
-				</HomeMainSectionPosition>
-				<HomeSideSection ref={sideRef}>
-					<FilterHeader>
-						<span> 필터 검색 </span>
-						<div onClick={() => { toggleFilter(true); }} style={{ display: 'inherit', justifyItems: 'center' }}> 
-              X
-            </div>
-					</FilterHeader>
-					{sideSectionSelector(query.mode).map((filterTitle, idx) => {
-						console.log(filterTitle, '-', idx, '-', idx);
-						return <FilterSection title={filterTitle} key={`${idx}-${idx}`} />;
-					})}
-				</HomeSideSection>
-				<button
-					id="filterOpenButton"
-					onClick={() => {
-						toggleFilter(false);
-					}}
-					style={{ position: 'absolute', left: '90%', display: 'none' }}
-				>
-					필터 열기
-				</button>
-			</HomePagePosition>
-			<HomeModalPosition
-				ref={modalRef}
-				onClick={() => {
-					toggleModal(false);
-				}}
-			>
-				<HomeModalMain
-					onClick={(e) => {
-						e.stopPropagation();
-					}}
-				>
-					<WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal}/>
-				</HomeModalMain>
-			</HomeModalPosition>
-		</>
-	);
-};
 
 export default MainPage;
