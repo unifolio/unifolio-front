@@ -4,6 +4,12 @@ import CancelImage from '../../assets/images/cancel.png';
 
 const MoreInfoPerson = ({ $dom, idx, toggleModal }) => {
 	const [modalIdx, setModalIdx] = useState(null);
+
+  const isLogin = () => {
+    const accessToken = localStorage.getItem('unifolioAccess');
+      if (!accessToken) return false;
+      return true;
+  }
   
   useEffect(() => {
     console.log(modalIdx, "modalIdx")
@@ -25,10 +31,17 @@ const MoreInfoPerson = ({ $dom, idx, toggleModal }) => {
         <InfoColumn>
           <InfoSection className="inner-card"></InfoSection>
           <InfoSection>
-            <InfoContents>
-              <BigFont> 등록하신 경력은 마스킹되어 일부만 조합을 만드는 운용사에게 공개됩니다. </BigFont>
-              <Button> 내 경력 등록하기 </Button>
-            </InfoContents>
+            {
+              isLogin() 
+              ? (<InfoContents>
+                  <BigFont> 등록하신 경력은 마스킹되어 일부만 조합을 만드는 운용사에게 공개됩니다. </BigFont>
+                  <Button onClick={() => {window.location.href="/profile"}}> 내 경력 등록하기 </Button>
+                </InfoContents>)
+              : (<InfoContents style={{justifyContent: 'flex-start' }}>
+                  <BigFont> 조회를 위해 먼저 로그인 해주세요 </BigFont>
+                  <Button onClick={() => {window.location.href="/signin"}} > 로그인 하기 </Button>
+                </InfoContents>)
+            }
           </InfoSection>
         </InfoColumn>
 				
