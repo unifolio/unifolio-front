@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Input, Button, Select } from 'antd';
+import { Input, Button } from 'antd';
 
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
@@ -54,7 +54,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
 
 	const onChange = (e) => {
     
-    if (e.type.includes("calendar")) {
+    if (e.type.includes("calendar")) { // 캘린더일 때
       const date = new Date(e.value);
       const yy = date.getFullYear();
       const mm = date.getMonth() < 9 ? `0${date.getMonth()+1}` : date.getMonth()+1;
@@ -99,7 +99,6 @@ const PersonalUnionCreate02 = React.memo((props) => {
 			...unionCreate02Inputs,
 			[e.target.name]: e.target.value,
 		});
-    console.log(unionCreate02Inputs, e.target.name, e.target.value);
 		
 	};
 

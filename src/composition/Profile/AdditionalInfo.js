@@ -254,7 +254,7 @@ const AdditionalInfo = (props) => {
           </div>
           <div className="row">
             <div className="school-inputs" style={{height:"100px" }}>
-              <span> 추가 버튼을 눌라 학력사항을 입력해주세요 </span>
+              <span> 추가 버튼을 눌러 학력사항을 입력해주세요 </span>
               {/* {educationInputs.map((input, index) => (
                   <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
                 )

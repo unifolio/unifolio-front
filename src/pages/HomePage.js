@@ -12,17 +12,38 @@ import WaitingInfo from '../components/WaitingInfo';
 
 const HomePagePosition = styled(Responsive)`
 	position: relative;
-	max-width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
 	display: flex;
+	padding-right:0;
+	padding-left:0;
 `;
 
-const HomeMainSection = styled.div`
-	width: 79%;
+const HomeMainSectionPosition = styled.div`
+	width: 100%;
+	max-width:1009px;
 	height: 100%;
-	padding-right: 1rem;
+	margin-left:auto;
+
+	display:flex;
+	justify-content:center;
+	align-items:center;
+`
+
+const HomeMainSection = styled.main`
+	width: 100%;
+	height: 100%;
+	padding: 2rem 1rem 2rem 1rem;
 	display: inline-grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: repeat(3,minmax(297px,329px));
 	grid-template-rows: 1fr 1fr 1fr;
+	gap: 36px 27px;
+	/* @media screen and (max-width:1435px){
+		grid-template-columns: repeat(auto-fill,minmax(297px,319px));
+	} */
+	@media screen and (max-width:1270px){
+		grid-template-columns: repeat(auto-fill,minmax(297px,329px));
+	} 
 `;
 
 const HomeModalPosition = styled.div`
@@ -31,26 +52,46 @@ const HomeModalPosition = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
+	right:0;
+	bottom:0;
 	z-index: 2;
 
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: rgba(255, 255, 255, 0.5);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `;
 
-const HomeModalMain = styled.div`
-	width: 40vw;
-	height: 30vw;
-	background-color: white;
-
-	display: flex;
-	flex-flow: column;
-	z-index: 3;
+const FilterHeader = styled.header`
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	font-size: 1rem;
+	padding-left:2rem;
+	margin-top:2.5rem;
+	margin-bottom: 1rem;
 `;
 
-const HomeSideSection = styled.div`
-	width: 20%;
+const HomeModalMain = styled.div`
+	width: 30vw;
+	min-width: 720px;
+	min-height: 426px;
+	border-radius:10px;
+	background-color: white;
+	box-shadow: 0 5px 7px -1px gray;
+
+	z-index: 3;
+
+	@media screen and (max-width:720px){
+		width:100%;
+		min-width: 0;
+
+		margin:0 1rem;
+	}
+`;
+
+const HomeSideSection = styled.aside`
+	width: 267px;
 	height: calc(100vh - 8rem);
 	position: sticky;
 	top: 4rem;
@@ -75,7 +116,7 @@ const MainPage = (props) => {
 	useEffect(() => {
 		console.log('modalRef.style', modalRef.current);
 		modalRef.current.style.display = 'none';
-	}, []);
+	}, [modalRef]);
 
 	const mainSectionSelector = (current) => {
 		console.log('mainSectionSelector', current);
@@ -137,16 +178,17 @@ const MainPage = (props) => {
 	return (
 		<>
 			<HomeHeader current={query.mode} />
-			<br />
 			<HomePagePosition className="HomePage">
-				<HomeMainSection ref={mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
+				<HomeMainSectionPosition>
+					<HomeMainSection ref={mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
+				</HomeMainSectionPosition>
 				<HomeSideSection ref={sideRef}>
-					<div style={{ display: 'inherit', gridTemplateColumns: '1fr 1fr', fontSize: '1.3rem', paddingLeft: '1rem', paddingRight: '1rem', alignItems: 'center' }}>
-						<b> 필터 검색 </b>
+					<FilterHeader>
+						<span> 필터 검색 </span>
 						<div onClick={() => { toggleFilter(true); }} style={{ display: 'inherit', justifyItems: 'center' }}> 
               X
             </div>
-					</div>
+					</FilterHeader>
 					{sideSectionSelector(query.mode).map((filterTitle, idx) => {
 						console.log(filterTitle, '-', idx, '-', idx);
 						return <FilterSection title={filterTitle} key={`${idx}-${idx}`} />;
@@ -173,7 +215,7 @@ const MainPage = (props) => {
 						e.stopPropagation();
 					}}
 				>
-					<WaitingInfo info={modalContent} idx={modalContentIdx} />
+					<WaitingInfo info={modalContent} idx={modalContentIdx} toggleModal={toggleModal}/>
 				</HomeModalMain>
 			</HomeModalPosition>
 		</>
