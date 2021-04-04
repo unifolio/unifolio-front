@@ -55,15 +55,11 @@ const WaitingInfo = (props) => {
 	);
 };
 
-const WaitingInfoPosition = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const WaitingInfoBlock = styled.div`
-	display: block;
-`;
+// const WaitingInfoPosition = styled.div`
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// `;
 
 const WaitingInfoPosition = styled.section`
 	width:100%;
