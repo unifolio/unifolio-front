@@ -13,7 +13,8 @@ const WaitingPeopleCell = styled.div`
 const WaitingPeople = (props) => {
 	const { openModal } = props;
 	const [users, setUsers] = useState([]);
-	const openModalEmit = (cardObj) => {
+	
+  const onOpenModal = (cardObj) => {
 		openModal(cardObj);
 	};
 
@@ -37,7 +38,7 @@ const WaitingPeople = (props) => {
 			{users?.map((user, i) => {
 				return (
 					<WaitingPeopleCell key={`${i}`}>
-						<Card idx={i + 1} info={user} openModal={openModalEmit} />
+						<Card idx={i + 1} info={user} openModal={onOpenModal} />
 					</WaitingPeopleCell>
 				);
 			})}

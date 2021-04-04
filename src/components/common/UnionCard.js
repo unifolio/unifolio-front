@@ -17,6 +17,9 @@ const UnionCard = (props) => {
     return won/1000000;
   }
 
+  const onClickParticipateButton = () => {
+    openModal({idx, info: union});
+  }
 	return (
 		<CardLayout>
       <section className="title">
@@ -32,7 +35,7 @@ const UnionCard = (props) => {
             <span className="grey">투자 분야 </span>
           </div>
           <div className="column column-5">
-            <span className="grey"> 분야1 분야2 분야3 </span>  
+            <span className="grey"> {union.invest_category} </span>  
           </div>
         </div>
       </section>
@@ -72,7 +75,7 @@ const UnionCard = (props) => {
       </section>
 			<section className="bottom-button">
         <div className="row center">
-          <button className="participate-button unifolio-blue" onClick={() => openModal({ idx, union })}>참여 하기</button>
+          <button className="participate-button unifolio-blue" onClick={onClickParticipateButton}>참여 하기</button>
         </div>
       </section>
 		</CardLayout>

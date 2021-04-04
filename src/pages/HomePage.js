@@ -40,7 +40,7 @@ const HomeModalPosition = styled.div`
 `;
 
 const HomeModalMain = styled.div`
-	width: 30vw;
+	width: 40vw;
 	height: 30vw;
 	background-color: white;
 
@@ -118,7 +118,7 @@ const MainPage = (props) => {
 	const toggleModal = (cardObj) => {
 		console.log(typeof cardObj);
 		console.log(cardObj);
-		if (typeof cardObj == 'boolean' && cardObj == false) {
+		if (typeof cardObj == 'boolean' && cardObj === false) {
 			document.querySelector('body').style.overflow = '';
 			modalRef.current.style.display = 'none';
 			return;

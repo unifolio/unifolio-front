@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { Input, Button, Select } from 'antd';
+
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
 
 const PersonalUnionCreate02 = React.memo((props) => {
 	const { onClickNext, className } = props;
@@ -52,6 +54,26 @@ const PersonalUnionCreate02 = React.memo((props) => {
 
 	const onChange = (e) => {
     
+    if (e.type.includes("calendar")) {
+      const date = new Date(e.value);
+      const yy = date.getFullYear();
+      const mm = date.getMonth() < 9 ? `0${date.getMonth()+1}` : date.getMonth()+1;
+      const dd = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+      if (e.type === "start-calendar") {
+        setUnionCreate02Inputs({ 
+          ...unionCreate02Inputs,
+          ["recruitment_start_date"]: `${yy}-${mm}-${dd}`
+        });
+      } else {
+        setUnionCreate02Inputs({ 
+          ...unionCreate02Inputs,
+          ["recruitment_end_date"]: `${yy}-${mm}-${dd}`
+        });
+      }
+      
+      return;
+    }
+
     if (!e.target) { // select일 때
       let { value, name } = e;
       setUnionCreate02Inputs({ 
@@ -103,6 +125,10 @@ const PersonalUnionCreate02 = React.memo((props) => {
   }
 
 	const layoutRef = useRef();
+  const $startCalendar = useRef();
+  const $endCalendar = useRef();
+  const $toggleBack = useRef();
+
 	const handleNext = (e) => {
 		// 데이터 넘김
     const calculateState = {};
@@ -110,6 +136,8 @@ const PersonalUnionCreate02 = React.memo((props) => {
     for (const name in unionCreate02Inputs) {
       if (checkList.includes(name)) {
         calculateState[name] = unionCreate02Inputs[name] * 1000000;
+      } else if (name === 'invest_category') {
+        calculateState[name] = JSON.stringify(invest_category);
       }
     }
     
@@ -121,8 +149,26 @@ const PersonalUnionCreate02 = React.memo((props) => {
 		onClickNext(returnState, 2, layoutRef.current);
 	};
 
+  const toggleCalender = ({target}) => {
+    
+    if (target.className.includes("toggle-back")) {
+      [$toggleBack, $startCalendar, $endCalendar].forEach(($elem) => {
+        $elem.current.style.display = "none";
+      })
+    } else {
+      
+      $toggleBack.current.style.display = "block";
+      if (target.className.includes("start-calendar")) {
+        $startCalendar.current.style.display = "block"
+      } else if (target.className.includes("end-calendar")) {
+        $endCalendar.current.style.display = "block"
+      }
+    }
+  }
+
 	return (
 		<PersonalUnionCreate02Layout className={className} ref={layoutRef}>
+      <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
       <Input name={`hidden`} size="large" disabled type={"hidden"}/> {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
         <div className="row">
@@ -154,9 +200,19 @@ const PersonalUnionCreate02 = React.memo((props) => {
         </div>
         <div className="column contents">
           <div className="row">
-            <Input name={`recruitment_start_date`} value={recruitment_start_date} style={{ width: '30%' }} size="large" placeholder="모집 시작 날짜" onChange={onChange} />
+            <div className="row wrapper">
+              <Input className={"start-calendar"} value={recruitment_start_date} style={{ width: '30%' }} size="large" placeholder="모집 시작 날짜" onFocus={toggleCalender} />
+              <div ref={$startCalendar} style={{position: "absolute", marginTop: "60px", display: "none", zIndex: 2}}>
+                <Calendar onChange={(value) => { onChange({type:"start-calendar", value: value}) }} />
+              </div>
+            </div>
             <span> ~ </span>
-            <Input name={`recruitment_end_date`} value={recruitment_end_date} style={{ width: '30%' }} size="large" placeholder="모집 마감 날짜" onChange={onChange} />
+            <div className="row wrapper">
+              <Input className={"end-calendar"} value={recruitment_end_date} style={{ width: '30%' }} size="large" placeholder="모집 마감 날짜" onFocus={toggleCalender} />
+              <div ref={$endCalendar} style={{position: "absolute", marginTop: "60px", display: "none", zIndex: 2}}>
+                <Calendar onChange={(value) => { onChange({type:"end-calendar", value: value}) }}  />
+              </div>
+            </div>
           </div>     
 				</div>
       </section>
@@ -293,6 +349,15 @@ const PersonalUnionCreate02 = React.memo((props) => {
     </PersonalUnionCreate02Layout>
 	);
 });
+
+const ToggleBack = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+
+  display: none;
+  position: absolute;
+`; 
 
 const PersonalUnionCreate02Layout = styled.div`
   width: 100%;

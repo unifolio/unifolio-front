@@ -10,8 +10,14 @@ const WaitingUnionsCell = styled.div`
 	display: flex;
 `;
 
-const WaitingUnions = () => {
+const WaitingUnions = (props) => {
 	const [unions, setUnions] = useState([]);
+  const { openModal } = props;
+
+  const onOpenModal = (cardObj) => {
+		openModal(cardObj);
+	};
+
 	useEffect(() => {
 		
     const fetchUnions = async () => {
@@ -30,7 +36,7 @@ const WaitingUnions = () => {
 			{unions.map((union, i) => {
         return (
           <WaitingUnionsCell key={`${i}`}>
-            <UnionCard union={union} idx={i+1} />
+            <UnionCard union={union} idx={i+1} openModal={onOpenModal} />
           </WaitingUnionsCell>
         );
       })}

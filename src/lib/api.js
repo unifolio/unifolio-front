@@ -94,18 +94,8 @@ const API = {
       console.log(result)
       return result;
     },
-    getUserByToken: (data) => {
-      const response = axios
-        .post(`${END_POINT}/users/token/`, data)
-        .then((resolve) => {
-          return resolve;
-        })
-        .catch((error) => {
-          return error.response;
-        });
-      return response;
-    },
-    tokenUser: (data) => {
+    
+    tokenToGetUser: (data) => {
       const response = axios
         .post('http://127.0.0.1:8000/users/token/', data)
         .then((resolve) => {

@@ -195,7 +195,6 @@ const PersonalUnionCreate04 = (props) => {
 	);
 };
 
-
 const PersonalUnionCreate04Layout = styled.div`
   section + section {
     margin-top: 50px;
@@ -227,8 +226,6 @@ const PersonalUnionCreate04Layout = styled.div`
     align-items: center;
     flex-shrink: 0; // == flex-basis: content-size 
   }
-
-
 `;
 
 export default PersonalUnionCreate04;
