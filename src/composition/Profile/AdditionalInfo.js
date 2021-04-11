@@ -19,16 +19,20 @@ const AdditionalInfo = (props) => {
   const careerSelect = useRef();
   
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
+  const counts = useRef({ education: 2, career: 2 });
+
+  const $educationInputs = useRef();
+  const $careerInputs = useRef();
   
   useEffect(() => {
     // 학력사항
     const educationData = [{
-      idx: 0,
+      count: 1,
       type: "highschool",
       info: { attend_status: null, highschool: null }
     },
     {
-      idx: 1,
+      count: 2,
       type: "university",
       info: { attend_status: null, university:null, university_major:null }
     }];
@@ -37,12 +41,12 @@ const AdditionalInfo = (props) => {
 
     // 경력사항
     const careerData = [{
-      idx: 0,
+      count: 1,
       type: "general",
       info: { status: null, company: null, position: null, start_date: null, end_date: null }
     },
     {
-      idx: 1,
+      count: 2,
       type: "financial",
       info: { status: null, company: null, position: null, start_date: null, end_date: null }
     }];
@@ -51,7 +55,7 @@ const AdditionalInfo = (props) => {
 
     // 투자이력
     const investmentHistoryData = [{
-      idx: 0,
+      count: 1,
       info: {
         category: null, firm: null, description: null
       }
@@ -68,7 +72,7 @@ const AdditionalInfo = (props) => {
     }
 
     let data = {
-      idx: educationInputs.length, // count,
+      count: counts.current.education + 1, // count,
       type: educationSelect.current, //selected,
       info: {
         attend_status: null
@@ -79,6 +83,7 @@ const AdditionalInfo = (props) => {
     if (educationSelect.current !== "highschool")
       data.info[`${educationSelect.current}_major`] = null;
     
+    counts.current.education += 1;
     setEducationInputs([...educationInputs, data]);
   }
 
@@ -90,7 +95,7 @@ const AdditionalInfo = (props) => {
     }
 
     let data = {
-      idx: careerInputs.length, // count,
+      count: counts.current.career + 1, // count,
       type: careerSelect.current, //selected,
       info: {
         status: null
@@ -98,12 +103,13 @@ const AdditionalInfo = (props) => {
     }
 
     data.info[careerSelect.current] = null;
+    counts.current.career += 1;
     setCareerInputs([...careerInputs, data]);
   }
 
   const addInvestmentHistoryInput = () => {
     let data = {
-      idx: investmentHistoryInputs.length,
+      count: investmentHistoryInputs.length,
       info: {
         category: null, firm: null, description: null
       }
@@ -111,9 +117,10 @@ const AdditionalInfo = (props) => {
     setInvestmentHistoryInputs([...investmentHistoryInputs, data]);
   }
 
-  const onEducationChange = ({ idx, name, value }) => {
-    for (const educationInput of educationInputs) {
-      if (educationInput.idx === Number(idx)) {
+  const onEducationChange = ({ count, name, value }) => {
+    
+    const changedEducationInputs = educationInputs.map((educationInput) => {
+      if (educationInput.count === Number(count)) {
         if (name.includes("attend-status"))
           educationInput.info["attend_status"] = value
         if (name.includes("name"))
@@ -121,10 +128,12 @@ const AdditionalInfo = (props) => {
         if (name.includes("major"))
           educationInput.info[`${educationInput.type}_major`] = value;
       }
-    }
+      
+      return educationInput;
+    });
 
-    console.log(educationInputs);
-    setEducationInputs([...educationInputs]);
+    setEducationInputs([...changedEducationInputs]);
+    console.log(educationInputs)
 	};
 
   const onCareerChange = ({ idx, name, value }) => {
@@ -176,50 +185,53 @@ const AdditionalInfo = (props) => {
     }
   }
 
-  const onEducationDelete = (index) => {
-    const filteredEducationInputs = educationInputs.filter((_, educationIdx) => {
-      return educationIdx !== index;
+  const onEducationDelete = (count) => {
+    const filteredEducationInputs = educationInputs.filter((education) => {
+      return education.count !== count;
     });
-    setEducationInputs(filteredEducationInputs);
+    setEducationInputs([...filteredEducationInputs]);
   }
-  // legacy //
-  const onSchoolDelete = (count) => {
-		// let tmpEducationInputs = EducationInputs;
-		// for (const [i, each] of tmpEducationInputs.entries()) {
-		// 	console.log(each);
-		// 	if (each[0] == count) tmpEducationInputs.splice(i, 1);
-		// }
-		// setEducationInputs(tmpEducationInputs);
-		// console.log(EducationInputs);
-	};
-  
-  const onCareerDelete = (count) => {
-		// let tmpCareerInputs = careerInputs;
-		// for (const [i, each] of tmpCareerInputs.entries()) {
-		// 	if (each[0] == count) tmpCareerInputs.splice(i, 1);
-		// }
-		// setCareerInputs(tmpCareerInputs);
-	};
 
+  const onCareerDelete = (count) => {
+
+    // const filteredEducationInputs = educationInputs.filter((education) => {
+    //   return education.count !== count;
+    // });
+    // setEducationInputs([...filteredEducationInputs]);
+
+    let tmpCareerInputs = careerInputs;
+		for (const [i, each] of tmpCareerInputs.entries()) {
+			if (each[0] == count) tmpCareerInputs.splice(i, 1);
+		}
+		setCareerInputs(tmpCareerInputs);
+  }
+
+  // legacy //
   const onInvestmentHistoryDelete = (idx) => {
 
   }
   // legacy //
 
   const toggleModal = (inputs) => {
-		console.log(typeof inputs);
-		console.log(inputs);
-		if (typeof inputs == 'boolean' && inputs === false) {
+		console.log(typeof inputs, inputs);
+		if (typeof inputs === 'boolean' && inputs === false) {
 			document.querySelector('body').style.overflow = '';
 			modalRef.current.style.display = 'none';
 			return;
 		}
-		// if (typeof cardObj.idx == 'number') {
-		// 	setModalContentIdx(cardObj.idx);
-		// 	setModalContent(cardObj.info);
-		// }
 
-		if (inputs != null) {
+    switch(inputs) {
+      case "education":
+        $educationInputs.current.style.display = 'block';
+        $careerInputs.current.style.display = 'none';
+        break;
+      case "general":
+        $careerInputs.current.style.display = 'block';
+        $educationInputs.current.style.display = 'none';
+        break;
+    }
+    
+		if (inputs !== null) {
 			document.querySelector('body').style.overflow = 'hidden';
 			modalRef.current.style.display = 'flex';
 		}
@@ -347,7 +359,7 @@ const AdditionalInfo = (props) => {
       </AdditionalInfoLayout>
       <AdditionalInfoModalPosition ref={modalRef} onClick={() => {toggleModal(false);}}>
         <AdditionalInfoModal onClick={(e) => { e.stopPropagation(); }}>
-          <section>
+          <section className="school-inputs-section" ref={$educationInputs}>
             <div className="row">
               <div className="title with-select-button">
                 <h2> 학력 사항 입력 </h2>
@@ -367,7 +379,7 @@ const AdditionalInfo = (props) => {
                 
               </div>
             </div>
-            <div className="row school-inputs-modal deactivate">
+            <div className="row school-inputs-modal">
               <div className="school-inputs">
                 {educationInputs.map((input, index) => (
                     <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
@@ -375,9 +387,11 @@ const AdditionalInfo = (props) => {
                 )}
               </div>
             </div>
+          </section>
+          <section className="career-inputs-section" ref={$careerInputs}>
             <div className="row">
               <div className="career-inputs">
-                <div className="career-input-general career-inputs-general-modal deactivate"> 
+                <div className="career-input-general career-inputs-general-modal"> 
                   <h2>일반 경력사항 </h2>
                   <div className="career-input-general-contents">
                     {careerInputs.map((input, index) => {
@@ -388,7 +402,7 @@ const AdditionalInfo = (props) => {
                     }
                   </div>
                 </div>
-                <div className="career-input-financial career-inputs-financial-modal deactivate"> 
+                <div className="career-input-financial career-inputs-financial-modal"> 
                   <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
                   <div className="career-input-financial-contents">
                     {careerInputs.map((input, index) => {
@@ -401,6 +415,9 @@ const AdditionalInfo = (props) => {
                 </div>
               </div>
             </div>
+          </section>
+          <section>
+            <span> 전송 </span>
           </section>
         </AdditionalInfoModal>
       </AdditionalInfoModalPosition>

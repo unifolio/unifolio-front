@@ -280,11 +280,11 @@ const PersonalUnionCreate01 = (props) => {
           <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
           <div className="career-input-financial-contents">
           {careerInputs.map((input, index) => {
-              return input.type === "financial" && (
-                  <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
-                )
-              })
-            }
+            return input.type === "financial" && (
+                <CareerInput type={input.type} count={input.count} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
+              )
+            })
+          }
           </div>
         </div>
 			</div>
