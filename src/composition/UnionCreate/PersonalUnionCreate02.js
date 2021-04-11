@@ -116,12 +116,12 @@ const PersonalUnionCreate02 = React.memo((props) => {
     }
     if (isNotNull(num_of_account_by_operator) && isNotNull(expected_amount) && isNotNull(total_account) && isNotNull(amount_per_account)) {
       newState["amount_operator"] = amount_per_account * num_of_account_by_operator;
-      newState["amount_operator_ratio"] = Math.floor(num_of_account_by_operator/total_account * 100);
+      newState["amount_operator_ratio"] = (num_of_account_by_operator/total_account * 100).toFixed(4);
     }
     if (isNotNull(min_of_account) && isNotNull(amount_operator) &&isNotNull(amount_operator_ratio)){
       newState["num_of_account_by_lp"] = total_account - num_of_account_by_operator;
       newState["amount_lp"] = expected_amount - amount_operator;
-      newState["amount_lp_ratio"] = Math.floor(100 - amount_operator_ratio);
+      newState["amount_lp_ratio"] = (100 - amount_operator_ratio).toFixed(4);
     }
     setUnionCreate02Inputs({ ...unionCreate02Inputs, ...newState });
   }
