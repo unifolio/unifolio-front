@@ -12,9 +12,13 @@ const MoreInfoPerson = ({ $dom, idx, toggleModal }) => {
   }
   
   useEffect(() => {
-    console.log(modalIdx, "modalIdx")
-    if (!modalIdx) setModalIdx(idx);
-    if ($dom && !modalIdx) document.querySelector(".inner-card").append($dom);
+    
+    if (idx !== modalIdx) setModalIdx(idx);
+    if ($dom && !modalIdx) {
+      const $innerCardSection = document.querySelector(".inner-card");
+      $innerCardSection.innerHTML = "";
+      $innerCardSection.append($dom);
+    }
   }, [$dom])
   // if ($dom === null) return null;
 	return (

@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import { Input, Button } from 'antd';
 
-import Calendar from 'react-calendar'
+import Calendar from 'react-calendar';
+import Numpad from 'components/common/Numpad';
+
 import 'react-calendar/dist/Calendar.css';
 
 const PersonalUnionCreate02 = React.memo((props) => {
@@ -53,7 +55,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
   ])
 
 	const onChange = (e) => {
-    
+    console.log(e, unionCreate02Inputs);
     if (e.type.includes("calendar")) { // 캘린더일 때
       const date = new Date(e.value);
       const yy = date.getFullYear();
@@ -73,17 +75,17 @@ const PersonalUnionCreate02 = React.memo((props) => {
       
       return;
     }
-
-    if (!e.target) { // select일 때
+    
+    if (!e.target) { // select & numPad
       let { value, name } = e;
       setUnionCreate02Inputs({ 
         ...unionCreate02Inputs,
-        [name]: value
+        [name]: Number(value.replace(/,/g, ""))
       });
       return;
     }
 
-    if (e.target.name.includes("invest_category")) {
+    if (e?.target.name.includes("invest_category")) {
       const targetRound = e.target.name.split("_").pop();
       let investCategories = unionCreate02Inputs.invest_category;
       investCategories[targetRound-1] = e.target.value;
@@ -95,6 +97,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
       return;
     }
 
+    // default
 		setUnionCreate02Inputs({
 			...unionCreate02Inputs,
 			[e.target.name]: e.target.value,
@@ -105,7 +108,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
   const isNotNull = (state) => {
     return state !== null;
   }
-
+  const convertToMoney = (nums) => { return `${Number(nums)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
   const calculate = () => {
     const newState = {};
     if (isNotNull(amount_per_account) && isNotNull(expected_amount)) {
@@ -113,12 +116,12 @@ const PersonalUnionCreate02 = React.memo((props) => {
     }
     if (isNotNull(num_of_account_by_operator) && isNotNull(expected_amount) && isNotNull(total_account) && isNotNull(amount_per_account)) {
       newState["amount_operator"] = amount_per_account * num_of_account_by_operator;
-      newState["amount_operator_ratio"] = num_of_account_by_operator/total_account * 100;
+      newState["amount_operator_ratio"] = (num_of_account_by_operator/total_account * 100).toFixed(4);
     }
     if (isNotNull(min_of_account) && isNotNull(amount_operator) &&isNotNull(amount_operator_ratio)){
       newState["num_of_account_by_lp"] = total_account - num_of_account_by_operator;
       newState["amount_lp"] = expected_amount - amount_operator;
-      newState["amount_lp_ratio"] = 100 - amount_operator_ratio;
+      newState["amount_lp_ratio"] = (100 - amount_operator_ratio).toFixed(4);
     }
     setUnionCreate02Inputs({ ...unionCreate02Inputs, ...newState });
   }
@@ -164,7 +167,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
       }
     }
   }
-
+  
 	return (
 		<PersonalUnionCreate02Layout className={className} ref={layoutRef}>
       <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
@@ -176,7 +179,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
               <h2> 조합 이름 </h2>
             </div>
             <div className="column contents">
-              <Input name={`name`} value={name} size="large" placeholder="조합 이름" onChange={onChange} />
+              <NumInput name={`name`} value={name} size="large" placeholder="조합 이름" onChange={onChange} />
             </div>
           </div>
           <div className="column">
@@ -223,8 +226,11 @@ const PersonalUnionCreate02 = React.memo((props) => {
           <div className="row">
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`expected_amount`} type="number" value= {unionCreate02Inputs.expected_amount} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} /> 
-                <span>백만원</span>
+                <Numpad ActiveComponent={
+                    <NumInput name={`expected_amount`} value={unionCreate02Inputs.expected_amount} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} /> 
+                  } min={100000000} monetaryUnit={100000000}
+                />
+                <span>원</span>
               </div>
             </div>
           </div>
@@ -238,8 +244,12 @@ const PersonalUnionCreate02 = React.memo((props) => {
           <div className="row">
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`amount_per_account`} type="number" value={unionCreate02Inputs.amount_per_account} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} /> 
-                <span>백만원</span>
+                <Numpad ActiveComponent={
+                    <NumInput name={`amount_per_account`} value={unionCreate02Inputs.amount_per_account} style={{ width: '100%' }} size="large" placeholder="출좌 1좌별 금액 (최소 100만원 이상)" onChange={onChange} /> 
+                  } min={1000000} monetaryUnit={1000000}
+                />
+                {/* <Input name={`amount_per_account`} type="number" value={unionCreate02Inputs.amount_per_account} style={{ width: '30%' }} size="large" placeholder="목표 출자금 (최소 1억원 이상)" onChange={onChange} />  */}
+                <span>원</span>
               </div>
             </div>
             <div className="column amount-contents">
@@ -261,14 +271,18 @@ const PersonalUnionCreate02 = React.memo((props) => {
             <div className="column amount-contents">
               <div className="row">
                 <span>총</span>
-                <Input name={`num_of_account_by_operator`} value={num_of_account_by_operator} style={{ width: '30%' }} className={"ant-input-lg"} onChange={onChange}/> 
+                <Numpad ActiveComponent={
+                    <NumInput name={`num_of_account_by_operator`} value={num_of_account_by_operator} style={{ width: '100%' }} className={"ant-input-lg"} onChange={onChange}/> 
+                  }
+                />
+                {/* <Input name={`num_of_account_by_operator`} value={num_of_account_by_operator} style={{ width: '30%' }} className={"ant-input-lg"} onChange={onChange}/>  */}
                 <span>구좌</span>
               </div>
             </div>
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`amount_operator`} value={amount_operator} style={{ width: '30%' }} size="large" disabled /> 
-                <span>백만원</span>
+                <Input name={`amount_operator`} value={convertToMoney(amount_operator)} style={{ width: '30%' }} size="large" disabled /> 
+                <span>원</span>
               </div>
             </div>
             <div className="column amount-contents">
@@ -302,14 +316,19 @@ const PersonalUnionCreate02 = React.memo((props) => {
             </div>
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`min_of_account`} value={min_of_account} style={{ width: '30%' }} size="large" placeholder={"최소 구좌 갯수"} onChange={onChange}/> 
+                <span>최소</span>
+                <Numpad ActiveComponent={
+                    <NumInput name={`min_of_account`} value={min_of_account} style={{ width: '100%' }} size="large" placeholder={"최소 구좌 갯수"} onChange={onChange} /> 
+                  } min={1}
+                />
+                {/* <Input name={`min_of_account`} value={min_of_account} style={{ width: '30%' }} size="large" placeholder={"최소 구좌 갯수"} onChange={onChange}/>  */}
                 <span>구좌</span>
               </div>
             </div>
             <div className="column amount-contents">
               <div className="row">
-                <Input name={`amount_lp`} value={amount_lp} style={{ width: '30%' }} size="large" disabled /> 
-                <span>백만원</span>
+                <Input name={`amount_lp`} value={convertToMoney(amount_lp)} style={{ width: '30%' }} size="large" disabled /> 
+                <span>원</span>
               </div>
             </div>
             <div className="column amount-contents">
@@ -348,6 +367,17 @@ const PersonalUnionCreate02 = React.memo((props) => {
     </PersonalUnionCreate02Layout>
 	);
 });
+
+const NumInput = styled.input`
+  margin: 0;
+  padding: 0;
+  border: 1px solid #d9d9d9;
+  color: rgba(0, 0, 0, 0.85);
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 6.5px 11px;
+  font-size: 16px;
+`
 
 const ToggleBack = styled.div`
   width: 100vw;

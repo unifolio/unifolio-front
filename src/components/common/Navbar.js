@@ -1,10 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Responsive from './Responsive.js';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette.js';
-
-
 
 const Navbar = () => {
   const isLogin = () => {
@@ -13,13 +10,9 @@ const Navbar = () => {
       return true;
   }
   const signout = () => {
-    console.log("clicked")
     localStorage.removeItem('unifolioAccess');
     window.location.href = "/";
   }
-  // useEffect(() => {
-  //   isLogin
-  // }, [])
 
 	return (
 		<>
