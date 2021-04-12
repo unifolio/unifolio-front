@@ -30,7 +30,7 @@ const CareerInput = (props) => {
           <div className="column contents">
 						<div className="row">
               <Input className={"career company"} placeholder="회사명" size="large" name={`career-company-${count}`} onChange={handleCareerChange} />
-              <Input className={"career position"} placeholder="직책" size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
+              <Input className={"career position"} placeholder="직무" size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
               <Select name={`career-status-${count}`} size="large" placeholder="재직 상태"
                 onChange={(value) => {handleCareerChange({
                   name: `career-tend-status-${count}`,
@@ -54,7 +54,7 @@ const CareerInput = (props) => {
           <div className="column contents">
 						<div className="row">
               <Input className={"career company"} placeholder="회사명"  size="large" name={`career-company-${count}`} onChange={handleCareerChange} />
-              <Input className={"career position"} placeholder="직책/예시:투자심사역"  size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
+              <Input className={"career position"} placeholder="직무/예시:투자심사역"  size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
               <Select name={`career-status-${count}`} size="large" placeholder="재직 상태"
                 onChange={(value) => {handleCareerChange({
                   name: `career-status-${count}`,

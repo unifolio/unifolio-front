@@ -136,6 +136,23 @@ const API = {
       console.log(response);
       return response;
     },
+    additionalUserEducation: (id, data) => {
+      const config = {
+        headers: { 'Content-Type': 'application/json' },
+      };
+      const response = axios
+        .patch(`http://127.0.0.1:8000//users/mypage/additional/${id}/`, data, config)
+        .then((resolve) => {
+          console.log(resolve);
+          return resolve;
+        })
+        .catch((error) => {
+          console.log('patch user Error', error.response);
+          return error.response;
+        });
+      console.log(response);
+      return response;
+    }
   }
 }
 
