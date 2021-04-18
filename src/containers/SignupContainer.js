@@ -20,9 +20,9 @@ const SignupContainer = () => {
   const [current, setCurrent] = useState("default");
   const [process, setProcess] = useState(0);
   
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [process])
+  // }, [process])
 
   const handleChangeCurrent = (value) => {
     setCurrent(value);
@@ -90,12 +90,12 @@ const SignupContainer = () => {
     <>
       <Header current={current} process={process} />
       {current === "default" 
-        && <CardArea>
-          <Card type={"personal"} onChangeCurrent={handleChangeCurrent} />
-          <Card type={"corporation"} onChangeCurrent={handleChangeCurrent} />
-        </CardArea>
+        ? <CardArea>
+            <Card type={"personal"} onChangeCurrent={handleChangeCurrent} />
+            <Card type={"corporation"} onChangeCurrent={handleChangeCurrent} />
+          </CardArea>
+        : <ProcessIndicator process={process} />
       }
-      <ProcessIndicator />
       <SignupBlock>
         {renderByProcess()}
         {/* <Signup01 onClickNext={onClickNext} />
