@@ -1,0 +1,99 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Card = ({ type, onChangeCurrent }) => {
+
+  const selectCardTitle = (type) => {
+    return type === "personal" ? "개인" : "법인";
+  }
+
+  return (
+    <CardLayout>
+      <CardRow className={"top"}>
+        <CardTitle> {selectCardTitle(type)} </CardTitle>
+      </CardRow>
+      <CardRow className={"description"}>
+        <CardDescription> 개인투자조합 참여 가능 </CardDescription>
+        <CardDescription> 개인투자조합 결성 가능 </CardDescription>
+      </CardRow>
+      <CardRow className={"button"}>
+        <CardButton onClick={() => {onChangeCurrent(type) }}> 가입 시작하기 </CardButton>
+      </CardRow>
+
+    </CardLayout>
+  )
+}
+
+const CardLayout = styled.div`
+  width: 260px; 
+  padding: 0px 18px;
+  
+  box-sizing: border-box;
+  border: solid 2px rgba(255, 255, 255, 0); // 흔들림 없는 편안함
+
+  box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+  cursor: pointer;
+  border-radius: 5px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  :hover {
+    border: solid 2px #3D31E4;
+    button {
+      border: 1px solid #3D31E4;
+      background-color: #3D31E4;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+  & + & {
+    margin-left: 59px;
+  }
+`
+
+const CardRow = styled.div`
+  width: 100%;
+
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &.top {
+    margin-top: 75px;
+  }
+  &.description {
+    margin-top: 27px;
+  }
+  &.button {
+    margin-top: 49px;
+    margin-bottom: 27px;
+  }
+
+`
+const CardButton = styled.button`
+  width:100%;
+  font-size: 20px;
+  line-height: 14px;
+  padding: 19px 30px;
+  
+  border: 1px solid #C4C4C4;
+  border-radius: 10px;
+  
+  background-color: white;
+  color: #C4C4C4;
+`
+
+const CardTitle = styled.span`
+  font-size: 28px;
+  font-weight: bold;
+  color: #3D31E4;
+`
+
+const CardDescription = styled.span`
+`
+
+export default Card

@@ -1,17 +1,28 @@
-import React from 'react';
-import SignupContainer from '../containers/SignupContainer';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import SignupContainer from '../containers/SignupContainer';
 import style from '../lib/styles';
 
-const SignupPosition = styled.div`
+const SignupPage = () => {
+
+  return (
+    <SignupLayout>
+      <SignupArea>
+        <SignupContainer />
+      </SignupArea>
+    </SignupLayout>
+  );
+}
+
+const SignupLayout = styled.div`
   height:calc(100vh - 4rem);
   ${style.layout.marginContainer}
   
   display:flex;
   justify-content: center;
 `
-const SignupBlock = styled.div`
+const SignupArea = styled.div`
   width: 60%;
   margin-top: 10%;
 
@@ -23,21 +34,7 @@ const SignupBlock = styled.div`
     display:flex;
     justify-content: center;
   }
-  button {
-    height: 3rem;
-    border: none;
-  }
-`
 
-const SignupPage = () => {
-  
-  return (
-    <SignupPosition>
-      <SignupBlock>
-        <SignupContainer />
-      </SignupBlock>
-    </SignupPosition>
-  );
-}
+`
 
 export default SignupPage;
