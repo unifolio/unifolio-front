@@ -1,10 +1,22 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
+
+import styles from 'lib/styles';
+import UnsettedButton from 'components/common/UnsettedButton.js';
 
 const Signup03 = (props) => {
   const { onClickNext, className } = props;
-  const [check01, SetCheck01] = useState(false)
-  const [check02, SetCheck02] = useState(false);
+  const [approval_access_terms, SetCheck01] = useState(false)
+  const [approval_marketing, SetCheck02] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    if (approval_access_terms && approval_marketing) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  })
 
   const handleCheck01Change = useCallback((e) => {
     SetCheck01(e.target.checked)
@@ -16,7 +28,7 @@ const Signup03 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({check01, check02}, 3);
+    onClickNext({approval_access_terms, approval_marketing}, 3);
   });
 
   return (
@@ -30,11 +42,25 @@ const Signup03 = (props) => {
         <div>
           내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
         </div>
-        <button type="submit"> 완료하기 </button>
+        <SignupSubmitButton active={isActive}> 회원 가입하기 </SignupSubmitButton>
       </SignupForm>
     </SignupRowBlock>
   );
 }
+
+const SignupSubmitButton = styled(UnsettedButton)`
+  width: 100%;
+  height: 64px;
+  color: ${props => props.active ? "white" : "#BCB6B6"};
+  background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"};
+  pointer-events: ${props => props.active ? "" : "none"}; 
+  border-radius: 5px;
+  
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+`
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;

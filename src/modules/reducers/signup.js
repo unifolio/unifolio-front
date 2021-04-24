@@ -1,6 +1,7 @@
 /* 액션 타입 선언 */
 const ADD_IDPW = 'signup/ADD_IDPW';
 const ADD_PERSONAL_INFO = 'signup/ADD_PERSONAL_INFO';
+const ADD_CORPORATION_INFO = 'signup/ADD_CORPORATION_INFO'
 const ADD_PHONE = 'signup/ADD_PHONE';
 const ADD_AGREEMENT = 'signup/ADD_AGREEMENT';
 
@@ -14,6 +15,10 @@ export const addIDPW = (formData) => ({
 });
 export const addPersonalInfo = (formData) => ({
   type: ADD_PERSONAL_INFO,
+  signupData: formData
+});
+export const addCorporationInfo = (formData) => ({
+  type: ADD_CORPORATION_INFO,
   signupData: formData
 });
 export const addPhone = (formData) => ({
@@ -48,7 +53,9 @@ export default function signup(state = initialState, action) {
     case ADD_IDPW:
       return {...state, ...action.signupData }
     case ADD_PERSONAL_INFO:
-        return {...state, ...action.signupData }
+      return {...state, ...action.signupData }
+    case ADD_CORPORATION_INFO:
+      return {...state, ...action.signupData }
     case ADD_PHONE:
       return {...state, ...action.signupData }
     case ADD_AGREEMENT:

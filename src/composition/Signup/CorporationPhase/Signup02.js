@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
+
 import styles from 'lib/styles';
+import UnsettedButton from 'components/common/UnsettedButton.js';
 
 const Signup02 = (props) => {
   const { onClickNext, className } = props;
@@ -10,7 +12,8 @@ const Signup02 = (props) => {
   const [postcode, SetPostCode] = useState("");
   const [address, SetAddress] = useState("");
   const [addressDetail, SetAddressDetail] = useState("");
-  
+  const [isActive, setIsActive] = useState(false);
+
   useEffect(() => {
     
     const script = document.createElement('script');
@@ -18,6 +21,20 @@ const Signup02 = (props) => {
     script.onload = () => { console.log("is onload ?"); }
     document.body.appendChild(script);
   }, []);
+
+  useEffect(() => {
+    if (corporate_name !== "" 
+      && company_registration_number !== "" 
+      && corporate_registration !== ""
+      && postcode !== ""
+      && address !== ""
+      && addressDetail !== ""
+    ) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  })
   
   const clickPostAdress = (open = false) => {
     console.log("open", open);
@@ -61,23 +78,40 @@ const Signup02 = (props) => {
     onClickNext({corporate_name, company_registration_number, corporate_registration, address_postcode: postcode, address, address_detail: addressDetail}, 2);
   });
 
-  
-
   return (
     <SignupRowBlock className={className}>
       <SignupForm onSubmit={handleSubmit}>
         <SignupCorporationNameInput onChange={handleChangeCorporateName} /> <br />
         <SignupCompanyRegistrationNumberInput onChange={handleChangeCompanyRegistrationNumber} /> <br />
         <SignupCorporateRegistrationInput onChange={handleCorporateRegistration} /> <br />
-        <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
+        <SignupButton onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </SignupButton> <br />
         <SignupPostCodeInput onClick={clickPostAdress}/> <br />
         <SignupAddressInput onClick={clickPostAdress}/> <br />
         <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
-        <button type="submit"> 다음으로 </button>
+        <SignupSubmitButton active={isActive}> 다음으로 </SignupSubmitButton>
       </SignupForm>  
     </SignupRowBlock>
   );
 }
+
+const SignupButton = styled(UnsettedButton)`
+  width: 100%;
+  height: 64px;
+  border-radius: 5px;
+  background-color: "#F4F4F4";
+  
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+
+`;
+
+const SignupSubmitButton = styled(SignupButton)`
+  color: ${props => props.active ? "white" : "#BCB6B6"};
+  background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"}; 
+  pointer-events: ${props => props.active ? "" : "none"}; 
+`
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;
