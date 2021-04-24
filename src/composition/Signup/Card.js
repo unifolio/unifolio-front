@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import styles from 'lib/styles';
+
 const Card = ({ type, onChangeCurrent }) => {
 
   const selectCardTitle = (type) => {
@@ -40,10 +42,10 @@ const CardLayout = styled.div`
   align-items: center;
   
   :hover {
-    border: solid 2px #3D31E4;
+    border: solid 2px ${styles.palette.unifolioBlue};
     button {
-      border: 1px solid #3D31E4;
-      background-color: #3D31E4;
+      border: 1px solid ${styles.palette.unifolioBlue};
+      background-color: ${styles.palette.unifolioBlue};
       color: white;
       font-weight: bold;
       cursor: pointer;
@@ -90,7 +92,7 @@ const CardButton = styled.button`
 const CardTitle = styled.span`
   font-size: 28px;
   font-weight: bold;
-  color: #3D31E4;
+  color: ${styles.palette.unifolioBlue};
 `
 
 const CardDescription = styled.span`

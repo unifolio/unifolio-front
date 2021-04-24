@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 
+import styles from 'lib/styles';
+
 const ProcessIndicator = ({ process, current }) => {
   const processDescriptions = {
     personal: [
@@ -80,7 +82,7 @@ const IndicatorRow = styled.div`
 
 const IndicatorLine = styled.div`
   width: 100%;
-  border-top: 1px solid #BCB6B6;
+  border-top: 1px solid ${styles.palette.deactiveGrey};
 
 `
 const IndicatorBlock = styled.div`
@@ -96,10 +98,10 @@ const IndicatorBlockActive = styled.div`
   flex-grow: 1;
 
   span {
-    color:#3C2FF2
+    color: ${styles.palette.unifolioBlue}
   }
   .indicator-object {
-    background-color:#3C2FF2
+    background-color: ${styles.palette.unifolioBlue}
   }
 `
 
@@ -119,9 +121,9 @@ const IndicatorObject = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: #BCB6B6;
+  background-color: ${styles.palette.deactiveGrey};
 `
 const IndicatorDescription = styled.span`
-  color: #BCB6B6;
+  color: ${styles.palette.deactiveGrey};
 `
 export default ProcessIndicator
