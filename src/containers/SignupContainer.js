@@ -1,34 +1,68 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { addIDPW, addPersonalInfo, addPhone, addAgreement, getSignupStateThunk } from '../modules/reducers/signup';
 
-import Signup01 from '../components/Signup/Signup01';
-import Signup02 from '../components/Signup/Signup02';
-import Signup03 from '../components/Signup/Signup03';
-import Signup04 from '../components/Signup/Signup04';
+import Card from 'composition/Signup/Card';
+import Header from 'composition/Signup/Header';
+import ProcessIndicator from 'composition/Signup/ProcessIndicator';
+
+import * as SignupPersonal from 'composition/Signup/PersonalPhase';
+import * as SignupCorporation from 'composition/Signup/CorporationPhase';
 
 import API from '../lib/api';
 
 const SignupContainer = () => {
 	const dispatch = useDispatch();
+  const [current, setCurrent] = useState("default");
+  const [process, setProcess] = useState(0);
 
-	const onClickNext = async (formData, process, target) => {
+  const handleChangeCurrent = (value) => {
+    setCurrent(value);
+    setProcess(1);
+  }
+
+  const render = () => {
+    
+    if (current === "personal") {
+      switch (process) {
+        case 1:
+          return <SignupPersonal._01 onClickNext={onClickNext} />
+        case 2:
+          return <SignupPersonal._02 onClickNext={onClickNext} />
+        case 3:
+          return <SignupPersonal._03 onClickNext={onClickNext} />
+        case 4:
+          return <SignupPersonal._04 onClickNext={onClickNext} />
+        default:
+          return <></>
+      }
+    } else if (current === "corporation") {
+      switch (process) {
+        case 1:
+          return <SignupCorporation._01 onClickNext={onClickNext} />
+        case 2:
+          return <SignupCorporation._02 onClickNext={onClickNext} />
+        case 3:
+          return <SignupCorporation._03 onClickNext={onClickNext} />
+        case 4:
+          return <SignupCorporation._04 onClickNext={onClickNext} />
+        default:
+          return <></>
+      }
+    }
+  }
+
+	const onClickNext = async (formData, process) => {
 		switch (process) {
 			case 1:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addIDPW(formData));
 				break;
 			case 2:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addPersonalInfo(formData));
 				break;
 			case 3:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addPhone(formData));
 				break;
 			case 4:
@@ -38,24 +72,37 @@ const SignupContainer = () => {
         
         if (response.status === 200) {
           alert('회원가입이 완료되었습니다');
-          // window.location.href = '/signin';
+          window.location.href = '/signin';
         } else {
-          alert("not ok");
+          alert("오류가 발생했습니다.");
         }
 				break;
 			default:
 				console.log('onClickNext error');
 		}
+    setProcess(process+1);
 	};
 	return (
-		<SignupBlock>
-			<Signup01 onClickNext={onClickNext} />
-			<Signup02 onClickNext={onClickNext} className={'deactivate'} />
-			<Signup03 onClickNext={onClickNext} className={'deactivate'} />
-			<Signup04 onClickNext={onClickNext} className={'deactivate'} />
-		</SignupBlock>
+    <>
+      <Header current={current} process={process} />
+      {current === "default" 
+        ? <CardArea>
+            <Card type={"personal"} onChangeCurrent={handleChangeCurrent} />
+            <Card type={"corporation"} onChangeCurrent={handleChangeCurrent} />
+          </CardArea>
+        : <ProcessIndicator process={process} />
+      }
+      <SignupBlock>
+        {render()}
+      </SignupBlock>
+    </>
 	);
 };
+
+const CardArea = styled.div`
+  margin-top: 111px;
+  display: flex; 
+`
 
 const SignupBlock = styled.div`
 	width: 100%;

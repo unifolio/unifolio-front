@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Form, Select } from 'antd';
+import { Button, Select } from 'antd';
 
-import EducationInput from 'components/Inputs/EducationInput';
-import CareerInput from 'components/Inputs/CareerInput';
+import EducationInputModal from 'composition/Profile/EducationInputModal';
+import CareerInputModal from 'composition/Profile/CareerInputModal';
+
 import InvestmentHistoryInput from 'components/InvestmentHistoryInput';
 
 const AdditionalInfo = (props) => {
 	const {} = props;
 
-  const mainRef = React.createRef(),
-		modalRef = React.createRef();
+  const mainRef = React.createRef();
+	const $modalRef = useRef();
 
   const [educationInputs, setEducationInputs] = useState([]);
   const educationSelect = useRef();
@@ -21,8 +22,10 @@ const AdditionalInfo = (props) => {
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
   const counts = useRef({ education: 2, career: 2 });
 
-  const $educationInputs = useRef();
-  const $careerInputs = useRef();
+  // const $educationInputs = useRef();
+  // const $careerInputs = useRef();
+
+  const [currentModal, setCurrentModal] = useState(null);
   
   useEffect(() => {
     // 학력사항
@@ -61,11 +64,21 @@ const AdditionalInfo = (props) => {
       }
     }]
     setInvestmentHistoryInputs([...investmentHistoryData]);
-  }, [])
+
+    // 모달 핸들
+
+    if (currentModal === false || currentModal === null) {
+      $modalRef.current.style.display = 'none';
+			document.querySelector('body').style.overflow = '';
+		} else {
+      $modalRef.current.style.display = 'flex';
+      document.querySelector('body').style.overflow = 'hidden';
+    }
+
+  }, [currentModal])
 
   const addEducationInput = () => {
-    toggleModal(educationInputs);
-
+    
     if (educationSelect.current === undefined) {
       alert("학력 정보를 선택해주세요.");
       return;
@@ -88,7 +101,7 @@ const AdditionalInfo = (props) => {
   }
 
   const addCareerInput = () => {
-
+  
     if (careerSelect.current === undefined) {
       alert("경력 정보를 선택해주세요.");
       return;
@@ -213,30 +226,18 @@ const AdditionalInfo = (props) => {
   // legacy //
 
   const toggleModal = (inputs) => {
-		console.log(typeof inputs, inputs);
-		if (typeof inputs === 'boolean' && inputs === false) {
-			document.querySelector('body').style.overflow = '';
-			modalRef.current.style.display = 'none';
+    console.log("toggleModal", inputs)
+    if (inputs === false) {
+      setCurrentModal(null);
 			return;
 		}
-
-    switch(inputs) {
-      case "education":
-        $educationInputs.current.style.display = 'block';
-        $careerInputs.current.style.display = 'none';
-        break;
-      case "general":
-        $careerInputs.current.style.display = 'block';
-        $educationInputs.current.style.display = 'none';
-        break;
-    }
     
-		if (inputs !== null) {
-			document.querySelector('body').style.overflow = 'hidden';
-			modalRef.current.style.display = 'flex';
-		}
+    setCurrentModal(inputs);
 	};
 
+  const onEducationSubmit = () => {
+    
+  }
 
 	return (
     <>
@@ -248,16 +249,7 @@ const AdditionalInfo = (props) => {
             <div className="title with-select-button">
               <h2> 학력 사항 입력 </h2>
               <div className="column contents">
-                {/* <Select name="education" size="large" onChange={(value) => { onChangeSelect({type:"education", value}) }} placeholder="입력하실 학력 사항을 선택해주세요">
-                  <Select.Option value="highschool">고등학교</Select.Option>
-                  <Select.Option value="university">대학교(전문학사/학사)</Select.Option>
-                  <Select.Option value="university_master">대학원(석사)</Select.Option>
-                  <Select.Option value="university_doctor">대학원(박사)</Select.Option>
-                </Select> */}
-                <Button 
-                  size="large" style={{ display: 'flex', marginLeft:'10px' }} 
-                  onClick={() => {toggleModal("education")}}
-                > 
+                <Button onClick={() => {toggleModal("education")}} size="large" style={{ display: 'flex', marginLeft:'10px' }}> 
                   추가
                 </Button>
               </div>
@@ -265,12 +257,8 @@ const AdditionalInfo = (props) => {
             </div>
           </div>
           <div className="row">
-            <div className="school-inputs" style={{height:"100px" }}>
+            <div className="school-inputs" style={{ height:"100px" }}>
               <span> 추가 버튼을 눌러 학력사항을 입력해주세요 </span>
-              {/* {educationInputs.map((input, index) => (
-                  <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
-                )
-              )} */}
             </div>
           </div>
         </section>
@@ -279,42 +267,35 @@ const AdditionalInfo = (props) => {
             <div className="title">
               <h2> 경력 사항 입력 </h2>
               <div className="column contents">
-                {/* <Select name="career" size="large" onChange={(value) => { onChangeSelect({type:"career", value}) }} placeholder="입력하실 경력 사항을 선택해주세요">
-                  <Select.Option value="general">일반 경력사항 (필수)</Select.Option>
-                  <Select.Option value="financial">관련 경력사항(투자 및 컨설팅 분야)</Select.Option>
-                </Select> */}
               </div>
             </div>
           </div>
           <div className="row">
             <div className="career-inputs">
               <div className="career-input-general"> 
-                <div className="with-select-button">
-                  <h2>일반 경력사항 </h2>
-                  <Button 
-                    size="large" style={{ display: 'flex', marginLeft:'10px' }} 
-                    onClick={() => {toggleModal("general")}}
-                  > 
-                    추가
-                  </Button>
+                <div className="row">
+                  <div className="title with-select-button">
+                    <h2>일반 경력사항 </h2>
+                    <div className="column contents">
+                      <Button size="large" style={{ display: 'flex', marginLeft:'10px' }}
+                        onClick={() => { toggleModal("general"); onChangeSelect({type:"career", value:"general" }) }} 
+                      > 
+                        추가
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="career-input-general-contents" style={{height:"100px" }}>
-                  <span> 추가 버튼을 눌러 일반 경력사항을 입력해주세요 </span>
-                  {/* {careerInputs.map((input, index) => {
-                    return input.type === "general" && (
-                        <CareerInput type={input.type} count={input.idx} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
-                      )
-                    })
-                  } */}
+                <div className="row">
+                  <div className="career-input-general-contents" style={{height:"100px" }}>
+                    <span> 추가 버튼을 눌러 일반 경력사항을 입력해주세요 </span>
+                  </div>
                 </div>
               </div>
               <div className="career-input-financial column"> 
-                <div className="with-select-button">
+                <div className="title with-select-button">
                   <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
-                  <Button 
-                    size="large" style={{ display: 'flex', marginLeft:'10px' }} 
-                    onClick={() => {toggleModal("financial")}}
+                  <Button size="large" style={{ display: 'flex', marginLeft:'10px' }}
+                    onClick={() => {toggleModal("financial"); onChangeSelect({type:"career", value:"financial" })}}
                   > 
                     추가
                   </Button>
@@ -357,51 +338,26 @@ const AdditionalInfo = (props) => {
           </div>
         </section>
       </AdditionalInfoLayout>
-      <AdditionalInfoModalPosition ref={modalRef} onClick={() => {toggleModal(false);}}>
+      <AdditionalInfoModalPosition ref={$modalRef} onClick={() => {toggleModal(false);}}>
         <AdditionalInfoModal onClick={(e) => { e.stopPropagation(); }}>
-          <section className="school-inputs-section" ref={$educationInputs}>
-            <div className="row">
-              <div className="title with-select-button">
-                <h2> 학력 사항 입력 </h2>
-                <div className="column contents">
-                  <Select name="education" size="large" onChange={(value) => { onChangeSelect({type:"education", value}) }} placeholder="입력하실 학력 사항을 선택해주세요">
-                    <Select.Option value="highschool">고등학교</Select.Option>
-                    <Select.Option value="university">대학교(전문학사/학사)</Select.Option>
-                    <Select.Option value="university_master">대학원(석사)</Select.Option>
-                    <Select.Option value="university_doctor">대학원(박사)</Select.Option>
-                  </Select>
-                  <Button 
-                    size="large" style={{ display: 'flex', marginLeft:'10px' }} onClick={addEducationInput}
-                  > 
-                    추가
-                  </Button>
-                </div>
-                
-              </div>
-            </div>
-            <div className="row school-inputs-modal">
-              <div className="school-inputs">
-                {educationInputs.map((input, index) => (
-                    <EducationInput type={input.type} count={input.count} value={input.info} key={`education-${index}`} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete} />
-                  )
-                )}
-              </div>
-            </div>
-          </section>
-          <section className="career-inputs-section" ref={$careerInputs}>
-            <div className="row">
-              <div className="career-inputs">
-                <div className="career-input-general career-inputs-general-modal"> 
-                  <h2>일반 경력사항 </h2>
-                  <div className="career-input-general-contents">
-                    {careerInputs.map((input, index) => {
-                      return input.type === "general" && (
-                          <CareerInput type={input.type} count={input.idx} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
-                        )
-                      })
-                    }
-                  </div>
-                </div>
+          
+          {currentModal === "education" 
+            && <EducationInputModal addEducationInput={addEducationInput} onChangeSelect={onChangeSelect} 
+              educationInputs={educationInputs} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete}
+            />
+          }
+          
+          {currentModal === "general" 
+            && <CareerInputModal addCareerInput={addCareerInput}
+            careerInputs={careerInputs} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
+            />
+          }
+          {currentModal === "financial" 
+            && <EducationInputModal addEducationInput={addEducationInput}
+              educationInputs={educationInputs} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete}
+            />
+          }
+          {/* 
                 <div className="career-input-financial career-inputs-financial-modal"> 
                   <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
                   <div className="career-input-financial-contents">
@@ -415,10 +371,7 @@ const AdditionalInfo = (props) => {
                 </div>
               </div>
             </div>
-          </section>
-          <section>
-            <span> 전송 </span>
-          </section>
+           */}
         </AdditionalInfoModal>
       </AdditionalInfoModalPosition>
     </>
@@ -519,7 +472,7 @@ const AdditionalInfoLayout = styled.section`
     margin-top: 50px;
   }
 
-  section > .row + .row {
+  section > .row + .row, .career-input-general > .row + .row, .career-input-financial > .row + .row {
     margin-top: 25px;
   }
 

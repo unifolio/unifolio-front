@@ -1,17 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
-const SignupRowBlock = styled.div`
-  padding-top:1rem;
-  
-  display:flex;
-  flex-direction: column;
-`
-const SignupForm = styled.form`
-  display:flex;
-  flex-direction:column;
-`
-
 const Signup04 = (props) => {
   const { onClickNext, className } = props;
   const [check01, SetCheck01] = useState(false)
@@ -52,5 +41,16 @@ const Signup04 = (props) => {
     </SignupRowBlock>
   );
 }
+
+const SignupRowBlock = styled.div`
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
+const SignupForm = styled.form`
+  display:flex;
+  flex-direction:column;
+`
 
 export default Signup04;

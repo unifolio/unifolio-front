@@ -1,25 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import styles from '../../lib/styles';
-
-const SignupRowBlock = styled.div`
-	padding-top: 1rem;
-
-	display: flex;
-	flex-direction: column;
-`;
-const SignupForm = styled.form`
-	display: flex;
-	flex-direction: column;
-`;
-const SignupPhoneNumberInput = styled.input.attrs((props) => ({ type: 'text', name: 'phoneNumber', placeholder: '휴대폰번호' }))`
-	${styles.layout.signInput}
-`;
-
-const SignupAuthCodeInput = styled.input.attrs((props) => ({ type: 'number', name: 'authCode', id: 'authCodeInputField', placeholder: '인증번호', required: true }))`
-	display: none;
-	${styles.layout.signInput}
-`;
+import styles from 'lib/styles';
 
 const Signup03 = (props) => {
 	const { onClickNext, className } = props;
@@ -59,5 +40,24 @@ const Signup03 = (props) => {
 		</SignupRowBlock>
 	);
 };
+
+const SignupRowBlock = styled.div`
+	padding-top: 1rem;
+
+	display: flex;
+	flex-direction: column;
+`;
+const SignupForm = styled.form`
+	display: flex;
+	flex-direction: column;
+`;
+const SignupPhoneNumberInput = styled.input.attrs((props) => ({ type: 'text', name: 'phoneNumber', placeholder: '휴대폰번호' }))`
+	${styles.layout.signInput}
+`;
+
+const SignupAuthCodeInput = styled.input.attrs((props) => ({ type: 'number', name: 'authCode', id: 'authCodeInputField', placeholder: '인증번호', required: true }))`
+	display: none;
+	${styles.layout.signInput}
+`;
 
 export default Signup03;

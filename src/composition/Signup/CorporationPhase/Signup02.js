@@ -1,51 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
-import styles from '../../lib/styles';
-
-const SignupRowBlock = styled.div`
-  padding-top:1rem;
-  
-  display:flex;
-  flex-direction: column;
-`
-const SignupForm = styled.form`
-  display:flex;
-  flex-direction:column;
-`
-const SignupNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "name", placeholder: "이름" })
-)`
-  ${styles.layout.signInput}
-`;
-
-const SignupNickNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "name", placeholder: "닉네임" })
-)`
-  ${styles.layout.signInput}
-`;
-
-const SignupRRNInput = styled.input.attrs(
-  props => ({type: "text", name:"rrn", placeholder: "주민등록번호"})
-)`
-  ${styles.layout.signInput}
-`
-
-const SignupPostCodeInput = styled.input.attrs(
-  props => ({type: "text", name:"postcode", id:"postcode", placeholder: "우편번호", readOnly: true, required:true})
-)`
-  ${styles.layout.signInput}
-`;
-
-const SignupAddressInput = styled.input.attrs(
-  props => ({type: "text", name:"address", id:"address", placeholder: "주소", readOnly: true, required:true})
-)`
-  ${styles.layout.signInput}
-`;
-const SignupDetailAddressInput = styled.input.attrs(
-  props => ({type: "text", name:"detail_address", id:"detail_address", placeholder: "상세 주소", required:true})
-)`
-  ${styles.layout.signInput}
-`;
+import styles from 'lib/styles';
 
 const Signup02 = (props) => {
   const { onClickNext, className } = props;
@@ -124,5 +79,51 @@ const Signup02 = (props) => {
     </SignupRowBlock>
   );
 }
+
+const SignupRowBlock = styled.div`
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
+const SignupForm = styled.form`
+  display:flex;
+  flex-direction:column;
+`
+const SignupNameInput = styled.input.attrs(
+  props => ({ type: "text", name: "name", placeholder: "이름" })
+)`
+  ${styles.layout.signInput}
+`;
+
+const SignupNickNameInput = styled.input.attrs(
+  props => ({ type: "text", name: "name", placeholder: "닉네임" })
+)`
+  ${styles.layout.signInput}
+`;
+
+const SignupRRNInput = styled.input.attrs(
+  props => ({type: "text", name:"rrn", placeholder: "주민등록번호"})
+)`
+  ${styles.layout.signInput}
+`
+
+const SignupPostCodeInput = styled.input.attrs(
+  props => ({type: "text", name:"postcode", id:"postcode", placeholder: "우편번호", readOnly: true, required:true})
+)`
+  ${styles.layout.signInput}
+`;
+
+const SignupAddressInput = styled.input.attrs(
+  props => ({type: "text", name:"address", id:"address", placeholder: "주소", readOnly: true, required:true})
+)`
+  ${styles.layout.signInput}
+`;
+const SignupDetailAddressInput = styled.input.attrs(
+  props => ({type: "text", name:"detail_address", id:"detail_address", placeholder: "상세 주소", required:true})
+)`
+  ${styles.layout.signInput}
+`;
+
 
 export default Signup02;
