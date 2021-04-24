@@ -26,7 +26,6 @@ const Signup04 = (props) => {
 
   return (
     <SignupRowBlock className={className}>
-      <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
         개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
         <div>

@@ -1,14 +1,19 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const ProcessIndicator = ({ process }) => {
-  
-  const processDescriptions = [
-    ["아이디 및", "비밀번호 설정"], 
-    ["개인정보", "입력"],
-    ["핸드폰", "인증"],
-    ["개인정보", "이용동의"],
-  ];
+const ProcessIndicator = ({ process, current }) => {
+  const processDescriptions = {
+    personal: [
+      ["아이디 및", "비밀번호 설정"], 
+      ["개인정보", "입력"],
+      ["핸드폰", "인증"],
+      ["개인정보", "이용동의"],  
+    ],
+    corporation: [
+      ["아이디 및", "비밀번호 설정"], 
+      ["법인정보", "입력"],
+    ]
+  }
   
   const renderIndicatorLine = () => {
     return (
@@ -19,10 +24,10 @@ const ProcessIndicator = ({ process }) => {
   }
 
   return (
-    <IndicatorArea>
+    <IndicatorArea current={current}>
       <IndicatorRow>
-        {processDescriptions.map((descriptions, i) => {
-          if (i+1 === process) { // active
+        {processDescriptions[current].map((descriptions, i) => {
+          if (i+1 <= process) { // active
             return ( 
               <React.Fragment key={`indicatorFragment-${i}`}>
                 <IndicatorBlockActive>
@@ -33,7 +38,7 @@ const ProcessIndicator = ({ process }) => {
                     }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlockActive>
-                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+                {i+1 !== processDescriptions[current].length && renderIndicatorLine()}
               </React.Fragment>
             );
           } else {
@@ -47,7 +52,7 @@ const ProcessIndicator = ({ process }) => {
                     }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlock>
-                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+                {i+1 !== processDescriptions[current].length && renderIndicatorLine()}
               </React.Fragment>
             );
           }
@@ -58,7 +63,7 @@ const ProcessIndicator = ({ process }) => {
 }
 
 const IndicatorArea = styled.div`
-  width: 100%;
+  width: ${props => props.current === "personal" ? "100%" : "50%"};
   margin-top: 85px;
   margin-bottom: 100px;
 

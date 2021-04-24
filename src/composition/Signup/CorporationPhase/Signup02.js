@@ -4,9 +4,9 @@ import styles from 'lib/styles';
 
 const Signup02 = (props) => {
   const { onClickNext, className } = props;
-  const [name, SetName] = useState("");
-  const [nickname, SetNickName] = useState("");
-  const [rrn, SetRRN] = useState("");
+  const [corporate_name, SetCorporateName] = useState("");
+  const [company_registration_number, SetCompanyRegistrationNumber] = useState("");
+  const [corporate_registration, SetCorporateRegistration] = useState("");
   const [postcode, SetPostCode] = useState("");
   const [address, SetAddress] = useState("");
   const [addressDetail, SetAddressDetail] = useState("");
@@ -40,16 +40,16 @@ const Signup02 = (props) => {
     }).open();
   }
   
-  const handleChangeName = useCallback((e) => {
-    SetName(e.target.value);
+  const handleChangeCorporateName = useCallback((e) => {
+    SetCorporateName(e.target.value);
   });
   
-  const handleChangeNickName = useCallback((e) => {
-    SetNickName(e.target.value);
+  const handleChangeCompanyRegistrationNumber = useCallback((e) => {
+    SetCompanyRegistrationNumber(e.target.value);
   });
 
-  const handleChangeRRN = useCallback((e) => {
-    SetRRN(e.target.value);
+  const handleCorporateRegistration = useCallback((e) => {
+    SetCorporateRegistration(e.target.value);
   });
 
   const handleChangeAddressDetail = useCallback((e) => {
@@ -58,18 +58,17 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({nickname, name, rrn, address_postcode: postcode, address, address_detail: addressDetail}, 2, e.target.parentNode);
+    onClickNext({corporate_name, company_registration_number, corporate_registration, address_postcode: postcode, address, address_detail: addressDetail}, 2);
   });
 
   
 
   return (
     <SignupRowBlock className={className}>
-      <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
-        <SignupNameInput onChange={handleChangeName}/> <br />
-        <SignupNickNameInput onChange={handleChangeNickName}/> <br />
-        <SignupRRNInput onChange={handleChangeRRN} /> <br />
+        <SignupCorporationNameInput onChange={handleChangeCorporateName} /> <br />
+        <SignupCompanyRegistrationNumberInput onChange={handleChangeCompanyRegistrationNumber} /> <br />
+        <SignupCorporateRegistrationInput onChange={handleCorporateRegistration} /> <br />
         <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
         <SignupPostCodeInput onClick={clickPostAdress}/> <br />
         <SignupAddressInput onClick={clickPostAdress}/> <br />
@@ -90,20 +89,20 @@ const SignupForm = styled.form`
   display:flex;
   flex-direction:column;
 `
-const SignupNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "name", placeholder: "이름" })
+const SignupCorporationNameInput = styled.input.attrs(
+  props => ({ type: "text", name: "corporate_name", placeholder: "법인명" })
 )`
   ${styles.layout.signInput}
 `;
 
-const SignupNickNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "name", placeholder: "닉네임" })
+const SignupCompanyRegistrationNumberInput = styled.input.attrs(
+  props => ({ type: "text", name: "company_registration_number", placeholder: "사업자등록번호" })
 )`
   ${styles.layout.signInput}
 `;
 
-const SignupRRNInput = styled.input.attrs(
-  props => ({type: "text", name:"rrn", placeholder: "주민등록번호"})
+const SignupCorporateRegistrationInput = styled.input.attrs(
+  props => ({type: "text", name:"corporate_registration", placeholder: "법인등록번호(13자리)"})
 )`
   ${styles.layout.signInput}
 `

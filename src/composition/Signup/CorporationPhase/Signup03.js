@@ -1,63 +1,50 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
-import styles from 'lib/styles';
 
 const Signup03 = (props) => {
-	const { onClickNext, className } = props;
-	const [phoneNumber, SetPhoneNumber] = useState('');
-	const [authCode, SetAuthCode] = useState('');
+  const { onClickNext, className } = props;
+  const [check01, SetCheck01] = useState(false)
+  const [check02, SetCheck02] = useState(false);
 
-	const authCodeRequest = () => {
-		alert(Math.floor(Math.random() * 10000));
-		document.querySelector('#authCodeInputField').style.display = 'block';
-	};
+  const handleCheck01Change = useCallback((e) => {
+    SetCheck01(e.target.checked)
+  });
 
-	const handlePhoneNumberChange = useCallback((e) => {
-		SetPhoneNumber(e.target.value);
-	});
+  const handleCheck02Change = useCallback((e) => {
+    SetCheck02(e.target.checked)
+  });
 
-	const handleAuthCodeChange = useCallback((e) => {
-		SetAuthCode(e.target.value);
-	});
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    onClickNext({check01, check02}, 3);
+  });
 
-	const handleSubmit = useCallback((e) => {
-		e.preventDefault();
-		onClickNext({ phone_number: phoneNumber, auth_code: authCode }, 3, e.target.parentNode);
-	});
-
-	return (
-		<SignupRowBlock className={className}>
-			<h1> 회원가입 </h1>
-			<SignupForm onSubmit={handleSubmit}>
-				<SignupPhoneNumberInput onChange={handlePhoneNumberChange} /> <br />
-				<button type="button" onClick={authCodeRequest}>
-					인증번호 받기
-				</button>
-				<br />
-				<SignupAuthCodeInput onChange={handleAuthCodeChange} /> <br />
-				<button type="submit"> 다음으로 </button>
-			</SignupForm>
-		</SignupRowBlock>
-	);
-};
+  return (
+    <SignupRowBlock className={className}>
+      <SignupForm onSubmit={handleSubmit}>
+        법인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
+        <div>
+          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+        </div>
+        홍보 및 마케팅에 관한 동의 (선택) <input type="checkbox" name="check02" onChange={handleCheck02Change}/> <br />
+        <div>
+          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+        </div>
+        <button type="submit"> 완료하기 </button>
+      </SignupForm>
+    </SignupRowBlock>
+  );
+}
 
 const SignupRowBlock = styled.div`
-	padding-top: 1rem;
-
-	display: flex;
-	flex-direction: column;
-`;
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
 const SignupForm = styled.form`
-	display: flex;
-	flex-direction: column;
-`;
-const SignupPhoneNumberInput = styled.input.attrs((props) => ({ type: 'text', name: 'phoneNumber', placeholder: '휴대폰번호' }))`
-	${styles.layout.signInput}
-`;
-
-const SignupAuthCodeInput = styled.input.attrs((props) => ({ type: 'number', name: 'authCode', id: 'authCodeInputField', placeholder: '인증번호', required: true }))`
-	display: none;
-	${styles.layout.signInput}
-`;
+  display:flex;
+  flex-direction:column;
+`
 
 export default Signup03;

@@ -46,8 +46,6 @@ const SignupContainer = () => {
           return <SignupCorporation._02 onClickNext={onClickNext} />
         case 3:
           return <SignupCorporation._03 onClickNext={onClickNext} />
-        case 4:
-          return <SignupCorporation._04 onClickNext={onClickNext} />
         default:
           return <></>
       }
@@ -90,7 +88,7 @@ const SignupContainer = () => {
             <Card type={"personal"} onChangeCurrent={handleChangeCurrent} />
             <Card type={"corporation"} onChangeCurrent={handleChangeCurrent} />
           </CardArea>
-        : <ProcessIndicator process={process} />
+        : <ProcessIndicator current={current} process={process} />
       }
       <SignupBlock>
         {render()}
