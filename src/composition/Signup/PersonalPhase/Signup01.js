@@ -28,7 +28,6 @@ const Signup01 = (props) => {
 
   return (
     <SignupRowBlock className={className}>
-      <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
         <SignupEmailInput onChange={handleEmailChange} /> <br />
         <SignupPasswordInput onChange={handlePasswordChange} /> <br />
@@ -50,17 +49,17 @@ const SignupForm = styled.form`
   flex-direction:column;
 `;
 const SignupEmailInput = styled.input.attrs(
-  props => ({ type: "text", name: "email", placeholder: "User ID" })
+  props => ({ type: "text", name: "email", placeholder: "계정으로 사용할 이메일 주소" })
 )`
   ${styles.layout.signInput}
 `;
 const SignupPasswordInput = styled.input.attrs(
-  props => ({type: "password", name:"password", placeholder: "Password"})
+  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)"})
 )`
   ${styles.layout.signInput}
 `;
 const SignupPasswordChkInput = styled.input.attrs(
-  props => ({type: "password", name:"password_check", placeholder: "Password Check"})
+  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인"})
 )`
   ${styles.layout.signInput}
 `;

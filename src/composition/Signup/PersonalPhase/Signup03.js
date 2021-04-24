@@ -27,7 +27,6 @@ const Signup03 = (props) => {
 
 	return (
 		<SignupRowBlock className={className}>
-			<h1> 회원가입 </h1>
 			<SignupForm onSubmit={handleSubmit}>
 				<SignupPhoneNumberInput onChange={handlePhoneNumberChange} /> <br />
 				<button type="button" onClick={authCodeRequest}>

@@ -65,7 +65,6 @@ const Signup02 = (props) => {
 
   return (
     <SignupRowBlock className={className}>
-      <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
         <SignupNameInput onChange={handleChangeName}/> <br />
         <SignupNickNameInput onChange={handleChangeNickName}/> <br />
@@ -97,7 +96,7 @@ const SignupNameInput = styled.input.attrs(
 `;
 
 const SignupNickNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "name", placeholder: "닉네임" })
+  props => ({ type: "text", name: "nickname", placeholder: "닉네임" })
 )`
   ${styles.layout.signInput}
 `;

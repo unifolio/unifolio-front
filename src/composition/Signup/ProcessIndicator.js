@@ -1,14 +1,21 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const ProcessIndicator = ({ process }) => {
-  
-  const processDescriptions = [
-    ["아이디 및", "비밀번호 설정"], 
-    ["개인정보", "입력"],
-    ["핸드폰", "인증"],
-    ["개인정보", "이용동의"],
-  ];
+import styles from 'lib/styles';
+
+const ProcessIndicator = ({ process, current }) => {
+  const processDescriptions = {
+    personal: [
+      ["아이디 및", "비밀번호 설정"], 
+      ["개인정보", "입력"],
+      ["핸드폰", "인증"],
+      ["개인정보", "이용동의"],  
+    ],
+    corporation: [
+      ["아이디 및", "비밀번호 설정"], 
+      ["법인정보", "입력"],
+    ]
+  }
   
   const renderIndicatorLine = () => {
     return (
@@ -19,10 +26,10 @@ const ProcessIndicator = ({ process }) => {
   }
 
   return (
-    <IndicatorArea>
+    <IndicatorArea current={current}>
       <IndicatorRow>
-        {processDescriptions.map((descriptions, i) => {
-          if (i+1 === process) { // active
+        {processDescriptions[current].map((descriptions, i) => {
+          if (i+1 <= process) { // active
             return ( 
               <React.Fragment key={`indicatorFragment-${i}`}>
                 <IndicatorBlockActive>
@@ -33,7 +40,7 @@ const ProcessIndicator = ({ process }) => {
                     }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlockActive>
-                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+                {i+1 !== processDescriptions[current].length && renderIndicatorLine()}
               </React.Fragment>
             );
           } else {
@@ -47,7 +54,7 @@ const ProcessIndicator = ({ process }) => {
                     }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlock>
-                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+                {i+1 !== processDescriptions[current].length && renderIndicatorLine()}
               </React.Fragment>
             );
           }
@@ -58,7 +65,7 @@ const ProcessIndicator = ({ process }) => {
 }
 
 const IndicatorArea = styled.div`
-  width: 100%;
+  width: ${props => props.current === "personal" ? "100%" : "50%"};
   margin-top: 85px;
   margin-bottom: 100px;
 
@@ -75,7 +82,7 @@ const IndicatorRow = styled.div`
 
 const IndicatorLine = styled.div`
   width: 100%;
-  border-top: 1px solid #BCB6B6;
+  border-top: 1px solid ${styles.palette.deactiveGrey};
 
 `
 const IndicatorBlock = styled.div`
@@ -91,10 +98,10 @@ const IndicatorBlockActive = styled.div`
   flex-grow: 1;
 
   span {
-    color:#3C2FF2
+    color: ${styles.palette.unifolioBlue}
   }
   .indicator-object {
-    background-color:#3C2FF2
+    background-color: ${styles.palette.unifolioBlue}
   }
 `
 
@@ -114,9 +121,9 @@ const IndicatorObject = styled.div`
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: #BCB6B6;
+  background-color: ${styles.palette.deactiveGrey};
 `
 const IndicatorDescription = styled.span`
-  color: #BCB6B6;
+  color: ${styles.palette.deactiveGrey};
 `
 export default ProcessIndicator

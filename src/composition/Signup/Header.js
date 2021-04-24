@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import styles from 'lib/styles';
+
 const Header = ({ current = "default" }) => {
   
   const selectHeaderRender = (current) => {
@@ -27,7 +29,7 @@ const Header = ({ current = "default" }) => {
 }
 
 const HeaderTitle = styled.span`
-  color: #3D31E4;
+  color: ${styles.palette.unifolioBlue};
   font-size: 33px;
 `
 const HeaderSubTitle = styled.span`

@@ -1,63 +1,76 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
+
 import styles from 'lib/styles';
+import UnsettedButton from 'components/common/UnsettedButton.js';
 
 const Signup03 = (props) => {
-	const { onClickNext, className } = props;
-	const [phoneNumber, SetPhoneNumber] = useState('');
-	const [authCode, SetAuthCode] = useState('');
+  const { onClickNext, className } = props;
+  const [approval_access_terms, SetCheck01] = useState(false)
+  const [approval_marketing, SetCheck02] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
-	const authCodeRequest = () => {
-		alert(Math.floor(Math.random() * 10000));
-		document.querySelector('#authCodeInputField').style.display = 'block';
-	};
+  useEffect(() => {
+    if (approval_access_terms && approval_marketing) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  })
 
-	const handlePhoneNumberChange = useCallback((e) => {
-		SetPhoneNumber(e.target.value);
-	});
+  const handleCheck01Change = useCallback((e) => {
+    SetCheck01(e.target.checked)
+  });
 
-	const handleAuthCodeChange = useCallback((e) => {
-		SetAuthCode(e.target.value);
-	});
+  const handleCheck02Change = useCallback((e) => {
+    SetCheck02(e.target.checked)
+  });
 
-	const handleSubmit = useCallback((e) => {
-		e.preventDefault();
-		onClickNext({ phone_number: phoneNumber, auth_code: authCode }, 3, e.target.parentNode);
-	});
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    onClickNext({approval_access_terms, approval_marketing}, 3);
+  });
 
-	return (
-		<SignupRowBlock className={className}>
-			<h1> 회원가입 </h1>
-			<SignupForm onSubmit={handleSubmit}>
-				<SignupPhoneNumberInput onChange={handlePhoneNumberChange} /> <br />
-				<button type="button" onClick={authCodeRequest}>
-					인증번호 받기
-				</button>
-				<br />
-				<SignupAuthCodeInput onChange={handleAuthCodeChange} /> <br />
-				<button type="submit"> 다음으로 </button>
-			</SignupForm>
-		</SignupRowBlock>
-	);
-};
+  return (
+    <SignupRowBlock className={className}>
+      <SignupForm onSubmit={handleSubmit}>
+        법인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
+        <div>
+          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+        </div>
+        홍보 및 마케팅에 관한 동의 (선택) <input type="checkbox" name="check02" onChange={handleCheck02Change}/> <br />
+        <div>
+          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
+        </div>
+        <SignupSubmitButton active={isActive}> 회원 가입하기 </SignupSubmitButton>
+      </SignupForm>
+    </SignupRowBlock>
+  );
+}
+
+const SignupSubmitButton = styled(UnsettedButton)`
+  width: 100%;
+  height: 64px;
+  color: ${props => props.active ? "white" : "#BCB6B6"};
+  background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"};
+  pointer-events: ${props => props.active ? "" : "none"}; 
+  border-radius: 5px;
+  
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+`
 
 const SignupRowBlock = styled.div`
-	padding-top: 1rem;
-
-	display: flex;
-	flex-direction: column;
-`;
+  padding-top:1rem;
+  
+  display:flex;
+  flex-direction: column;
+`
 const SignupForm = styled.form`
-	display: flex;
-	flex-direction: column;
-`;
-const SignupPhoneNumberInput = styled.input.attrs((props) => ({ type: 'text', name: 'phoneNumber', placeholder: '휴대폰번호' }))`
-	${styles.layout.signInput}
-`;
-
-const SignupAuthCodeInput = styled.input.attrs((props) => ({ type: 'number', name: 'authCode', id: 'authCodeInputField', placeholder: '인증번호', required: true }))`
-	display: none;
-	${styles.layout.signInput}
-`;
+  display:flex;
+  flex-direction:column;
+`
 
 export default Signup03;

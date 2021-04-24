@@ -1,15 +1,19 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import styled from 'styled-components';
 
 const Signup04 = (props) => {
   const { onClickNext, className } = props;
-  const [check01, SetCheck01] = useState(false)
-  const [check02, SetCheck02] = useState(false);
-
-  const authCodeRequest = () => {
-    alert(Math.floor(Math.random()*10000));
-    document.querySelector("#authCodeInputField").style.display = "block";
-  }
+  const [approval_access_terms, SetCheck01] = useState(false)
+  const [approval_marketing, SetCheck02] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  
+  useEffect(() => {
+    if (approval_access_terms && approval_marketing) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  })
 
   const handleCheck01Change = useCallback((e) => {
     SetCheck01(e.target.checked)
@@ -21,12 +25,11 @@ const Signup04 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({check01, check02}, 4, e.target.parentNode);
+    onClickNext({approval_access_terms, approval_marketing}, 4);
   });
 
   return (
     <SignupRowBlock className={className}>
-      <h1> 회원가입 </h1>
       <SignupForm onSubmit={handleSubmit}>
         개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
         <div>
