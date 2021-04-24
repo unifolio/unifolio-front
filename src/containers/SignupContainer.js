@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { addIDPW, addPersonalInfo, addPhone, addAgreement, getSignupStateThunk } from '../modules/reducers/signup';
@@ -19,10 +19,6 @@ const SignupContainer = () => {
 	const dispatch = useDispatch();
   const [current, setCurrent] = useState("default");
   const [process, setProcess] = useState(0);
-  
-  // useEffect(() => {
-
-  // }, [process])
 
   const handleChangeCurrent = (value) => {
     setCurrent(value);
@@ -32,41 +28,27 @@ const SignupContainer = () => {
   const renderByProcess = () => {
     switch (process) {
 			case 1:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				return <Signup01 onClickNext={onClickNext} />
 			case 2:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
-				return <Signup02 onClickNext={onClickNext} className={''} />
-				
+				return <Signup02 onClickNext={onClickNext} />
 			case 3:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
-				return <Signup03 onClickNext={onClickNext} className={''} />
-				
+				return <Signup03 onClickNext={onClickNext} />
 			case 4:
-				break;
+        return <Signup04 onClickNext={onClickNext} />
 			default:
-				console.log('renderByProcess error');
+        return <></>
 		}
   }
 
 	const onClickNext = async (formData, process, target) => {
 		switch (process) {
 			case 1:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addIDPW(formData));
 				break;
 			case 2:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addPersonalInfo(formData));
 				break;
 			case 3:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addPhone(formData));
 				break;
 			case 4:
@@ -76,15 +58,15 @@ const SignupContainer = () => {
         
         if (response.status === 200) {
           alert('회원가입이 완료되었습니다');
-          // window.location.href = '/signin';
+          window.location.href = '/signin';
         } else {
-          alert("not ok");
+          alert("오류가 발생했습니다.");
         }
 				break;
 			default:
 				console.log('onClickNext error');
 		}
-    setProcess(process);
+    setProcess(process+1);
 	};
 	return (
     <>
@@ -98,10 +80,6 @@ const SignupContainer = () => {
       }
       <SignupBlock>
         {renderByProcess()}
-        {/* <Signup01 onClickNext={onClickNext} />
-        <Signup02 onClickNext={onClickNext} className={'deactivate'} />
-        <Signup03 onClickNext={onClickNext} className={'deactivate'} />
-        <Signup04 onClickNext={onClickNext} className={'deactivate'} /> */}
       </SignupBlock>
     </>
 	);
