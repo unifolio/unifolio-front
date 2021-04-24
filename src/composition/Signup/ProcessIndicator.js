@@ -9,44 +9,46 @@ const ProcessIndicator = ({ process }) => {
     ["핸드폰", "인증"],
     ["개인정보", "이용동의"],
   ];
-   
+  
+  const renderIndicatorLine = () => {
+    return (
+      <IndicatorBlock className="line">
+        <IndicatorLine />
+      </IndicatorBlock>
+    );
+  }
+
   return (
     <IndicatorArea>
       <IndicatorRow>
         {processDescriptions.map((descriptions, i) => {
-          if (i+1 === process) {
+          if (i+1 === process) { // active
             return ( 
-              <>
+              <React.Fragment key={`indicatorFragment-${i}`}>
                 <IndicatorBlockActive>
                   <IndicatorObject className={"indicator-object"}/>
                   <IndicatorDescriptionBlock>
-                    {descriptions.map(description => <IndicatorDescription>{description}</IndicatorDescription>)}
+                    {descriptions.map((description, j) => {
+                      return <IndicatorDescription key={`indicator-desc-${i}${j}`}>{description}</IndicatorDescription>
+                    }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlockActive>
-                {i+1 !== processDescriptions.length 
-                  && 
-                  <IndicatorBlock className="line">
-                    <IndicatorLine />
-                  </IndicatorBlock>
-                }
-              </>
+                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+              </React.Fragment>
             );
           } else {
             return ( 
-              <>
+              <React.Fragment key={`indicatorFragment-${i}`}>
                 <IndicatorBlock>
                   <IndicatorObject />
                   <IndicatorDescriptionBlock>
-                    {descriptions.map(description => <IndicatorDescription>{description}</IndicatorDescription>)}
+                    {descriptions.map((description, j) => {
+                      return <IndicatorDescription key={`indicator-desc-${i}${j}`}>{description}</IndicatorDescription>
+                    }) }
                   </IndicatorDescriptionBlock>
                 </IndicatorBlock>
-                {i+1 !== processDescriptions.length 
-                  && 
-                  <IndicatorBlock className="line">
-                    <IndicatorLine />
-                  </IndicatorBlock>
-                }
-              </>
+                {i+1 !== processDescriptions.length && renderIndicatorLine()}
+              </React.Fragment>
             );
           }
         })}

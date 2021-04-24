@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import styled from 'styled-components';
 
-import styles from '../../lib/styles';
+import styles from 'lib/styles';
 
 const Signup01 = (props) => {
   const { onClickNext, className } = props;

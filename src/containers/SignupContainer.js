@@ -8,10 +8,8 @@ import Card from 'composition/Signup/Card';
 import Header from 'composition/Signup/Header';
 import ProcessIndicator from 'composition/Signup/ProcessIndicator';
 
-import Signup01 from '../components/Signup/Signup01';
-import Signup02 from '../components/Signup/Signup02';
-import Signup03 from '../components/Signup/Signup03';
-import Signup04 from '../components/Signup/Signup04';
+import * as SignupPersonal from 'composition/Signup/PersonalPhase';
+import * as SignupCorporation from 'composition/Signup/CorporationPhase';
 
 import API from '../lib/api';
 
@@ -25,22 +23,38 @@ const SignupContainer = () => {
     setProcess(1);
   }
 
-  const renderByProcess = () => {
-    switch (process) {
-			case 1:
-				return <Signup01 onClickNext={onClickNext} />
-			case 2:
-				return <Signup02 onClickNext={onClickNext} />
-			case 3:
-				return <Signup03 onClickNext={onClickNext} />
-			case 4:
-        return <Signup04 onClickNext={onClickNext} />
-			default:
-        return <></>
-		}
+  const render = () => {
+    
+    if (current === "personal") {
+      switch (process) {
+        case 1:
+          return <SignupPersonal._01 onClickNext={onClickNext} />
+        case 2:
+          return <SignupPersonal._02 onClickNext={onClickNext} />
+        case 3:
+          return <SignupPersonal._03 onClickNext={onClickNext} />
+        case 4:
+          return <SignupPersonal._04 onClickNext={onClickNext} />
+        default:
+          return <></>
+      }
+    } else if (current === "corporation") {
+      switch (process) {
+        case 1:
+          return <SignupCorporation._01 onClickNext={onClickNext} />
+        case 2:
+          return <SignupCorporation._02 onClickNext={onClickNext} />
+        case 3:
+          return <SignupCorporation._03 onClickNext={onClickNext} />
+        case 4:
+          return <SignupCorporation._04 onClickNext={onClickNext} />
+        default:
+          return <></>
+      }
+    }
   }
 
-	const onClickNext = async (formData, process, target) => {
+	const onClickNext = async (formData, process) => {
 		switch (process) {
 			case 1:
 				dispatch(addIDPW(formData));
@@ -79,7 +93,7 @@ const SignupContainer = () => {
         : <ProcessIndicator process={process} />
       }
       <SignupBlock>
-        {renderByProcess()}
+        {render()}
       </SignupBlock>
     </>
 	);
