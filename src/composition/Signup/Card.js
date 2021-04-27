@@ -6,7 +6,7 @@ import styles from 'lib/styles';
 const Card = ({ type, onChangeCurrent }) => {
 
   const selectCardTitle = (type) => {
-    return type === "personal" ? "개인" : "법인";
+    return type === "general" ? "개인" : "법인";
   }
 
   return (
