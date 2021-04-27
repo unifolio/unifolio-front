@@ -14,11 +14,11 @@ const Header = ({ current = "default" }) => {
             <HeaderSubTitle>회원 가입 유형을 선택해주세요</HeaderSubTitle>
           </>
         )
-      case "personal":
+      case "general":
         return (
           <HeaderTitle>개인 회원 가입</HeaderTitle>
         )
-      case "corporation":
+      case "business":
         return (
           <HeaderTitle>법인 회원 가입</HeaderTitle>
         )
@@ -33,7 +33,7 @@ const HeaderTitle = styled.span`
   font-size: 33px;
 `
 const HeaderSubTitle = styled.span`
-  color: #847F7F;
+  color: ${styles.palette.deactiveGrey};
   font-size: 20px;
   margin-top: 15px;
 `

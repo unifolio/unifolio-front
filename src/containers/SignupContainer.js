@@ -7,7 +7,6 @@ import { addIDPW, addPersonalInfo, addCorporationInfo, addPhone, addAgreement, g
 import Card from 'composition/Signup/Card';
 import Header from 'composition/Signup/Header';
 import ProcessIndicator from 'composition/Signup/ProcessIndicator';
-
 import * as SignupPersonal from 'composition/Signup/PersonalPhase';
 import * as SignupCorporation from 'composition/Signup/CorporationPhase';
 
@@ -25,35 +24,35 @@ const SignupContainer = () => {
 
   const render = () => {
     
-    if (current === "personal") {
+    if (current === "general") {
       switch (process) {
         case 1:
-          return <SignupPersonal._01 onClickNext={onClickNext} />
+          return <SignupPersonal._01 onClickNext={handleClickNext} />
         case 2:
-          return <SignupPersonal._02 onClickNext={onClickNext} />
+          return <SignupPersonal._02 onClickNext={handleClickNext} />
         case 3:
-          return <SignupPersonal._03 onClickNext={onClickNext} />
+          return <SignupPersonal._03 onClickNext={handleClickNext} />
         case 4:
-          return <SignupPersonal._04 onClickNext={onClickNext} />
+          return <SignupPersonal._04 onClickNext={handleClickNext} />
         default:
           return <></>
       }
-    } else if (current === "corporation") {
+    } else if (current === "business") {
       switch (process) {
         case 1:
-          return <SignupCorporation._01 onClickNext={onClickNext} />
+          return <SignupCorporation._01 onClickNext={handleClickNext} />
         case 2:
-          return <SignupCorporation._02 onClickNext={onClickNext} />
+          return <SignupCorporation._02 onClickNext={handleClickNext} />
         case 3:
-          return <SignupCorporation._03 onClickNext={onClickNext} />
+          return <SignupCorporation._03 onClickNext={handleClickNext} />
         default:
           return <></>
       }
     }
   }
 
-	const onClickNext = async (formData, process) => {
-    if (current === "personal") {
+	const handleClickNext = async (formData, process) => {
+    if (current === "general") {
       switch (process) {
         case 1:
           dispatch(addIDPW(formData));
@@ -65,7 +64,7 @@ const SignupContainer = () => {
           dispatch(addPhone(formData));
           break;
         case 4:
-          dispatch(addAgreement(formData));
+          dispatch(addAgreement({...formData, role: current}));
           const data = dispatch(getSignupStateThunk());
           const response = await API.post.newUser(data);
           
@@ -80,7 +79,7 @@ const SignupContainer = () => {
           console.log('onClickNext error');
       }
     }
-    else if (current === "corporation") {
+    else if (current === "business") {
       switch (process) {
         case 1:
           dispatch(addIDPW(formData));
@@ -89,7 +88,7 @@ const SignupContainer = () => {
           dispatch(addCorporationInfo(formData));
           break;
         case 3:
-          dispatch(addAgreement(formData));
+          dispatch(addAgreement({...formData, role: current}));
           const data = dispatch(getSignupStateThunk());
           const response = await API.post.newUser(data);
           
@@ -104,16 +103,15 @@ const SignupContainer = () => {
           console.log('onClickNext error');
       }
     }
-		
-    setProcess(process+1);
+    setProcess(process+1); // 회원가입 프로세스 값 갱신
 	};
 	return (
     <>
       <Header current={current} process={process} />
       {current === "default" 
         ? <CardArea>
-            <Card type={"personal"} onChangeCurrent={handleChangeCurrent} />
-            <Card type={"corporation"} onChangeCurrent={handleChangeCurrent} />
+            <Card type={"general"} onChangeCurrent={handleChangeCurrent} />
+            <Card type={"business"} onChangeCurrent={handleChangeCurrent} />
           </CardArea>
         : <ProcessIndicator current={current} process={process} />
       }

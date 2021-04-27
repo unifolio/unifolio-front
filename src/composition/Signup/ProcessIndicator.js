@@ -5,15 +5,16 @@ import styles from 'lib/styles';
 
 const ProcessIndicator = ({ process, current }) => {
   const processDescriptions = {
-    personal: [
+    general: [
       ["아이디 및", "비밀번호 설정"], 
       ["개인정보", "입력"],
       ["핸드폰", "인증"],
-      ["개인정보", "이용동의"],  
+      ["개인정보", "이용동의"],
     ],
-    corporation: [
+    business: [
       ["아이디 및", "비밀번호 설정"], 
       ["법인정보", "입력"],
+      ["법인정보", "이용동의"],
     ]
   }
   
@@ -65,7 +66,7 @@ const ProcessIndicator = ({ process, current }) => {
 }
 
 const IndicatorArea = styled.div`
-  width: ${props => props.current === "personal" ? "100%" : "50%"};
+  width: ${props => props.current === "general" ? "100%" : "75%"};
   margin-top: 85px;
   margin-bottom: 100px;
 
