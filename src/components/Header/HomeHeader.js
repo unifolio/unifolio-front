@@ -11,6 +11,7 @@ const HomeHeaderPosition = styled(Responsive)`
   max-width: 100%;
   height: 4rem;
   box-shadow: 1px 2px 5px grey;
+  z-index:3;
 `;
 
 const HomeHeaderLayout = styled.div`

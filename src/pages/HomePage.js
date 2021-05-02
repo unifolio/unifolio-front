@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import qs from 'qs';
 
 import Responsive from '../components/common/Responsive';
@@ -12,12 +12,13 @@ import WaitingUnions from '../components/Modal/WaitingUnions';
 import WaitingInfo from '../components/Modal/WaitingInfo';
 import MoreInfoPerson from '../components/Modal/MoreInfoPerson';
 import MoreInfoUnion from '../components/Modal/MoreInfoUnion';
+import Filter from 'components/common/Filter';
 
 const MainPage = (props) => {
 	const { location } = props;
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  const [modalContents, setModalContents] = useState({});
-	
+  	const [modalContents, setModalContents] = useState({});
+	const [filterVisible, setFilterVisible] = useState(false);
 	const $mainRef = React.createRef(),
 		$sideRef = React.createRef(),
 		$modalRef = React.createRef();
@@ -29,7 +30,7 @@ const MainPage = (props) => {
 		} else {
       $modalRef.current.style.display = 'none';
     }
-	}, [$modalRef]);
+	}, [$modalRef, modalContents]);
 
   const modalSectionSelector = (current) => {
     switch (current) {
@@ -117,7 +118,7 @@ const MainPage = (props) => {
 				<HomeMainSectionPosition>
 					<HomeMainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
 				</HomeMainSectionPosition>
-				<HomeSideSection ref={$sideRef}>
+				{/* <HomeSideSection ref={$sideRef}>
 					<FilterHeader>
 						<span> 필터 검색 </span>
 						<div onClick={() => { toggleFilter(true); }} style={{ display: 'inherit', justifyItems: 'center' }}> 
@@ -134,7 +135,10 @@ const MainPage = (props) => {
 					style={{ position: 'absolute', left: '90%', display: 'none' }}
 				>
 					필터 열기
-				</button>
+				</button> */}
+				<HomeSideSectionPosition filterVisible={filterVisible}>
+					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} />
+				</HomeSideSectionPosition>
 			</HomePagePosition>
 			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
 				<HomeModalMain onClick={(e) => { e.stopPropagation(); }} >
@@ -225,12 +229,30 @@ const HomeModalMain = styled.div`
 		margin:0 1rem;
 	}
 `;
-
-const HomeSideSection = styled.aside`
+const HomeSideSectionPosition = styled.aside`
 	width: 267px;
 	height: calc(100vh - 8rem);
 	position: sticky;
 	top: 4rem;
+	overflow:scroll;
+
+	${props =>
+    props.filterVisible ?
+    css`
+		border-left: 1px solid #C4C4C4;
+		box-shadow: 0px 0px 4px  rgba(0, 0, 0, 0.25);
+    ` 
+	:
+	css`
+		display:flex;
+		align-items : center;
+		justify-content : center;
+	`
+	}
+
+`;
+const HomeSideSection = styled.aside`
+
 
 	border-color: gray;
 	border-left-style: solid;
