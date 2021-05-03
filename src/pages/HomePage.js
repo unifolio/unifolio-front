@@ -245,8 +245,9 @@ const HomeSideSectionPosition = styled.aside`
 	:
 	css`
 		display:flex;
-		align-items : center;
+		align-items : flex-start;
 		justify-content : center;
+		margin-top:35px;
 	`
 	}
 

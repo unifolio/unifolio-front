@@ -94,7 +94,54 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
                 </>
                 );
         case false : 
-          return (<div>dd</div>)
+          return (
+        <MiniFilterWrap>
+              <MiniFilterHeader>
+                  <MiniFilterTitle>
+                      총 <MiniFilterTitleListCount>20건</MiniFilterTitleListCount> 검색
+                  </MiniFilterTitle>
+              </MiniFilterHeader>
+              <MiniFilterSection>
+                <MiniFilterSubTitleWrap>
+                    <MiniFilterSubTitle>필터</MiniFilterSubTitle> 
+                    <MiniFilterOpenBtn onClick={()=>setFilterVisible(!filterVisible)}>전체보기</MiniFilterOpenBtn>
+                </MiniFilterSubTitleWrap>
+                <MiniFilterList>
+                    <MiniFilterListItem>
+                        <MiniFilterName>
+                             최대출자가능액
+                        </MiniFilterName>
+                        <MiniFilterValue>
+                            500만원~1천만원 미만
+                        </MiniFilterValue>
+                    </MiniFilterListItem>
+                    <MiniFilterListItem>
+                        <MiniFilterName>
+                             경력분야
+                        </MiniFilterName>
+                        <MiniFilterValue>
+                            유통, 커머스 분야만
+                        </MiniFilterValue>
+                    </MiniFilterListItem>
+                </MiniFilterList>
+              </MiniFilterSection>
+
+              <MiniFilterSection>
+                <MiniFilterSubTitleWrap>
+                    <MiniFilterSubTitle>내가 본 출자자</MiniFilterSubTitle> 
+                    <MiniFilterOpenBtn>전체보기</MiniFilterOpenBtn>
+                </MiniFilterSubTitleWrap>
+                <NoContentWrap>
+                    <NoContent>
+                        최근 열람한 출자자의
+                    </NoContent>
+                    <NoContent>
+                        정보가 표시됩니다.
+                    </NoContent>
+                </NoContentWrap>
+                <table></table>
+              </MiniFilterSection>
+        </MiniFilterWrap>)
         default : 
           return null
       }
@@ -114,7 +161,7 @@ const FilterHeader = styled.header`
     border-bottom: 1px solid #C4C4C4;
 
 `;
-const FilterTitle = styled.h2`
+const FilterTitle = styled.span`
     font-weight: 400;
 `;
 const FilterCloseBtn = styled.button`
@@ -139,7 +186,7 @@ const FilterSection = styled.section`
     padding-bottom: 1.25rem;
 `;
 
-const FilterSubTitle = styled.h3`
+const FilterSubTitle = styled.span`
     display:block;
     width:100%;
     padding-left:2rem;
@@ -178,9 +225,12 @@ const FilterCheckBox = styled.input`
     }
     &+label{
         color: rgba(64, 64, 64, 0.6);
+        font-weight:400;
+
     }
     &:checked+label{
         color: black;
+        font-weight:500;
     }
 `;
 
@@ -203,18 +253,106 @@ const FilterListLabel = styled.label`
 `;
 
 const FilterMoreBtn = styled.button`
-    display:flex;
-    justify-content:space-between;
     padding-left:2rem;
     width:100%;
     background-color:#fff;
     border:0;
     font-size: 13px;
-    color: #847F7F;
     color:rgba(60, 47, 242, 1);
     outline:none;
     cursor: pointer;
     margin-top: 1rem;
+    text-align:left;
 `;
 
+const MiniFilterWrap = styled.section`
+    width: 148px;
+    min-height: 483px;
+    box-shadow : 0px 4px 4px rgba(0,0,0,0.25);
+`;
+
+const MiniFilterHeader = styled.header`
+    padding-top:19px;
+    padding-left: 12px;
+    padding-bottom: 14px;
+`;
+const MiniFilterTitle = styled.span`
+    font-size: 14px;
+    font-weight:normal;
+`;
+
+const MiniFilterTitleListCount = styled.span`
+    font-weight:700;
+    color:rgba(60, 47, 242, 1);
+`;
+
+const MiniFilterSection = styled.section`
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:85px;
+    padding-top:19px;
+    padding-left: 12px;
+    padding-bottom: 14px;
+    border-top: 1px solid #C4C4C4;
+    padding-right: 10px;
+    &:last-child{
+        min-height:306px;
+
+    }
+`;
+
+const MiniFilterSubTitleWrap = styled.header`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 4px;
+`;
+
+const MiniFilterSubTitle = styled.span`
+    font-size: 12px;
+`;
+const MiniFilterOpenBtn = styled.button`
+    display:flex;
+    background-color:#fff;
+    border: 1px solid rgba(60, 47, 242, 1);
+    border-radius:20px;
+    font-size: 10px;
+    color:rgba(60, 47, 242, 1);
+    outline:none;
+    cursor: pointer;
+`;
+
+const MiniFilterList = styled.ul`
+    margin-bottom:0;
+`;
+
+const MiniFilterListItem = styled.li`
+    margin-top: 8px;
+`;
+
+const MiniFilterName = styled.span`
+    display: block;
+    font-size: 10px;
+    line-height: 16px;
+`;
+
+const MiniFilterValue = styled(MiniFilterName)`
+    color:rgba(60, 47, 242, 1);
+`;
+
+const NoContentWrap = styled.div`
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+`;
+
+const NoContent = styled.span`
+
+    color: #847F7F;
+    font-size: 9px;
+    line-height: 12px;
+`;
 export default Filter;
