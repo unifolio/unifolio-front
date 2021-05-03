@@ -231,7 +231,7 @@ const HomeModalMain = styled.div`
 `;
 const HomeSideSectionPosition = styled.aside`
 	width: 267px;
-	height: calc(100vh - 8rem);
+	min-height: calc(100vh - 8rem);
 	position: sticky;
 	top: 4rem;
 	overflow:scroll;

@@ -14,6 +14,8 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
                             X
                         </FilterCloseBtn>
                     </FilterHeader>
+                    {mode === "waiting-people" ? 
+                    <>
                     <FilterSection>
                         <FilterSubTitle>
                             최대 출자가능액
@@ -75,6 +77,55 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
                                     유통
                                 </FilterListLabel>
                         </FilterListItem>
+                        </FilterList>
+                        <FilterMoreBtn>더 많은 분야 보기</FilterMoreBtn>
+                    </FilterSection>
+                    </>
+                    :
+                    <>
+                        <FilterSection>
+                        <FilterSubTitle>
+                            조합 상태
+                        </FilterSubTitle>
+                        <FilterList>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    결성이 임박한 조합
+                                </FilterListLabel>
+                            </FilterListItem>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    UNIFOLIO 추천 조합
+                                </FilterListLabel>
+                            </FilterListItem>
+                        </FilterList>
+                    </FilterSection>
+                    <FilterSection>
+                        <FilterSubTitle>
+                            투자 분야
+                        </FilterSubTitle>
+                        <FilterList>
+            
+                        <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    자동차
+                                </FilterListLabel>
+                        </FilterListItem>
+                        <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    유통
+                                </FilterListLabel>
+                        </FilterListItem>
+                        <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    유통
+                                </FilterListLabel>
+                        </FilterListItem>
                         <FilterListItem>
                                 <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
                                 <FilterListLabel htmlFor='1'>
@@ -90,7 +141,58 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
                         </FilterList>
                         <FilterMoreBtn>더 많은 분야 보기</FilterMoreBtn>
                     </FilterSection>
-                    
+                    <FilterSection>
+                        <FilterSubTitle>
+                            출자 총액
+                        </FilterSubTitle>
+                        <FilterList>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    2억원 미만
+                                </FilterListLabel>
+                            </FilterListItem>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    2억원 ~ 4억원 미만 
+                                </FilterListLabel>
+                            </FilterListItem>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    4억원 이상
+                                </FilterListLabel>
+                            </FilterListItem>
+                        </FilterList>
+                    </FilterSection>
+                    <FilterSection>
+                        <FilterSubTitle>
+                            최소 출자액
+                        </FilterSubTitle>
+                        <FilterList>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    ~5백만원 미만
+                                </FilterListLabel>
+                            </FilterListItem>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    5백만원 ~ 1천만원 미만 
+                                </FilterListLabel>
+                            </FilterListItem>
+                            <FilterListItem>
+                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
+                                <FilterListLabel htmlFor='1'>
+                                    1천만원 이상
+                                </FilterListLabel>
+                            </FilterListItem>
+                        </FilterList>
+                    </FilterSection>
+                </>
+    }
                 </>
                 );
         case false : 
@@ -128,7 +230,7 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
 
               <MiniFilterSection>
                 <MiniFilterSubTitleWrap>
-                    <MiniFilterSubTitle>내가 본 출자자</MiniFilterSubTitle> 
+                    <MiniFilterSubTitle>{mode === "waiting-people" ? "내가 본 출자자":"내가 본 조합"}</MiniFilterSubTitle> 
                     <MiniFilterOpenBtn>전체보기</MiniFilterOpenBtn>
                 </MiniFilterSubTitleWrap>
                 <NoContentWrap>
