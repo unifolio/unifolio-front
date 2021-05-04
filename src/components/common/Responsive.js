@@ -1,23 +1,42 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
 
 const ResponsiveBlock = styled.div`
-  padding-left: 2rem;
-  padding-right: 2rem;
+
   max-width:100%;
-
-  /* @media (max-width: 1024px) {
-    width: 768px;
-  } */
-
+  margin:0 auto;
   @media(max-width: 768px){
     width: 100%;
   }
+  ${(props)=>{
+    switch (props.level){
+      case 1:
+        return css`
+          max-width:1440px;
+          @media(max-width: 1440px){
+              width: 100%;
+  }`
+      case 2:
+        return css`
+          max-width:1010px;
+          @media(max-width: 1440px){
+              width: 100%;
+  }`
+      default:
+        return css`
+          width:100%;
+        `
+    }
+  }
+
+  }
+
+
 `;
 
-const Responsive = ({ children, ...rest }) => {
-  
-  return <ResponsiveBlock { ...rest }> { children } </ResponsiveBlock>;
+const Responsive = ({ level ,children, ...rest }) => {
+  return <ResponsiveBlock level={level} { ...rest }> { children } </ResponsiveBlock>;
 }
 
 export default Responsive;

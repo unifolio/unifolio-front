@@ -1,3 +1,4 @@
+import Responsive from 'components/common/Responsive';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -97,6 +98,7 @@ const LandingPage = () => {
   return (
     <LandingPageBlock>
       <Spacer></Spacer>
+      <Responsive level={2}>
       <TopSection>
         <div>
           <h1> 당신의 첫 개인투자조합 </h1> <br />
@@ -146,7 +148,7 @@ const LandingPage = () => {
           출자금에 대한 회수는 어떻게 할 수 있나요?
           >
         </MiddleSection3>
-      
+        </Responsive>
     </LandingPageBlock>
   );
 }
