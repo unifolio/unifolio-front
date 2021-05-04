@@ -240,7 +240,7 @@ const HomeSideSectionPosition = styled.aside`
     props.filterVisible ?
     css`
 		border-left: 1px solid #C4C4C4;
-		box-shadow: 0px 0px 4px  rgba(0, 0, 0, 0.25);
+		box-shadow: -2px 0px 3px  rgba(0, 0, 0, 0.1);
     ` 
 	:
 	css`

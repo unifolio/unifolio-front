@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette.js';
+import Logo from '../../assets/images/logo.png'
 
 const Navbar = () => {
   const isLogin = () => {
@@ -20,7 +21,7 @@ const Navbar = () => {
 				<NavbarLayout>
 					<div className="header-left">
 						<Link to="/" className="button landing">
-							로고
+							<img src={Logo} alt="logo"/>
 						</Link>
 						<Link to="/finding" className="button home">
 							조합 찾기
@@ -49,7 +50,12 @@ const NavbarPosition = styled.div`
 	position: fixed;
 	width: 100%;
 	height: 4rem;
-	z-index: 1;
+	z-index: 100;
+	top:0;
+	left: 0;
+ 	 right: 0;
+	  background-color:#F2F2F2;
+
 `;
 
 const Spacer = styled.div`
@@ -58,13 +64,17 @@ const Spacer = styled.div`
 
 const NavbarLayout = styled.div`
 	height: 100%;
-	background-color: ${palette.blue[0]};
 	padding-left: 1rem;
 	padding-right: 2rem;
+	max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 
 	display: flex;
 	justify-content: space-between;
-  align-items: center;
+  	align-items: center;
 
 	.logo {
 	}
@@ -72,10 +82,11 @@ const NavbarLayout = styled.div`
 	.header-left {
 		display: flex;
 		justify-content: flex-start;
+		align-items:center;
 
 		.button {
 			margin-left: 1rem;
-			color: white;
+			color: #4E4E4E;
       cursor: pointer;
 		}
 	}
@@ -83,11 +94,12 @@ const NavbarLayout = styled.div`
 	.header-right {
 		display: flex;
 		justify-content: flex-end;
+		align-items:center;
 
 		.button {
 			margin-left: 1rem;
-			color: white;
-      cursor: pointer;
+			color: #4E4E4E;
+     		 cursor: pointer;
 		}
 	}
 `;

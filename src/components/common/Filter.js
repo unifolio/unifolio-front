@@ -195,6 +195,7 @@ const Filter = ({filterVisible, setFilterVisible,mode}) => {
     }
                 </>
                 );
+                
         case false : 
           return (
         <MiniFilterWrap>
