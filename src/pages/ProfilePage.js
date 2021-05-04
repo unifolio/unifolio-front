@@ -91,17 +91,19 @@ const ProfilePage = (props) => {
 			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
 			<br />
 			<ProfilePagePosition className="ProfilePage">
-				{status === 'profile' && (
-					<>
-						<DefaultInfoContainer />
-						<AdditionalInfoContainer />
-					</>
-				)}
-				{status !== 'profile' && (
-					<ProfilePageMainSection>
-						<CreateUnion />
-					</ProfilePageMainSection>
-				)}
+				<Responsive level={2}>
+					{status === 'profile' && (
+						<>
+							<DefaultInfoContainer />
+							<AdditionalInfoContainer />
+						</>
+					)}
+					{status !== 'profile' && (
+						<ProfilePageMainSection>
+							<CreateUnion />
+						</ProfilePageMainSection>
+					)}
+				</Responsive>
 			</ProfilePagePosition>
 		</>
 	);

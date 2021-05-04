@@ -20,7 +20,7 @@ const ResponsiveBlock = styled.div`
       case 2:
         return css`
           max-width:1010px;
-          @media(max-width: 1440px){
+          @media(max-width: 1010px){
               width: 100%;
   }`
       default:
