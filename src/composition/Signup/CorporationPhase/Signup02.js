@@ -86,7 +86,10 @@ const Signup02 = (props) => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    onClickNext({corporate_name, company_registration_number, corporate_registration, address_postcode: postcode, address, address_detail: addressDetail}, 2);
+    onClickNext({
+      corporate_name, company_registration_number, corporate_registration, 
+      address_postcode_business: postcode, address_business: address, address_detail_business: addressDetail
+    }, 2);
   });
 
   return (
