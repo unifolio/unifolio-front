@@ -4,12 +4,10 @@ import qs from 'qs';
 
 import Responsive from '../components/common/Responsive';
 import HomeHeader from '../components/Header/HomeHeader';
-import FilterSection from '../components/common/FilterSection';
 
 import WaitingPeople from '../components/WaitingPeople';
 
 import WaitingUnions from '../components/Modal/WaitingUnions';
-import WaitingInfo from '../components/Modal/WaitingInfo';
 import MoreInfoPerson from '../components/Modal/MoreInfoPerson';
 import MoreInfoUnion from '../components/Modal/MoreInfoUnion';
 import Filter from 'components/common/Filter';
@@ -26,7 +24,6 @@ const MainPage = (props) => {
 	'waiting-unions':{}});
 	const [categories, setCategories] = useState()
 	const $mainRef = React.createRef(),
-		$sideRef = React.createRef(),
 		$modalRef = React.createRef();
 
 	useEffect(() => {
@@ -42,7 +39,6 @@ const MainPage = (props) => {
 		(async()=>{
 			const fetchCategories = await API.get.all_categories();
 			setCategories(fetchCategories.data.data)
-			console.log(fetchCategories.data.data)
 		})();
 	},[])
 	
@@ -70,7 +66,7 @@ const MainPage = (props) => {
 		
 		switch (current) {
 			case 'waiting-people':
-				return <WaitingPeople openModal={toggleModal} />;
+				return <WaitingPeople openModal={toggleModal} filterValue={filterValue} />;
 			case 'waiting-unions':
 			  return <WaitingUnions openModal={toggleModal} />;
 			default:
@@ -78,31 +74,8 @@ const MainPage = (props) => {
 		}
 	};
 
-	const sideSectionSelector = (current) => {
-		
-		switch (current) {
-			case 'waiting-people':
-				return ['최대 출자 가능액', '경력 분야'];
-			case 'waiting-unions':
-				return ['조합 상태', '투자 분야', '출자 총액', '최소 출자액'];
-			default:
-				return [];
-		}
-	};
 
-	const toggleFilter = (flag) => {
-    const $filterOpenButton = document.querySelector('#filterOpenButton');
-		if (flag) {
-			$mainRef.current.style.width = '100%';
-			$sideRef.current.style.display = 'none';
-			$filterOpenButton.style.display = '';
-		} else {
-			$sideRef.current.style.width = '20%';
-			$sideRef.current.style.display = 'inline-grid';
-			$mainRef.current.style.width = '79%';
-			$filterOpenButton.style.display = 'none';
-		}
-	};
+
 
 	const toggleModal = (cardObj) => {
 		console.log("====toggleModal====", cardObj)
@@ -132,24 +105,6 @@ const MainPage = (props) => {
 				<HomeMainSectionPosition>
 					<HomeMainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
 				</HomeMainSectionPosition>
-				{/* <HomeSideSection ref={$sideRef}>
-					<FilterHeader>
-						<span> 필터 검색 </span>
-						<div onClick={() => { toggleFilter(true); }} style={{ display: 'inherit', justifyItems: 'center' }}> 
-              X
-            </div>
-					</FilterHeader>
-					{sideSectionSelector(query.mode).map((filterTitle, idx) => {
-						console.log(filterTitle, '-', idx, '-', idx);
-						return <FilterSection title={filterTitle} key={`${idx}-${idx}`} />;
-					})}
-				</HomeSideSection>
-				<button id="filterOpenButton"
-					onClick={() => { toggleFilter(false); }}
-					style={{ position: 'absolute', left: '90%', display: 'none' }}
-				>
-					필터 열기
-				</button> */}
 				<HomeSideSectionPosition filterVisible={filterVisible}>
 					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} />
 				</HomeSideSectionPosition>
@@ -263,6 +218,10 @@ const HomeSideSectionPosition = styled.aside`
 		justify-content : center;
 		margin-top:35px;
 	`
+	}
+
+	@media all and (max-width:500px){
+		display:none;
 	}
 
 `;
