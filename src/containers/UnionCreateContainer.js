@@ -50,22 +50,8 @@ const UnionCreateContainer = () => {
           // window.location.href = '/signin';
         }
 				break;
-			// case 4:
-			// 	// target.classList.add('deactivate');
-			// 	// target.parentNode.children[process].classList.remove('deactivate');
-			// 	dispatch(addAgreement(formData));
-			// 	dispatch(getSignupStateThunk()).then(async (data) => {
-			// 		const response = await API.post.newUser(data);
-			// 		if (response.condition != 'ok') {
-			// 			alert('not ok');
-			// 		} else {
-			// 			alert('회원가입이 완료되었습니다');
-			// 			window.location.href = '/signin';
-			// 		}
-			// 	});
-			// 	break;
-			// default:
-			// 	console.log('onClickNext error');
+      default:
+        console.error("회원가입 에러");
 		}
 	};
 	return (

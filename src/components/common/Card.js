@@ -10,7 +10,7 @@ const Card = ({ idx, info, openModal}) => {
       <CardInnerLayout ref={$card}>
         <CardHeader>
           <CardHeaderLeft>
-            <UserName>{info.name} </UserName>
+            <UserName>{info.nickname} </UserName>
             <span>님</span>
           </CardHeaderLeft>
           <CardHeaderRight>

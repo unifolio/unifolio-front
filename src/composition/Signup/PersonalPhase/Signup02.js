@@ -49,6 +49,11 @@ const Signup02 = (props) => {
   });
 
   const handleChangeRRN = useCallback((e) => {
+    if (e.target.value.length > 14 || (e.target.value.length > 6 && !e.target.value[6].match(/-/)) ) {
+      alert("주민등록번호를 정확하게 입력해주세요");
+      e.target.value = "";
+      SetRRN("");  // 나중에 좀 더 세련된 로직으로 변경하겠음.
+    }
     SetRRN(e.target.value);
   });
 
