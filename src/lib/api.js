@@ -58,6 +58,17 @@ const API = {
         });
       return response;
     },
+    all_categories: () => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/categories/`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
   },
   post: {
     newToken: (data) => {

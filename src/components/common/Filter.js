@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterValue}) => {
+const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterValue,categories}) => {
+    const [moreCategory,setMoreCategory] = useState(false);
     const cloneObj = obj => JSON.parse(JSON.stringify(obj))
-
     const onClickCheckBox = (e) => {
         console.log(e.target.name , e.target.value)
         const printValue = cloneObj(filterValue)
-        if(!printValue[e.target.name]){
-            printValue[e.target.name] = []
-            printValue[e.target.name].push(e.target.value);
+        if(!printValue[mode][e.target.name]){
+            printValue[mode][e.target.name] = []
+            printValue[mode][e.target.name].push(e.target.value);
             setFilterValue(printValue)
 
         }else{
-            if(printValue[e.target.name].includes(e.target.value)){
-                printValue[e.target.name] = printValue[e.target.name].filter(item => item !== e.target.value);
-                if (printValue[e.target.name].length === 0) delete printValue[e.target.name]
+            if(printValue[mode][e.target.name].includes(e.target.value)){
+                printValue[mode][e.target.name] = printValue[mode][e.target.name].filter(item => item !== e.target.value);
+                if (printValue[mode][e.target.name].length === 0) delete printValue[mode][e.target.name]
                 setFilterValue(printValue)
             }else{
-                printValue[e.target.name].push(e.target.value);
+                printValue[mode][e.target.name].push(e.target.value);
                 setFilterValue(printValue)
 
             }
         }
-        console.log(printValue)
+    }
+    const onClickMoreBtn = () => {
+        setMoreCategory(!moreCategory)
     }
     if(filterVisible){
         if(mode === "waiting-people"){
@@ -44,20 +46,20 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                         </FilterSubTitle>
                         <FilterList>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='under_500' id='최대-under_500' checked={filterValue["최대 출자가능액"]?.includes('under_500')} onChange={onClickCheckBox}/>
-                                <FilterListLabel htmlFor='최대-under_500'>
+                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='5백만원 미만' id='최대-5백만원 미만'  defaultChecked={filterValue[mode]["최대 출자가능액"]?.includes('5백만원 미만')} onClick={onClickCheckBox}/>
+                                <FilterListLabel htmlFor='최대-5백만원 미만'>
                                     5백만원 미만
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='over_500-under_1000' id='최대-over_500-under_1000'    checked={filterValue["최대 출자가능액"]?.includes('over_500-under_1000')}  onClick={onClickCheckBox}/>
-                                <FilterListLabel htmlFor='최대-over_500-under_1000'>
+                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='5백만원 ~ 1천만원 미만' id='최대-5백만원~1천만원 미만'    defaultChecked={filterValue[mode]["최대 출자가능액"]?.includes('5백만원 ~ 1천만원 미만')}  onClick={onClickCheckBox}/>
+                                <FilterListLabel htmlFor='최대-5백만원~1천만원 미만'>
                                     5백만원 ~ 1천만원 미만 
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='over_1000' id='최대-over_1000' onClick={onClickCheckBox} checked={filterValue["최대 출자가능액"]?.includes('over_1000')}/>
-                                <FilterListLabel htmlFor='최대-over_1000'>
+                                <FilterCheckBox type='checkbox' name='최대 출자가능액' value='1천만원 이상' id='최대-1천만원 이상' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["최대 출자가능액"]?.includes('1천만원 이상')}/>
+                                <FilterListLabel htmlFor='최대-1천만원 이상'>
                                     1천만원 이상
                                 </FilterListLabel>
                             </FilterListItem>
@@ -68,39 +70,16 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                             회사 분야
                         </FilterSubTitle>
                         <FilterList>
-            
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    자동차
+                        {(moreCategory? categories:categories.slice(0,5)).map((item,index)=>
+                            <FilterListItem key={index}> 
+                                <FilterCheckBox type='checkbox' name='회사 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
+                                <FilterListLabel htmlFor={item.category} >
+                                    {item.category}
                                 </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
+                            </FilterListItem>                            
+                        )}
                         </FilterList>
-                        <FilterMoreBtn>더 많은 분야 보기</FilterMoreBtn>
+                        <FilterMoreBtn onClick={onClickMoreBtn}>{moreCategory? "줄이기":"더 많은 분야 보기"}</FilterMoreBtn>
                     </FilterSection>
                     
                 </>)
@@ -122,13 +101,13 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                         </FilterSubTitle>
                         <FilterList>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='조합 상태' value='결성이 임박한 조합' id='결성이 임박한 조합' onClick={onClickCheckBox} checked={filterValue["조합 상태"]?.includes('결성이 임박한 조합')}/>
+                                <FilterCheckBox type='checkbox' name='조합 상태' value='결성이 임박한 조합' id='결성이 임박한 조합' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["조합 상태"]?.includes('결성이 임박한 조합')}/>
                                 <FilterListLabel htmlFor='결성이 임박한 조합'>
                                     결성이 임박한 조합
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='조합 상태' value='UNIFOLIO 추천 조합' id='UNIFOLIO 추천 조합' onClick={onClickCheckBox} checked={filterValue["조합 상태"]?.includes('UNIFOLIO 추천 조합')}/>
+                                <FilterCheckBox type='checkbox' name='조합 상태' value='UNIFOLIO 추천 조합' id='UNIFOLIO 추천 조합' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["조합 상태"]?.includes('UNIFOLIO 추천 조합')}/>
                                 <FilterListLabel htmlFor='UNIFOLIO 추천 조합'>
                                     UNIFOLIO 추천 조합
                                 </FilterListLabel>
@@ -140,39 +119,17 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                             투자 분야
                         </FilterSubTitle>
                         <FilterList>
-            
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='투자 분야' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    자동차
+                        {(moreCategory? categories:categories.slice(0,5)).map((item,index)=>
+                            <FilterListItem key={index}>
+                                
+                                <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
+                                <FilterListLabel htmlFor={item.category} >
+                                    {item.category}
                                 </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
-                        <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='qustion1' value='1' id='1'/>
-                                <FilterListLabel htmlFor='1'>
-                                    유통
-                                </FilterListLabel>
-                        </FilterListItem>
+                            </FilterListItem>                            
+                        )}
                         </FilterList>
-                        <FilterMoreBtn>더 많은 분야 보기</FilterMoreBtn>
+                        <FilterMoreBtn onClick={onClickMoreBtn}>{moreCategory? "줄이기":"더 많은 분야 보기"}</FilterMoreBtn>
                     </FilterSection>
                     <FilterSection>
                         <FilterSubTitle>
@@ -180,20 +137,20 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                         </FilterSubTitle>
                         <FilterList>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='출자 총액' value='under_20000' id='under_20000' onClick={onClickCheckBox} checked={filterValue["출자 총액"]?.includes('under_20000')}/>
-                                <FilterListLabel htmlFor='under_20000'>
+                                <FilterCheckBox type='checkbox' name='출자 총액' value='2억원 미만' id='2억원 미만' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["출자 총액"]?.includes('2억원 미만')}/>
+                                <FilterListLabel htmlFor='2억원 미만'>
                                     2억원 미만
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='출자 총액' value='over_20000-under_40000' id='over_20000-under_40000'onClick={onClickCheckBox} checked={filterValue["출자 총액"]?.includes('over_20000-under_40000')}/>
-                                <FilterListLabel htmlFor='over_20000-under_40000'>
+                                <FilterCheckBox type='checkbox' name='출자 총액' value='2억원 ~ 4억원 미만' id='2억원 ~ 4억원 미만'onClick={onClickCheckBox} defaultChecked={filterValue[mode]["출자 총액"]?.includes('2억원 ~ 4억원 미만')}/>
+                                <FilterListLabel htmlFor='2억원 ~ 4억원 미만'>
                                     2억원 ~ 4억원 미만 
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='출자 총액' value='over_40000' id='over_40000'onClick={onClickCheckBox} checked={filterValue["출자 총액"]?.includes('over_40000')}/>
-                                <FilterListLabel htmlFor='over_40000'>
+                                <FilterCheckBox type='checkbox' name='출자 총액' value='4억원 이상' id='4억원 이상'onClick={onClickCheckBox} defaultChecked={filterValue[mode]["출자 총액"]?.includes('4억원 이상')}/>
+                                <FilterListLabel htmlFor='4억원 이상'>
                                     4억원 이상
                                 </FilterListLabel>
                             </FilterListItem>
@@ -205,20 +162,20 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                         </FilterSubTitle>
                         <FilterList>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최소 출자액' value='under_500' id='최소-under_500' onClick={onClickCheckBox} checked={filterValue["최소 출자액"]?.includes('under_500')}/>
-                                <FilterListLabel htmlFor='최소-under_500'>
-                                    ~5백만원 미만
+                                <FilterCheckBox type='checkbox' name='최소 출자액' value='5백만원 미만' id='최소-5백만원 미만' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["최소 출자액"]?.includes('5백만원 미만')}/>
+                                <FilterListLabel htmlFor='최소-5백만원 미만'>
+                                    5백만원 미만
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최소 출자액' value='over_500-under_1000' id='최소-over_500-under_1000' onClick={onClickCheckBox} checked={filterValue["최소 출자액"]?.includes('over_500-under_1000')}/>
-                                <FilterListLabel htmlFor='최소-over_500-under_1000'>
+                                <FilterCheckBox type='checkbox' name='최소 출자액' value='5백만원 ~ 1천만원 미만' id='최소-5백만원 ~ 1천만원 미만' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["최소 출자액"]?.includes('5백만원 ~ 1천만원 미만')}/>
+                                <FilterListLabel htmlFor='최소-5백만원 ~ 1천만원 미만'>
                                     5백만원 ~ 1천만원 미만 
                                 </FilterListLabel>
                             </FilterListItem>
                             <FilterListItem>
-                                <FilterCheckBox type='checkbox' name='최소 출자액' value='over_1000' id='최소-over_1000' onClick={onClickCheckBox} checked={filterValue["최소 출자액"]?.includes('over_1000')}/>
-                                <FilterListLabel htmlFor='최소-over_1000'>
+                                <FilterCheckBox type='checkbox' name='최소 출자액' value='1천만원 이상' id='최소-1천만원 이상' onClick={onClickCheckBox} defaultChecked={filterValue[mode]["최소 출자액"]?.includes('1천만원 이상')}/>
+                                <FilterListLabel htmlFor='최소-1천만원 이상'>
                                     1천만원 이상
                                 </FilterListLabel>
                             </FilterListItem>
@@ -229,6 +186,29 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                 </>
                     )        }
     }else{
+        const rendering = () => {
+            const result = [];
+            for(const item in filterValue[mode]){
+                const itemComponent = [];
+                itemComponent.push(
+                <MiniFilterName key={item}>
+                    {item}
+               </MiniFilterName>)
+                for(const value of filterValue[mode][item]){
+                    itemComponent.push(
+                        <MiniFilterValue key={value}>
+                            {value}
+                        </MiniFilterValue>
+                    )
+                }
+                result.push(
+                    <MiniFilterListItem key={itemComponent}>
+                        {itemComponent}
+                    </MiniFilterListItem>
+                )
+            }
+            return result;
+        }
           return (
         <MiniFilterWrap>
               <MiniFilterHeader>
@@ -242,22 +222,16 @@ const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterVal
                     <MiniFilterOpenBtn onClick={()=>setFilterVisible(!filterVisible)}>전체보기</MiniFilterOpenBtn>
                 </MiniFilterSubTitleWrap>
                 <MiniFilterList>
-                    <MiniFilterListItem>
-                        <MiniFilterName>
-                             최대출자가능액
-                        </MiniFilterName>
-                        <MiniFilterValue>
-                            500만원~1천만원 미만
-                        </MiniFilterValue>
-                    </MiniFilterListItem>
-                    <MiniFilterListItem>
-                        <MiniFilterName>
-                             경력분야
-                        </MiniFilterName>
-                        <MiniFilterValue>
-                            유통, 커머스 분야만
-                        </MiniFilterValue>
-                    </MiniFilterListItem>
+                    { Object.keys(filterValue[mode]).length?
+                    rendering():
+                                <NoContentWrap>
+                                    <NoContent>
+                                        현재 적용된 필터의
+                                    </NoContent>
+                                    <NoContent>
+                                        내용이 없습니다.
+                                    </NoContent>
+                                </NoContentWrap>}
                 </MiniFilterList>
               </MiniFilterSection>
 

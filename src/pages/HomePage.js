@@ -14,12 +14,17 @@ import MoreInfoPerson from '../components/Modal/MoreInfoPerson';
 import MoreInfoUnion from '../components/Modal/MoreInfoUnion';
 import Filter from 'components/common/Filter';
 
+import API from '../lib/api';
+
+
 const MainPage = (props) => {
 	const { location } = props;
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   	const [modalContents, setModalContents] = useState({});
 	const [filterVisible, setFilterVisible] = useState(false);
-	const [filterValue, setFilterValue] = useState({});
+	const [filterValue, setFilterValue] = useState({"waiting-people":{},
+	'waiting-unions':{}});
+	const [categories, setCategories] = useState()
 	const $mainRef = React.createRef(),
 		$sideRef = React.createRef(),
 		$modalRef = React.createRef();
@@ -32,7 +37,15 @@ const MainPage = (props) => {
       $modalRef.current.style.display = 'none';
     }
 	}, [$modalRef, modalContents]);
-
+	
+	useEffect(()=>{
+		(async()=>{
+			const fetchCategories = await API.get.all_categories();
+			setCategories(fetchCategories.data.data)
+			console.log(fetchCategories.data.data)
+		})();
+	},[])
+	
   const modalSectionSelector = (current) => {
     switch (current) {
 			case 'waiting-people':
@@ -138,7 +151,7 @@ const MainPage = (props) => {
 					필터 열기
 				</button> */}
 				<HomeSideSectionPosition filterVisible={filterVisible}>
-					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} />
+					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} />
 				</HomeSideSectionPosition>
 			</HomePagePosition>
 			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
