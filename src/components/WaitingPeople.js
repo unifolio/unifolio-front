@@ -20,12 +20,10 @@ const WaitingPeople = (props) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			// 임시 에러 리졸브
-      const fetchUsers = await API.get.users();
+      const fetchUsers = await API.get.usersGeneral();
       if (fetchUsers.status === 500) {
-        console.log("fetchUsers is 500");
+        console.error("fetchUsers is 500");
       } else if (fetchUsers.status === 200) {
-        console.log(fetchUsers.data);
 			  setUsers(fetchUsers.data.results);
       }
 		};

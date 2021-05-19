@@ -66,7 +66,7 @@ const SignupContainer = () => {
         case 4:
           dispatch(addAgreement({...formData, role: current}));
           const data = dispatch(getSignupStateThunk());
-          const response = await API.post.newUser(data);
+          const response = await API.post.userSignupGeneral(data);
           
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다');
@@ -90,7 +90,7 @@ const SignupContainer = () => {
         case 3:
           dispatch(addAgreement({...formData, role: current}));
           const data = dispatch(getSignupStateThunk());
-          const response = await API.post.newUser(data);
+          const response = await API.post.userSignupBusiness(data);
           
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다');
@@ -125,7 +125,7 @@ const SignupContainer = () => {
 const CardArea = styled.div`
   margin-top: 111px;
   font-size: var(--fontSize18);
-  
+
   display: flex; 
 `
 

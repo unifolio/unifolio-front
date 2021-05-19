@@ -3,9 +3,8 @@ const END_POINT = "http://127.0.0.1:8000";
 
 const API = {
   get: {
-    users: () => {
-      const response = axios
-        .get(`${END_POINT}/users/`)
+    usersGeneral: async () => {
+      const response = await axios.get(`${END_POINT}/users/general/`)
         .then((resolve) => {
           return resolve;
         })
@@ -86,15 +85,20 @@ const API = {
         });
       return response;
     },
-
-    newUser: async (formData) => {
-      console.log('postUserData formData', formData);
-      // const response = await axios.post('http://127.0.0.1:8000/users/new/', formData);
-      // console.log("response", response)
+    userSignupBusiness: async (formData) => {
       
-      const result = await axios
-        // .post('http://127.0.0.1:8000/users/api/v1/users/new', formData)
-        .post('http://localhost:8000/users/signup/general/', formData)
+      const result = await axios.post(`${END_POINT}/users/signup/business/`, formData)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.log(error)
+          return error.response;
+        });
+      return result;
+    },
+    userSignupGeneral: async (formData) => {
+      const result = await axios.post(`${END_POINT}/users/signup/general/`, formData)
         .then((response) => {
           return response;
         })

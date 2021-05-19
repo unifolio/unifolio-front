@@ -62,10 +62,21 @@ const Signup02 = (props) => {
   });
   
   const handleChangeCompanyRegistrationNumber = useCallback((e) => {
+    if (e.target.value.length > 10) {
+      alert("사업자등록번호는 10자를 초과할 수 없습니다."); 
+      e.target.value = e.target.value.slice(0, e.target.value.length-1);
+      return;
+    }
+      
     SetCompanyRegistrationNumber(e.target.value);
   });
 
   const handleCorporateRegistration = useCallback((e) => {
+    if (e.target.value.length > 13) {
+      alert("법인등록번호는 13자를 초과할 수 없습니다."); 
+      e.target.value = e.target.value.slice(0, e.target.value.length-1);
+      return;
+    }
     SetCorporateRegistration(e.target.value);
   });
 
