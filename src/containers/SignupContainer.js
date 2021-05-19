@@ -124,6 +124,8 @@ const SignupContainer = () => {
 
 const CardArea = styled.div`
   margin-top: 111px;
+  font-size: var(--fontSize18);
+  
   display: flex; 
 `
 

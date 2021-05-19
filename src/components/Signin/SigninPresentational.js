@@ -62,17 +62,18 @@ const SigninPresentational = ({ onClickSignin }, ...props ) => {
     </SigninLayout>
   );
 }
-const SigninTitle = styled.span`
-  font-size: 2.357rem;
-  color: ${styles.palette.unifolioBlue};
-`
-
 const SigninLayout = styled.div`
   height:calc(100vh - 4rem);
   ${styles.layout.marginContainer}
+  font-size: var(--fontSize18);
   
   display:flex;
   justify-content: center;
+`
+
+const SigninTitle = styled.span`
+  font-size: 2.357rem;
+  color: ${styles.palette.unifolioBlue};
 `
 
 const SigninBlock = styled.div`
@@ -168,12 +169,12 @@ const SigninSubmitButton = styled.button`
 
 const SigninRememberCheckBox = styled.div`
   color: ${styles.palette.unifolioBlue};
-  font-size: 1.2rem;
+  
 `;
 const SigninForgotPassword = styled.div`
   color: ${styles.palette.unifolioBlue};
   background-color: none;
-  font-size: 1.2rem;
+  
   cursor: pointer;
   
   &::after {
