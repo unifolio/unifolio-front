@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Filter = ({filterVisible, setFilterVisible,mode ,filterValue, setFilterValue,categories}) => {
+const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterValue, setFilterValue,categories}) => {
     const [moreCategory,setMoreCategory] = useState(false);
     const cloneObj = obj => JSON.parse(JSON.stringify(obj))
     const onClickCheckBox = (e) => {
