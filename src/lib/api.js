@@ -83,7 +83,7 @@ const API = {
       
       const result = await axios
         // .post('http://127.0.0.1:8000/users/api/v1/users/new', formData)
-        .post('http://127.0.0.1:8000/users/new/', formData)
+        .post('http://localhost:8000/users/signup/general/', formData)
         .then((response) => {
           return response;
         })

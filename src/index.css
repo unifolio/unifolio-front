@@ -60,3 +60,11 @@ body {
 h1, h2, h3, h4, h5 {
   font-weight: revert !important;
 }
+
+/* global variables made at 0519 */
+:root {
+  --fontSize14: 0.875rem; /* var(--size14) */
+  --fontSize18: 1.125rem; /* var(--size14, 0.875rem) */
+  
+}
+ 

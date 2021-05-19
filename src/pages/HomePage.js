@@ -19,6 +19,7 @@ const MainPage = (props) => {
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   	const [modalContents, setModalContents] = useState({});
 	const [filterVisible, setFilterVisible] = useState(false);
+	const [filterValue, setFilterValue] = useState({});
 	const $mainRef = React.createRef(),
 		$sideRef = React.createRef(),
 		$modalRef = React.createRef();
@@ -137,7 +138,7 @@ const MainPage = (props) => {
 					필터 열기
 				</button> */}
 				<HomeSideSectionPosition filterVisible={filterVisible}>
-					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} />
+					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} />
 				</HomeSideSectionPosition>
 			</HomePagePosition>
 			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
