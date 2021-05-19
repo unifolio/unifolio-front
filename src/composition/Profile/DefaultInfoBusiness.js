@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-const DefaultInfo = (props) => {
+const DefaultInfoBusiness = (props) => {
 	const { user, handleSubmit } = props;
 
 	useEffect(() => {
@@ -25,13 +25,13 @@ const DefaultInfo = (props) => {
 			<h1> 회원 정보 </h1>
 			<HeadlineBottomBorder />
 			<div className="row">
-				<div className="left-column"> 개인회원 </div>
-				<div className="right-column"> {user?.name} 님 </div>
+				<div className="left-column"> 법인회원 </div>
+				<div className="right-column"> {user.corporate_name} 님 </div>
 			</div>
 			<div className="row">
 				<div className="left-column">이메일</div>
 				<div className="right-column">
-					<div style={{ display: 'block' }}>{user?.email}</div>
+					<div style={{ display: 'block' }}>{user.email}</div>
 				</div>
 			</div>
 			<div className="row">
@@ -41,22 +41,22 @@ const DefaultInfo = (props) => {
 						{user?.phone_number} <button onClick={onClickEditButton}> 수정하기 </button>
 					</div>
 					<div style={{ display: 'none' }}>
-						<input type="text" placeholder={user?.phone_number} /> <button onClick={onClickEditButton}> 입력 완료 </button>
+						<input type="text" placeholder={user.phone_number} /> <button onClick={onClickEditButton}> 입력 완료 </button>
 					</div>
 				</div>
 			</div>
 			<div className="row">
 				<div className="left-column">우편번호</div>
-				<div className="right-column">{user?.address_postcode}</div>
+				<div className="right-column">{user.address_postcode_business}</div>
 			</div>
 			<div className="row">
 				<div className="left-column">등록주소</div>
 				<div className="right-column">
 					<div style={{ display: 'block' }}>
-						{user?.address} {user?.address_detail} <button onClick={onClickEditButton}> 수정하기 </button>
+						{user.address_business} {user.address_detail_business} <button onClick={onClickEditButton}> 수정하기 </button>
 					</div>
 					<div style={{ display: 'none' }}>
-						<input type="text" placeholder={`${user?.address} ${user?.address_detail}`} /> <button onClick={onClickEditButton}> 입력 완료 </button>
+						<input type="text" placeholder={`${user.address} ${user.address_detail_business}`} /> <button onClick={onClickEditButton}> 입력 완료 </button>
 					</div>
 				</div>
 			</div>
@@ -90,4 +90,4 @@ const DefaultInfoColumn = styled.section`
 	display: flex;
 `;
 
-export default DefaultInfo;
+export default DefaultInfoBusiness;
