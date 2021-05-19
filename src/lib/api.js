@@ -134,12 +134,11 @@ const API = {
     },
   },
   patch: {
-    user: (id, data) => {
+    usersGeneral: async (id, data) => {
       const config = {
         headers: { 'Content-Type': 'application/json' },
       };
-      const response = axios
-        .patch(`http://127.0.0.1:8000/users/${id}/`, data, config)
+      const response = await axios.patch(`http://127.0.0.1:8000/users/general/${id}/`, data, config)
         .then((resolve) => {
           console.log(resolve);
           return resolve;

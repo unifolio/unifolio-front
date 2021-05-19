@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import DefaultInfo from 'composition/Profile/DefaultInfo';
+
+import DefaultInfoGeneral from 'composition/Profile/DefaultInfoGeneral.js';
+import DefaultInfoBusiness from 'composition/Profile/DefaultInfoBusiness.js';
+
 import API from '../lib/api';
 
 const DefaultInfoContainer = () => {
@@ -41,11 +44,17 @@ const DefaultInfoContainer = () => {
 		const token = { token: localStorage.getItem('unifolioAccess') };
 		const response = await API.post.tokenToGetUser(token);
 		const userId = response.data.data.id;
-		console.log(data);
-		API.patch.user(userId, data);
+		console.log(":handleSubmit", data);
+		API.patch.usersGeneral(userId, data);
 	};
 
-	return <DefaultInfo user={user} handleSubmit={handleSubmit} />;
+  if (!user) return <></>;
+	return (
+    <>
+      {user.role === "general" && <DefaultInfoGeneral user={user} handleSubmit={handleSubmit} />}
+      {user.role === "business" && <DefaultInfoBusiness user={user} handleSubmit={handleSubmit} />}
+    </>
+  );
 };
 
 export default DefaultInfoContainer;
