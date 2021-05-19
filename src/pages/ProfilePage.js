@@ -11,10 +11,64 @@ import AdditionalInfoContainer from 'containers/AdditionalInfoContainer';
 import CreateUnion from 'composition/Profile/CreateUnion';
 // import ManageAssociation from '../components/ManageAssociation';
 
-const ProfilePagePosition = styled(Responsive)`
-	position: relative;
-	height: calc(100vh - 8rem);
-	max-width: 100%;
+const ProfilePage = (props) => {
+	const { location } = props;
+	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+	// const mainRef = React.createRef();
+
+	const [status, setStatus] = useState(query.mode !== undefined ? query.mode : 'profile');
+
+	useEffect(() => {
+		// mainRef.current.classList.remove(mainRef.current.classList.item(2));
+		// mainRef.current.classList.add(status);
+	}, [status]);
+
+	const mainSectionSelector = (current) => {
+		console.log('mainSectionSelector', current);
+		if (status !== current && current !== undefined) {
+			setStatus(current);
+		}
+		switch (current) {
+			case 'create-association':
+				return <CreateUnion />;
+			case 'profile':
+				console.log('profile not usable');
+				return <div style={{ width: '100%' }}> profile </div>;
+			default:
+				return <div style={{ width: '100%' }}> profile </div>;
+		}
+	};
+
+	const onChangeHeaderStatus = (value) => {
+		console.log('onChangeHeaderStatus', value);
+		setStatus(value);
+	};
+
+	return (
+		<>
+			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
+			
+			<ProfilePageLayout className="ProfilePage">
+				{status === 'profile' && (
+					<>
+						<DefaultInfoContainer />
+						<AdditionalInfoContainer />
+					</>
+				)}
+				{status !== 'profile' && (
+					<ProfilePageMainSection>
+						<CreateUnion />
+					</ProfilePageMainSection>
+				)}
+			</ProfilePageLayout>
+		</>
+	);
+};
+
+const ProfilePageLayout = styled(Responsive)`
+	height: calc(100vh - 8rem); /* 레거시 */
+	max-width: 1010px;
+  margin: auto;
 
 	display: flex;
 	flex-direction: column;
@@ -53,58 +107,5 @@ const ProfilePageMainSection = styled.div`
 	}
 `;
 
-const ProfilePage = (props) => {
-	const { location } = props;
-	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-	// const mainRef = React.createRef();
-
-	const [status, setStatus] = useState(query.mode !== undefined ? query.mode : 'profile');
-
-	useEffect(() => {
-		// mainRef.current.classList.remove(mainRef.current.classList.item(2));
-		// mainRef.current.classList.add(status);
-	}, [status]);
-
-	const mainSectionSelector = (current) => {
-		console.log('mainSectionSelector', current);
-		if (status !== current && current !== undefined) {
-			setStatus(current);
-		}
-		switch (current) {
-			case 'create-association':
-				return <CreateUnion />;
-			case 'profile':
-				console.log('profile not usable');
-				return <div style={{ width: '100%' }}> profile </div>;
-			default:
-				return <div style={{ width: '100%' }}> profile </div>;
-		}
-	};
-
-	const onChangeHeaderStatus = (value) => {
-		console.log('onChangeHeaderStatus', value);
-		setStatus(value);
-	};
-
-	return (
-		<>
-			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
-			<br />
-			<ProfilePagePosition className="ProfilePage">
-				{status === 'profile' && (
-					<>
-						<DefaultInfoContainer />
-						<AdditionalInfoContainer />
-					</>
-				)}
-				{status !== 'profile' && (
-					<ProfilePageMainSection>
-						<CreateUnion />
-					</ProfilePageMainSection>
-				)}
-			</ProfilePagePosition>
-		</>
-	);
-};
 
 export default ProfilePage;

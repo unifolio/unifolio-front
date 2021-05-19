@@ -11,8 +11,7 @@ const Signup02 = (props) => {
   const [address, SetAddress] = useState("");
   const [addressDetail, SetAddressDetail] = useState("");
   
-  useEffect(() => {
-    
+  useEffect(() => {  
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.onload = () => { console.log("is onload ?"); }
