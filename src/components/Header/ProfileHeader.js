@@ -8,7 +8,6 @@ import palette from '../../lib/styles/palette.js';
 
 const ProfileHeaderPosition = styled(Responsive)`
 	position: relative;
-	max-width: 100%;
 	height: 4rem;
 	box-shadow: 1px 2px 5px grey;
 `;

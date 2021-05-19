@@ -10,7 +10,6 @@ import palette from '../../lib/styles/palette.js';
 const AssociationCreateHeaderPosition = styled.div`
 	position: relative;
 	z-index: -1;
-	max-width: 100%;
 	height: 4rem;
 	box-shadow: 1px 2px 5px grey;
 	background-color: rgba(74, 85, 104, 0.7);

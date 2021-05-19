@@ -15,24 +15,26 @@ const Card = ({ idx, info, openModal}) => {
           </CardHeaderLeft>
           <CardHeaderRight>
             <CommonText>최대 출자 가능액</CommonText>
-            <MoneyText>2,000만원</MoneyText>
+            <MoneyText>{info.maximum_investable_amount / 10000}만원</MoneyText>
           </CardHeaderRight>
         </CardHeader>
         <SectionPosition>
           <InfomationTitle>
             <CommonText>학력</CommonText>
           </InfomationTitle>
-          <InfomationRow>
-            <InfomationMain>
-              경희대학교
-            </InfomationMain>
-            <InfomationMiddle>
-              컴퓨터공학과
-            </InfomationMiddle>
-            <InfomationRight>
-              학사
-            </InfomationRight>
-          </InfomationRow>
+          {info.education.map((educate, index)=>
+                  <InfomationRow key={index}>
+                      <InfomationMain>
+                        {educate.university??educate.university_master}
+                      </InfomationMain>
+                      <InfomationMiddle>
+                      {educate.university_major??educate.university_master_major}
+                      </InfomationMiddle>
+                      <InfomationRight>
+                        학사
+                      </InfomationRight>
+                  </InfomationRow>
+          )}
         </SectionPosition>
 
         <SectionPosition>
@@ -40,35 +42,37 @@ const Card = ({ idx, info, openModal}) => {
             <CommonText>경력</CommonText>
           </InfomationTitle>
 
-          <InfomationRow>
-            <InfomationMain>
-              자동차
-            </InfomationMain>
-            <InfomationMiddle>
-              현대자동차
-            </InfomationMiddle>
-            <InfomationMiddle>
-              UX
-            </InfomationMiddle>
-            <InfomationRight>
-              24개월
-            </InfomationRight>
+          {info.career.map((career,index)=>
+            <InfomationRow key={index}>
+              <InfomationMain>
+                {career.category}
+              </InfomationMain>
+              <InfomationMiddle>
+                {career.company}
+              </InfomationMiddle>
+              <InfomationMiddle>
+                {career.job}
+              </InfomationMiddle>
+              <InfomationRight>
+                24개월
+              </InfomationRight>
           </InfomationRow>
-
-          <InfomationRow>
-            <InfomationMain>
-              자동차
-            </InfomationMain>
-            <InfomationMiddle>
-              현대자동차
-            </InfomationMiddle>
-            <InfomationMiddle>
-              UX
-            </InfomationMiddle>
-            <InfomationRight>
-              24개월
-            </InfomationRight>
-          </InfomationRow>
+          )}
+          {
+            info.investment_history.map((history,index)=>
+            <InfomationRow>
+              <InfomationMain>
+              {history.category}
+              </InfomationMain>
+              <InfomationMiddle>
+              {history.company}
+              </InfomationMiddle>
+              <InfomationRight>
+                24개월
+              </InfomationRight>
+             </InfomationRow>
+            )
+          }
         </SectionPosition>
       </CardInnerLayout>
       <ButtonPosition>
@@ -121,6 +125,7 @@ const MoneyText = styled.span`
 
 const SectionPosition = styled.section`
 	margin: 1rem 0;
+  overflow:scroll;
 `
 
 const InfomationTitle = styled.div`
@@ -143,6 +148,11 @@ const InfomationRight = styled(CommonText)`
 `;
 const InfomationMiddle = styled(CommonText)`
 	flex:1;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+
 `; 
 const ButtonPosition = styled.div`
 	margin-top:2rem;

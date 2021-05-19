@@ -1,3 +1,4 @@
+import Responsive from 'components/common/Responsive';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -19,6 +20,7 @@ const LandingPageBlock = styled.div`
   grid-template-rows: 8rem 1fr 1fr 1fr;
   padding-left:3rem;
   padding-right:3rem;
+  
 `;
 
 const TopSection = styled.section`
@@ -35,6 +37,11 @@ const TopCardsSection = styled.section`
   justify-items: center;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 2rem;
+  max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 `;
 
 const Card = styled.div`
@@ -51,6 +58,11 @@ const MiddleSection1 = styled.section`
   color:black;
   /* padding-bottom:2rem; */
   height: calc(100vh - 4rem);
+  max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 `;
 
 const MiddleSection2 = styled.section`
@@ -61,6 +73,11 @@ const MiddleSection2 = styled.section`
   color:black;
   /* padding-bottom:2rem; */
   height: calc(100vh - 4rem);
+  max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 `;
 
 const MiddleSection3 = styled.section`
@@ -70,12 +87,18 @@ const MiddleSection3 = styled.section`
   color:black;
   /* padding-bottom:2rem; */
   height: calc(100vh - 4rem);
+  max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 `;
 
 const LandingPage = () => {
   return (
     <LandingPageBlock>
       <Spacer></Spacer>
+      <Responsive level={2}>
       <TopSection>
         <div>
           <h1> 당신의 첫 개인투자조합 </h1> <br />
@@ -125,7 +148,7 @@ const LandingPage = () => {
           출자금에 대한 회수는 어떻게 할 수 있나요?
           >
         </MiddleSection3>
-      
+        </Responsive>
     </LandingPageBlock>
   );
 }

@@ -8,9 +8,10 @@ import palette from "../../lib/styles/palette.js";
 
 const HomeHeaderPosition = styled(Responsive)`
   position: relative;
-  max-width: 100%;
   height: 4rem;
-  box-shadow: 1px 2px 5px grey;
+  box-shadow: 0 4px 4px -4px gray;
+  z-index:3;
+
 `;
 
 const HomeHeaderLayout = styled.div`
@@ -19,6 +20,11 @@ const HomeHeaderLayout = styled.div`
   grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-items: center;
+  max-width: 1440px;
+	margin: 0 auto;
+	@media (max-width: 1440px) {
+		width: 100%;
+	}
 
   .homeheader-item {
     width:80%;
