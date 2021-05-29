@@ -29,11 +29,11 @@ const WaitingUnions = (props) => {
     if (unions.length === 0 ) {
       return;
     }
-	}, []);
+	}, [unions.length]);
 
 	return (
 		<>
-			{unions.map((union, i) => {
+			{unions?.map((union, i) => {
         return (
           <WaitingUnionsCell key={`${i}`}>
             <UnionCard union={union} idx={i+1} openModal={onOpenModal} />

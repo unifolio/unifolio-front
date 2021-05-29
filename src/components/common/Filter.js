@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterValue, setFilterValue,categories}) => {
+const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterValue, setFilterValue,categories,dataLength}) => {
     const [moreCategory,setMoreCategory] = useState(false);
     const cloneObj = obj => JSON.parse(JSON.stringify(obj))
     const onClickCheckBox = (e) => {
@@ -70,7 +70,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                             회사 분야
                         </FilterSubTitle>
                         <FilterList>
-                        {(moreCategory? categories:categories.slice(0,5)).map((item,index)=>
+                        {(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
                             <FilterListItem key={index}> 
                                 <FilterCheckBox type='checkbox' name='회사 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
                                 <FilterListLabel htmlFor={item.category} >
@@ -119,7 +119,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                             투자 분야
                         </FilterSubTitle>
                         <FilterList>
-                        {(moreCategory? categories:categories.slice(0,5)).map((item,index)=>
+                        {(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
                             <FilterListItem key={index}>
                                 
                                 <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
@@ -213,7 +213,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
         <MiniFilterWrap>
               <MiniFilterHeader>
                   <MiniFilterTitle>
-                      총 <MiniFilterTitleListCount>20건</MiniFilterTitleListCount> 검색
+                      총 <MiniFilterTitleListCount>{dataLength}건</MiniFilterTitleListCount> 검색
                   </MiniFilterTitle>
               </MiniFilterHeader>
               <MiniFilterSection>
