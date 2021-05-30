@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 import { Input, Button, Select } from 'antd';
 
-const CareerInput = (props) => {
-	const { type, count, onCareerChange, onCareerDelete } = props;
-
+const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
+	
   const handleCareerChange = (e) => {
     if (!e.target) { // select일 때
       let { value, name } = e;
@@ -19,8 +18,8 @@ const CareerInput = (props) => {
 
   /* legacy */ 
 	const deleteCareerInput = (count) => {
-		let target = document.querySelector(`.career-${count}`);
-		target.parentNode.removeChild(target);
+		// let target = document.querySelector(`.career-${count}`);
+		// target.parentNode.removeChild(target);
 		onCareerDelete(count);
 	};
 	switch (type) {

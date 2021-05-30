@@ -1,9 +1,9 @@
 import React from 'react';
-import { Input, Button, Select } from 'antd';
 import styled from 'styled-components';
 
-const EducationInput = ({ type, count, value, onEducationChange, onEducationDelete }) => {
-	
+import { Input, Button, Select } from 'antd';
+
+const EducationInputWithSelect = ({ type, count, value, onEducationChange, onEducationDelete }) => {
   const handleEducationChange = (e) => {
     if (!e.target) { // select일 때
       let { value, name } = e;
@@ -23,7 +23,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 		case 'highschool':
 			return (
 				<SchoolContent className={`school-${count}`}>
-					<div className="column title">고등학교</div>
+					{/* <div className="column title">고등학교</div> */}
 					<div className="column contents">
 						<div className="row">
 							<Input className={"row-8"} value={value?.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
@@ -51,7 +51,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 		case 'university':
 			return (
 				<SchoolContent className={`school-${count}`}>
-					<div className="column title">대학교 (학사)</div>
+					{/* <div className="column title">대학교 (학사)</div> */}
 					<div className="column contents">
 						<div className="row">
 							<Input name={`school-name-${count}`} value={value.university} size="large" placeholder="학교명" onChange={handleEducationChange} />
@@ -78,7 +78,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 		case 'university_master':
 			return (
 				<SchoolContent className={`school-${count}`}>
-					<div className="column title">대학원 (석사)</div>
+					{/* <div className="column title">대학원 (석사)</div> */}
 					<div className="column contents">
 						<div className="row">
 							<Input name={`school-name-${count}`} value={value.university_master} size="large" placeholder="학교명" onChange={handleEducationChange} />
@@ -105,7 +105,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 		case 'university_doctor':
 			return (
 				<SchoolContent className={`school-${count}`}>
-					<div className="column title">대학원 (박사)</div>
+					{/* <div className="column title">대학원 (박사)</div> */}
 					<div className="column contents">
 						<div className="row">
 							<Input name={`school-name-${count}`} size="large" value={value.university_doctor}  placeholder="학교명" onChange={handleEducationChange} />
@@ -176,4 +176,4 @@ const SchoolContent = styled.div`
 	}
 `;
 
-export default React.memo(EducationInput);
+export default EducationInputWithSelect
