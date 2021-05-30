@@ -1,31 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Select } from 'antd';
+import UnsettedButton from 'components/common/UnsettedButton';
 
-import EducationInputModal from 'composition/Profile/EducationInputModal';
-import CareerInputModal from 'composition/Profile/CareerInputModal';
+import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
+import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGeneral';
+import ProfileCareerInputFinancial from 'composition/Profile/ProfileCareerInputFinancial';
+import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestmentHistoryInput';
 
 import InvestmentHistoryInput from 'components/InvestmentHistoryInput';
 
-const AdditionalInfo = (props) => {
-	const {} = props;
-
-  const mainRef = React.createRef();
-	const $modalRef = useRef();
+const AdditionalInfo = ({user, handleSubmit}) => {
 
   const [educationInputs, setEducationInputs] = useState([]);
-  const educationSelect = useRef();
-
   const [careerInputs, setCareerInputs] = useState([]);
-  const careerSelect = useRef();
-  
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
-  const counts = useRef({ education: 2, career: 2 });
-
-  // const $educationInputs = useRef();
-  // const $careerInputs = useRef();
-
-  const [currentModal, setCurrentModal] = useState(null);
+  
+  const counts = useRef({ education: 2, career: 2, investmentHistory: 1 });
   
   useEffect(() => {
     // 학력사항
@@ -64,69 +54,58 @@ const AdditionalInfo = (props) => {
       }
     }]
     setInvestmentHistoryInputs([...investmentHistoryData]);
+  }, [])
 
-    // 모달 핸들
-
-    if (currentModal === false || currentModal === null) {
-      $modalRef.current.style.display = 'none';
-			document.querySelector('body').style.overflow = '';
-		} else {
-      $modalRef.current.style.display = 'flex';
-      document.querySelector('body').style.overflow = 'hidden';
-    }
-
-  }, [currentModal])
-
-  const addEducationInput = () => {
-    
-    if (educationSelect.current === undefined) {
-      alert("학력 정보를 선택해주세요.");
-      return;
-    }
-
+  const addEducationInput = (selectedEducationInfo) => {
     let data = {
       count: counts.current.education + 1, // count,
-      type: educationSelect.current, //selected,
-      info: {
-        attend_status: null
-      }
+      type: selectedEducationInfo, //selected,
+      info: { attend_status: null, [selectedEducationInfo]:null }
     }
 
-    data.info[educationSelect.current] = null;
-    if (educationSelect.current !== "highschool")
-      data.info[`${educationSelect.current}_major`] = null;
+    if (selectedEducationInfo !== "highschool")
+      data.info[`${selectedEducationInfo}_major`] = null;
     
     counts.current.education += 1;
     setEducationInputs([...educationInputs, data]);
   }
 
-  const addCareerInput = () => {
-  
-    if (careerSelect.current === undefined) {
-      alert("경력 정보를 선택해주세요.");
-      return;
-    }
+  const changeEducationInput = (payload) => {
+    const changedEducationInputs = educationInputs.map((inputData) => {
+      if (inputData.count === payload.count) {
+        let data = {
+          count: payload.count,
+          type: payload.type,
+          info: { attend_status: null, [payload.type]: null }
+        }
+        if (payload.type !== "highschool") {
+          data.info[`${payload.type}_major`] = null;
+        }
+        return data;
+      }
+      return inputData;
+    });
+    setEducationInputs(changedEducationInputs);
+  }
 
+  const addCareerInput = (selectedCareerInfo) => {
     let data = {
       count: counts.current.career + 1, // count,
-      type: careerSelect.current, //selected,
-      info: {
-        status: null
-      }
+      type: selectedCareerInfo, //selected,
+      info: { status: null, company: null, position: null, start_date: null, end_date: null }
     }
-
-    data.info[careerSelect.current] = null;
     counts.current.career += 1;
     setCareerInputs([...careerInputs, data]);
   }
 
   const addInvestmentHistoryInput = () => {
     let data = {
-      count: investmentHistoryInputs.length,
+      count: counts.current.investmentHistory + 1,
       info: {
         category: null, firm: null, description: null
       }
     }
+    counts.current.investmentHistory += 1;
     setInvestmentHistoryInputs([...investmentHistoryInputs, data]);
   }
 
@@ -134,39 +113,33 @@ const AdditionalInfo = (props) => {
     
     const changedEducationInputs = educationInputs.map((educationInput) => {
       if (educationInput.count === Number(count)) {
-        if (name.includes("attend-status"))
-          educationInput.info["attend_status"] = value
-        if (name.includes("name"))
-          educationInput.info[educationInput.type] = value
-        if (name.includes("major"))
-          educationInput.info[`${educationInput.type}_major`] = value;
+        if (name.includes("attend-status")) educationInput.info["attend_status"] = value
+        else if (name.includes("name")) educationInput.info[educationInput.type] = value
+        else if (name.includes("major")) educationInput.info[`${educationInput.type}_major`] = value;
       }
       
       return educationInput;
     });
 
-    setEducationInputs([...changedEducationInputs]);
-    console.log(educationInputs)
+    setEducationInputs(changedEducationInputs);
+    
 	};
 
-  const onCareerChange = ({ idx, name, value }) => {
+  const onCareerChange = ({ count, name, value }) => {
 
-    for (const careerInput of careerInputs) {
-      if (careerInput.idx === Number(idx)) {
-        if (name.includes("status"))
-          careerInput.info["status"] = value;
-        if (name.includes("company"))
-          careerInput.info["company"] = value;
-        if (name.includes("position"))
-          careerInput.info["position"] = value;
-        if (name.includes("start-date"))
-          careerInput.info["start_date"] = value;
-        if (name.includes("end-date"))
-          careerInput.info["end_date"] = value;
+    const changedCareerInputs = careerInputs.map((careerInput) => {
+      if (careerInput.count === Number(count)) {
+        if (name.includes("status")) careerInput.info["status"] = value;
+        else if (name.includes("company")) careerInput.info["company"] = value;
+        else if (name.includes("position")) careerInput.info["position"] = value;
+        else if (name.includes("start-date")) careerInput.info["start_date"] = value;
+        else if (name.includes("end-date")) careerInput.info["end_date"] = value;
       }
-    }
-    console.log(careerInputs);
-    setCareerInputs([...careerInputs]);
+      
+      return careerInput;
+    });
+    
+    setCareerInputs(changedCareerInputs);
 	};
 
   const onInvestmentHistoryChange = ({ idx, name, value }) => {
@@ -183,198 +156,109 @@ const AdditionalInfo = (props) => {
     console.log(investmentHistoryInputs);
   }
 
-
-	const onChangeSelect = ({type, value}) => {
-    console.log(type, value)
-    switch(type) {
-      case "education":
-        educationSelect.current = value;
-        break;
-      case "career":
-        careerSelect.current = value;
-        break;
-      default:
-        break;
-    }
-  }
-
   const onEducationDelete = (count) => {
     const filteredEducationInputs = educationInputs.filter((education) => {
       return education.count !== count;
     });
-    setEducationInputs([...filteredEducationInputs]);
+    setEducationInputs(filteredEducationInputs);
   }
 
   const onCareerDelete = (count) => {
-
-    // const filteredEducationInputs = educationInputs.filter((education) => {
-    //   return education.count !== count;
-    // });
-    // setEducationInputs([...filteredEducationInputs]);
-
-    let tmpCareerInputs = careerInputs;
-		for (const [i, each] of tmpCareerInputs.entries()) {
-			if (each[0] == count) tmpCareerInputs.splice(i, 1);
-		}
-		setCareerInputs(tmpCareerInputs);
+    const filteredCareerInputs = careerInputs.filter((career) => {
+      return career.count !== count;
+    });
+    setCareerInputs(filteredCareerInputs);
   }
 
-  // legacy //
-  const onInvestmentHistoryDelete = (idx) => {
-
+  
+  const onInvestmentHistoryDelete = (count) => {
+    const filteredInvestmentHistoryInputs = investmentHistoryInputs.filter((investment) => {
+      return investment.count !== count;
+    });
+    setInvestmentHistoryInputs(filteredInvestmentHistoryInputs);
   }
-  // legacy //
-
-  const toggleModal = (inputs) => {
-    console.log("toggleModal", inputs)
-    if (inputs === false) {
-      setCurrentModal(null);
-			return;
-		}
-    
-    setCurrentModal(inputs);
-	};
+  
 
   const onEducationSubmit = () => {
-    
+    handleSubmit(educationInputs)
   }
 
 	return (
-    <>
-      <AdditionalInfoLayout ref={mainRef}>
-        <h1> 추가 정보 </h1>
-        <HeadlineBottomBorder />
-        <section>
-          <div className="row">
-            <div className="title with-select-button">
-              <h2> 학력 사항 입력 </h2>
-              <div className="column contents">
-                <Button onClick={() => {toggleModal("education")}} size="large" style={{ display: 'flex', marginLeft:'10px' }}> 
-                  추가
-                </Button>
-              </div>
-              
-            </div>
-          </div>
-          <div className="row">
-            <div className="school-inputs" style={{ height:"100px" }}>
-              <span> 추가 버튼을 눌러 학력사항을 입력해주세요 </span>
-            </div>
-          </div>
-        </section>
-        <section>
-          <div className="row">
-            <div className="title">
-              <h2> 경력 사항 입력 </h2>
-              <div className="column contents">
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="career-inputs">
-              <div className="career-input-general"> 
-                <div className="row">
-                  <div className="title with-select-button">
-                    <h2>일반 경력사항 </h2>
-                    <div className="column contents">
-                      <Button size="large" style={{ display: 'flex', marginLeft:'10px' }}
-                        onClick={() => { toggleModal("general"); onChangeSelect({type:"career", value:"general" }) }} 
-                      > 
-                        추가
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="career-input-general-contents" style={{height:"100px" }}>
-                    <span> 추가 버튼을 눌러 일반 경력사항을 입력해주세요 </span>
-                  </div>
-                </div>
-              </div>
-              <div className="career-input-financial column"> 
-                <div className="title with-select-button">
-                  <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
-                  <Button size="large" style={{ display: 'flex', marginLeft:'10px' }}
-                    onClick={() => {toggleModal("financial"); onChangeSelect({type:"career", value:"financial" })}}
-                  > 
-                    추가
-                  </Button>
-                </div>
-                
-                <div className="career-input-financial-contents" style={{height:"100px" }}>
-                <span> 추가 버튼을 눌러 투자 관련 경력사항을 입력해주세요 </span>
-                  {/* {careerInputs.map((input, index) => {
-                    return input.type === "financial" && (
-                        <CareerInput type={input.type} count={input.idx} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
-                      )
-                    })
-                  } */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section>
-          <div className="row">
-            <div className="title with-select-button">
-              <h2> 투자 이력 입력 </h2>
-              <div className="column contents">
-                <Button 
-                  size="large" style={{ display: 'flex', marginLeft:'10px' }} onClick={addInvestmentHistoryInput}
-                > 
-                  추가
-                </Button>
-              </div>
-              
-            </div>
-            <div className="row">
-              <div className="investment-history-inputs">  
-                {investmentHistoryInputs.map((input, index) => (
-                    <InvestmentHistoryInput type={input.type} count={input.idx} key={`investment-history-${index}`} onInvestmentHistoryChange={onInvestmentHistoryChange} onInvestmentHistoryDelete={onInvestmentHistoryDelete} />
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-      </AdditionalInfoLayout>
-      <AdditionalInfoModalPosition ref={$modalRef} onClick={() => {toggleModal(false);}}>
-        <AdditionalInfoModal onClick={(e) => { e.stopPropagation(); }}>
-          
-          {currentModal === "education" 
-            && <EducationInputModal addEducationInput={addEducationInput} onChangeSelect={onChangeSelect} 
-              educationInputs={educationInputs} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete}
-            />
-          }
-          
-          {currentModal === "general" 
-            && <CareerInputModal addCareerInput={addCareerInput}
-            careerInputs={careerInputs} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
-            />
-          }
-          {currentModal === "financial" 
-            && <EducationInputModal addEducationInput={addEducationInput}
-              educationInputs={educationInputs} onEducationChange={onEducationChange} onEducationDelete={onEducationDelete}
-            />
-          }
-          {/* 
-                <div className="career-input-financial career-inputs-financial-modal"> 
-                  <h2>관련 경력사항 (투자 및 컨설팅 분야)</h2> 
-                  <div className="career-input-financial-contents">
-                    {careerInputs.map((input, index) => {
-                      return input.type === "financial" && (
-                          <CareerInput type={input.type} count={input.idx} key={`career-${index}`} onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} />
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-           */}
-        </AdditionalInfoModal>
-      </AdditionalInfoModalPosition>
-    </>
+    
+    <AdditionalInfoLayout>
+      <h1> 추가 정보 </h1>
+      <HeadlineBottomBorder />
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <h2> 학력 사항 입력 </h2>
+            <Button onClick={() => {addEducationInput("highschool")}}> 
+              <ScrewIcon /> 추가하기
+            </Button>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <ProfileEducationInput educationInputs={educationInputs} 
+            changeEducationInput={changeEducationInput} 
+            onEducationDelete={onEducationDelete}
+            onEducationChange={onEducationChange}
+            onEducationSubmit={onEducationSubmit}
+          />
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <h2> 일반 경력사항 입력 </h2>
+            <Button onClick={() => {addCareerInput("general")}}> 
+              <ScrewIcon /> 추가하기
+            </Button>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <ProfileCareerInputGeneral careerInputs={careerInputs} 
+            addCareerInput={addCareerInput}
+            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
+          />
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <h2> 관련 경력사항 (투자 및 컨설팅 분야) 입력 </h2>
+            <Button onClick={() => {addCareerInput("financial")}}> 
+              <ScrewIcon /> 추가하기
+            </Button>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <ProfileCareerInputFinancial careerInputs={careerInputs} 
+            addCareerInput={addCareerInput} 
+            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
+          />
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <h2> 투자 이력 입력 </h2>
+            <Button onClick={addInvestmentHistoryInput}> 
+              <ScrewIcon /> 추가하기
+            </Button>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          {/* <ProfileCareerInputFinancial careerInputs={careerInputs} 
+            addCareerInput={addCareerInput} 
+            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
+          /> */}
+          {investmentHistoryInputs.map((input, index) => (
+              <InvestmentHistoryInput type={input.type} count={input.idx} key={`investment-history-${index}`} onInvestmentHistoryChange={onInvestmentHistoryChange} onInvestmentHistoryDelete={onInvestmentHistoryDelete} />
+            )
+          )}
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+    </AdditionalInfoLayout>
 	);
 };
 
@@ -392,81 +276,27 @@ const AdditionalInfoModalPosition = styled.div`
 	align-items: center;
 `;
 
-const AdditionalInfoModal = styled.div`
-  width: 70vw;
-	height: 35vw;
-	background-color: white;
-  padding: 15px;
-  z-index: 3;
 
-	display: flex;
-	flex-flow: column;
-
-  .row {
-		display: flex;
-    flex-direction: column;
-		
-    .title, .contents {
-      display: flex; 
-    }
-    .investment-history-inputs {
-      width: 100%;
-    }
-    
-    .left-column {
-			color: blue;
-			flex: 1 1 0;
-		}
-		.right-column {
-			color: blue;
-			flex: 3 1 0;
-		}
-	}
+const AdditionalInfoRow = styled.div`
+  display: flex;
+  flex-direction: column;
   
-  .with-select-button {
-    justify-content: space-between;
-  }
-  section + section {
-    margin-top: 50px;
-  }
-  section > .row + .row {
-    margin-top: 25px;
-  }
+
+  & + & {
+    margin-top: 24px;
+  } 
 `;
+const AdditionalInfoColumns = styled.div`
+  width: 100%;
+  
+  display:flex;
+  justify-content: space-between;
+`;
+const AdditionalInfoSection = styled.section``;
 
 const AdditionalInfoLayout = styled.section`
 	display: flex;
 	flex-direction: column;
-
-	.row {
-		display: flex;
-    flex-direction: column;
-		
-    .title, .contents {
-      display: flex; 
-    }
-    .investment-history-inputs {
-      width: 100%;
-    }
-    
-    .left-column {
-			color: blue;
-			flex: 1 1 0;
-		}
-		.right-column {
-			color: blue;
-			flex: 3 1 0;
-		}
-  }
-	
-  .school-inputs, .career-input-general-contents, .career-input-financial-contents {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .with-select-button {
-    justify-content: space-between;
-  }
 
   section + section {
     margin-top: 50px;
@@ -485,5 +315,32 @@ const HeadlineBottomBorder = styled.div`
 const AdditionalInfoColumn = styled.section`
 	display: flex;
 `;
+
+const Button = styled(UnsettedButton)`
+  color:blue;
+  font-size: 16px;
+  
+  display: flex;
+`
+
+const ScrewIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border-radius: 50%;
+  color: white;
+  margin-right: 9px;
+  
+  ::after {
+    content:"+";
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+`
 
 export default AdditionalInfo;

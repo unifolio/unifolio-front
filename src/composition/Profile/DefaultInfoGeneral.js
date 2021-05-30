@@ -10,12 +10,9 @@ const DefaultInfoGeneral = ({ user, handleSubmit }) => {
   useEffect(() => {  
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-    script.onload = () => { console.log("is onload ?"); }
+    // script.onload = () => { console.log("is onload ?"); }
     document.body.appendChild(script);
   }, []);
-
-	// useEffect(() => {
-	// }, [user, isModifing]);
 
   const handleClickModifyButton = () => {
     setIsModifing(!isModifing);
@@ -127,7 +124,7 @@ const DefaultInfoGeneral = ({ user, handleSubmit }) => {
 };
 
 const DefaultInfoLayout = styled.section`
-  margin-top: 7rem;
+  margin-top: 3rem;
 	
   display: flex;
 	flex-direction: column;
