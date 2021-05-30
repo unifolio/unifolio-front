@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import DefaultInfoGeneral from 'composition/Profile/DefaultInfoGeneral.js';
 import DefaultInfoBusiness from 'composition/Profile/DefaultInfoBusiness.js';
 
-import API from '../lib/api';
+import API from 'lib/api';
 
 const DefaultInfoContainer = () => {
 	// const [user, setUser] = useState(JSON.parse(localStorage.getItem('unifolioUser')));

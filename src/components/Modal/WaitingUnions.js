@@ -31,6 +31,11 @@ const WaitingUnions = (props) => {
     }
 	}, [unions.length]);
 
+
+  if (unions.length === 0 ) {
+    console.log(`unions ${unions.length}`)
+    return <></>;
+  }
 	return (
 		<>
 			{unions?.map((union, i) => {
