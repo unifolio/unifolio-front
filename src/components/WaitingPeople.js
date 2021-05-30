@@ -12,8 +12,9 @@ const WaitingPeopleCell = styled.div`
 `;
 
 const WaitingPeople = (props) => {
-	const { openModal,filterValue } = props;
+	const { openModal,filterValue ,setDataLength} = props;
 	const [users, setUsers] = useState([]);
+	const [filteredUsers,setFilteredUsers] = useState([]);
 	
   const onOpenModal = (cardObj) => {
 		openModal(cardObj);
@@ -29,15 +30,47 @@ const WaitingPeople = (props) => {
     //   }
 	// 	};
 	// 	fetchData();
+		setFilteredUsers(data);
 	 	setUsers(data);
+		 setDataLength(data.length);
 	}, []);
+
+	useEffect(()=>{
+		console.log(filterValue)
+		if( Object.keys(filterValue["waiting-people"]).length !== 0){
+			const filteredData = users.filter((item,idx)=>{
+				if(filterValue["waiting-people"]["최대 출자가능액"]){
+					for(let maxCost of filterValue["waiting-people"]["최대 출자가능액"]){
+						if(maxCost==="5백만원 미만"&&item.maximum_investable_amount<5000000) return item;
+						if(maxCost==="5백만원 ~ 1천만원 미만"&&item.maximum_investable_amount>=5000000&&item.maximum_investable_amount<10000000) return item;
+						if(maxCost==="1천만원 이상"&&item.maximum_investable_amount>=10000000) return item;
+	
+					}
+				}
+				if(filterValue["waiting-people"]["회사 분야"]){
+					for(let filterCategory of filterValue["waiting-people"]["회사 분야"]){
+						for(let careerItem of item.career){
+							if(careerItem.category === filterCategory) return item;
+						}
+						for(let investmentHistoryItem of item.investment_history){
+							if(investmentHistoryItem === filterCategory) return item;
+						}
+					}
+				}
+			})
+			setDataLength(filteredData.length)
+			setFilteredUsers(filteredData);
+		}else{
+			setFilteredUsers(data);
+		}
+	},[filterValue])
 	
   return (
 		<>
-			{users?.map((user, i) => {
+			{filteredUsers?.map((user, i) => {
 				return (
 					<WaitingPeopleCell key={`${i}`}>
-						<Card idx={i + 1} info={user} openModal={onOpenModal} />
+						<Card idx={i + 1} info={user} key={`${i}`} openModal={onOpenModal} />
 					</WaitingPeopleCell>
 				);
 			})}

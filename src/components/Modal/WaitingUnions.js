@@ -25,7 +25,12 @@ const WaitingUnions = (props) => {
       setUnions(response.data);
 		};
 		fetchUnions();
-	}, []);
+
+    if (unions.length === 0 ) {
+      return;
+    }
+	}, [unions.length]);
+
 
   if (unions.length === 0 ) {
     console.log(`unions ${unions.length}`)
@@ -33,7 +38,7 @@ const WaitingUnions = (props) => {
   }
 	return (
 		<>
-			{unions.map((union, i) => {
+			{unions?.map((union, i) => {
         return (
           <WaitingUnionsCell key={`${i}`}>
             <UnionCard union={union} idx={i+1} openModal={onOpenModal} />

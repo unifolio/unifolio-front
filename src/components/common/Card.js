@@ -25,13 +25,15 @@ const Card = ({ idx, info, openModal}) => {
           {info.education.map((educate, index)=>
                   <InfomationRow key={index}>
                       <InfomationMain>
-                        {educate.university??educate.university_master}
+                        {educate.university??educate.university_master??educate.university_doctor}
                       </InfomationMain>
                       <InfomationMiddle>
-                      {educate.university_major??educate.university_master_major}
+                        {educate.university_major??educate.university_master_major??educate.university_doctor_major}
                       </InfomationMiddle>
                       <InfomationRight>
-                        학사
+                        {educate.university&&"학사"}
+                        {educate.university_master&&"석사"}
+                        {educate.university_doctor&&"박사"}
                       </InfomationRight>
                   </InfomationRow>
           )}
@@ -60,7 +62,7 @@ const Card = ({ idx, info, openModal}) => {
           )}
           {
             info.investment_history.map((history,index)=>
-            <InfomationRow>
+            <InfomationRow key={`${index}-${history}`}>
               <InfomationMain>
               {history.category}
               </InfomationMain>
@@ -86,8 +88,10 @@ const CardLayout = styled.div`
 	width: 100%;
 	height: 100%;
 	min-width:297px;
+  max-height:329px;
 	box-shadow: 0 5px 7px -1px gray;
-	padding: 1.5rem;
+	padding: 1rem 1.5rem;
+
 `;
 const CardInnerLayout = styled.div` // ref로 가져감.
   width: 100%;
@@ -124,7 +128,8 @@ const MoneyText = styled.span`
 `;
 
 const SectionPosition = styled.section`
-	margin: 1rem 0;
+	margin: 0.5rem 0;
+  max-height: 80px;
   overflow:scroll;
 `
 
@@ -155,7 +160,7 @@ const InfomationMiddle = styled(CommonText)`
 
 `; 
 const ButtonPosition = styled.div`
-	margin-top:2rem;
+  align-self:flex-end;
 	width:100%;
 `;
 const Button = styled.button`

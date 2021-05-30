@@ -22,7 +22,8 @@ const MainPage = (props) => {
 	const [filterVisible, setFilterVisible] = useState(false);
 	const [filterValue, setFilterValue] = useState({"waiting-people":{},
 	'waiting-unions':{}});
-	const [categories, setCategories] = useState()
+	const [categories, setCategories] = useState();
+	const [dataLength, setDataLength] = useState();
 	const $mainRef = React.createRef(),
 		$modalRef = React.createRef();
 
@@ -42,7 +43,7 @@ const MainPage = (props) => {
 		})();
 	},[])
 	
-  const modalSectionSelector = (current) => {
+  const modalSectionSelector = (current='waiting-people') => {
     switch (current) {
 			case 'waiting-people':
         return <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
@@ -62,11 +63,11 @@ const MainPage = (props) => {
 		}
   }
 
-	const mainSectionSelector = (current) => {
+	const mainSectionSelector = (current='waiting-people') => {
 		
 		switch (current) {
 			case 'waiting-people':
-				return <WaitingPeople openModal={toggleModal} filterValue={filterValue} />;
+				return <WaitingPeople openModal={toggleModal} filterValue={filterValue} setDataLength={setDataLength} />;
 			case 'waiting-unions':
 			  return <WaitingUnions openModal={toggleModal} />;
 			default:
@@ -100,13 +101,13 @@ const MainPage = (props) => {
 
 	return (
 		<>
-			<HomeHeader current={query.mode} />
+			<HomeHeader current={query.mode??'waiting-people'} />
 			<HomePagePosition className="HomePage">
 				<HomeMainSectionPosition>
 					<HomeMainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
 				</HomeMainSectionPosition>
 				<HomeSideSectionPosition filterVisible={filterVisible}>
-					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} />
+					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} dataLength={dataLength} />
 				</HomeSideSectionPosition>
 			</HomePagePosition>
 			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
