@@ -14,16 +14,16 @@ const Signup03 = (props) => {
 
 	const handlePhoneNumberChange = useCallback((e) => {
 		SetPhoneNumber(e.target.value);
-	});
+	}, []);
 
 	const handleAuthCodeChange = useCallback((e) => {
 		SetAuthCode(e.target.value);
-	});
+	}, []);
 
 	const handleSubmit = useCallback((e) => {
 		e.preventDefault();
 		onClickNext({ phone_number: phoneNumber, auth_code: authCode }, 3, e.target.parentNode);
-	});
+	}, []);
 
 	return (
 		<SignupRowBlock className={className}>

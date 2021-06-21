@@ -11,20 +11,20 @@ const Signup01 = (props) => {
 
   const handleEmailChange = useCallback((e) => {
     SetEmail(e.target.value);
-  });
+  }, []);
 
   const handlePasswordChange = useCallback((e) => {
     SetPassword(e.target.value);
-  });
+  }, []);
 
   const handlePasswordCheckChange = useCallback((e) => {
     SetPasswordCheck(e.target.value);
-  });
+  }, []);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
-  });
+  }, []);
 
   return (
     <SignupRowBlock className={className}>

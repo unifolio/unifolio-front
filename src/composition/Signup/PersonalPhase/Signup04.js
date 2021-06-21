@@ -17,16 +17,16 @@ const Signup04 = (props) => {
 
   const handleCheck01Change = useCallback((e) => {
     SetCheck01(e.target.checked)
-  });
+  }, []);
 
   const handleCheck02Change = useCallback((e) => {
     SetCheck02(e.target.checked)
-  });
+  }, []);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onClickNext({approval_access_terms, approval_marketing}, 4);
-  });
+  }, []);
 
   return (
     <SignupRowBlock className={className}>
