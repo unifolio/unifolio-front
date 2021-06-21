@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup01 = (props) => {
-  const { onClickNext, className } = props;
+const Signup01 = ({ onClickNext, className }) => {
+  
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
   const [passwordCheck, SetPasswordCheck] = useState("");
@@ -21,20 +21,20 @@ const Signup01 = (props) => {
 
   const handleEmailChange = useCallback((e) => {
     SetEmail(e.target.value);
-  });
+  }, []);
 
   const handlePasswordChange = useCallback((e) => {
     SetPassword(e.target.value);
-  });
+  }, []);
 
   const handlePasswordCheckChange = useCallback((e) => {
     SetPasswordCheck(e.target.value);
-  });
+  }, []);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
-  });
+  }, []);
 
   return (
     <SignupRowBlock className={className}>

@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup02 = (props) => {
-  const { onClickNext, className } = props;
+const Signup02 = ({ onClickNext, className }) => {
   const [corporate_name, SetCorporateName] = useState("");
   const [company_registration_number, SetCompanyRegistrationNumber] = useState("");
   const [corporate_registration, SetCorporateRegistration] = useState("");
@@ -59,7 +58,7 @@ const Signup02 = (props) => {
   
   const handleChangeCorporateName = useCallback((e) => {
     SetCorporateName(e.target.value);
-  });
+  }, []);
   
   const handleChangeCompanyRegistrationNumber = useCallback((e) => {
     if (e.target.value.length > 10) {
@@ -69,7 +68,7 @@ const Signup02 = (props) => {
     }
       
     SetCompanyRegistrationNumber(e.target.value);
-  });
+  }, []);
 
   const handleCorporateRegistration = useCallback((e) => {
     if (e.target.value.length > 13) {
@@ -78,11 +77,11 @@ const Signup02 = (props) => {
       return;
     }
     SetCorporateRegistration(e.target.value);
-  });
+  }, []);
 
   const handleChangeAddressDetail = useCallback((e) => {
     SetAddressDetail(e.target.value);
-  });
+  }, []);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
@@ -90,7 +89,7 @@ const Signup02 = (props) => {
       corporate_name, company_registration_number, corporate_registration, 
       address_postcode_business: postcode, address_business: address, address_detail_business: addressDetail
     }, 2);
-  });
+  }, []);
 
   return (
     <SignupRowBlock className={className}>
