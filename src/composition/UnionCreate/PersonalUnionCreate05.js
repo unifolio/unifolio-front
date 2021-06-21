@@ -1,10 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import { Button, Checkbox, Card } from 'antd';
 
-const PersonalUnionCreate05 = (props) => {
-	const { onClickNext, className } = props;
+const PersonalUnionCreate05 = ({ onClickNext, className }) => {
 
 	const layoutRef = useRef();
 	const handleSuccess = (e) => {
