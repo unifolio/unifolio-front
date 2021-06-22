@@ -21,18 +21,20 @@ const WaitingPeople = (props) => {
 	};
 
 	useEffect(() => {
-	// 	const fetchData = async () => {
-    //   const fetchUsers = await API.get.usersGeneral();
-    //   if (fetchUsers.status === 500) {
-    //     console.error("fetchUsers is 500");
-    //   } else if (fetchUsers.status === 200) {
-	// 		  setUsers(fetchUsers.data.results);
-    //   }
-	// 	};
-	// 	fetchData();
+	(async () => {
+      const fetchUsers = await API.get.usersGeneral();
+	  console.log(fetchUsers)
+      if (fetchUsers.status === 500) {
+        console.error("fetchUsers is 500");
+      } else if (fetchUsers.status === 200) {
+			  setUsers(fetchUsers.data.results);
+      }
+		})()
+		// fetchData();
 		setFilteredUsers(data);
 	 	setUsers(data);
 		 setDataLength(data.length);
+		 console.log(data)
 	}, []);
 
 	useEffect(()=>{
