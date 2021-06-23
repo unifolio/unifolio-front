@@ -22,10 +22,22 @@ const TopCardsSection = styled.section`
   max-width: 1440px;
   left: 50%; 
   margin-top: -100px;
-  bottom:-120px;
-	/* @media (max-width: 1440px) {
+  padding: 0 10px;
+	/* @media (max-width: 1140px) {
     grid-template-columns: 1fr 1fr;
 	} */
+  @media (max-width: 1040px) {
+    margin-top: -75px;
+
+	}
+  @media (max-width: 915px) {
+    grid-template-columns: 1fr 1fr;
+
+	}
+  @media (max-width: 615px) {
+    grid-template-columns: 1fr;
+
+	}
 `;
 const Title = styled.span`
   display:block;
@@ -100,7 +112,6 @@ const LandingPage = () => {
           UNIFOLIO는 출자자와 운용사의 개인 투자 조합 결성을 중개하고, <br/>
           결성된 조합의 관리를 돕는 플랫폼 서비스입니다.
           </Summary>
-
         </div>
         </Responsive>
       </TopSection>

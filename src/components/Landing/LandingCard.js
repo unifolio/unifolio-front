@@ -5,7 +5,7 @@ import JokeImage from '../../assets/images/ping.png'
 const Card = styled.section`
     max-width: 388px;
     width: 100%;
-    height: 211px;
+    height: 210px;
     background-color:white;
     color:black;
     border-radius: 5px;
@@ -14,14 +14,24 @@ const Card = styled.section`
     display:flex;
     justify-content: space-between;
     align-items:center;
-    @media (max-width: 690px) {
-        padding:10px;
+    @media (max-width: 1140px) {
+    grid-template-columns: 1fr 1fr;
 	}
+    @media (max-width: 1040px) {
+        padding:10px;
+        height: 150px;
+	}
+    /* @media (max-width: 690px) {
+        padding:10px;
+	} */
 `
 const Image = styled.img`
-    width:  134px;
-    height: 134px;
+    width:  100px;
+    height: 100px;
     border-radius: 50%;
+    @media (max-width: 1140px) {
+    grid-template-columns: 1fr 1fr;
+	}
 	/* @media (max-width: 1136px) {
 		display:none;
 	} */
@@ -46,6 +56,18 @@ const Title = styled.span`
     /* @media (max-width: 610px) {
         min-width:0px;
 	} */
+    @media (max-width: 1040px) {
+        font-size: 18px;
+        line-height: 24px;
+	}
+    @media (max-width: 915px) {
+        font-size: 24px;
+        line-height: 32px;
+	}
+    @media (max-width: 615px) {
+        font-size: 18px;
+        line-height: 24px;
+	}
 `;
 
 const Count = styled(Title)`
@@ -54,7 +76,18 @@ const Count = styled(Title)`
     font-style: italic;
     font-weight: 300;
     text-align: center;
-
+    @media (max-width: 1040px) {
+        font-size: 50px;
+        line-height: 50px;
+	}
+    @media (max-width: 915px) {
+        font-size: 70px;
+        line-height: 70px;
+	}
+    @media (max-width: 615px) {
+        font-size: 50px;
+        line-height: 50px;
+	}
 `;
 
 const LandingCard = ({title, number}) => {
