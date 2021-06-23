@@ -38,7 +38,7 @@ const MainPage = (props) => {
 	
 	useEffect(()=>{
 		(async()=>{
-			const fetchCategories = await API.get.all_categories();
+			const fetchCategories = await API.get.all_categories();			
 			setCategories(fetchCategories.data.data)
 		})();
 	},[])
