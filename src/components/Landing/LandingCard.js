@@ -13,6 +13,7 @@ const Card = styled.section`
     padding:30px;
     display:flex;
     justify-content: space-between;
+    align-items:center;
     @media (max-width: 690px) {
         padding:10px;
 	}
@@ -21,9 +22,9 @@ const Image = styled.img`
     width:  134px;
     height: 134px;
     border-radius: 50%;
-	@media (max-width: 1136px) {
+	/* @media (max-width: 1136px) {
 		display:none;
-	}
+	} */
 `;
 const RightSection = styled.div`
     display : flex;
@@ -42,9 +43,9 @@ const Title = styled.span`
     text-align: center;
     word-break:keep-all;
     min-width:170px;
-    @media (max-width: 610px) {
+    /* @media (max-width: 610px) {
         min-width:0px;
-	}
+	} */
 `;
 
 const Count = styled(Title)`

@@ -13,7 +13,6 @@ const TopSection = styled.section`
   display:flex;
   justify-content: center;
   align-items: center;
-  position:relative;
 `;
 const TopCardsSection = styled.section`
   display:grid;
@@ -22,9 +21,8 @@ const TopCardsSection = styled.section`
   gap: 1rem;
   max-width: 1440px;
   left: 50%; 
-  transform: translateX(-50%);
+  margin-top: -100px;
   bottom:-120px;
-  position: absolute;
 	/* @media (max-width: 1440px) {
     grid-template-columns: 1fr 1fr;
 	} */
@@ -104,14 +102,13 @@ const LandingPage = () => {
           </Summary>
 
         </div>
-        <TopCardsSection>
+        </Responsive>
+      </TopSection>
+      <TopCardsSection>
           <LandingCard title="출자 대기중인 출자자" number="000"/>
           <LandingCard title="결성 대기중인 개인투자조합" number="000"/>
           <LandingCard title="결성 완료된 개인 투자조합" number="000"/>
-          <div></div>
         </TopCardsSection>
-        </Responsive>
-      </TopSection>
       <MiddleSection1>
         서비스 디테일(사용방법 간단한 영상)
       </MiddleSection1>
