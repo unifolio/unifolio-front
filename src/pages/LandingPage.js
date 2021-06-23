@@ -1,3 +1,4 @@
+import Accordion from 'components/common/Accordion/Accordion';
 import Responsive from 'components/common/Responsive';
 import LandingCard from 'components/Landing/LandingCard';
 import React from 'react';
@@ -71,17 +72,25 @@ const MiddleSection1 = styled.section`
 		width: 100%;
 	}
 `;
+const SectionTitle = styled.span`
+  display:block;
+  font-size: 36px;
+  color:rgba(60, 47, 242, 1);
+  font-weight: 700;
+  margin-bottom: 16px;
+`;
 
 const MiddleSection2 = styled.section`
   width:100%;
-  display:grid;
+  /* display:grid;
   place-items: center center;
   grid-template-rows: 1fr 3fr 0.5fr;
   color:black;
   /* padding-bottom:2rem; */
-  height: calc(100vh - 4rem);
+  /* height: calc(100vh - 4rem);
   max-width: 1440px;
-	margin: 0 auto;
+	margin: 0 auto; */ 
+  padding-bottom: 95px;
 	@media (max-width: 1440px) {
 		width: 100%;
 	}
@@ -98,6 +107,23 @@ const MiddleSection3 = styled.section`
 	margin: 0 auto;
 	@media (max-width: 1440px) {
 		width: 100%;
+	}
+`;
+const MiddleCardsSection = styled.section`
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  max-width: 1440px;
+  left: 50%; 
+  padding: 0 10px;
+
+  @media (max-width: 915px) {
+    grid-template-columns: 1fr 1fr;
+
+	}
+  @media (max-width: 615px) {
+    grid-template-columns: 1fr;
+
 	}
 `;
 
@@ -123,9 +149,11 @@ const LandingPage = () => {
       <MiddleSection1>
         서비스 디테일(사용방법 간단한 영상)
       </MiddleSection1>
+
       <MiddleSection2>
-        <h1>Key benefit</h1>
-        <TopCardsSection>
+      <Responsive level={2}>
+        <SectionTitle>Key benefit</SectionTitle>
+        <MiddleCardsSection>
             {/* <Card>
               <h1>개인</h1>
               <h1>신규 재태크 수단으로서 스타트업으로 투자 수익을 확보하고 소득공제를 받을 수 있습니다.</h1>
@@ -138,24 +166,36 @@ const LandingPage = () => {
               <h1>스타트업</h1>
               <h1>신규 사업 자금을 확보하고 회사를 알릴 수 있습니다.</h1>
             </Card> */}
-        </TopCardsSection>
-        <div></div>
+            <article>
+              <img/>
+              <div>
+                <p>출자자</p>
+                <p>유니콘 어쩌구 시부래</p>
+              </div>
+            </article>
+            <article>
+              <img/>
+              <div>
+                <p>출자자</p>
+                <p>유니콘 어쩌구 시부래</p>
+              </div>
+            </article>
+            <article>
+              <img/>
+              <div>
+                <p>출자자</p>
+                <p>유니콘 어쩌구 시부래</p>
+              </div>
+            </article>
+        </MiddleCardsSection>
+        </Responsive>
       </MiddleSection2>
-        <MiddleSection3>
-        Questions
-          개인투자조합이 무엇인가요?
-          >
-          사용되는 용어들에 대해 설명해주실 수 있나요?
-          >
-          UNIFOLIO의 이용 절차는 어떻게 되나요?
-          >
-          개인이 개인투자조합에 출자할 수 있는 조건이 있나요?
-          >
-          개인이 개인투자조합을 만들 수 있나요?
-          >
-          출자금에 대한 회수는 어떻게 할 수 있나요?
-          >
-        </MiddleSection3>
+        <MiddleSection2>
+         <Responsive level={2}>
+            <SectionTitle>Questions</SectionTitle>
+            <Accordion />
+          </Responsive>
+        </MiddleSection2>
     </>
   );
 }
