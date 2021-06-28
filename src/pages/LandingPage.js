@@ -20,10 +20,12 @@ const TopCardsSection = styled.section`
   justify-items: center;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+  margin: 0 auto;
   max-width: 1440px;
   left: 50%; 
   margin-top: -100px;
   padding: 0 10px;
+
 	/* @media (max-width: 1140px) {
     grid-template-columns: 1fr 1fr;
 	} */
