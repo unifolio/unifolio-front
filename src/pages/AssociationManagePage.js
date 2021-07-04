@@ -1,10 +1,12 @@
+import Responsive from 'components/common/Responsive';
 import React from 'react';
+import UnionInfo from "components/union-manage/UnionInfo";
 
 const AssociationManagePage = () => {
   return (
-    <div>
-      조합 관리
-    </div>
+    <Responsive level={2}>
+      <UnionInfo/>
+    </Responsive>
   );
 }
 
