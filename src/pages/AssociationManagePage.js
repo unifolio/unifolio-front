@@ -1,6 +1,6 @@
 import Responsive from 'components/common/Responsive';
 import React from 'react';
-import UnionInfo from "components/union-manage/UnionInfo";
+import UnionInfo from "components/Union-manage/UnionInfo";
 
 const AssociationManagePage = () => {
   return (
