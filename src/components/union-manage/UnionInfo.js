@@ -10,7 +10,7 @@ const UnionInfo = () => {
             <InfoMain>
                 <InfoRow>
                     <Category>운용사</Category>
-                    <InfoSummary name={true}> A 엑셀레이터 </InfoSummary>
+                    <InfoSummary > A 엑셀레이터 </InfoSummary>
                 </InfoRow>
                 <InfoRow>
                     <Category>조합설명</Category>
@@ -81,7 +81,7 @@ const InfoRow = styled.div`
     display:flex;
     margin-left:10px;
     margin-right: 10px;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 `;
 
 const Category = styled.span`
