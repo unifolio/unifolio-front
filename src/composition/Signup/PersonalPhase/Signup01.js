@@ -1,13 +1,16 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
 
-const Signup01 = (props) => {
-  const { onClickNext, className } = props;
+const Signup01 = ({ onClickNext }) => {
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
   const [passwordCheck, SetPasswordCheck] = useState("");
+
+  useEffect(() => {
+    console.log("check", email)
+  });
 
   const handleEmailChange = useCallback((e) => {
     SetEmail(e.target.value);
@@ -21,13 +24,13 @@ const Signup01 = (props) => {
     SetPasswordCheck(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
-  }, []);
+    onClickNext({email, password, password_check: passwordCheck}, 1);
+  };
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
         <SignupEmailInput onChange={handleEmailChange} /> <br />
         <SignupPasswordInput onChange={handlePasswordChange} /> <br />
@@ -49,17 +52,17 @@ const SignupForm = styled.form`
   flex-direction:column;
 `;
 const SignupEmailInput = styled.input.attrs(
-  props => ({ type: "text", name: "email", placeholder: "계정으로 사용할 이메일 주소" })
+  (props) => ({ type: "text", name: "email", placeholder: "계정으로 사용할 이메일 주소" })
 )`
   ${styles.layout.signInput}
 `;
 const SignupPasswordInput = styled.input.attrs(
-  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)"})
+  (props) => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)"})
 )`
   ${styles.layout.signInput}
 `;
 const SignupPasswordChkInput = styled.input.attrs(
-  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인"})
+  (props) => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인"})
 )`
   ${styles.layout.signInput}
 `;

@@ -2,8 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import styled from 'styled-components';
 import styles from 'lib/styles';
 
-const Signup02 = (props) => {
-  const { onClickNext, className } = props;
+const Signup02 = ({ onClickNext }) => {
   const [name, SetName] = useState("");
   const [nickname, SetNickName] = useState("");
   const [rrn, SetRRN] = useState("");
@@ -60,13 +59,13 @@ const Signup02 = (props) => {
     SetAddressDetail(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onClickNext({nickname, name, rrn, address_postcode: postcode, address, address_detail: addressDetail}, 2, e.target.parentNode);
-  }, []);
+    onClickNext({nickname, name, rrn, address_postcode: postcode, address, address_detail: addressDetail}, 2);
+  }
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
         <SignupNameInput onChange={handleChangeName}/> <br />
         <SignupNickNameInput onChange={handleChangeNickName}/> <br />

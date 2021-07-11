@@ -2,8 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import styles from 'lib/styles';
 
-const Signup03 = (props) => {
-	const { onClickNext, className } = props;
+const Signup03 = ({ onClickNext }) => {
 	const [phoneNumber, SetPhoneNumber] = useState('');
 	const [authCode, SetAuthCode] = useState('');
 
@@ -20,13 +19,13 @@ const Signup03 = (props) => {
 		SetAuthCode(e.target.value);
 	}, []);
 
-	const handleSubmit = useCallback((e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		onClickNext({ phone_number: phoneNumber, auth_code: authCode }, 3, e.target.parentNode);
-	}, []);
+		onClickNext({ phone_number: phoneNumber, auth_code: authCode }, 3);
+	};
 
 	return (
-		<SignupRowBlock className={className}>
+		<SignupRowBlock>
 			<SignupForm onSubmit={handleSubmit}>
 				<SignupPhoneNumberInput onChange={handlePhoneNumberChange} /> <br />
 				<button type="button" onClick={authCodeRequest}>
