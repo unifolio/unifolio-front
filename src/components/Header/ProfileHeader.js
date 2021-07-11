@@ -41,6 +41,7 @@ const ProfileHeader = ({ history, current, submitChangeHeaderStatus }) => {
 };
 
 const HeaderLayer = styled.div`
+  cursor: pointer;
 `
 
 const ProfileHeaderPosition = styled(Responsive)`
