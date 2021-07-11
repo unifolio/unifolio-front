@@ -28,11 +28,11 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 						<div className="row">
 							<Input className={"row-8"} value={value?.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
+                defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
                   value: value,
                 })}}
-                
               >
                 <Select.Option value="attending">재학</Select.Option>
                 <Select.Option value="graduate">졸업</Select.Option>
@@ -57,6 +57,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 							<Input name={`school-name-${count}`} value={value.university} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Input name={`school-major-${count}`} value={value.university_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
+                defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
                   value: value,
@@ -84,6 +85,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 							<Input name={`school-name-${count}`} value={value.university_master} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Input name={`school-major-${count}`} value={value.university_master_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
+                defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
                   value: value,
@@ -111,6 +113,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 							<Input name={`school-name-${count}`} size="large" value={value.university_doctor}  placeholder="학교명" onChange={handleEducationChange} />
               <Input name={`school-major-${count}`} size="large" value={value.university_doctor_major}  placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
+                defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
                   name: `school-attend-status-${count}`,
                   value: value,

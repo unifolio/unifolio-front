@@ -1,11 +1,23 @@
 import React from 'react'
+import styled from 'styled-components';
 
-const ProfileInvestmentHistoryInput = () => {
+import InvestmentHistoryInput from 'components/InvestmentHistoryInput';
+
+const ProfileInvestmentHistoryInput = ({investmentHistoryInputs, onInvestmentHistoryChange, onInvestmentHistoryDelete}) => {
   return (
-    <div>
-      
-    </div>
+    <InvestmentHistorySection>
+      {investmentHistoryInputs.map((input) => (
+          <InvestmentHistoryInput 
+            key={`investment-history-${input.count}`} 
+            type={input.type} count={input.count}
+            onInvestmentHistoryChange={onInvestmentHistoryChange} onInvestmentHistoryDelete={onInvestmentHistoryDelete}
+          />
+        )
+      )}
+    </InvestmentHistorySection>
   )
 }
 
-export default ProfileInvestmentHistoryInput
+const InvestmentHistorySection = styled.section``;
+
+export default ProfileInvestmentHistoryInput;

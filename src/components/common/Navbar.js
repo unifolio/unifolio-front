@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import palette from '../../lib/styles/palette.js';
 import Logo from '../../assets/images/logo.png'
 
 const Navbar = () => {

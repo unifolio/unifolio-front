@@ -23,7 +23,6 @@ const DefaultInfoContainer = () => {
 			}
       
       const response = await API.post.tokenToGetUser(token);
-			console.log('DefaultInfoContainer', response.status);
 			if (response.status === 200 || response.status === 201) {
         console.log(response.data);
 				setUser(response.data.data);

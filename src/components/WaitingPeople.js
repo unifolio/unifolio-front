@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Card from './common/Card';
-import API from '../lib/api';
-import {data} from "../pages/dummyData"
+import API from 'lib/api';
+import {data} from 'pages/dummyData';
 
 const WaitingPeopleCell = styled.div`
 	margin: 0.5rem;

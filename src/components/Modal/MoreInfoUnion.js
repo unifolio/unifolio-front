@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CancelImage from '../../assets/images/cancel.png';
 
-const MoreInfoUnion = (props) => {
-	const { idx, info, toggleModal } = props;
+const MoreInfoUnion = ({ info, toggleModal }) => {
   console.log("WaitingInfo", info)
 	if (info === null) return null;
 	
