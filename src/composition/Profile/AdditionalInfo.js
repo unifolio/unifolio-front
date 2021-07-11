@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import UnsettedButton from 'components/common/UnsettedButton';
+import * as Icons from 'components/common/Icons';
 
 import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGeneral';
@@ -285,18 +286,18 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
             ? (<>
               <AdditionalInfoSubTitle> 학력 사항 입력 </AdditionalInfoSubTitle>
               <AdditionalInfoButtons>
-                <Button onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
-                  <ScrewIcon /> 수정 취소
-                </Button>
-                <Button onClick={() => {addEducationInput("highschool")}}> 
-                  <ScrewIcon /> 추가하기
-                </Button>
+                <CancelButton onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
+                  <Icons.CancelIcon /> 수정 취소
+                </CancelButton>
+                <ActiveButton onClick={() => {addEducationInput("highschool")}}> 
+                  <Icons.ScrewIcon /> 추가하기
+                </ActiveButton>
               </AdditionalInfoButtons>
             </>) : (<>
               <AdditionalInfoSubTitle> 학력 사항 </AdditionalInfoSubTitle>
-              <Button onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
-                <ScrewIcon /> 수정하기
-              </Button>
+              <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
+                <Icons.ScrewIcon /> 수정하기
+              </ActiveButton>
             </>)
           } 
           </AdditionalInfoColumns>
@@ -322,18 +323,18 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
               ? (<>
                 <AdditionalInfoSubTitle> 일반 경력사항 입력 </AdditionalInfoSubTitle>
                 <AdditionalInfoButtons>
-                  <Button onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
-                    <ScrewIcon /> 수정 취소
-                  </Button>
-                  <Button onClick={() => {addCareerInput("general")}}> 
-                    <ScrewIcon /> 추가하기
-                  </Button>
+                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                    <Icons.CancelIcon /> 수정 취소
+                  </CancelButton>
+                  <ActiveButton onClick={() => {addCareerInput("general")}}> 
+                    <Icons.ScrewIcon /> 추가하기
+                  </ActiveButton>
                 </AdditionalInfoButtons>
               </>) : (<>
                 <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
-                <Button onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
-                  <ScrewIcon /> 수정하기
-                </Button>
+                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <Icons.ScrewIcon /> 수정하기
+                </ActiveButton>
               </>)
             }
           </AdditionalInfoColumns>
@@ -357,18 +358,18 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
               ? (<>
                 <AdditionalInfoSubTitle> 관련 경력사항 (투자 및 컨설팅 분야) 입력 </AdditionalInfoSubTitle>
                 <AdditionalInfoButtons>
-                  <Button onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
-                    <ScrewIcon /> 수정 취소
-                  </Button>
-                  <Button onClick={() => {addCareerInput("financial")}}> 
-                    <ScrewIcon /> 추가하기
-                  </Button>
+                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                    <Icons.CancelIcon /> 수정 취소
+                  </CancelButton>
+                  <ActiveButton onClick={() => {addCareerInput("financial")}}> 
+                    <Icons.ScrewIcon /> 추가하기
+                  </ActiveButton>
                 </AdditionalInfoButtons>
               </>) : (<>
                 <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
-                <Button onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
-                  <ScrewIcon /> 수정하기
-                </Button>
+                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <Icons.ScrewIcon /> 수정하기
+                </ActiveButton>
               </>)
             }
           </AdditionalInfoColumns>
@@ -384,9 +385,9 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
             <AdditionalInfoSubTitle> 투자 이력 입력 </AdditionalInfoSubTitle>
-            <Button onClick={addInvestmentHistoryInput}> 
-              <ScrewIcon /> 추가하기
-            </Button>
+            <ActiveButton onClick={addInvestmentHistoryInput}> 
+              <Icons.ScrewIcon /> 추가하기
+            </ActiveButton>
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
@@ -478,30 +479,15 @@ const AdditionalInfoColumn = styled.section`
 `;
 
 const Button = styled(UnsettedButton)`
-  color:blue;
   font-size: 16px;
   
   display: flex;
+`;
+const ActiveButton = styled(Button)`
+  color: ${palette.unifolioBlue};
 `
-
-const ScrewIcon = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: blue;
-  border-radius: 50%;
-  color: white;
-  margin-right: 9px;
-  
-  ::after {
-    content:"+";
-    width: 100%;
-    height: 100%;
-    font-size: 20px;
-
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
+const CancelButton = styled(Button)`
+  color: ${palette.deactiveGrey};
 `
 
 const DescriptionLayer = styled.div`
