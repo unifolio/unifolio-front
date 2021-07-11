@@ -20,7 +20,7 @@ const SigninContainer = () => {
 			const token = { token: response.data.access };
 			
       const responseByToken = await API.post.tokenToGetUser(token);
-			if (responseByToken.status == 200) {
+			if (responseByToken.status === 200) {
 				// localStorage.setItem('unifolioUser', JSON.stringify(responseByToken.data.data));
 				// await dispatch(addUserData(responseTokenUser.data));
 				window.location.href = '/profile';
