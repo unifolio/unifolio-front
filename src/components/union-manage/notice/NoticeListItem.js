@@ -43,15 +43,14 @@ const NoticeListItem = () => {
                 </Date>
             </ListItemHeader>
             <FormWrapper ref={parentRef}>
-                <form ref={childRef}>
-                    <header>
-                        <input />
-                        <input />
-                    </header>
-                    <section>
-                        <textarea />
-                    </section>
-                </form>
+                <ContentSection ref={childRef}>
+                    <NoticeContents>
+                    여기에 공지사랑이 들어가는거 같아요오오
+                    </NoticeContents>
+                    <Button>
+                        수정하기
+                    </Button>
+                </ContentSection>
             </FormWrapper>
         </li>
     );
@@ -64,7 +63,6 @@ const ListItemHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #C8C5C5;
     background: #F7F7F7;
 `;
 
@@ -114,4 +112,23 @@ const FormWrapper = styled.section`
   width: inherit;
   overflow: hidden;
   transition: height 0.35s ease;
+  border-bottom: 1px solid #C8C5C5;
+`;
+
+const ContentSection = styled.div`
+    padding: 16px;
+    background: #F7F7F7;
+    display: flex;
+    flex-direction: column;
+`;
+const NoticeContents = styled.p`
+    margin-bottom: 30px;
+`;
+const Button = styled.button`
+    background-color: #fff;
+    border: 1px solid #3C2FF2;
+    color:#3C2FF2;
+    border-radius: 4px;
+    width:66px;
+    align-self: flex-end;
 `;
