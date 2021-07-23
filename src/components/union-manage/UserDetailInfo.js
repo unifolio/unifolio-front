@@ -145,10 +145,11 @@ const UserInfoLeft = styled.div`
 const UserInfoRight = styled.div`
     display: flex;
     align-items: center;
+    line-height: 26px;
 `;
 const User = styled.span`
     font-size: 20px;
-    line-height: 20px;
+    line-height: 26px;
     margin-right: 8px;
 `;
 const UserBG = styled.span`
