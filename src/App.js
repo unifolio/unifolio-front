@@ -14,7 +14,8 @@ import Navbar from './components/common/Navbar';
 import SignupPage from './pages/SignupPage';
 import SigninPage from './pages/SigninPage';
 import UnionDocumentPage from 'pages/UnionDocumentPage';
-import ManageUserChat from 'pages/ManageUserChatPage';
+import ManageUnionChatPage from 'pages/ManageUnionChatPage';
+import ManageUserChatPage from 'pages/ManageUserChatPage';
 
 function App() {
 	return (
@@ -24,7 +25,8 @@ function App() {
 			<Route component={HomePage} path="/finding" />
 			<Route component={ProfilePage} path="/profile" />
 			<Route component={AssociationManagePage} path="/union/manage" exact/>
-			<Route component={ManageUserChat} path="/union/manage/userchat" exact/>
+			<Route component={ManageUserChatPage} path="/union/manage/userchat" exact/>
+			<Route component={ManageUnionChatPage} path="/union/manage/unionchat" exact/>
 			<Route component={UnionCreatePage} path="/union-create/personal" />
 			<Route component={SignupPage} path="/signup" />
 			<Route component={SigninPage} path="/signin" />
