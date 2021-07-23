@@ -69,7 +69,7 @@ const TimeLimit = styled.span`
     color: #FF0000;
     font-weight: 500;
     font-size: 12px;
-    line-height: 16px;
+    line-height: 24px;
 `;
 const Button = styled.button`
     border-radius: 4px;
