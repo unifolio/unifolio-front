@@ -28,10 +28,9 @@ const NoticeListItem = () => {
     return(
         <li>
             <ListItemHeader>
-                <Category>가입 승인관련</Category>
+                <Category>0000.00.00</Category>
                 <Contents>현재 가입 승인이 지연되는 점에 대하여 안내드립니다</Contents>
                 <Date>
-                    <span>수정(0000.00.00)</span>
                     <ButtonGroup>
                         <Conditional condition={isCollapse}>
                             <SUpArrow onClick={handleButtonClick} />
