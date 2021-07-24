@@ -172,15 +172,6 @@ const HomeModalPosition = styled.div`
 	align-items: center;
 `;
 
-const FilterHeader = styled.header`
-	display:flex;
-	align-items:center;
-	justify-content:space-between;
-	font-size: 1rem;
-	padding-left:2rem;
-	margin-top:2.5rem;
-	margin-bottom: 1rem;
-`;
 
 const HomeModalMain = styled.div`
 	width: 30vw;
@@ -225,16 +216,6 @@ const HomeSideSectionPosition = styled.aside`
 		display:none;
 	}
 
-`;
-const HomeSideSection = styled.aside`
-
-
-	border-color: gray;
-	border-left-style: solid;
-	border-width: thin;
-
-	display: inline-grid;
-	grid-template-rows: 1fr repeat(5, 3fr);
 `;
 
 export default MainPage;

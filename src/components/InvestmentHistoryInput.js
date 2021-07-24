@@ -1,48 +1,57 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { Input, Button, Select } from 'antd';
 import styled from 'styled-components';
 
-const InvestmentHistoryInput = (props) => {
-  const { type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete } = props;
+import API from 'lib/api';
 
+const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
+  const [categories, setCategories] = useState([]);
+  
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const fetchedCategory = await API.get.all_categories();
+      console.log(fetchedCategory.data);
+      setCategories(fetchedCategory.data.data);
+    }
+    fetchCategories();  
+  }, []);
+  
   const handleInvestmentHistoryChange = (e) => {
+    
     if (!e.target) { // select일 때
       let { value, name } = e;
-      onInvestmentHistoryChange({ value, name, idx: name.slice(-1) });
+      onInvestmentHistoryChange({ value, name, count: name.slice(-1) });
       return;
     }
     
 		let { value, name } = e.target;
-		onInvestmentHistoryChange({ value, name,  idx: name.slice(-1) });
+		onInvestmentHistoryChange({ value, name, count: name.slice(-1) });
 	};
 
 	const deleteInvestmentHistoryInput = (count) => {
-		let target = document.querySelector(`.investment-history-${count}`);
-		target.parentNode.removeChild(target);
 		onInvestmentHistoryDelete(count);
 	};
+
+  if (categories.length === 0) return <></>;
 
   return (
     <InvestmentHistoryContent className={`investment-history-${count} row`}>
       <div className="column contents">
         <Select name={`investment-history-category-${count}`} size="large" placeholder="투자 분야" 
-          onChange={(value) => {handleInvestmentHistoryChange({
-            name: `investment-history-category-${count}`,
-            value: value,
-          })}}
+          onChange={(value) => {
+            handleInvestmentHistoryChange({
+              name: `investment-history-category-${count}`,
+              value: value,
+            })}}
         >
-          {/* , , , , , , , , 미디어, 서비스, 연구/설계, 전문/특수, 교육/상담/컨설팅, 공무원/공공/비영리, 생산/품질/제조, 기타사무 */}
-          <Select.Option value="인사/총무/노무">인사/총무/노무</Select.Option>
-          <Select.Option value="마케팅/MD">마케팅/MD</Select.Option>
-          <Select.Option value="홍보/CSR">홍보/CSR</Select.Option>
-          <Select.Option value="영업/영업관리"> 영업/영업관리 </Select.Option>
-          <Select.Option value="회계/재무/금융"> 회계/재무/금융 </Select.Option>
-          <Select.Option value="해외/기술영업"> 해외/기술영업 </Select.Option>
-          <Select.Option value="유통/무역/구매"> 유통/무역/구매 </Select.Option>
-          <Select.Option value="전략/기획"> 전략/기획 </Select.Option>
-          <Select.Option value="IT개발"> IT개발 </Select.Option>
-          <Select.Option value="서비스 기획/UI, UX등"> 서비스 기획/UI, UX등 </Select.Option>
-          <Select.Option value="디자인/예술"> 디자인/예술 </Select.Option>
+          {categories.map((categoryObject, idx) => {
+            return (
+              <Select.Option key={`select-${idx}`} value={categoryObject.id}>
+                {categoryObject.category}
+              </Select.Option>
+            );
+          })}
           
         </Select>
         <Input className="firm" name={`investment-history-firm-${count}`} size="large" placeholder="회사명" onChange={handleInvestmentHistoryChange} />

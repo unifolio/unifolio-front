@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup01 = (props) => {
-  const { onClickNext, className } = props;
-  const [email, SetEmail] = useState("");
-  const [password, SetPassword] = useState("");
-  const [passwordCheck, SetPasswordCheck] = useState("");
+const Signup01 = ({ onClickNext, className }) => {
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -19,22 +19,14 @@ const Signup01 = (props) => {
     }
   })
 
-  const handleEmailChange = useCallback((e) => {
-    SetEmail(e.target.value);
-  });
+  const handleEmailChange = (e) => { setEmail(e.target.value); }
+  const handlePasswordChange = (e) => { setPassword(e.target.value); }
+  const handlePasswordCheckChange = (e) => { setPasswordCheck(e.target.value); }
 
-  const handlePasswordChange = useCallback((e) => {
-    SetPassword(e.target.value);
-  });
-
-  const handlePasswordCheckChange = useCallback((e) => {
-    SetPasswordCheck(e.target.value);
-  });
-
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
-  });
+  }
 
   return (
     <SignupRowBlock className={className}>

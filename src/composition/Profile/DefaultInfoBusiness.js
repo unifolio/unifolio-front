@@ -10,7 +10,7 @@ const DefaultInfoBusiness = (props) => {
 
 	const onClickEditButton = (e) => {
 		Array.from(e.target.parentNode.parentNode.children).forEach((each) => {
-			if (each.style.display == 'none') {
+			if (each.style.display === 'none') {
 				each.style.display = 'block';
 			} else {
 				each.style.display = 'none';
@@ -85,9 +85,6 @@ const DefaultInfoLayout = styled.section`
 const HeadlineBottomBorder = styled.div`
 	border-bottom: 2px solid;
 	margin-bottom: 2rem;
-`;
-const DefaultInfoColumn = styled.section`
-	display: flex;
 `;
 
 export default DefaultInfoBusiness;

@@ -1,10 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Input, Button, Select } from 'antd';
 
+import API from 'lib/api';
+
 const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
 	
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const result = await API.get.all_categories();
+      setCategories(result.data.data);
+    }
+    fetchCategories();
+  }, []);
+
   const handleCareerChange = (e) => {
     if (!e.target) { // select일 때
       let { value, name } = e;
@@ -22,14 +33,27 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
 		// target.parentNode.removeChild(target);
 		onCareerDelete(count);
 	};
+
+  if (categories.length === 0) return <></>;
+
 	switch (type) {
 		case 'general':
 			return (
 				<CareerContent className={`career-${count}`} style={{ width: '100%' }}>
           <div className="column contents">
 						<div className="row">
+              <Select name={`career-category-${count}`} size="large" placeholder="회사분야"
+                onChange={(value) => {handleCareerChange({
+                  name: `career-category-${count}`,
+                  value: value,
+                })}}
+              >
+                {categories.map((categoryData, i) => {
+                  return <Select.Option key={`category-${i}`} value={categoryData.id}>{categoryData.category}</Select.Option>
+                })}
+              </Select>
               <Input className={"career company"} placeholder="회사명" size="large" name={`career-company-${count}`} onChange={handleCareerChange} />
-              <Input className={"career position"} placeholder="직무" size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
+              <Input className={"career job"} placeholder="직무" size="large" name={`career-job-${count}`} onChange={handleCareerChange} />
               <Select name={`career-status-${count}`} size="large" placeholder="재직 상태"
                 onChange={(value) => {handleCareerChange({
                   name: `career-tend-status-${count}`,
@@ -52,8 +76,18 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
 				<CareerContent className={`career-${count}`}>
           <div className="column contents">
 						<div className="row">
+              <Select name={`career-category-${count}`} size="large" placeholder="회사분야"
+                onChange={(value) => {handleCareerChange({
+                  name: `career-category-${count}`,
+                  value: value,
+                })}}
+              >
+                {categories.map((categoryData, i) => {
+                  return <Select.Option key={`category-${i}`} value={categoryData.id}>{categoryData.category}</Select.Option>
+                })}
+              </Select>
               <Input className={"career company"} placeholder="회사명"  size="large" name={`career-company-${count}`} onChange={handleCareerChange} />
-              <Input className={"career position"} placeholder="직무/예시:투자심사역"  size="large" name={`career-position-${count}`} onChange={handleCareerChange} />
+              <Input className={"career job"} placeholder="직무/예시:투자심사역"  size="large" name={`career-job-${count}`} onChange={handleCareerChange} />
               <Select name={`career-status-${count}`} size="large" placeholder="재직 상태"
                 onChange={(value) => {handleCareerChange({
                   name: `career-status-${count}`,
@@ -97,7 +131,7 @@ const CareerContent = styled.div`
 			flex-direction: row;
 
       .career.company { width: 25%; display: flex; flex-grow: 2 }
-      .career.position { width: 37.5%; display: flex; flex-grow: 3 }
+      .career.job { width: 37.5%; display: flex; flex-grow: 3 }
       .career.status { width: 12.5%; display: flex; flex-grow: 1 }
       .career.start-date { width: 12.5%; display: flex; flex-grow: 1 }
       .career.end-date { width: 12.5%; display: flex; flex-grow: 1 }

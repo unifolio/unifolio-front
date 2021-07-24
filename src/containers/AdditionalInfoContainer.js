@@ -21,10 +21,12 @@ const AdditionalInfoContainer = () => {
 			}
       
       const response = await API.post.tokenToGetUser(token);
-			console.log('DefaultInfoContainer', response.status);
+			
 			if (response.status === 200 || response.status === 201) {
-        console.log(response.data);
-				setUser(response.data.data);
+        console.log("user id", response.data.data.id);
+        const userId = response.data.data.id;
+        const userData = await API.get.userGeneral({ userId });
+				setUser(userData.data.data);
 			} 
       else {
         alert('로그인이 만료되었습니다. 다시 로그인 해주세요');
@@ -38,18 +40,22 @@ const AdditionalInfoContainer = () => {
 		}
 	}, [user]);
 
-	const handleSubmit = async (data) => {
+	const handleSubmit = async ({formData}) => {
 		const token = { token: localStorage.getItem('unifolioAccess') };
 		const response = await API.post.tokenToGetUser(token);
 		const userId = response.data.data.id;
-		console.log(":handleSubmit", data);
-    data.forEach(datum => {
-      API.patch.usersGeneral(userId, {education: [datum.info]});
-    });
+		
+    const result = await API.patch.usersGeneral(userId, formData);
+    if (result.status === 200) {
+      alert("업데이트가 완료되었습니다.");
+      window.location.reload(); // for test
+    }
+    
+
 	};
 
   if (!user) return <></>;
-	return <AdditionalInfo user={user} handleSubmit={handleSubmit} />;
+	return <AdditionalInfo user={user} handleSubmit={handleSubmit}/>;
 };
 
 export default AdditionalInfoContainer;

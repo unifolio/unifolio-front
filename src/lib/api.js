@@ -3,8 +3,8 @@ const END_POINT = "http://127.0.0.1:8000";
 
 const API = {
   get: {
-    usersGeneral: async () => {
-      const response = await axios.get(`${END_POINT}/users/general/`)
+    userGeneral: ({ userId }) => {
+      const response = axios.get(`http://127.0.0.1:8000/users/general/${userId}/`)
         .then((resolve) => {
           return resolve;
         })
@@ -57,8 +57,8 @@ const API = {
         });
       return response;
     },
-    all_categories: () => {
-      const response = axios
+    all_categories: async () => {
+      const response = await axios
         .get(`http://127.0.0.1:8000/categories/`)
         .then((resolve) => {
           return resolve;
@@ -66,7 +66,7 @@ const API = {
         .catch((error) => {
           return error.response;
         });
-      return response;
+      return await response;
     },
   },
   post: {
@@ -121,7 +121,6 @@ const API = {
         });
       return response;
     },
-
     newUnion: (data) => {
       const response = axios.post(`${END_POINT}/unions/create/`, data)
         .then(async (resolve) => {
@@ -140,11 +139,10 @@ const API = {
       };
       const response = await axios.patch(`http://127.0.0.1:8000/users/general/${id}/`, data, config)
         .then((resolve) => {
-          console.log(resolve);
           return resolve;
         })
         .catch((error) => {
-          console.log('patch user Error', error.response);
+          console.error('patch user Error', error.response);
           return error.response;
         });
       console.log(response);

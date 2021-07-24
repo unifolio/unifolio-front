@@ -7,8 +7,7 @@ import EducationInput from 'components/Inputs/EducationInput';
 import CareerInput from 'components/Inputs/CareerInput';
 import API from 'lib/api';
 
-const PersonalUnionCreate01 = (props) => {
-  const { onClickNext, className } = props;
+const PersonalUnionCreate01 = ({ onClickNext, className }) => {
   
   const [owner, setOwner] = useState(null);
   const [educationInputs, setEducationInputs] = useState([]);
@@ -35,6 +34,8 @@ const PersonalUnionCreate01 = (props) => {
         // localStorage.removeItem('unifolioUser');
       } else {
         console.log(response.data.data)
+        const ownerAdditionalInfo = await API.get.userGeneral({ userId: response.data.data.id });
+        
         setOwner({
           "name": response.data.data.name,
           "rrn": response.data.data.rrn,
@@ -42,42 +43,73 @@ const PersonalUnionCreate01 = (props) => {
           "address": response.data.data.address,
           "address_detail": response.data.data.address_detail,
           "phone_number": response.data.data.phone_number,
-          "education": [],
-          "career": [],
+          "education": ownerAdditionalInfo.data.data.education.length !== 0 ? ownerAdditionalInfo.data.data.education : [],
+          "career": ownerAdditionalInfo.data.data.career.length !== 0 ? ownerAdditionalInfo.data.data.career : [],
           "invest_history": []
         })
       }
     }
     if (owner === null) {
-      fetchUserData()
+      fetchUserData();
+    }
+  }, [owner]);
+
+  // 폼 자동완성
+  useEffect(() => {
+    if (owner === null) return;
+    
+    const educationTypeSelector = (educationInput) => {
+      if (educationInput.highschool !== "") return "highschool";
+      else if (educationInput.university !== "") return "university";
+      else if (educationInput.university_doctor !== "") return "university_doctor";
+      else if (educationInput.university_master !== "") return "university_master";
+    }
+    
+    if (owner.education.length !== 0) {
+      const changedEducationInputs = owner.education.map((educationInput, i) => {
+        const type = educationTypeSelector(educationInput);
+        return {
+          count: i+1,
+          type: type,
+          info: {
+            attend_status: educationInput.attend_status,
+            [type]: educationInput[type],
+            [`${type}_major`]: educationInput[`${type}_major`],
+          }
+        }
+      });
+      setEducationInputs(changedEducationInputs);
+    } else {
+      const educationData = [{
+        count: 1,
+        type: "highschool",
+        info: { attend_status: null, highschool: "" }
+      },
+      {
+        count: 2,
+        type: "university",
+        info: { attend_status: null, university:"", university_major:null }
+      }];
+      setEducationInputs(educationData);
     }
 
-    const educationData = [{
-      count: 1,
-      type: "highschool",
-      info: { attend_status: null, highschool: "" }
-    },
-    {
-      count: 2,
-      type: "university",
-      info: { attend_status: null, university:"", university_major:null }
-    }];
-
-    setEducationInputs([...educationData]);
-
-    const careerData = [{
-      count: 1,
-      type: "general",
-      info: { status: null, company: null, position: null, start_date: null, end_date: null }
-    },
-    {
-      count: 2,
-      type: "financial",
-      info: { status: null, company: null, position: null, start_date: null, end_date: null }
-    }];
-
-    setCareerInputs([...careerData]);
-  }, [owner])
+    if (owner.career.length !== 0) {
+      
+    } else {
+      const careerData = [{
+        count: 1,
+        type: "general",
+        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      },
+      {
+        count: 2,
+        type: "financial",
+        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      }];
+      setCareerInputs(careerData);
+    }
+    
+  }, [owner]);
   
   const addEducationInput = () => {
 
@@ -193,7 +225,7 @@ const PersonalUnionCreate01 = (props) => {
 
     let tmpCareerInputs = careerInputs;
 		for (const [i, each] of tmpCareerInputs.entries()) {
-			if (each[0] == count) tmpCareerInputs.splice(i, 1);
+			if (each[0] === count) tmpCareerInputs.splice(i, 1);
 		}
 		setCareerInputs(tmpCareerInputs);
   }
@@ -222,6 +254,8 @@ const PersonalUnionCreate01 = (props) => {
 		onClickNext({ owner: ownerData }, 1, layoutRef.current);
 	};
 
+
+  if (!owner) return <></>;
 	return (
 		<PersonalUnionCreate01Layout className={className} ref={layoutRef}>
 			<h2> 학력 사항 선택 </h2>

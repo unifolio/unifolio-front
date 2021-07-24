@@ -1,47 +1,50 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import UnsettedButton from 'components/common/UnsettedButton';
+import * as Icons from 'components/common/Icons';
 
 import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGeneral';
 import ProfileCareerInputFinancial from 'composition/Profile/ProfileCareerInputFinancial';
 import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestmentHistoryInput';
 
-import InvestmentHistoryInput from 'components/InvestmentHistoryInput';
+import palette from 'lib/styles/palette';
 
-const AdditionalInfo = ({user, handleSubmit}) => {
-
+const AdditionalInfo = ({ user, handleSubmit }) => {
+  
   const [educationInputs, setEducationInputs] = useState([]);
   const [careerInputs, setCareerInputs] = useState([]);
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
+
+  const [inputStatus, setInputStatus] = useState({ 
+    education: user.education.length !== 0 ? false : true, 
+    career: user.career.length !== 0 ? false : true, 
+    investmentHistory: user.investmentHistory?.length !== 0 ? false : true
+  });
   
   const counts = useRef({ education: 2, career: 2, investmentHistory: 1 });
+
+  // helper
+  const educationTypeSelector = (educationInput) => {
+    if (educationInput.highschool !== "") return "highschool";
+    else if (educationInput.university !== "") return "university";
+    else if (educationInput.university_doctor !== "") return "university_doctor";
+    else if (educationInput.university_master !== "") return "university_master";
+  }
   
   useEffect(() => {
-    // 학력사항
-    const educationData = [{
-      count: 1,
-      type: "highschool",
-      info: { attend_status: null, highschool: null }
-    },
-    {
-      count: 2,
-      type: "university",
-      info: { attend_status: null, university:null, university_major:null }
-    }];
-
-    setEducationInputs([...educationData]);
+    
 
     // 경력사항
     const careerData = [{
       count: 1,
       type: "general",
-      info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      info: { status: null, company: null, job: null, start_date: null, end_date: null }
     },
     {
       count: 2,
       type: "financial",
-      info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      info: { status: null, company: null, job: null, start_date: null, end_date: null }
     }];
 
     setCareerInputs([...careerData]);
@@ -55,6 +58,64 @@ const AdditionalInfo = ({user, handleSubmit}) => {
     }]
     setInvestmentHistoryInputs([...investmentHistoryData]);
   }, [])
+
+  // 폼 자동완성
+  useEffect(() => {
+    if (user === null) return;
+    
+    // 학력사항
+    if (user.education.length !== 0) {
+      const changedEducationInputs = user.education.map((educationInput, i) => {
+        const type = educationTypeSelector(educationInput);
+        return {
+          count: i+1,
+          type: type,
+          info: {
+            attend_status: educationInput.attend_status,
+            [type]: educationInput[type],
+            [`${type}_major`]: educationInput[`${type}_major`],
+          }
+        }
+      });
+      setEducationInputs(changedEducationInputs);
+    } else {
+      const educationData = [{
+        count: 1,
+        type: "highschool",
+        info: { attend_status: null, highschool: "" }
+      },
+      {
+        count: 2,
+        type: "university",
+        info: { attend_status: null, university:"", university_major:null }
+      }];
+      setEducationInputs(educationData);
+    }
+
+    if (user.career.length !== 0) {
+      
+    } else {
+      const careerData = [{
+        count: 1,
+        type: "general",
+        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      },
+      {
+        count: 2,
+        type: "financial",
+        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      }];
+      setCareerInputs(careerData);
+    }
+    
+  }, [user])
+
+
+
+
+
+
+
 
   const addEducationInput = (selectedEducationInfo) => {
     let data = {
@@ -70,7 +131,7 @@ const AdditionalInfo = ({user, handleSubmit}) => {
     setEducationInputs([...educationInputs, data]);
   }
 
-  const changeEducationInput = (payload) => {
+  const changeEducationInputType = (payload) => {
     const changedEducationInputs = educationInputs.map((inputData) => {
       if (inputData.count === payload.count) {
         let data = {
@@ -92,7 +153,7 @@ const AdditionalInfo = ({user, handleSubmit}) => {
     let data = {
       count: counts.current.career + 1, // count,
       type: selectedCareerInfo, //selected,
-      info: { status: null, company: null, position: null, start_date: null, end_date: null }
+      info: { status: null, company: null, job: null, start_date: null, end_date: null }
     }
     counts.current.career += 1;
     setCareerInputs([...careerInputs, data]);
@@ -117,43 +178,40 @@ const AdditionalInfo = ({user, handleSubmit}) => {
         else if (name.includes("name")) educationInput.info[educationInput.type] = value
         else if (name.includes("major")) educationInput.info[`${educationInput.type}_major`] = value;
       }
-      
       return educationInput;
     });
-
     setEducationInputs(changedEducationInputs);
-    
 	};
 
-  const onCareerChange = ({ count, name, value }) => {
+  const handleCareerChange = ({ count, name, value }) => {
 
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
+        else if (name.includes("category")) careerInput.info["category"] = value;
         else if (name.includes("company")) careerInput.info["company"] = value;
-        else if (name.includes("position")) careerInput.info["position"] = value;
+        else if (name.includes("job")) careerInput.info["job"] = value;
         else if (name.includes("start-date")) careerInput.info["start_date"] = value;
         else if (name.includes("end-date")) careerInput.info["end_date"] = value;
       }
-      
       return careerInput;
     });
     
     setCareerInputs(changedCareerInputs);
 	};
 
-  const onInvestmentHistoryChange = ({ idx, name, value }) => {
-    for (const investmentHistoryInput of investmentHistoryInputs) {
-      if (investmentHistoryInput.idx === Number(idx)) {
-        if (name.includes("category"))
-          investmentHistoryInput.info["category"] = value;
-        if (name.includes("firm"))
-          investmentHistoryInput.info["firm"] = value;
-        if (name.includes("description"))
-          investmentHistoryInput.info["description"] = value;
+  const onInvestmentHistoryChange = ({ count, name, value }) => {
+    console.log(count, name, value)
+    const changedInvestmentHistoryInputs = investmentHistoryInputs.map((investmentHistoryInput) => {
+      if (investmentHistoryInput.count === Number(count)) {
+        if (name.includes("category")) investmentHistoryInput.info["category"] = value;
+        else if (name.includes("firm")) investmentHistoryInput.info["firm"] = value;
+        else if (name.includes("description")) investmentHistoryInput.info["description"] = value;
       }
-    }
-    console.log(investmentHistoryInputs);
+      return investmentHistoryInput;
+    })
+    console.log("changedInvestmentHistoryInputs", changedInvestmentHistoryInputs)
+    setInvestmentHistoryInputs(changedInvestmentHistoryInputs)
   }
 
   const onEducationDelete = (count) => {
@@ -178,110 +236,206 @@ const AdditionalInfo = ({user, handleSubmit}) => {
     setInvestmentHistoryInputs(filteredInvestmentHistoryInputs);
   }
   
-
-  const onEducationSubmit = () => {
-    handleSubmit(educationInputs)
+  const handleSubmitInformation = async () => {
+    const userEducation = educationInputs.map((educationInput) => {
+      if (Object.values(educationInput.info).includes(null)) return false;
+      return {...educationInput.info}
+    })
+    // console.log("userEducation", userEducation)
+    const userCareer = careerInputs.map((careerInput) => {
+      if (Object.values(careerInput.info).includes(null)) return false;
+      return {...careerInput.info, category: {category: careerInput.info.category}}
+    })
+    // console.log("userCareer", userCareer)
+    
+    console.log("==== update start ====")
+    
+    const targetData = {};
+    if (!userEducation.includes(false)) targetData.education = userEducation;
+    if (!userCareer.includes(false)) targetData.career = userCareer;
+    if (Object.values(targetData).length === 0) {
+      alert("정보를 올바르게 입력해주세요.");
+      return;
+    }
+    handleSubmit({formData: targetData});
+    console.log("==== update end ====")
+    console.log(investmentHistoryInputs);
   }
+
+  // const onEducationSubmit = () => {
+  //   handleSubmit(educationInputs);
+  // }
+  // const onInvestmentHistorySubmit = () => {
+  //   handleSubmit()
+  // }
 
 	return (
     
     <AdditionalInfoLayout>
-      <h1> 추가 정보 </h1>
+      <AdditionalInfoHeader>
+        <AdditionalInfoTitle> 추가 정보 </AdditionalInfoTitle>
+        <AdditionalInfoSubmitButton onClick={handleSubmitInformation}> 저장 </AdditionalInfoSubmitButton>
+      </AdditionalInfoHeader>
+      
       <HeadlineBottomBorder />
+
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <h2> 학력 사항 입력 </h2>
-            <Button onClick={() => {addEducationInput("highschool")}}> 
-              <ScrewIcon /> 추가하기
-            </Button>
+          {inputStatus.education
+            ? (<>
+              <AdditionalInfoSubTitle> 학력 사항 입력 </AdditionalInfoSubTitle>
+              <AdditionalInfoButtons>
+                <CancelButton onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
+                  <Icons.CancelIcon /> 수정 취소
+                </CancelButton>
+                <ActiveButton onClick={() => {addEducationInput("highschool")}}> 
+                  <Icons.ScrewIcon /> 추가하기
+                </ActiveButton>
+              </AdditionalInfoButtons>
+            </>) : (<>
+              <AdditionalInfoSubTitle> 학력 사항 </AdditionalInfoSubTitle>
+              <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, education: !inputStatus.education} )} }> 
+                <Icons.ScrewIcon /> 수정하기
+              </ActiveButton>
+            </>)
+          } 
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          <ProfileEducationInput educationInputs={educationInputs} 
-            changeEducationInput={changeEducationInput} 
-            onEducationDelete={onEducationDelete}
-            onEducationChange={onEducationChange}
-            onEducationSubmit={onEducationSubmit}
-          />
+          {!inputStatus.education
+            ? user.education.map((educationData, i) => {
+              return <DescriptionLayer key={`education-${i}`}>{educationData[educationTypeSelector(educationData)]}</DescriptionLayer> 
+            })
+            : <ProfileEducationInput 
+              educationInputs={educationInputs} 
+              changeEducationInputType={changeEducationInputType} 
+              onEducationDelete={onEducationDelete}
+              onEducationChange={onEducationChange}
+            />
+          }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <h2> 일반 경력사항 입력 </h2>
-            <Button onClick={() => {addCareerInput("general")}}> 
-              <ScrewIcon /> 추가하기
-            </Button>
+            {inputStatus.career
+              ? (<>
+                <AdditionalInfoSubTitle> 일반 경력사항 입력 </AdditionalInfoSubTitle>
+                <AdditionalInfoButtons>
+                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                    <Icons.CancelIcon /> 수정 취소
+                  </CancelButton>
+                  <ActiveButton onClick={() => {addCareerInput("general")}}> 
+                    <Icons.ScrewIcon /> 추가하기
+                  </ActiveButton>
+                </AdditionalInfoButtons>
+              </>) : (<>
+                <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
+                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <Icons.ScrewIcon /> 수정하기
+                </ActiveButton>
+              </>)
+            }
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          <ProfileCareerInputGeneral careerInputs={careerInputs} 
-            addCareerInput={addCareerInput}
-            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
-          />
+          {!inputStatus.career
+            ? user.career.map((careerData, i) => {
+              return <DescriptionLayer key={`career-${i}`}>{careerData.company}</DescriptionLayer> 
+            })
+            : <ProfileCareerInputGeneral careerInputs={careerInputs} 
+                addCareerInput={addCareerInput}
+                onCareerChange={handleCareerChange} onCareerDelete={onCareerDelete}
+              />
+          }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <h2> 관련 경력사항 (투자 및 컨설팅 분야) 입력 </h2>
-            <Button onClick={() => {addCareerInput("financial")}}> 
-              <ScrewIcon /> 추가하기
-            </Button>
+            {inputStatus.career
+              ? (<>
+                <AdditionalInfoSubTitle> 관련 경력사항 (투자 및 컨설팅 분야) 입력 </AdditionalInfoSubTitle>
+                <AdditionalInfoButtons>
+                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                    <Icons.CancelIcon /> 수정 취소
+                  </CancelButton>
+                  <ActiveButton onClick={() => {addCareerInput("financial")}}> 
+                    <Icons.ScrewIcon /> 추가하기
+                  </ActiveButton>
+                </AdditionalInfoButtons>
+              </>) : (<>
+                <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
+                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <Icons.ScrewIcon /> 수정하기
+                </ActiveButton>
+              </>)
+            }
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
           <ProfileCareerInputFinancial careerInputs={careerInputs} 
             addCareerInput={addCareerInput} 
-            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
+            onCareerChange={handleCareerChange} onCareerDelete={onCareerDelete}
           />
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <h2> 투자 이력 입력 </h2>
-            <Button onClick={addInvestmentHistoryInput}> 
-              <ScrewIcon /> 추가하기
-            </Button>
+            <AdditionalInfoSubTitle> 투자 이력 입력 </AdditionalInfoSubTitle>
+            <ActiveButton onClick={addInvestmentHistoryInput}> 
+              <Icons.ScrewIcon /> 추가하기
+            </ActiveButton>
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          {/* <ProfileCareerInputFinancial careerInputs={careerInputs} 
-            addCareerInput={addCareerInput} 
-            onCareerChange={onCareerChange} onCareerDelete={onCareerDelete}
-          /> */}
-          {investmentHistoryInputs.map((input, index) => (
-              <InvestmentHistoryInput type={input.type} count={input.idx} key={`investment-history-${index}`} onInvestmentHistoryChange={onInvestmentHistoryChange} onInvestmentHistoryDelete={onInvestmentHistoryDelete} />
-            )
-          )}
+          <ProfileInvestmentHistoryInput investmentHistoryInputs={investmentHistoryInputs} 
+            // addInvestmentHistoryInput={addCareerInput}
+            onInvestmentHistoryDelete={onInvestmentHistoryDelete}
+            onInvestmentHistoryChange={onInvestmentHistoryChange}
+            // onInvestmentHistorySubmit={onInvestmentHistorySubmit}
+          />
         </AdditionalInfoRow>
       </AdditionalInfoSection>
     </AdditionalInfoLayout>
 	);
 };
 
-const AdditionalInfoModalPosition = styled.div`
-  width: 100vw;
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 2;
-
-	background-color: rgba(0, 0, 0, 0.4);
-	display: none;
-	justify-content: center;
-	align-items: center;
+const AdditionalInfoHeader = styled.div`
+  display: flex;  
 `;
 
+const AdditionalInfoTitle = styled.span`
+  font-size: var(--fontSize24);
+  font-weight: bold;
+`;
+
+const AdditionalInfoSubTitle = styled.span`
+  font-size: var(--fontSize20);
+  font-weight: bold;
+`
+
+const AdditionalInfoSubmitButton = styled.button`
+  width: 65px;
+
+  margin-left: 20px;
+  
+  color: white;
+  background-color: ${palette.unifolioBlue};
+  box-sizing: border-box;
+  border: 1px solid;
+  border-radius: 30px;
+  cursor: pointer;
+
+
+`;
 
 const AdditionalInfoRow = styled.div`
   display: flex;
   flex-direction: column;
   
-
   & + & {
     margin-top: 24px;
   } 
@@ -292,6 +446,14 @@ const AdditionalInfoColumns = styled.div`
   display:flex;
   justify-content: space-between;
 `;
+const AdditionalInfoButtons = styled.div`
+  display: flex;
+
+  button + button {
+    margin-left: 15px;
+  }
+`;
+
 const AdditionalInfoSection = styled.section``;
 
 const AdditionalInfoLayout = styled.section`
@@ -310,37 +472,25 @@ const AdditionalInfoLayout = styled.section`
 
 const HeadlineBottomBorder = styled.div`
 	border-bottom: 2px solid;
-	margin-bottom: 2rem;
+	margin: 1rem 0;
 `;
 const AdditionalInfoColumn = styled.section`
 	display: flex;
 `;
 
 const Button = styled(UnsettedButton)`
-  color:blue;
   font-size: 16px;
   
   display: flex;
+`;
+const ActiveButton = styled(Button)`
+  color: ${palette.unifolioBlue};
+`
+const CancelButton = styled(Button)`
+  color: ${palette.deactiveGrey};
 `
 
-const ScrewIcon = styled.div`
-  width: 20px;
-  height: 20px;
-  background-color: blue;
-  border-radius: 50%;
-  color: white;
-  margin-right: 9px;
-  
-  ::after {
-    content:"+";
-    width: 100%;
-    height: 100%;
-    font-size: 20px;
-
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
-`
+const DescriptionLayer = styled.div`
+`;
 
 export default AdditionalInfo;

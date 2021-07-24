@@ -4,24 +4,26 @@ import { Link } from 'react-router-dom';
 
 import styles from '../../lib/styles';
 
-const SigninPresentational = ({ onClickSignin }, ...props ) => {
+const SigninPresentational = ({ onClickSignin }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
     
-  const handleEmailChange = (e) => {
+  const handleEmailChange = useCallback((e) => {
     setEmail(e.target.value);
-  }
-  const handlePasswordChange = (e) => {
+  },[]);
+  
+  const handlePasswordChange = useCallback((e) => {
     setPassword(e.target.value);
-  }
-  const handleRememberChange = (e) => {
+  },[]);
+  
+  const handleRememberChange = useCallback((e) => {
     console.log(e.target.value)
-  }
+  }, [])
 
-  const handleSignin = useCallback((e) => {
+  const handleSignin = (e) => {
     e.preventDefault();
     onClickSignin({email, password});
-  });
+  };
   
   return (
     <SigninLayout>

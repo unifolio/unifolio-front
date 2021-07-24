@@ -1,8 +1,7 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Signup04 = (props) => {
-  const { onClickNext, className } = props;
+const Signup04 = ({ onClickNext }) => {
   const [approval_access_terms, SetCheck01] = useState(false)
   const [approval_marketing, SetCheck02] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -17,19 +16,19 @@ const Signup04 = (props) => {
 
   const handleCheck01Change = useCallback((e) => {
     SetCheck01(e.target.checked)
-  });
+  }, []);
 
   const handleCheck02Change = useCallback((e) => {
     SetCheck02(e.target.checked)
-  });
+  }, []);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onClickNext({approval_access_terms, approval_marketing}, 4);
-  });
+  }
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
         개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
         <div>
