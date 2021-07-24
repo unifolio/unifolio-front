@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
 const Signup02 = ({ onClickNext, className }) => {
-  const [corporate_name, SetCorporateName] = useState("");
-  const [company_registration_number, SetCompanyRegistrationNumber] = useState("");
-  const [corporate_registration, SetCorporateRegistration] = useState("");
-  const [postcode, SetPostCode] = useState("");
-  const [address, SetAddress] = useState("");
-  const [addressDetail, SetAddressDetail] = useState("");
+  const [corporate_name, setCorporateName] = useState("");
+  const [company_registration_number, setCompanyRegistrationNumber] = useState("");
+  const [corporate_registration, setCorporateRegistration] = useState("");
+  const [postcode, setPostCode] = useState("");
+  const [address, setAddress] = useState("");
+  const [addressDetail, setAddressDetail] = useState("");
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -22,19 +22,16 @@ const Signup02 = ({ onClickNext, className }) => {
   }, []);
 
   useEffect(() => {
-    if (corporate_name !== "" 
-      && company_registration_number !== "" 
-      && corporate_registration !== ""
-      && postcode !== ""
-      && address !== ""
-      && addressDetail !== ""
-    ) {
+    if (isActivatable([corporate_name, company_registration_number, corporate_registration, postcode, address, addressDetail])) {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
   })
   
+  const isActivatable = (dependentData) => {
+    return dependentData.includes("") ? false : true;
+  }
   const clickPostAdress = (open = false) => {
     console.log("open", open);
     if (open === false ) {
@@ -50,46 +47,41 @@ const Signup02 = ({ onClickNext, className }) => {
         let address = data.address;
         document.querySelector("input#postcode").value = postcode;
         document.querySelector("input#address").value = address;
-        SetPostCode(postcode);
-        SetAddress(address);
+        setPostCode(postcode);
+        setAddress(address);
       }
     }).open();
   }
   
-  const handleChangeCorporateName = useCallback((e) => {
-    SetCorporateName(e.target.value);
-  }, []);
+  const handleChangeCorporateName = (e) => { setCorporateName(e.target.value); }
   
-  const handleChangeCompanyRegistrationNumber = useCallback((e) => {
+  const handleChangeCompanyRegistrationNumber = (e) => {
     if (e.target.value.length > 10) {
       alert("사업자등록번호는 10자를 초과할 수 없습니다."); 
       e.target.value = e.target.value.slice(0, e.target.value.length-1);
       return;
-    }
-      
-    SetCompanyRegistrationNumber(e.target.value);
-  }, []);
+    }   
+    setCompanyRegistrationNumber(e.target.value);
+  }
 
-  const handleCorporateRegistration = useCallback((e) => {
+  const handleCorporateRegistration = (e) => {
     if (e.target.value.length > 13) {
       alert("법인등록번호는 13자를 초과할 수 없습니다."); 
       e.target.value = e.target.value.slice(0, e.target.value.length-1);
       return;
     }
-    SetCorporateRegistration(e.target.value);
-  }, []);
+    setCorporateRegistration(e.target.value);
+  }
 
-  const handleChangeAddressDetail = useCallback((e) => {
-    SetAddressDetail(e.target.value);
-  }, []);
+  const handleChangeAddressDetail = (e) => { setAddressDetail(e.target.value); }
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onClickNext({
       corporate_name, company_registration_number, corporate_registration, 
       address_postcode_business: postcode, address_business: address, address_detail_business: addressDetail
     }, 2);
-  }, []);
+  }
 
   return (
     <SignupRowBlock className={className}>

@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect, forwardRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Input, Button } from 'antd';
 
+import { Input, Button, Select } from 'antd';
 import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 import Numpad from 'components/common/Numpad';
 
-import 'react-calendar/dist/Calendar.css';
+import API from 'lib/api';
 
 const PersonalUnionCreate02 = React.memo((props) => {
 	const { onClickNext, className } = props;

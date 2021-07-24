@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
 const Signup03 = ({ onClickNext, className }) => {
-  const [approval_access_terms, SetCheck01] = useState(false)
-  const [approval_marketing, SetCheck02] = useState(false);
+  const [approval_access_terms, setCheck01] = useState(false)
+  const [approval_marketing, setCheck02] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -17,18 +17,18 @@ const Signup03 = ({ onClickNext, className }) => {
     }
   })
 
-  const handleCheck01Change = useCallback((e) => {
-    SetCheck01(e.target.checked)
-  }, []);
+  const handleCheck01Change = (e) => {
+    setCheck01(e.target.checked)
+  }
 
-  const handleCheck02Change = useCallback((e) => {
-    SetCheck02(e.target.checked)
-  }, []);
+  const handleCheck02Change = (e) => {
+    setCheck02(e.target.checked)
+  }
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onClickNext({approval_access_terms, approval_marketing}, 3);
-  }, []);
+  }
 
   return (
     <SignupRowBlock className={className}>
