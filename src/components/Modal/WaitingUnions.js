@@ -23,6 +23,7 @@ const WaitingUnions = (props) => {
     const fetchUnions = async () => {
 			const response = await API.get.unions();
       setUnions(response.data);
+      console.log(response)
 		};
 		fetchUnions();
 

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import Card from './common/Card';
 import API from 'lib/api';
-import {data} from 'pages/dummyData';
 
 const WaitingPeopleCell = styled.div`
 	margin: 0.5rem;
@@ -16,7 +15,7 @@ const WaitingPeople = (props) => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers,setFilteredUsers] = useState([]);
 	
-  const onOpenModal = (cardObj) => {
+	const onOpenModal = (cardObj) => {
 		openModal(cardObj);
 	};
 
@@ -27,19 +26,15 @@ const WaitingPeople = (props) => {
       if (fetchUsers.status === 500) {
         console.error("fetchUsers is 500");
       } else if (fetchUsers.status === 200) {
-			  setUsers(fetchUsers.data.results);
+			setFilteredUsers(fetchUsers.data.results);
+			setUsers(fetchUsers.data.result);
+			setDataLength(fetchUsers.data.count);
       }
-		})()
-		// fetchData();
-		setFilteredUsers(data);
-	 	setUsers(data);
-		 setDataLength(data.length);
-		 console.log(data)
+	})()
 	}, []);
 
 	useEffect(()=>{
-		console.log(filterValue)
-		if( Object.keys(filterValue["waiting-people"]).length !== 0){
+		if( Object.keys(filterValue["waiting-people"]).length !== 0 && users){
 			const filteredData = users.filter((item,idx)=>{
 				if(filterValue["waiting-people"]["최대 출자가능액"]){
 					for(let maxCost of filterValue["waiting-people"]["최대 출자가능액"]){
@@ -63,7 +58,7 @@ const WaitingPeople = (props) => {
 			setDataLength(filteredData.length)
 			setFilteredUsers(filteredData);
 		}else{
-			setFilteredUsers(data);
+			setFilteredUsers(users);
 		}
 	},[filterValue])
 	
