@@ -1,5 +1,5 @@
 import axios from 'axios';
-const END_POINT = "http://ec2-3-34-181-103.ap-northeast-2.compute.amazonaws.com:8080";
+const END_POINT = "https://unifolio.kr:8080";
 
 const API = {
   get: {
