@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Card from './common/Card';
 import API from 'lib/api';
+import Conditional from './common/Conditional';
 
 const WaitingPeopleCell = styled.div`
 	margin: 0.5rem;
@@ -47,7 +48,7 @@ const WaitingPeople = (props) => {
 				if(filterValue["waiting-people"]["회사 분야"]){
 					for(let filterCategory of filterValue["waiting-people"]["회사 분야"]){
 						for(let careerItem of item.career){
-							if(careerItem.category === filterCategory) return item;
+							if(careerItem.category.category === filterCategory) return item;
 						}
 						for(let investmentHistoryItem of item.investment_history){
 							if(investmentHistoryItem === filterCategory) return item;
@@ -65,12 +66,12 @@ const WaitingPeople = (props) => {
   return (
 		<>
 			{filteredUsers?.map((user, i) => {
-				return (
-					<WaitingPeopleCell key={`${i}`}>
-						<Card idx={i + 1} info={user} key={`${i}`} openModal={onOpenModal} />
-					</WaitingPeopleCell>
-				);
-			})}
+					return (
+						<WaitingPeopleCell key={`${i}`}>
+							<Card idx={i + 1} info={user} key={`${i}`} openModal={onOpenModal} />
+						</WaitingPeopleCell>
+					);
+				})}
 		</>
 	);
 };

@@ -10,6 +10,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
         if(!printValue[mode][e.target.name]){
             printValue[mode][e.target.name] = []
             printValue[mode][e.target.name].push(e.target.value);
+            console.log(printValue)
             setFilterValue(printValue)
 
         }else{
@@ -17,9 +18,13 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                 printValue[mode][e.target.name] = printValue[mode][e.target.name].filter(item => item !== e.target.value);
                 if (printValue[mode][e.target.name].length === 0) delete printValue[mode][e.target.name]
                 setFilterValue(printValue)
+                console.log(printValue)
+
             }else{
                 printValue[mode][e.target.name].push(e.target.value);
                 setFilterValue(printValue)
+                console.log(printValue)
+
 
             }
         }

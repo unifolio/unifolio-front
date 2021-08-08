@@ -22,7 +22,7 @@ const Card = ({ idx, info, openModal}) => {
           <InfomationTitle>
             <CommonText>학력</CommonText>
           </InfomationTitle>
-          {info.education.map((educate, index)=>
+          {info.education?.map((educate, index)=>
                   <InfomationRow key={index}>
                       <InfomationMain>
                         {educate.university??educate.university_master??educate.university_doctor}
@@ -44,10 +44,10 @@ const Card = ({ idx, info, openModal}) => {
             <CommonText>경력</CommonText>
           </InfomationTitle>
 
-          {info.career.map((career,index)=>
+          {info.career?.map((career,index)=>
             <InfomationRow key={index}>
               <InfomationMain>
-                {career.category}
+                {career.category.category}
               </InfomationMain>
               <InfomationMiddle>
                 {career.company}
@@ -61,7 +61,7 @@ const Card = ({ idx, info, openModal}) => {
           </InfomationRow>
           )}
           {
-            info.investment_history.map((history,index)=>
+            info.investment_history?.map((history,index)=>
             <InfomationRow key={`${index}-${history}`}>
               <InfomationMain>
               {history.category}
