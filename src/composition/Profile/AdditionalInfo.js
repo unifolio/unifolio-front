@@ -18,7 +18,10 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
 
   const [inputStatus, setInputStatus] = useState({ 
     education: user.education.length !== 0 ? false : true, 
-    career: user.career.length !== 0 ? false : true, 
+    career: {
+      general: user.career.length !== 0 ? false : true, 
+      financial: user.career.length !== 0 ? false : true, 
+    },
     investmentHistory: user.investmentHistory?.length !== 0 ? false : true
   });
   
@@ -319,11 +322,13 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            {inputStatus.career
+            {inputStatus.career.general
               ? (<>
                 <AdditionalInfoSubTitle> 일반 경력사항 입력 </AdditionalInfoSubTitle>
                 <AdditionalInfoButtons>
-                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <CancelButton onClick={ () => {setInputStatus( 
+                    {...inputStatus, career: {...inputStatus.career, general: !inputStatus.career.general }  } 
+                  )} }> 
                     <Icons.CancelIcon /> 수정 취소
                   </CancelButton>
                   <ActiveButton onClick={() => {addCareerInput("general")}}> 
@@ -332,7 +337,9 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
                 </AdditionalInfoButtons>
               </>) : (<>
                 <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
-                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                <ActiveButton onClick={ () => {setInputStatus( 
+                  {...inputStatus, career: {...inputStatus.career, general: !inputStatus.career.general }  } 
+                )}}> 
                   <Icons.ScrewIcon /> 수정하기
                 </ActiveButton>
               </>)
@@ -340,7 +347,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          {!inputStatus.career
+          {!inputStatus.career.general
             ? user.career.map((careerData, i) => {
               return <DescriptionLayer key={`career-${i}`}>{careerData.company}</DescriptionLayer> 
             })
@@ -354,11 +361,13 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            {inputStatus.career
+            {inputStatus.career.financial
               ? (<>
                 <AdditionalInfoSubTitle> 관련 경력사항 (투자 및 컨설팅 분야) 입력 </AdditionalInfoSubTitle>
                 <AdditionalInfoButtons>
-                  <CancelButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                  <CancelButton onClick={ () => {setInputStatus( 
+                    {...inputStatus, career: {...inputStatus.career, financial: !inputStatus.career.financial }  } 
+                  )} }> 
                     <Icons.CancelIcon /> 수정 취소
                   </CancelButton>
                   <ActiveButton onClick={() => {addCareerInput("financial")}}> 
@@ -366,8 +375,10 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
                   </ActiveButton>
                 </AdditionalInfoButtons>
               </>) : (<>
-                <AdditionalInfoSubTitle> 일반 경력사항 </AdditionalInfoSubTitle>
-                <ActiveButton onClick={ () => {setInputStatus( {...inputStatus, career: !inputStatus.career} )} }> 
+                <AdditionalInfoSubTitle> 관련 경력사항 (투자 및 컨설팅 분야) </AdditionalInfoSubTitle>
+                <ActiveButton onClick={ () => {setInputStatus( 
+                  {...inputStatus, career: {...inputStatus.career, financial: !inputStatus.career.financial }  } 
+                )} }> 
                   <Icons.ScrewIcon /> 수정하기
                 </ActiveButton>
               </>)
@@ -375,10 +386,15 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          <ProfileCareerInputFinancial careerInputs={careerInputs} 
-            addCareerInput={addCareerInput} 
-            onCareerChange={handleCareerChange} onCareerDelete={onCareerDelete}
-          />
+          {!inputStatus.career.financial
+            ? user.career.map((careerData, i) => {
+              return <DescriptionLayer key={`career-${i}`}>{careerData.company}</DescriptionLayer> 
+            })
+            : <ProfileCareerInputFinancial careerInputs={careerInputs} 
+              addCareerInput={addCareerInput} 
+              onCareerChange={handleCareerChange} onCareerDelete={onCareerDelete}
+            />
+          }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>

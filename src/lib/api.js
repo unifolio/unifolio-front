@@ -1,10 +1,10 @@
 import axios from 'axios';
-const END_POINT = "http://127.0.0.1:8000";
+const END_POINT = "https://unifolio.kr:8080";
 
 const API = {
   get: {
     userGeneral: ({ userId }) => {
-      const response = axios.get(`http://127.0.0.1:8000/users/general/${userId}/`)
+      const response = axios.get(`${END_POINT}/users/general/${userId}/`)
         .then((resolve) => {
           return resolve;
         })
@@ -47,7 +47,7 @@ const API = {
     },
     get_protocol: (id) => {
       const response = axios
-        .get(`http://127.0.0.1:8000/unions/${id}/get_protocol`)
+        .get(`${END_POINT}/unions/${id}/get_protocol`)
         .then((resolve) => {
           return resolve;
         })
@@ -58,7 +58,7 @@ const API = {
     },
     create_protocol: (id) => {
       const response = axios
-        .get(`http://127.0.0.1:8000/unions/${id}/create_protocol`)
+        .get(`${END_POINT}/unions/${id}/create_protocol`)
         .then((resolve) => {
           return resolve;
         })
@@ -69,7 +69,7 @@ const API = {
     },
     all_categories: async () => {
       const response = await axios
-        .get(`http://127.0.0.1:8000/categories/`)
+        .get(`${END_POINT}/categories/`)
         .then((resolve) => {
           return resolve;
         })
@@ -85,7 +85,7 @@ const API = {
         headers: { 'Content-Type': 'application/json' },
       };
       const response = axios
-        .post('http://127.0.0.1:8000/api/v1/token/', data, config)
+        .post(`${END_POINT}/api/v1/token/`, data, config)
         .then((resolve) => {
           return resolve;
         })
@@ -122,7 +122,7 @@ const API = {
     
     tokenToGetUser: (data) => {
       const response = axios
-        .post('http://127.0.0.1:8000/users/token/', data)
+        .post(`${END_POINT}/users/token/`, data)
         .then((resolve) => {
           return resolve;
         })
@@ -132,7 +132,7 @@ const API = {
       return response;
     },
     newUnion: (data) => {
-      const response = axios.post(`${END_POINT}/unions/create/`, data)
+      const response = axios.post(`${END_POINT}/unions/create/general`, data)
         .then(async (resolve) => {
           return await resolve;
         })
@@ -147,7 +147,7 @@ const API = {
       const config = {
         headers: { 'Content-Type': 'application/json' },
       };
-      const response = await axios.patch(`http://127.0.0.1:8000/users/general/${id}/`, data, config)
+      const response = await axios.patch(`${END_POINT}/users/general/${id}/`, data, config)
         .then((resolve) => {
           return resolve;
         })
@@ -163,7 +163,7 @@ const API = {
         headers: { 'Content-Type': 'application/json' },
       };
       const response = axios
-        .patch(`http://127.0.0.1:8000//users/mypage/additional/${id}/`, data, config)
+        .patch(`${END_POINT}//users/mypage/additional/${id}/`, data, config)
         .then((resolve) => {
           console.log(resolve);
           return resolve;
