@@ -6,6 +6,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
     const cloneObj = obj => JSON.parse(JSON.stringify(obj))
     const onClickCheckBox = (e) => {
         console.log(e.target.name , e.target.value)
+        console.log(filterValue)
         const printValue = cloneObj(filterValue)
         if(!printValue[mode][e.target.name]){
             printValue[mode][e.target.name] = []

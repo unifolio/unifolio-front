@@ -28,7 +28,7 @@ const WaitingPeople = (props) => {
         console.error("fetchUsers is 500");
       } else if (fetchUsers.status === 200) {
 			setFilteredUsers(fetchUsers.data.results);
-			setUsers(fetchUsers.data.result);
+			setUsers(fetchUsers.data.results);
 			setDataLength(fetchUsers.data.count);
       }
 	})()
@@ -50,15 +50,16 @@ const WaitingPeople = (props) => {
 						for(let careerItem of item.career){
 							if(careerItem.category.category === filterCategory) return item;
 						}
-						for(let investmentHistoryItem of item.investment_history){
-							if(investmentHistoryItem === filterCategory) return item;
-						}
+						// for(let investmentHistoryItem of item.investment_history){
+						// 	if(investmentHistoryItem === filterCategory) return item;
+						// }
 					}
 				}
 			})
 			setDataLength(filteredData.length)
 			setFilteredUsers(filteredData);
 		}else{
+			console.log(users)
 			setFilteredUsers(users);
 		}
 	},[filterValue])
@@ -68,7 +69,7 @@ const WaitingPeople = (props) => {
 			{filteredUsers?.map((user, i) => {
 					return (
 						<WaitingPeopleCell key={`${i}`}>
-							<Card idx={i + 1} info={user} key={`${i}`} openModal={onOpenModal} />
+							<Card idx={i + 1} info={user} openModal={onOpenModal} />
 						</WaitingPeopleCell>
 					);
 				})}
