@@ -44,6 +44,17 @@ const API = {
           return error.response;
         });
       return response;
+    },    
+    union_detail: (id) => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/unions/manage/${id}/`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
     },
     get_protocol: (id) => {
       const response = axios

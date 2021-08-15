@@ -1,42 +1,45 @@
+import Conditional from 'components/common/Conditional';
 import React from 'react';
 import styled from 'styled-components';
-const UnionInfo = () => {
+const UnionInfo = ({unionData}) => {
+
     return(
-        <InfoSection>
-            <Header>
-                <Title>0000조합 정보</Title>
-                <Button>현재 상태에서 조합 결성하기</Button>
-            </Header>
-            <InfoMain>
-                <InfoRow>
-                    <Category>운용사</Category>
-                    <InfoSummary > A 엑셀레이터 </InfoSummary>
-                </InfoRow>
-                <InfoRow>
-                    <Category>조합설명</Category>
-                    <InfoSummary> A엑셀러레이터가 모집하는 개인투자조합에 대한 설명이 들어가는 곳입니다. 최대 글자수 및 하나의 행에 대해 최대로 표시되는 글자 수 지정이 필요합니다. </InfoSummary>
-                </InfoRow>
-                <InfoRow>
-                    <Category>투자 분야</Category>
-                    <InfoSummary>
-                        <CategoryBG>IT 분야</CategoryBG>
-                        <CategoryBG>기술 분야</CategoryBG>
-                    </InfoSummary>
-                </InfoRow>
-                <InfoRow>
-                    <Category>모집 기간</Category>
-                    <InfoSummary> 2021년 00월 00일 오후 00시 </InfoSummary>
-                </InfoRow>
-                <InfoRow>
-                    <Category>출자총액 / 현재 출자액</Category>
-                    <InfoSummary> 4억원 / 2억원 (목표금액의 50%) </InfoSummary>
-                </InfoRow>
-                <InfoRow>
-                    <Category>최소출자액 / 최소구좌수</Category>
-                    <InfoSummary> 1천만원 / 2구좌 </InfoSummary>
-                </InfoRow>
-            </InfoMain>
-        </InfoSection>
+        <Conditional condition={unionData}>
+            <InfoSection>
+                <Header>
+                    <Title>{unionData.name}조합 정보</Title>
+                    <Button>현재 상태에서 조합 결성하기</Button>
+                </Header>
+                <InfoMain>
+                    <InfoRow>
+                        <Category>운용사</Category>
+                        <InfoSummary >{unionData?.owner?.corporate_name}</InfoSummary>
+                    </InfoRow>
+                    <InfoRow>
+                        <Category>조합설명</Category>
+                        <InfoSummary> {unionData.description} </InfoSummary>
+                    </InfoRow>
+                    <InfoRow>
+                        <Category>투자 분야</Category>
+                        <InfoSummary>
+                            {unionData?.invest_category?.map((item,idx)=><CategoryBG key={idx}>{item.category}</CategoryBG>)}
+                        </InfoSummary>
+                    </InfoRow>
+                    <InfoRow>
+                        <Category>모집 기간</Category>
+                        <InfoSummary> {unionData.recruitment_end_date} </InfoSummary>
+                    </InfoRow>
+                    <InfoRow>
+                        <Category>출자총액 / 현재 출자액</Category>
+                        <InfoSummary> 4억원 / 2억원 (목표금액의 50%) </InfoSummary>
+                    </InfoRow>
+                    <InfoRow>
+                        <Category>최소출자액 / 최소구좌수</Category>
+                        <InfoSummary> 1천만원 / 2구좌 </InfoSummary>
+                    </InfoRow>
+                </InfoMain>
+            </InfoSection>
+        </Conditional>
     )
 }
 
