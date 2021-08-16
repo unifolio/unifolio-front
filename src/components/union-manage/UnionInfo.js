@@ -7,7 +7,7 @@ const UnionInfo = ({unionData}) => {
         <Conditional condition={unionData}>
             <InfoSection>
                 <Header>
-                    <Title>{unionData.name}조합 정보</Title>
+                    <Title>{unionData.name} 조합 정보</Title>
                     <Button>현재 상태에서 조합 결성하기</Button>
                 </Header>
                 <InfoMain>
