@@ -1,8 +1,10 @@
 import Conditional from 'components/common/Conditional';
+import { amountFormating } from 'lib/amountFormat';
+import { dateFormating } from 'lib/dateFormat';
 import React from 'react';
 import styled from 'styled-components';
 const UnionInfo = ({unionData}) => {
-
+    console.log(unionData);
     return(
         <Conditional condition={unionData}>
             <InfoSection>
@@ -27,15 +29,15 @@ const UnionInfo = ({unionData}) => {
                     </InfoRow>
                     <InfoRow>
                         <Category>모집 기간</Category>
-                        <InfoSummary> {unionData.recruitment_end_date} </InfoSummary>
+                        <InfoSummary> {dateFormating(unionData.recruitment_end_date)} </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>출자총액 / 현재 출자액</Category>
-                        <InfoSummary> 4억원 / 2억원 (목표금액의 50%) </InfoSummary>
+                        <InfoSummary> {amountFormating(unionData.expected_amount)} / {amountFormating(unionData.collected_amount)} (목표금액의 {(unionData.collected_amount/unionData.expected_amount)*100}%) </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>최소출자액 / 최소구좌수</Category>
-                        <InfoSummary> 1천만원 / 2구좌 </InfoSummary>
+                        <InfoSummary> {amountFormating(unionData.amount_per_account*unionData.min_of_account)} / {unionData.min_of_account}구좌 </InfoSummary>
                     </InfoRow>
                 </InfoMain>
             </InfoSection>
