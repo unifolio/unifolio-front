@@ -99,12 +99,12 @@ const PersonalUnionCreate01 = ({ onClickNext, className }) => {
       const careerData = [{
         count: 1,
         type: "general",
-        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+        info: { status: null, company: null, job: null, start_date: null, end_date: null }
       },
       {
         count: 2,
         type: "financial",
-        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+        info: { status: null, company: null, job: null, start_date: null, end_date: null }
       }];
       setCareerInputs(careerData);
     }
@@ -195,8 +195,8 @@ const PersonalUnionCreate01 = ({ onClickNext, className }) => {
           careerInput.info["status"] = value;
         if (name.includes("company"))
           careerInput.info["company"] = value;
-        if (name.includes("position"))
-          careerInput.info["position"] = value;
+        if (name.includes("job"))
+          careerInput.info["job"] = value;
         if (name.includes("start-date"))
           careerInput.info["start_date"] = value;
         if (name.includes("end-date"))

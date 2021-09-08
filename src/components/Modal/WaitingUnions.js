@@ -21,15 +21,19 @@ const WaitingUnions = (props) => {
 	useEffect(() => {
 		
     const fetchUnions = async () => {
-			const response = await API.get.unions();
-      setUnions(response.data);
+      const responseCategories = await API.get.all_categories();
+      const categories = [...responseCategories.data];
+			const responseUnions = await API.get.unions();
+      const unionsData = responseUnions.data.map((eachUnion) => {
+        return {
+          ...eachUnion,
+          ['invest_category']: eachUnion.invest_category
+        }
+      })
+      setUnions(unionsData);
 		};
 		fetchUnions();
-
-    if (unions.length === 0 ) {
-      return;
-    }
-	}, [unions.length]);
+	});
 
 
   if (unions.length === 0 ) {

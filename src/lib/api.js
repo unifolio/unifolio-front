@@ -3,6 +3,16 @@ const END_POINT = "https://unifolio.kr:8080";
 
 const API = {
   get: {
+    usersGeneral: () => {
+      const response = axios.get(`${END_POINT}/users/general/`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
     userGeneral: ({ userId }) => {
       const response = axios.get(`${END_POINT}/users/general/${userId}/`)
         .then((resolve) => {
@@ -60,8 +70,8 @@ const API = {
     all_categories: async () => {
       const response = await axios
         .get(`${END_POINT}/categories/`)
-        .then((resolve) => {
-          return resolve;
+        .then((response) => {
+          return response.data;
         })
         .catch((error) => {
           return error.response;

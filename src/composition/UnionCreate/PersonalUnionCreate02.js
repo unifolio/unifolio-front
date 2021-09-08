@@ -56,6 +56,15 @@ const PersonalUnionCreate02 = React.memo((props) => {
     // unionCreate02Inputs.amount_lp_ratio, total_account
   ])
 
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const result = await API.get.all_categories();
+      setCategories(result.data.data);
+    }
+    fetchCategories();
+  }, []);
+
 	const onChange = (e) => {
     console.log(e, unionCreate02Inputs);
     if (e.type.includes("calendar")) { // 캘린더일 때
@@ -169,7 +178,9 @@ const PersonalUnionCreate02 = React.memo((props) => {
       }
     }
   }
-  
+
+  const handleCareerChange = () => {}
+  if (categories.length === 0) return <></>;
 	return (
 		<PersonalUnionCreate02Layout className={className} ref={layoutRef}>
       <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
@@ -190,9 +201,20 @@ const PersonalUnionCreate02 = React.memo((props) => {
             </div>
             <div className="column contents">
               <div className="row">
-                <Input name={`invest_category_1`} value={invest_category_1} size="large" placeholder="1종목" onChange={onChange} />
-                <Input name={`invest_category_2`} value={invest_category_2} size="large" placeholder="2종목" onChange={onChange} />
-                <Input name={`invest_category_3`} value={invest_category_3} size="large" placeholder="3종목" onChange={onChange} />
+
+              {Array.from({length: 3}).map((_, i) => (
+                <Select name={`invest_category_${i+1}`} size="large" placeholder={`투자 ${i+1}종목`}
+                  onChange={(value) => {
+                    setUnionCreate02Inputs({
+                      ...unionCreate02Inputs,
+                      [`invest_category_${i+1}`]: value
+                    })}}
+                  >
+                  {categories.map((categoryData, i) => {
+                    return <Select.Option key={`category-${i}`} value={categoryData.id}>{categoryData.category}</Select.Option>
+                  })}
+                </Select>
+              ))}
               </div>
             </div>
           </div>

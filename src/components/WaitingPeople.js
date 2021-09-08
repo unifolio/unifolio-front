@@ -23,7 +23,7 @@ const WaitingPeople = (props) => {
 	useEffect(() => {
 	(async () => {
       const fetchUsers = await API.get.usersGeneral();
-	  console.log(fetchUsers)
+	    console.log(fetchUsers)
       if (fetchUsers.status === 500) {
         console.error("fetchUsers is 500");
       } else if (fetchUsers.status === 200) {
