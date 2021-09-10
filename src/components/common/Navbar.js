@@ -25,7 +25,7 @@ const Navbar = () => {
 						<Link to="/finding" className="button home">
 							조합 찾기
 						</Link>
-						<Link to="/union-manage" className="button manage">
+						<Link to="/union/manage" className="button manage">
 							조합 관리
 						</Link>
 					</div>
