@@ -2,13 +2,13 @@ import React from 'react';
 
 import DefaultInfoGeneral from 'composition/Profile/DefaultInfoGeneral.js';
 import DefaultInfoBusiness from 'composition/Profile/DefaultInfoBusiness.js';
-
 import API from 'lib/api';
 
 const DefaultInfoContainer = ({ user }) => {
 	// const [user, setUser] = useState(JSON.parse(localStorage.getItem('unifolioUser')));
+  console.log(user)
 	const handleSubmit = async (data) => {
-		const token = { token: localStorage.getItem('unifolioAccess') };
+		const token = { accessToken: localStorage.getItem('unifolioAccess') };
 		const response = await API.post.tokenToGetUser(token);
 		const userId = response.data.data.id;
 		console.log(":handleSubmit", data);
