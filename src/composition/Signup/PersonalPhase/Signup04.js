@@ -46,8 +46,8 @@ const Signup04 = ({ onClickNext }) => {
           <SignupCheckBoxInputLabel htmlFor="check02" onClick={handleCheck02Change} />
         </SignupCheckBoxLayer>
         <SignupButtonsLayer>
-          <SignupPrevButton onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
-          <SignupNextButton onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 완료하기 </SignupNextButton>
+          <SignupPrevButton type="button" onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
+          <SignupNextButton type="button" onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 완료하기 </SignupNextButton>
         </SignupButtonsLayer>
       </SignupForm>
     </SignupRowBlock>

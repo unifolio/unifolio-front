@@ -31,7 +31,7 @@ const API = {
       return response;
     },
     usersGeneral: () => {
-      const response = axios.get(`http://127.0.0.1:8000/users/general/?limit=50`)
+      const response = axios.get(`${END_POINT}/users/general/?limit=50`)
         .then((resolve) => {
           return resolve;
         })
@@ -64,7 +64,7 @@ const API = {
     },    
     union_detail: (id) => {
       const response = axios
-        .get(`http://127.0.0.1:8000/unions/manage/${id}/`)
+        .get(`${END_POINT}/unions/manage/${id}/`)
         .then((resolve) => {
           return resolve;
         })

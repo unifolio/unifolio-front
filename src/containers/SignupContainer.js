@@ -19,8 +19,7 @@ const SignupContainer = () => {
 
   const handleChangeCurrent = (value) => {
     setCurrent(value);
-    // setProcess(1);
-    setProcess(4);
+    setProcess(1);
   }
 
   const render = () => {

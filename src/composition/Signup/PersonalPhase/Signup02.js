@@ -73,8 +73,8 @@ const Signup02 = ({ onClickNext }) => {
         <SignupAddressInput onClick={handleClickPostAdress}/> <br />
         <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
         <SignupButtonsLayer>
-          <SignupPrevButton onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
-          <SignupNextButton onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 다음으로 </SignupNextButton>
+          <SignupPrevButton type="button" onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
+          <SignupNextButton type="button" onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 다음으로 </SignupNextButton>
         </SignupButtonsLayer>
       </SignupForm>  
     </SignupRowBlock>
