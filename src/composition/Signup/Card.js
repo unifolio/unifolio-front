@@ -15,8 +15,20 @@ const Card = ({ type, onChangeCurrent }) => {
         <CardTitle> {selectCardTitle(type)} </CardTitle>
       </CardRow>
       <CardRow className={"description"}>
-        <CardDescription> 개인투자조합 참여 가능 </CardDescription>
-        <CardDescription> 개인투자조합 결성 가능 </CardDescription>
+        {
+          type === "general" 
+          && <>
+            <CardDescription> 개인투자조합 <CardDescriptionApprove>참여 가능</CardDescriptionApprove> </CardDescription>
+            <CardDescription> 개인투자조합 <CardDescriptionReject>결성 불가능</CardDescriptionReject> </CardDescription>
+          </>
+        }
+        {
+          type === "business" && <>
+            <CardDescription> 개인투자조합 <CardDescriptionApprove>참여 가능</CardDescriptionApprove> </CardDescription>
+            <CardDescription> 개인투자조합 <CardDescriptionApprove>결성 가능</CardDescriptionApprove> </CardDescription>
+          </>
+        }
+        
       </CardRow>
       <CardRow className={"button"}>
         <CardButton onClick={() => {onChangeCurrent(type) }}> 가입 시작하기 </CardButton>
@@ -95,7 +107,12 @@ const CardTitle = styled.span`
   color: ${styles.palette.unifolioBlue};
 `
 
-const CardDescription = styled.span`
-`
+const CardDescription = styled.span``;
+const CardDescriptionApprove = styled.span`
+  color: ${styles.palette.unifolioBlue};
+`;
+const CardDescriptionReject = styled.span`
+  color: red;
+`;
 
 export default Card

@@ -23,10 +23,13 @@ const Navbar = () => {
 							<img src={Logo} alt="logo"/>
 						</Link>
 						<Link to="/finding" className="button home">
-							조합 찾기
+							조합 참여
 						</Link>
 						<Link to="/union/manage" className="button manage">
 							조합 관리
+						</Link>
+            <Link to="/union/manage" className="button create">
+							조합 만들기
 						</Link>
 					</div>
 					<div className="header-right">
