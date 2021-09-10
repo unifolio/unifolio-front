@@ -2,62 +2,65 @@ import React, { useCallback, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import * as Icons from "components/common/Icons/";
 import styles from '../../lib/styles';
 
 const SigninPresentational = ({ onClickSignin }) => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [signinState, setSigninState] = useState({});
     
-  const handleEmailChange = useCallback((e) => {
-    setEmail(e.target.value);
-  },[]);
+  const handleEmailChange = ({target}) => {
+    setSigninState((state) => ({...state, email: target.value}));
+  };
   
-  const handlePasswordChange = useCallback((e) => {
-    setPassword(e.target.value);
-  },[]);
+  const handlePasswordChange = ({target}) => {
+    setSigninState((state) => ({...state, password: target.value}));
+  };
   
-  const handleRememberChange = useCallback((e) => {
-    console.log(e.target.value)
-  }, [])
+  const handleRememberChange = () => {
+    setSigninState((state) => ({...state, remember: !state.remember}));
+  };
 
   const handleSignin = (e) => {
     e.preventDefault();
-    onClickSignin({email, password});
+    onClickSignin({...signinState});
   };
   
   return (
     <SigninLayout>
       <SigninBlock>
         <SigninBlockRow>
-          <SigninTitle> Sign in </SigninTitle>
+          <SigninTitle> 로그인 </SigninTitle>
         </SigninBlockRow>
         <SigninBlockCenterSection>
           <SigninIdInput onChange={handleEmailChange} /> 
           <SigninPasswordInput onChange={handlePasswordChange} />
-          <SigninSubmitButton onClick={handleSignin} signInState={{email, password}}> 로그인하기 </SigninSubmitButton>
+          <SigninSubmitButton onClick={handleSignin} signInState={signinState}> 로그인하기 </SigninSubmitButton>
           <SigninBlockRowSpaceBetween>
-            <SigninRememberCheckBox>
-              <SigninCheckBoxInput type="checkbox" onClick={handleRememberChange} /> Remeber me
-            </SigninRememberCheckBox>
-            <SigninForgotPassword> 
-              
-            </SigninForgotPassword>
+            <SigninRememberCheckBoxLayer>
+              <SigninCheckBoxInput type="checkbox" id="willbeRemembered" />
+              <SigninCheckBoxInputLabel htmlFor="willbeRemembered" onClick={handleRememberChange} />
+            </SigninRememberCheckBoxLayer>
+            <SigninForgotPassword /> 
           </SigninBlockRowSpaceBetween>
         </SigninBlockCenterSection>
         
         <SigninBlockBottomSection>
           
         </SigninBlockBottomSection>
-        <SigninBlockRow> or you can join with </SigninBlockRow>
+        <SigninBlockRow> 소셜 로그인</SigninBlockRow>
         <SigninSocialsSection>
-          <button> 1 </button>
-          <button> 2 </button>
-          <button> 3 </button>
-          <button> 4 </button>
+          <button> <Icons.GoogleIcon /> </button>
+          <button> <Icons.FacebookIcon /> </button>
+          <button> <Icons.NaverIcon /> </button>
+          <button> <Icons.KakaoIcon /> </button>
         </SigninSocialsSection>
-        <SigninBlockRow marginTop={"7rem"}> 
-          Don't have any account? 
-          <Link to="/signup"> Sign-up </Link>
+        <SigninBlockRow marginTop={"3rem"}> 
+          <div>
+            <span>아직 계정이 없으시다면?</span>
+            <Link to="/signup"> 
+              <HighlightSpan> 회원가입 </HighlightSpan>
+            </Link>
+          </div>
         </SigninBlockRow>
       </SigninBlock>
       
@@ -75,6 +78,10 @@ const SigninLayout = styled.div`
 
 const SigninTitle = styled.span`
   font-size: 2.357rem;
+  color: ${styles.palette.unifolioBlue};
+`;
+
+const HighlightSpan = styled.span`
   color: ${styles.palette.unifolioBlue};
 `
 
@@ -120,13 +127,17 @@ const SigninBlockBottomSection = styled.div`
 const SigninSocialsSection = styled.div`
   padding-top:2rem;
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
 
   button {
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
+    border: none;
     border-radius: 50%;
+    background-color: white;
+  }
+  button + button {
+    margin-left: 24px;
   }
 `
 const SigninIdInput = styled.input.attrs(
@@ -146,13 +157,6 @@ const SigninPasswordInput = styled.input.attrs(
   padding: 0 1rem;
 `;
 
-const SigninCheckBoxInput = styled.input.attrs(
-  props => ({type: "checkbox"})
-)`
-  width: 1.2rem;
-  height: 1.2rem;
-`;
-
 const SigninSubmitButton = styled.button`
   height: 4rem;
   margin-top: 1rem;
@@ -169,10 +173,33 @@ const SigninSubmitButton = styled.button`
   }
 `;
 
-const SigninRememberCheckBox = styled.div`
+const SigninRememberCheckBoxLayer = styled.div`
   color: ${styles.palette.unifolioBlue};
+  display: flex;
+  align-items: center;
   
+  ::after {
+    content: "아이디 저장";
+    margin-left: 10px;
+  }
+  
+  input[type='checkbox']:checked + label {
+    background-color: ${styles.palette.unifolioBlue};
+  }
 `;
+
+const SigninCheckBoxInput = styled.input`
+  display: none;
+`;
+const SigninCheckBoxInputLabel = styled.label`
+  width: 1.2rem;
+  height: 1.2rem;
+  
+  border: 1px solid ${styles.palette.unifolioBlue};
+  cursor: pointer;
+`;
+
+
 const SigninForgotPassword = styled.div`
   color: ${styles.palette.unifolioBlue};
   background-color: none;
@@ -180,7 +207,7 @@ const SigninForgotPassword = styled.div`
   cursor: pointer;
   
   &::after {
-    content: "Forgot Password?"
+    content: "아이디 / 비밀번호 찾기"
   }
 `;
 
