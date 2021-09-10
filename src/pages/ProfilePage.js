@@ -10,40 +10,36 @@ import AdditionalInfoContainer from 'containers/AdditionalInfoContainer';
 
 import CreateUnion from 'composition/Profile/CreateUnion';
 // import ManageAssociation from '../components/ManageAssociation';
+import useFetchUserToken from "modules/hooks/useFetchUserToken";
 
-const ProfilePage = (props) => {
-	const { location } = props;
+const ProfilePage = ({ location }) => {
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-	// const mainRef = React.createRef();
-
+	
 	const [status, setStatus] = useState(query.mode !== undefined ? query.mode : 'profile');
+  const { user } = useFetchUserToken();
 
-	useEffect(() => {
-		// mainRef.current.classList.remove(mainRef.current.classList.item(2));
-		// mainRef.current.classList.add(status);
-	}, [status]);
-
-	const mainSectionSelector = (current) => {
-		console.log('mainSectionSelector', current);
-		if (status !== current && current !== undefined) {
-			setStatus(current);
-		}
-		switch (current) {
-			case 'create-association':
-				return <CreateUnion />;
-			case 'profile':
-				console.log('profile not usable');
-				return <div style={{ width: '100%' }}> profile </div>;
-			default:
-				return <div style={{ width: '100%' }}> profile </div>;
-		}
-	};
+	// const mainSectionSelector = (current) => {
+	// 	console.log('mainSectionSelector', current);
+	// 	if (status !== current && current !== undefined) {
+	// 		setStatus(current);
+	// 	}
+	// 	switch (current) {
+	// 		case 'create-association':
+	// 			return <CreateUnion />;
+	// 		case 'profile':
+	// 			console.log('profile not usable');
+	// 			return <div style={{ width: '100%' }}> profile </div>;
+	// 		default:
+	// 			return <div style={{ width: '100%' }}> profile </div>;
+	// 	}
+	// };
 
 	const onChangeHeaderStatus = (value) => {
 		console.log('onChangeHeaderStatus', value);
 		setStatus(value);
 	};
 
+  if (!user) return <></>;
 	return (
 		<>
 			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
@@ -51,8 +47,8 @@ const ProfilePage = (props) => {
 			<ProfilePageLayout className="ProfilePage">
 				{status === 'profile' && (
 					<>
-						<DefaultInfoContainer />
-						<AdditionalInfoContainer />
+						<DefaultInfoContainer user={user}/>
+						<AdditionalInfoContainer user={user}/>
 					</>
 				)}
 				{status !== 'profile' && (
@@ -67,7 +63,7 @@ const ProfilePage = (props) => {
 
 const ProfilePageLayout = styled(Responsive)`
 	height: calc(100vh - 8rem); /* 레거시 */
-	max-width: 1010px;
+	max-width: 1280px;
   margin: auto;
 
 	display: flex;

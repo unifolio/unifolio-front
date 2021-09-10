@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Card from './common/Card';
 import API from 'lib/api';
-import {data} from 'pages/dummyData';
+import Conditional from './common/Conditional';
 
 const WaitingPeopleCell = styled.div`
 	margin: 0.5rem;
@@ -16,30 +16,26 @@ const WaitingPeople = (props) => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers,setFilteredUsers] = useState([]);
 	
-  const onOpenModal = (cardObj) => {
+	const onOpenModal = (cardObj) => {
 		openModal(cardObj);
 	};
 
 	useEffect(() => {
 	(async () => {
       const fetchUsers = await API.get.usersGeneral();
-	  console.log(fetchUsers)
+	    console.log(fetchUsers)
       if (fetchUsers.status === 500) {
         console.error("fetchUsers is 500");
       } else if (fetchUsers.status === 200) {
-			  setUsers(fetchUsers.data.results);
+			setFilteredUsers(fetchUsers.data.results);
+			setUsers(fetchUsers.data.results);
+			setDataLength(fetchUsers.data.count);
       }
-		})()
-		// fetchData();
-		setFilteredUsers(data);
-	 	setUsers(data);
-		 setDataLength(data.length);
-		 console.log(data)
+	})()
 	}, []);
 
 	useEffect(()=>{
-		console.log(filterValue)
-		if( Object.keys(filterValue["waiting-people"]).length !== 0){
+		if( Object.keys(filterValue["waiting-people"]).length !== 0 && users){
 			const filteredData = users.filter((item,idx)=>{
 				if(filterValue["waiting-people"]["최대 출자가능액"]){
 					for(let maxCost of filterValue["waiting-people"]["최대 출자가능액"]){
@@ -52,10 +48,7 @@ const WaitingPeople = (props) => {
 				if(filterValue["waiting-people"]["회사 분야"]){
 					for(let filterCategory of filterValue["waiting-people"]["회사 분야"]){
 						for(let careerItem of item.career){
-							if(careerItem.category === filterCategory) return item;
-						}
-						for(let investmentHistoryItem of item.investment_history){
-							if(investmentHistoryItem === filterCategory) return item;
+							if(careerItem.category.category === filterCategory) return item;
 						}
 					}
 				}
@@ -63,19 +56,20 @@ const WaitingPeople = (props) => {
 			setDataLength(filteredData.length)
 			setFilteredUsers(filteredData);
 		}else{
-			setFilteredUsers(data);
+			console.log(users)
+			setFilteredUsers(users);
 		}
 	},[filterValue])
 	
   return (
 		<>
 			{filteredUsers?.map((user, i) => {
-				return (
-					<WaitingPeopleCell key={`${i}`}>
-						<Card idx={i + 1} info={user} key={`${i}`} openModal={onOpenModal} />
-					</WaitingPeopleCell>
-				);
-			})}
+					return (
+						<WaitingPeopleCell key={`${i}`}>
+							<Card idx={i + 1} info={user} openModal={onOpenModal} />
+						</WaitingPeopleCell>
+					);
+				})}
 		</>
 	);
 };

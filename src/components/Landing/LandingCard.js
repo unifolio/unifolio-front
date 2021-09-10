@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React from 'react';
-import JokeImage from '../../assets/images/ping.png'
 
 const Card = styled.section`
     max-width: 388px;
@@ -12,11 +11,8 @@ const Card = styled.section`
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.3);
     padding:30px;
     display:flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items:center;
-    @media (max-width: 1140px) {
-    grid-template-columns: 1fr 1fr;
-	}
     @media (max-width: 1040px) {
         padding:10px;
         height: 150px;
@@ -37,6 +33,7 @@ const Image = styled.img`
 	} */
 `;
 const RightSection = styled.div`
+    max-width:172px;
     display : flex;
     flex-direction: column;
     align-items: center;
@@ -93,7 +90,6 @@ const Count = styled(Title)`
 const LandingCard = ({title, number}) => {
     return(
     <Card>
-        <Image src={JokeImage} alt="대충 넣어놓은 이미지" />
         <RightSection>
             <Title>{title}</Title>
             <Count>{number}</Count>

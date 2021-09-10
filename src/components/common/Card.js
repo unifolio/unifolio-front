@@ -15,39 +15,37 @@ const Card = ({ idx, info, openModal}) => {
           </CardHeaderLeft>
           <CardHeaderRight>
             <CommonText>최대 출자 가능액</CommonText>
-            <MoneyText>{info.maximum_investable_amount / 10000}만원</MoneyText>
+            <MoneyText>{info.maximum_investable_amount}만원</MoneyText>
           </CardHeaderRight>
         </CardHeader>
-        <SectionPosition>
-          <InfomationTitle>
+        <InfomationTitle>
             <CommonText>학력</CommonText>
           </InfomationTitle>
-          {info.education.map((educate, index)=>
+        <SectionPosition>
+          {info.education?.map((educate, index)=>
                   <InfomationRow key={index}>
                       <InfomationMain>
-                        {educate.university??educate.university_master??educate.university_doctor}
+                        {educate.school_name}
                       </InfomationMain>
                       <InfomationMiddle>
-                        {educate.university_major??educate.university_master_major??educate.university_doctor_major}
+                        {educate.major}
                       </InfomationMiddle>
                       <InfomationRight>
-                        {educate.university&&"학사"}
-                        {educate.university_master&&"석사"}
-                        {educate.university_doctor&&"박사"}
+                        {educate.attend_status}
                       </InfomationRight>
                   </InfomationRow>
           )}
         </SectionPosition>
 
-        <SectionPosition>
-          <InfomationTitle>
+        <InfomationTitle>
             <CommonText>경력</CommonText>
           </InfomationTitle>
+        <SectionPosition>
 
-          {info.career.map((career,index)=>
+          {info.career?.map((career,index)=>
             <InfomationRow key={index}>
               <InfomationMain>
-                {career.category}
+                {career.category.category}
               </InfomationMain>
               <InfomationMiddle>
                 {career.company}
@@ -61,7 +59,7 @@ const Card = ({ idx, info, openModal}) => {
           </InfomationRow>
           )}
           {
-            info.investment_history.map((history,index)=>
+            info.investment_history?.map((history,index)=>
             <InfomationRow key={`${index}-${history}`}>
               <InfomationMain>
               {history.category}
@@ -95,6 +93,7 @@ const CardLayout = styled.div`
 `;
 const CardInnerLayout = styled.div` // ref로 가져감.
   width: 100%;
+  
   /* min-width:297px; */
 `;
 const CardHeader = styled.header`
@@ -128,7 +127,6 @@ const MoneyText = styled.span`
 `;
 
 const SectionPosition = styled.section`
-	margin: 0.5rem 0;
   max-height: 80px;
   overflow:scroll;
 `

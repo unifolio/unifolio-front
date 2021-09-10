@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const ParticipationListItem = () => {
+const ParticipationListItem = ({data}) => {
 
     return(
         <ListItem>
-            <UserNickName>달리는 토끼</UserNickName>
+            <UserNickName>{data.name}</UserNickName>
             <Contents>여기엔 뭐가 들어가나???</Contents>
             <Date>
                 <span>0000년 00월 00일</span>

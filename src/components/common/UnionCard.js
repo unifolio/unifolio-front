@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const UnionCard = (props) => {
-	const { idx, union, openModal } = props;
-	console.log(union)
-
+const UnionCard = ({ idx, union, openModal }) => {
+	
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date))/1000/60/60/24;
     if (remainDateInteger >= 1) {
@@ -23,12 +21,11 @@ const UnionCard = (props) => {
 	return (
 		<CardLayout>
       <section className="title">
-        <h3>{union.name}</h3>
+        <span style={{fontSize: '26px'}}>{union.name}</span>
       </section>
       <section className="contents default-info">
         <div className="row">
-          <span>{union?.description}</span>
-          <span>조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳 조합의 소개가 들어갈 곳</span>
+          <span>조합 소개입니다 조합 소개입니다 조합 소개입니다 {union?.description}</span>
         </div>
         <div className="row">
           <div className="column column-1">

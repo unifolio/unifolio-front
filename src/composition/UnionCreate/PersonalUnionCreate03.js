@@ -20,7 +20,7 @@ const PersonalUnionCreate03 = (props) => {
   } = unionCreate03Inputs;
 
   useEffect(() => {
-    document.querySelector(".ant-input-disabled").className = document.querySelector(".ant-input-disabled").className.split(" ").slice(0,1).join(" ");
+    // document.querySelector(".ant-input-disabled").className = document.querySelector(".ant-input-disabled").className.split(" ").slice(0,1).join(" ");
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     document.body.appendChild(script);

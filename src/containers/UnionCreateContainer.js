@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
@@ -15,28 +15,29 @@ import PersonalUnionCreate05 from 'composition/UnionCreate/PersonalUnionCreate05
 
 const UnionCreateContainer = () => {
 	const dispatch = useDispatch();
+  const [process, setProcess] = useState(1);
 
-	const onClickNext = async (formData, process, target) => {
-		console.log(formData, target);
+	const onClickNext = async (formData, process) => {
+		
 		switch (process) {
 			case 1:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
+				// target.classList.add('deactivate');
+				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addExecutiveMemberInfo(formData));
 				break;
 			case 2:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
+				// target.classList.add('deactivate');
+				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addUnionDefaultInfo(formData));
 				break;
 			case 3:
-				target.classList.add('deactivate');
-				target.parentNode.children[process].classList.remove('deactivate');
+				// target.classList.add('deactivate');
+				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addUnionOfficeInfo(formData));
 				break;
       case 4:
-        target.classList.add('deactivate');
-        target.parentNode.children[process].classList.remove('deactivate');
+        // target.classList.add('deactivate');
+        // target.parentNode.children[process].classList.remove('deactivate');
         dispatch(addUnionInvestInfo(formData));
         break;
 			case 5:
@@ -53,23 +54,34 @@ const UnionCreateContainer = () => {
       default:
         console.error("회원가입 에러");
 		}
+    setProcess(process+1); // 프로세스 값 갱신
 	};
+
+  const render = () => {
+    switch (process) {
+      case 1:
+        return <PersonalUnionCreate01 onClickNext={onClickNext} />
+      case 2:
+        return <PersonalUnionCreate02 onClickNext={onClickNext} />
+      case 3:
+        return <PersonalUnionCreate03 onClickNext={onClickNext} />
+      case 4:
+        return <PersonalUnionCreate04 onClickNext={onClickNext} />
+      case 5:
+        return <PersonalUnionCreate05 onClickNext={onClickNext} />
+      default:
+        return <></>
+    }
+  }
+
 	return (
 		<PersonalUnionCreateLayout>
-			<PersonalUnionCreate01 onClickNext={onClickNext} />
-			<PersonalUnionCreate02 onClickNext={onClickNext} className={'deactivate'} />
-			<PersonalUnionCreate03 onClickNext={onClickNext} className={'deactivate'} />
-			<PersonalUnionCreate04 onClickNext={onClickNext} className={'deactivate'} />
-			<PersonalUnionCreate05 onClickNext={onClickNext} className={'deactivate'} />
+      {render()}
 		</PersonalUnionCreateLayout>
 	);
 };
 const PersonalUnionCreateLayout = styled.div`
 	width: 100%;
-
-	.deactivate {
-		display: none;
-	}
 
 	/* display:flex;
   flex-direction:column; 
