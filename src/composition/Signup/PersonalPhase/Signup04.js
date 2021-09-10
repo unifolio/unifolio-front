@@ -19,11 +19,11 @@ const Signup04 = ({ onClickNext }) => {
   }, [signupState]);
 
   const handleCheck01Change = ({target}) => {
-    setSignupState((state) => ({...state, approval_access_terms: target.value}));
+    setSignupState((state) => ({...state, approval_access_terms: !state.approval_access_terms}));
   }
   
   const handleCheck02Change = ({target}) => {
-    setSignupState((state) => ({...state, approval_marketing: target.value}));
+    setSignupState((state) => ({...state, approval_marketing: !state.approval_marketing}));
   }
 
   const handlePrev = () => {}

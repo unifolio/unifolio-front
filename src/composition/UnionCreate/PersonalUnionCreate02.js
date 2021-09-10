@@ -173,8 +173,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
       ...unionCreate02Inputs,
       ...calculateState,
     };
-
-    onClickNext(returnState, 2, layoutRef.current);
+    onClickNext(returnState, 2);
   };
 
   const toggleCalender = ({ target }) => {
@@ -508,14 +507,17 @@ const PersonalUnionCreate02 = React.memo((props) => {
         </div>
       </section>
       <section>
-        <Button onClick={handleNext} size="large">
-          {" "}
-          다음 단계 진행하기{" "}
-        </Button>
+      <NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton>
       </section>
     </PersonalUnionCreate02Layout>
   );
 });
+const NextButton = styled.button`
+  height: 3rem;
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+`
 
 const NumInput = styled.input`
   margin: 0;

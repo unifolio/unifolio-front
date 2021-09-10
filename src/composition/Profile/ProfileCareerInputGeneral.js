@@ -7,10 +7,11 @@ const ProfileCareerInputGeneral = ({addCareerInput, careerInputs, onCareerChange
   return (
     <CareerInputSection className="career-inputs-section">
       {careerInputs.map((careerInput, idx) => {
+        console.log(careerInput)
         return careerInput.type === "general" && (
             <CareerInput 
               key={`career-${idx}`} 
-              type={careerInput.type} count={careerInput.count} 
+              type={careerInput.type} count={careerInput.count} value={careerInput.info}
               onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} 
             />
           )
@@ -20,8 +21,6 @@ const ProfileCareerInputGeneral = ({addCareerInput, careerInputs, onCareerChange
   )
 }
 
-const CareerInputSection = styled.section`
-
-`
+const CareerInputSection = styled.section``;
 
 export default ProfileCareerInputGeneral;

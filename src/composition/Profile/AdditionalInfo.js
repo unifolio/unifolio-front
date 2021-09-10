@@ -94,31 +94,34 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       }];
       setEducationInputs(educationData);
     }
-
+    // 커리어
     if (user.career.length !== 0) {
-      
+      const changedCareerInputs = user.career.map((careerInput, i) => {
+        console.log(careerInput) // 임시
+        return {
+          count: i+1,
+          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.type,
+          info: {
+            ...careerInput
+          }
+        }
+      });
+      setCareerInputs(changedCareerInputs);
     } else {
       const careerData = [{
         count: 1,
         type: "general",
-        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+        info: { status: null, company: null, job: null, start_date: null, end_date: null }
       },
       {
         count: 2,
         type: "financial",
-        info: { status: null, company: null, position: null, start_date: null, end_date: null }
+        info: { status: null, company: null, job: null, start_date: null, end_date: null }
       }];
       setCareerInputs(careerData);
     }
     
   }, [user])
-
-
-
-
-
-
-
 
   const addEducationInput = (selectedEducationInfo) => {
     let data = {
@@ -187,7 +190,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
 	};
 
   const handleCareerChange = ({ count, name, value }) => {
-
+    console.log("변화@", count, name, value)
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
@@ -196,9 +199,11 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         else if (name.includes("job")) careerInput.info["job"] = value;
         else if (name.includes("start-date")) careerInput.info["start_date"] = value;
         else if (name.includes("end-date")) careerInput.info["end_date"] = value;
+        careerInput.info["option_type"] = careerInput.type;
       }
       return careerInput;
     });
+    console.log(changedCareerInputs)
     
     setCareerInputs(changedCareerInputs);
 	};
@@ -247,9 +252,9 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     // console.log("userEducation", userEducation)
     const userCareer = careerInputs.map((careerInput) => {
       if (Object.values(careerInput.info).includes(null)) return false;
-      return {...careerInput.info, category: {category: careerInput.info.category}}
+      return {...careerInput.info, category: {category: careerInput.info.category} }
     })
-    // console.log("userCareer", userCareer)
+    console.log("userCareer", userCareer)
     
     console.log("==== update start ====")
     
@@ -260,6 +265,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       alert("정보를 올바르게 입력해주세요.");
       return;
     }
+    
     handleSubmit({formData: targetData});
     console.log("==== update end ====")
     console.log(investmentHistoryInputs);

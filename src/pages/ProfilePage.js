@@ -39,6 +39,7 @@ const ProfilePage = ({ location }) => {
 		setStatus(value);
 	};
 
+  if (!user) return <></>;
 	return (
 		<>
 			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />

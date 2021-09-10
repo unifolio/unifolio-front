@@ -3,26 +3,10 @@ import styled from 'styled-components';
 import qs from 'qs';
 
 import Responsive from 'components/common/Responsive';
-import AssociationCreateHeader from 'components/Header/AssociationCreateHeader';
-
+import UnionCreateHeader from 'components/Header/UnionCreateHeader';
 import UnionCreateContainer from 'containers/UnionCreateContainer';
 
-const UnionPagePosition = styled(Responsive)`
-	position: relative;
-	max-width: 100%;
-	display: flex;
-`;
-
-const UnionMainSection = styled.div`
-	width: 100%;
-	height: calc(100vh - 8rem);
-	padding-right: 8rem;
-	padding-left: 8rem;
-
-	display: flex;
-	align-items: center;
-	/* justify-items: center; */
-`;
+import styles from "lib/styles";
 
 const UnionCreatePage = () => {
 	// console.log('props', props);
@@ -49,15 +33,23 @@ const UnionCreatePage = () => {
 	// };
 
 	return (
-		<>
-			{/* <AssociationCreateHeader current={location.pathname.split('').slice(-1)[0]}></AssociationCreateHeader> */}
+		<UnionPageLayout>
+      <UnionPagePosition>
+      <UnionCreateHeader current={1}></UnionCreateHeader>
 			<br />
-			<UnionPagePosition className="UnionPage">
-				<UnionCreateContainer />
-				{/* <AssociationMainSection ref={mainRef}>{mainSectionSelector(location.pathname.split('/').slice(-1)[0])}</AssociationMainSection> */}
-			</UnionPagePosition>
-		</>
+      <UnionCreateContainer />
+      {/* <AssociationMainSection ref={mainRef}>{mainSectionSelector(location.pathname.split('/').slice(-1)[0])}</AssociationMainSection> */}
+      </UnionPagePosition>
+		</UnionPageLayout>
 	);
 };
 
+const UnionPagePosition = styled(Responsive)`
+	position: relative;
+	max-width: 1280px;
+`;
+
+const UnionPageLayout = styled.div`
+  width: 100%;
+`;
 export default UnionCreatePage;

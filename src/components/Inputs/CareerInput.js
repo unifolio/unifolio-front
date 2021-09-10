@@ -5,14 +5,28 @@ import { Input, Button, Select } from "antd";
 
 import useFetchCategories from "modules/hooks/useFetchCategories";
 
-const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
+const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => {
   const { categories } = useFetchCategories();
-
+  const jobs = [
+    "인사/총무/노무", "마케팅/MD", "홍보/CSR", "영업/영업관리", "회계/재무/금융", "해외/기술영업", "유통/무역/구매", "전략/기획", "IT개발", "서비스 기획/UI", "UX등", "디자인/예술", "미디어", "서비스", "연구/설계", "전문/특수", "교육/상담/컨설팅", "공무원/공공/비영리", "생산/품질/제조", "기타사무"
+  ]
+  console.log(value)
   const handleCareerChange = (e) => {
     if (!e.target) {
       // select일 때
       let { value, name } = e;
-      onCareerChange({ value, name, count: name.slice(-1) });
+      if (name.includes("category")) {
+        onCareerChange({
+          count: name.slice(-1), 
+          name,
+          value
+          // value: categories.filter((category) => category.id === value)[0]
+        })
+      } else {
+        onCareerChange({ 
+          count: name.slice(-1), value, name,
+        });
+      }
       return;
     }
 
@@ -39,6 +53,7 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
                 name={`career-category-${count}`}
                 size="large"
                 placeholder="회사분야"
+                defaultValue={value?.category?.category}
                 onChange={(value) => {
                   handleCareerChange({
                     name: `career-category-${count}`,
@@ -56,22 +71,34 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
               </Select>
               <Input
                 className={"career company"}
+                value={value?.company}
                 placeholder="회사명"
                 size="large"
                 name={`career-company-${count}`}
                 onChange={handleCareerChange}
               />
-              <Input
+              <Select
                 className={"career job"}
                 placeholder="직무"
+                defaultValue={value?.job}
                 size="large"
                 name={`career-job-${count}`}
-                onChange={handleCareerChange}
-              />
+                onChange={(value) => {
+                  handleCareerChange({
+                    name: `career-job-${count}`,
+                    value: value,
+                  });
+                }}
+              >
+                {jobs.map((job, idx) => (
+                  <Select.Option value={job}>{job}</Select.Option>
+                ))}
+              </Select>
               <Select
                 name={`career-status-${count}`}
                 size="large"
                 placeholder="재직 상태"
+                defaultValue={value?.status}
                 onChange={(value) => {
                   handleCareerChange({
                     name: `career-tend-status-${count}`,
@@ -79,12 +106,13 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
                   });
                 }}
               >
-                <Select.Option value="in_office">재직 중</Select.Option>
-                <Select.Option value="resignation">퇴사</Select.Option>
+                <Select.Option value="True">재직 중</Select.Option>
+                <Select.Option value="False">퇴사</Select.Option>
               </Select>
               <Input
                 className={"career start-date"}
                 placeholder="입사년도"
+                value={value ? value.start_date : ""}
                 size="large"
                 name={`career-start-date-${count}`}
                 onChange={handleCareerChange}
@@ -93,6 +121,7 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
               <Input
                 className={"career end-date"}
                 placeholder="퇴사년도"
+                value={value ? value.end_date : ""}
                 size="large"
                 name={`career-end-date-${count}`}
                 onChange={handleCareerChange}
@@ -119,6 +148,7 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
                 name={`career-category-${count}`}
                 size="large"
                 placeholder="회사분야"
+                defaultValue={value?.category?.category}
                 onChange={(value) => {
                   handleCareerChange({
                     name: `career-category-${count}`,
@@ -137,21 +167,33 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
               <Input
                 className={"career company"}
                 placeholder="회사명"
+                value={value?.company}
                 size="large"
                 name={`career-company-${count}`}
                 onChange={handleCareerChange}
               />
-              <Input
+              <Select
                 className={"career job"}
                 placeholder="직무/예시:투자심사역"
+                defaultValue={value?.job}
                 size="large"
                 name={`career-job-${count}`}
-                onChange={handleCareerChange}
-              />
+                onChange={(value) => {
+                  handleCareerChange({
+                    name: `career-job-${count}`,
+                    value: value,
+                  });
+                }}
+              >
+                {jobs.map((job, idx) => (
+                  <Select.Option value={job}>{job}</Select.Option>
+                ))}
+              </Select>
               <Select
                 name={`career-status-${count}`}
                 size="large"
                 placeholder="재직 상태"
+                defaultValue={value?.status}
                 onChange={(value) => {
                   handleCareerChange({
                     name: `career-status-${count}`,
@@ -159,12 +201,13 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
                   });
                 }}
               >
-                <Select.Option value="in_office">재직 중</Select.Option>
-                <Select.Option value="resignation">퇴사</Select.Option>
+                <Select.Option value="True">재직 중</Select.Option>
+                <Select.Option value="False">퇴사</Select.Option>
               </Select>
               <Input
                 className={"career start-date"}
                 placeholder="입사년도"
+                value={value ? value.start_date : ""}
                 size="large"
                 name={`career-start-date-${count}`}
                 onChange={handleCareerChange}
@@ -173,6 +216,7 @@ const CareerInput = ({ type, count, onCareerChange, onCareerDelete }) => {
               <Input
                 className={"career end-date"}
                 placeholder="퇴사년도"
+                value={value ? value.end_date : ""}
                 size="large"
                 name={`career-end-date-${count}`}
                 onChange={handleCareerChange}
