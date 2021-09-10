@@ -22,7 +22,7 @@ const MainPage = (props) => {
 	const [filterVisible, setFilterVisible] = useState(false);
 	const [filterValue, setFilterValue] = useState({"waiting-people":{},
 	'waiting-unions':{}});
-	const [categories, setCategories] = useState();
+	const [categories, setCategories] = useState([]);
 	const [dataLength, setDataLength] = useState();
 	const $mainRef = React.createRef(),
 		$modalRef = React.createRef();
@@ -39,7 +39,7 @@ const MainPage = (props) => {
 	useEffect(()=>{
 		(async()=>{
 			const fetchCategories = await API.get.all_categories();			
-			setCategories(fetchCategories.data.data)
+			setCategories(fetchCategories.data)
 		})();
 	},[])
 	
