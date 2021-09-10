@@ -6,10 +6,12 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
     const cloneObj = obj => JSON.parse(JSON.stringify(obj))
     const onClickCheckBox = (e) => {
         console.log(e.target.name , e.target.value)
+        console.log(filterValue)
         const printValue = cloneObj(filterValue)
         if(!printValue[mode][e.target.name]){
             printValue[mode][e.target.name] = []
             printValue[mode][e.target.name].push(e.target.value);
+            console.log(printValue)
             setFilterValue(printValue)
 
         }else{
@@ -17,9 +19,13 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                 printValue[mode][e.target.name] = printValue[mode][e.target.name].filter(item => item !== e.target.value);
                 if (printValue[mode][e.target.name].length === 0) delete printValue[mode][e.target.name]
                 setFilterValue(printValue)
+                console.log(printValue)
+
             }else{
                 printValue[mode][e.target.name].push(e.target.value);
                 setFilterValue(printValue)
+                console.log(printValue)
+
 
             }
         }
@@ -120,9 +126,9 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                         </FilterSubTitle>
                         <FilterList>
                         {(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
-                            <FilterListItem key={index}>
+                            <FilterListItem key={index+`item`}>
                                 
-                                <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
+                                <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['투자 분야']?.includes(item.category)}/>
                                 <FilterListLabel htmlFor={item.category} >
                                     {item.category}
                                 </FilterListLabel>

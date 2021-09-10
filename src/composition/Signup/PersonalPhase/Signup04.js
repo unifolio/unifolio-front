@@ -1,47 +1,54 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+import styles from 'lib/styles';
 
 import Accordion from 'components/common/Accordion/Accordion';
 
 const Signup04 = ({ onClickNext }) => {
-  const [approval_access_terms, SetCheck01] = useState(false)
-  const [approval_marketing, SetCheck02] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [signupState, setSignupState] = useState({});
+  const [isComplete, setIsComplete] = useState(false);
   
   useEffect(() => {
-    if (approval_access_terms && approval_marketing) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
+    for (const key of ["approval_access_terms", "approval_marketing"]) {
+      if (!signupState[key]) {
+        setIsComplete(false);
+        return;
+      }
     }
-  })
+    setIsComplete(true);
+  }, [signupState]);
 
-  const handleCheck01Change = useCallback((e) => {
-    SetCheck01(e.target.checked)
-  }, []);
+  const handleCheck01Change = ({target}) => {
+    setSignupState((state) => ({...state, approval_access_terms: target.value}));
+  }
+  
+  const handleCheck02Change = ({target}) => {
+    setSignupState((state) => ({...state, approval_marketing: target.value}));
+  }
 
-  const handleCheck02Change = useCallback((e) => {
-    SetCheck02(e.target.checked)
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onClickNext({approval_access_terms, approval_marketing}, 4);
+  const handlePrev = () => {}
+  const handleNext = () => {
+    onClickNext({...signupState}, 4);
+    // onClickNext({...signupState, phone_number: signupState.phoneNumber, auth_code: signupState.authCode }, 3);
   }
 
   return (
     <SignupRowBlock>
-      <SignupForm onSubmit={handleSubmit}>
-        <Accordion />
-        {/* 개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br /> */}
-        <div>
-          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-        </div>
-        홍보 및 마케팅에 관한 동의 (선택) <input type="checkbox" name="check02" onChange={handleCheck02Change}/> <br />
-        <div>
-          내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-        </div>
-        <button type="submit"> 완료하기 </button>
+      <h1>해당 필드 퍼블리싱 미완</h1>
+      <SignupForm>
+        <Accordion type={"signup"}/>
+        <SignupCheckBoxLayer>
+          <SignupCheckBoxInput type="checkbox" id="check01" />
+          <SignupCheckBoxInputLabel htmlFor="check01" onClick={handleCheck01Change} />
+        </SignupCheckBoxLayer>
+        <SignupCheckBoxLayer>
+          <SignupCheckBoxInput type="checkbox" id="check02" />
+          <SignupCheckBoxInputLabel htmlFor="check02" onClick={handleCheck02Change} />
+        </SignupCheckBoxLayer>
+        <SignupButtonsLayer>
+          <SignupPrevButton onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
+          <SignupNextButton onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 완료하기 </SignupNextButton>
+        </SignupButtonsLayer>
       </SignupForm>
     </SignupRowBlock>
   );
@@ -52,10 +59,70 @@ const SignupRowBlock = styled.div`
   
   display:flex;
   flex-direction: column;
-`
+`;
+
 const SignupForm = styled.form`
   display:flex;
   flex-direction:column;
+`;
+
+const SignupCheckBoxLayer = styled.div`
+  color: ${styles.palette.unifolioBlue};
+  display: flex;
+  align-items: center;
+  
+  ::before {
+    content: "동의하기";
+    margin-left: 10px;
+  }
+  
+  input[type='checkbox']:checked + label {
+    background-color: ${styles.palette.unifolioBlue};
+  }
+`;
+
+const SignupCheckBoxInput = styled.input`
+  display: none;
+`;
+const SignupCheckBoxInputLabel = styled.label`
+  width: 1.2rem;
+  height: 1.2rem;
+  
+  border: 1px solid ${styles.palette.unifolioBlue};
+  cursor: pointer;
+`;
+
+const SignupButtonsLayer = styled.div`
+  display: flex;
+
+  button + button {
+    margin-left: 15px;
+  }
+`;
+
+const SignupNextButton = styled.button`
+  height: 3rem;
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+
+  ${({isComplete}) => {
+    return isComplete
+    ? css`
+        background-color: ${styles.palette.unifolioBlue};
+        color: white;
+      `
+    : css`
+        background-color: ${styles.palette.deactiveBackgroundGrey};
+        color: ${styles.palette.deactiveGrey};
+      `
+  }}
+`;
+
+const SignupPrevButton = styled.button`
+  height: 3rem;
+  border: none;
+  padding: 0 1rem;
 `
 
 export default Signup04;

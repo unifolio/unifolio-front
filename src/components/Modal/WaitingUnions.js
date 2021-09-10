@@ -31,6 +31,11 @@ const WaitingUnions = (props) => {
         }
       })
       setUnions(unionsData);
+
+      // incoming changes
+      // const response = await API.get.unions();
+      // setUnions(response.data);
+      // console.log(response)
 		};
 		fetchUnions();
 	});

@@ -30,6 +30,16 @@ const API = {
         });
       return response;
     },
+    usersGeneral: () => {
+      const response = axios.get(`http://127.0.0.1:8000/users/general/?limit=50`)
+        .then((resolve) => {
+          return resolve;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
     unions: () => {
       const response = axios
         .get(`${END_POINT}/unions/`)
@@ -46,6 +56,17 @@ const API = {
         .get(`${END_POINT}/${id}`)
         .then((response) => {
           return response;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },    
+    union_detail: (id) => {
+      const response = axios
+        .get(`http://127.0.0.1:8000/unions/manage/${id}/`)
+        .then((resolve) => {
+          return resolve;
         })
         .catch((error) => {
           return error.response;

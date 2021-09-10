@@ -4,8 +4,8 @@ import styles from 'lib/styles';
 
 const Signup03 = ({ onClickNext }) => {
   const [signupState, setSignupState] = useState({});
-  const [isAuthActive, setIsAuthActive] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [isAuthActive, setIsAuthActive] = useState(false);
 
   useEffect(() => {
     for (const key of ["phoneNumber", "authCode"]) {

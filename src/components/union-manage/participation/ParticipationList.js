@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import {ReactComponent as BottomArrow} from "../../../assets/svgs/BottomArrow-S.svg";
 import {ReactComponent as UpArrow} from "../../../assets/svgs/UpArrow-S.svg";
 import ParticipationListItem from './ParticipationListItem';
-const ParticipationList = ({title, object}) => {
-
+const ParticipationList = ({title, object,data}) => {
     const parentRef = useRef(null);
     const childRef = useRef(null);
     const [isCollapse, setIsCollapse] = useState(false);
@@ -33,7 +32,7 @@ const ParticipationList = ({title, object}) => {
                 <Title>{title}</Title>
                 <ButtonGroup>
                     <ParticipationCount>
-                        {object} 12명
+                        {object} {data.length}명
                     </ParticipationCount>
                     <Conditional condition={isCollapse}>
                         <SUpArrow onClick={handleButtonClick} />
@@ -45,10 +44,7 @@ const ParticipationList = ({title, object}) => {
             </SectionHeader>
             <ListWrapper ref={parentRef} >
                 <ul  ref={childRef} >
-                    <ParticipationListItem />
-                    <ParticipationListItem />
-                    <ParticipationListItem />
-                    <ParticipationListItem />
+                    {data?.map((item,idx)=><ParticipationListItem key={idx} data={item}/> )}
                 </ul>
             </ListWrapper>
         </ListSection>
