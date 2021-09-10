@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
+import Accordion from 'components/common/Accordion/Accordion';
+
 const Signup04 = ({ onClickNext }) => {
   const [approval_access_terms, SetCheck01] = useState(false)
   const [approval_marketing, SetCheck02] = useState(false);
@@ -30,7 +32,8 @@ const Signup04 = ({ onClickNext }) => {
   return (
     <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
-        개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
+        <Accordion />
+        {/* 개인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br /> */}
         <div>
           내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
         </div>

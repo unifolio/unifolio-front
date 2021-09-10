@@ -1,14 +1,10 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import styles from 'lib/styles';
 
 const Signup02 = ({ onClickNext }) => {
-  const [name, SetName] = useState("");
-  const [nickname, SetNickName] = useState("");
-  const [rrn, SetRRN] = useState("");
-  const [postcode, SetPostCode] = useState("");
-  const [address, SetAddress] = useState("");
-  const [addressDetail, SetAddressDetail] = useState("");
+  const [signupState, setSignupState] = useState({});
+  const [isComplete, setIsComplete] = useState(false);
   
   useEffect(() => {  
     const script = document.createElement('script');
@@ -17,8 +13,17 @@ const Signup02 = ({ onClickNext }) => {
     document.body.appendChild(script);
   }, []);
   
-  const clickPostAdress = (open = false) => {
-    console.log("open", open);
+  useEffect(() => {
+    for (const key of ["name", "rrn", "postcode", "address", "addressDetail"]) {
+      if (!signupState[key]) {
+        setIsComplete(false);
+        return;
+      }
+    }
+    setIsComplete(true);
+  }, [signupState]);
+
+  const handleClickPostAdress = (open = false) => {
     if (open === false ) {
       if (document.querySelector("input#postcode").value !== "") {
         return;
@@ -27,54 +32,50 @@ const Signup02 = ({ onClickNext }) => {
     
     new window.daum.Postcode({
       oncomplete: function(data) {
-        console.log(data);
         let postcode = data.zonecode;
         let address = data.address;
         document.querySelector("input#postcode").value = postcode;
         document.querySelector("input#address").value = address;
-        SetPostCode(postcode);
-        SetAddress(address);
+        setSignupState((state) => ({...state, postcode, address}));
       }
     }).open();
   }
   
-  const handleChangeName = useCallback((e) => {
-    SetName(e.target.value);
-  }, []);
-  
-  const handleChangeNickName = useCallback((e) => {
-    SetNickName(e.target.value);
-  }, []);
-
-  const handleChangeRRN = useCallback((e) => {
-    if (e.target.value.length > 14 || (e.target.value.length > 6 && !e.target.value[6].match(/-/)) ) {
-      alert("주민등록번호를 정확하게 입력해주세요");
-      e.target.value = "";
-      SetRRN("");  // 나중에 좀 더 세련된 로직으로 변경하겠음.
-    }
-    SetRRN(e.target.value);
-  }, []);
-
-  const handleChangeAddressDetail = useCallback((e) => {
-    SetAddressDetail(e.target.value);
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onClickNext({nickname, name, rrn, address_postcode: postcode, address, address_detail: addressDetail}, 2);
+  const handleChangeName = ({target}) => {
+    setSignupState((state) => ({...state, name: target.value}));
   }
 
+  const handleChangeRRN = ({target}) => {
+    if (target.value.length > 14 || (target.value.length > 6 && !target.value[6].match(/-/)) ) {
+      alert("주민등록번호를 정확하게 입력해주세요");
+      target.value = "";
+      setSignupState((state) => ({...state, rrn: ""}));
+    }
+    setSignupState((state) => ({...state, rrn: target.value}));
+    
+  }
+  
+  const handleChangeAddressDetail = ({target}) => {
+    setSignupState((state) => ({...state, addressDetail: target.value}));
+  }
+
+  const handlePrev = () => {}
+  const handleNext = () => {
+    onClickNext({...signupState, address_postcode: signupState.postcode, address_detail: signupState.addressDetail}, 2);
+  }
+  
   return (
     <SignupRowBlock>
-      <SignupForm onSubmit={handleSubmit}>
+      <SignupForm>
         <SignupNameInput onChange={handleChangeName}/> <br />
-        <SignupNickNameInput onChange={handleChangeNickName}/> <br />
         <SignupRRNInput onChange={handleChangeRRN} /> <br />
-        <button onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </button> <br />
-        <SignupPostCodeInput onClick={clickPostAdress}/> <br />
-        <SignupAddressInput onClick={clickPostAdress}/> <br />
+        <SignupPostCodeInput onClick={handleClickPostAdress}/> <br />
+        <SignupAddressInput onClick={handleClickPostAdress}/> <br />
         <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
-        <button type="submit"> 다음으로 </button>
+        <SignupButtonsLayer>
+          <SignupPrevButton onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
+          <SignupNextButton onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 다음으로 </SignupNextButton>
+        </SignupButtonsLayer>
       </SignupForm>  
     </SignupRowBlock>
   );
@@ -92,12 +93,6 @@ const SignupForm = styled.form`
 `
 const SignupNameInput = styled.input.attrs(
   props => ({ type: "text", name: "name", placeholder: "이름" })
-)`
-  ${styles.layout.signInput}
-`;
-
-const SignupNickNameInput = styled.input.attrs(
-  props => ({ type: "text", name: "nickname", placeholder: "닉네임" })
 )`
   ${styles.layout.signInput}
 `;
@@ -125,5 +120,36 @@ const SignupDetailAddressInput = styled.input.attrs(
   ${styles.layout.signInput}
 `;
 
+const SignupButtonsLayer = styled.div`
+  display: flex;
 
+  button + button {
+    margin-left: 15px;
+  }
+`
+
+const SignupNextButton = styled.button`
+  height: 3rem;
+  border: none;
+  padding: 0 1rem;
+  flex-grow: 1;
+
+  ${({isComplete}) => {
+    return isComplete
+    ? css`
+        background-color: ${styles.palette.unifolioBlue};
+        color: white;
+      `
+    : css`
+        background-color: ${styles.palette.deactiveBackgroundGrey};
+        color: ${styles.palette.deactiveGrey};
+      `
+  }}
+`;
+
+const SignupPrevButton = styled.button`
+  height: 3rem;
+  border: none;
+  padding: 0 1rem;
+`
 export default Signup02;
