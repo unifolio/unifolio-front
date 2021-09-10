@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as Ximage } from "../../../assets/svgs/X.svg";
-import { ReactComponent as Arropwimage } from "../../../assets/svgs/BottomArrow.svg";
+import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow.svg";
+import { ReactComponent as DownArrow } from "../../../assets/svgs/BottomArrow.svg";
 import Conditional from "../Conditional";
 
 
@@ -9,6 +9,7 @@ function AccordionItem(props) {
   const parentRef = useRef(null);
   const childRef = useRef(null);
   const titleRef = useRef(null);
+  const headerRef = useRef(null);
   const [isCollapse, setIsCollapse] = useState(false);
 
   const handleButtonClick = useCallback(
@@ -21,11 +22,11 @@ function AccordionItem(props) {
         parentRef.current.style.height = "0";
         titleRef.current.style.color = "rgba(132, 127, 127, 1)";
         titleRef.current.style.fontWeight=400;
+        headerRef.current.style.borderBottom = 0;
 
       } else {
         parentRef.current.style.height = `${childRef.current.clientHeight}px`;
-        titleRef.current.style.color = "rgba(60, 47, 242, 1)";
-        titleRef.current.style.fontWeight=700;
+        headerRef.current.style.borderBottom = "1px solid #A9A9A9";
       }
       setIsCollapse(!isCollapse);
     },
@@ -35,14 +36,14 @@ function AccordionItem(props) {
 
   return (
     <Container>
-      <Header onClick={handleButtonClick}>
+      <Header ref={headerRef} onClick={handleButtonClick}>
         <QustionTitle ref={titleRef}>{props.title}</QustionTitle>
         <Button>
             <Conditional condition={isCollapse}>
-                <Ximage />
+                <UpArrow />
             </Conditional>
             <Conditional condition={!isCollapse}>
-                <Arropwimage />
+                <DownArrow />
             </Conditional>
         </Button>
       </Header>
@@ -54,12 +55,13 @@ function AccordionItem(props) {
 }
 
 const Container = styled.li`
+  background-color: #fff;
   width:100%;
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: center;
-  padding: 10px 30px;
+  padding:0 40px;
   margin: 20px 0px;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0.5px rgba(0, 0, 0, 0.25);
@@ -70,13 +72,14 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  padding-top:30px;
+  padding-bottom:30px;
 `;
 
 const QustionTitle = styled.span`
   font-size: 28px;
   line-height: 28px;
   height: 32px;
-  /* margin: 0 32px 0 8px; */
   color: rgba(132, 127, 127, 1);
   font-weight: 400;
 `;
@@ -88,16 +91,16 @@ const Button = styled.div`
 const ContentsWrapper = styled.section`
   height: 0;
   width: inherit;
-  padding: 0 8px;
   overflow: hidden;
-  transition: height 0.35s ease, background 0.35s ease;
+  transition: height 0.35s ease;
 `;
 
 const Contents = styled.p`
-  padding: 20px 0;
-  font-size: 20px;
+  padding: 50px 0;
   word-break:keep-all;
-
+  font-weight: 300;
+  font-size: 28px;
+  color: #847F7F;
 `;
 
 export default React.memo(AccordionItem);

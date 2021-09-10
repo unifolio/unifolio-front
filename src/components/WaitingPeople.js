@@ -50,9 +50,6 @@ const WaitingPeople = (props) => {
 						for(let careerItem of item.career){
 							if(careerItem.category.category === filterCategory) return item;
 						}
-						// for(let investmentHistoryItem of item.investment_history){
-						// 	if(investmentHistoryItem === filterCategory) return item;
-						// }
 					}
 				}
 			})
