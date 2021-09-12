@@ -41,7 +41,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
         >
           {categories.map((categoryObject, idx) => {
             return (
-              <Select.Option key={`select-${idx}`} value={categoryObject.id}>
+              <Select.Option key={`investment-history-select-${idx}`} value={categoryObject.id}>
                 {categoryObject.category}
               </Select.Option>
             );

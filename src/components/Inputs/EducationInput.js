@@ -26,7 +26,7 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 					<div className="column title">고등학교</div>
 					<div className="column contents">
 						<div className="row">
-							<Input className={"row-8"} value={value?.highschool} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
+							<Input className={"row-8"} value={value?.school_name} name={`school-name-${count}`} size="large" placeholder="학교명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
@@ -34,8 +34,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="attending">재학</Select.Option>
-                <Select.Option value="graduate">졸업</Select.Option>
+                <Select.Option value="재학">재학</Select.Option>
+                <Select.Option value="졸업">졸업</Select.Option>
               </Select>
               
 							<Button
@@ -48,14 +48,14 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 					</div>
 				</SchoolContent>
 			);
-		case 'university':
+		case 'undergraduate':
 			return (
 				<SchoolContent className={`school-${count}`}>
 					<div className="column title">대학교 (학사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} value={value.university} size="large" placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} value={value.university_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} value={value.school_name} size="large" placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} value={value.major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
@@ -63,8 +63,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="attending">재학</Select.Option>
-                <Select.Option value="graduate">졸업</Select.Option>
+                <Select.Option value="재학">재학</Select.Option>
+                <Select.Option value="졸업">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}
@@ -76,14 +76,14 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 					</div>
 				</SchoolContent>
 			);
-		case 'university_master':
+		case 'master':
 			return (
 				<SchoolContent className={`school-${count}`}>
 					<div className="column title">대학원 (석사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} value={value.university_master} size="large" placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} value={value.university_master_major} size="large" placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} value={value.school_name} size="large" placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} value={value.major} size="large" placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
@@ -91,8 +91,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="attending">재학</Select.Option>
-                <Select.Option value="graduate">졸업</Select.Option>
+                <Select.Option value="재학">재학</Select.Option>
+                <Select.Option value="졸업">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}
@@ -104,14 +104,14 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
 					</div>
 				</SchoolContent>
 			);
-		case 'university_doctor':
+		case 'doctor':
 			return (
 				<SchoolContent className={`school-${count}`}>
 					<div className="column title">대학원 (박사)</div>
 					<div className="column contents">
 						<div className="row">
-							<Input name={`school-name-${count}`} size="large" value={value.university_doctor}  placeholder="학교명" onChange={handleEducationChange} />
-              <Input name={`school-major-${count}`} size="large" value={value.university_doctor_major}  placeholder="전공명" onChange={handleEducationChange} />
+							<Input name={`school-name-${count}`} size="large" value={value.school_name}  placeholder="학교명" onChange={handleEducationChange} />
+              <Input name={`school-major-${count}`} size="large" value={value.major}  placeholder="전공명" onChange={handleEducationChange} />
               <Select name={`school-attend-status-${count}`} size="large" placeholder="졸업 여부" 
                 defaultValue={value.attend_status}
                 onChange={(value) => {handleEducationChange({
@@ -119,8 +119,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="attending">재학</Select.Option>
-                <Select.Option value="graduate">졸업</Select.Option>
+                <Select.Option value="재학">재학</Select.Option>
+                <Select.Option value="졸업">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}

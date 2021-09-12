@@ -73,7 +73,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
   const { categories } = useFetchCategories();
 
   const onChange = (e) => {
-    console.log(e, unionCreate02Inputs);
+  
     if (e.type.includes("calendar")) {
       // 캘린더일 때
       const date = new Date(e.value);
@@ -108,7 +108,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
     if (e?.target.name.includes("invest_category")) {
       const targetRound = e.target.name.split("_").pop();
       let investCategories = unionCreate02Inputs.invest_category;
-      investCategories[targetRound - 1] = e.target.value;
+      investCategories[targetRound - 1] = {category: e.target.value};
       setUnionCreate02Inputs({
         ...unionCreate02Inputs,
         ["invest_category"]: [...investCategories],
@@ -133,7 +133,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
   const calculate = () => {
     const newState = {};
     if (isNotNull(amount_per_account) && isNotNull(expected_amount)) {
-      newState["total_account"] = expected_amount / amount_per_account;
+      newState["total_account"] = Math.floor(expected_amount / amount_per_account);
     }
     if (
       isNotNull(num_of_account_by_operator) &&
@@ -142,12 +142,12 @@ const PersonalUnionCreate02 = React.memo((props) => {
       isNotNull(amount_per_account)
     ) {
       newState["amount_operator"] = amount_per_account * num_of_account_by_operator;
-      newState["amount_operator_ratio"] = ((num_of_account_by_operator / total_account) * 100).toFixed(4);
+      newState["amount_operator_ratio"] = Math.floor((num_of_account_by_operator / total_account) * 100);
     }
     if (isNotNull(min_of_account) && isNotNull(amount_operator) && isNotNull(amount_operator_ratio)) {
       newState["num_of_account_by_lp"] = total_account - num_of_account_by_operator;
       newState["amount_lp"] = expected_amount - amount_operator;
-      newState["amount_lp_ratio"] = (100 - amount_operator_ratio).toFixed(4);
+      newState["amount_lp_ratio"] = Math.floor(100 - amount_operator_ratio);
     }
     setUnionCreate02Inputs({ ...unionCreate02Inputs, ...newState });
   };
@@ -158,22 +158,18 @@ const PersonalUnionCreate02 = React.memo((props) => {
   const $toggleBack = useRef();
 
   const handleNext = (e) => {
-    // 데이터 넘김
-    const calculateState = {};
+    
     const checkList = ["expected_amount", "amount_per_account", "amount_operator", "amount_lp"];
-    for (const name in unionCreate02Inputs) {
-      if (checkList.includes(name)) {
-        calculateState[name] = unionCreate02Inputs[name] * 1000000;
-      } else if (name === "invest_category") {
-        calculateState[name] = JSON.stringify(invest_category);
-      }
-    }
-
-    const returnState = {
-      ...unionCreate02Inputs,
-      ...calculateState,
-    };
-    onClickNext(returnState, 2);
+    checkList.forEach((key) => unionCreate02Inputs[key] = Math.floor(unionCreate02Inputs[key] / 1000000));
+    
+    const invest_category = [
+      {category: unionCreate02Inputs.invest_category_1}, 
+      {category: unionCreate02Inputs.invest_category_2}, 
+      {category: unionCreate02Inputs.invest_category_3}
+    ];
+    unionCreate02Inputs.invest_category = invest_category;
+    console.log(unionCreate02Inputs)
+    onClickNext(unionCreate02Inputs, 2);
   };
 
   const toggleCalender = ({ target }) => {
@@ -226,13 +222,16 @@ const PersonalUnionCreate02 = React.memo((props) => {
                       });
                     }}
                   >
-                    {categories.map((categoryData, i) => {
-                      return (
-                        <Select.Option key={`category-${i}`} value={categoryData.id}>
-                          {categoryData.category}
-                        </Select.Option>
-                      );
-                    })}
+                    {categories
+                      .filter((category) => ![unionCreate02Inputs.invest_category_1, unionCreate02Inputs.invest_category_2, unionCreate02Inputs.invest_category_3].includes(category.id) )
+                      .map((categoryData, i) => {
+                        return (
+                          <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.id}>
+                            {categoryData.category}
+                          </Select.Option>
+                        );
+                      }
+                    )}
                   </Select>
                 ))}
               </div>

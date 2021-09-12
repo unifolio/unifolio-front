@@ -21,27 +21,20 @@ const UnionCreateContainer = () => {
 		
 		switch (process) {
 			case 1:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addExecutiveMemberInfo(formData));
 				break;
 			case 2:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addUnionDefaultInfo(formData));
 				break;
 			case 3:
-				// target.classList.add('deactivate');
-				// target.parentNode.children[process].classList.remove('deactivate');
 				dispatch(addUnionOfficeInfo(formData));
 				break;
       case 4:
-        // target.classList.add('deactivate');
-        // target.parentNode.children[process].classList.remove('deactivate');
         dispatch(addUnionInvestInfo(formData));
         break;
 			case 5:
         const data = dispatch(getUnionCreateStateThunk());
+        console.log(data)
         const response = await API.post.newUnion(data);
         if (response.status === 200 || response.status === 201) {
           alert('조합 생성이 완료되었습니다');
@@ -82,9 +75,5 @@ const UnionCreateContainer = () => {
 };
 const PersonalUnionCreateLayout = styled.div`
 	width: 100%;
-
-	/* display:flex;
-  flex-direction:column; 
-  align-items: center; */
 `;
 export default UnionCreateContainer;
