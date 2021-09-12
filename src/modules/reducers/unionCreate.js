@@ -13,15 +13,16 @@ const GET_UNION_CREATE_STATE = 'unionCreate/GET_UNION_CREATE_STATE';
 const GET_UNION_CREATE_STATE_SUCCESS = 'unionCreate/GET_UNION_CREATE_STATE_SUCCESS';
 
 /* 액션 생성함수 선언 */
-
 export const addExecutiveMemberInfo = (formData) => ({
 	type: ADD_EXECUTIVE_MEMBER_INFO,
 	unionCreateData: formData,
 });
-export const addUnionDefaultInfo = (formData) => ({
-	type: ADD_UNION_DEFAULT_INFO,
-	unionCreateData: formData,
-});
+export const addUnionDefaultInfo = (formData) => {
+  return {
+    type: ADD_UNION_DEFAULT_INFO,
+	  unionCreateData: formData,
+  }
+};
 export const addUnionOfficeInfo = (formData) => ({
 	type: ADD_UNION_OFFICE_INFO,
 	unionCreateData: formData,

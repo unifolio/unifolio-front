@@ -10,7 +10,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
   const jobs = [
     "인사/총무/노무", "마케팅/MD", "홍보/CSR", "영업/영업관리", "회계/재무/금융", "해외/기술영업", "유통/무역/구매", "전략/기획", "IT개발", "서비스 기획/UI", "UX등", "디자인/예술", "미디어", "서비스", "연구/설계", "전문/특수", "교육/상담/컨설팅", "공무원/공공/비영리", "생산/품질/제조", "기타사무"
   ]
-  console.log(value)
+  
   const handleCareerChange = (e) => {
     if (!e.target) {
       // select일 때
@@ -63,7 +63,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
               >
                 {categories.map((categoryData, i) => {
                   return (
-                    <Select.Option key={`category-${i}`} value={categoryData.id}>
+                    <Select.Option key={`career-category-${i}`} value={categoryData.id}>
                       {categoryData.category}
                     </Select.Option>
                   );
@@ -91,7 +91,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
                 }}
               >
                 {jobs.map((job, idx) => (
-                  <Select.Option value={job}>{job}</Select.Option>
+                  <Select.Option key={`career-${job}-${idx}`} value={job}>{job}</Select.Option>
                 ))}
               </Select>
               <Select
@@ -158,7 +158,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
               >
                 {categories.map((categoryData, i) => {
                   return (
-                    <Select.Option key={`category-${i}`} value={categoryData.id}>
+                    <Select.Option key={`career-financial-category-${i}`} value={categoryData.id}>
                       {categoryData.category}
                     </Select.Option>
                   );
@@ -186,7 +186,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
                 }}
               >
                 {jobs.map((job, idx) => (
-                  <Select.Option value={job}>{job}</Select.Option>
+                  <Select.Option key={`career-financial-${job}-${idx}`} value={job}>{job}</Select.Option>
                 ))}
               </Select>
               <Select
