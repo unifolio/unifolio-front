@@ -1,21 +1,17 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 
-import { Route } from 'react-router-dom';
+import {
+  LandingPage, FindingPage, 
+  AssociationManagePage,
+  SignupPage, SigninPage, ProfilePage, 
+  UnionNewPage, UnionDocumentPage, UnionCreatePage, 
+  ManageUnionChatPage, ManageUserChatPage, 
+} from 'pages'
 
-import LandingPage from './pages/LandingPage';
-import FindingPage from './pages/FindingPage';
-import ProfilePage from './pages/ProfilePage';
-import UnionCreatePage from './pages/UnionCreatePage';
-import AssociationManagePage from './pages/AssociationManagePage';
-
-import Navbar from './components/common/Navbar';
-import SignupPage from './pages/SignupPage';
-import SigninPage from './pages/SigninPage';
-import UnionDocumentPage from 'pages/UnionDocumentPage';
-import ManageUnionChatPage from 'pages/ManageUnionChatPage';
-import ManageUserChatPage from 'pages/ManageUserChatPage';
+import Navbar from 'components/common/Navbar';
 
 function App() {
 	return (
@@ -24,6 +20,7 @@ function App() {
 			<Route component={LandingPage} path="/" exact />
 			<Route component={FindingPage} path="/finding" />
 			<Route component={ProfilePage} path="/profile" />
+      <Route component={UnionNewPage} path="/union/new" />
 			<Route component={AssociationManagePage} path="/union/manage" exact/>
 			<Route component={ManageUserChatPage} path="/union/manage/userchat" exact/>
 			<Route component={ManageUnionChatPage} path="/union/manage/unionchat" exact/>
