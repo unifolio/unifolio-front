@@ -10,9 +10,8 @@ const WaitingUnionsCell = styled.div`
 	display: flex;
 `;
 
-const WaitingUnions = (props) => {
+const WaitingUnions = ({ openModal }) => {
 	const [unions, setUnions] = useState([]);
-  const { openModal } = props;
 
   const onOpenModal = (cardObj) => {
 		openModal(cardObj);

@@ -1,12 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import * as Icons from "components/common/Icons/";
 import styles from '../../lib/styles';
 
-const SigninPresentational = ({ onClickSignin }) => {
-  const [signinState, setSigninState] = useState({});
+const SigninPresentational = ({ handleSignin }) => {
+  const [signinState, setSigninState] = useState({
+    email: localStorage.getItem("_unifolio_signin_account") ? localStorage.getItem("_unifolio_signin_account") : ""
+  });
     
   const handleEmailChange = ({target}) => {
     setSigninState((state) => ({...state, email: target.value}));
@@ -20,9 +22,9 @@ const SigninPresentational = ({ onClickSignin }) => {
     setSigninState((state) => ({...state, remember: !state.remember}));
   };
 
-  const handleSignin = (e) => {
-    e.preventDefault();
-    onClickSignin({...signinState});
+  const handleClickSignin = () => {
+    if (signinState.remember) localStorage.setItem("_unifolio_signin_account", signinState.email)
+    handleSignin(signinState);
   };
   
   return (
@@ -32,13 +34,13 @@ const SigninPresentational = ({ onClickSignin }) => {
           <SigninTitle> 로그인 </SigninTitle>
         </SigninBlockRow>
         <SigninBlockCenterSection>
-          <SigninIdInput onChange={handleEmailChange} /> 
+          <SigninIdInput onChange={handleEmailChange} value={signinState.email}/> 
           <SigninPasswordInput onChange={handlePasswordChange} />
-          <SigninSubmitButton onClick={handleSignin} signInState={signinState}> 로그인하기 </SigninSubmitButton>
+          <SigninSubmitButton onClick={handleClickSignin} signinState={signinState}> 로그인하기 </SigninSubmitButton>
           <SigninBlockRowSpaceBetween>
             <SigninRememberCheckBoxLayer>
               <SigninCheckBoxInput type="checkbox" id="willbeRemembered" />
-              <SigninCheckBoxInputLabel htmlFor="willbeRemembered" onClick={handleRememberChange} />
+              <SigninCheckBoxInputLabel htmlFor="willbeRemembered" onClick={handleRememberChange}/>
             </SigninRememberCheckBoxLayer>
             <SigninForgotPassword /> 
           </SigninBlockRowSpaceBetween>
@@ -162,7 +164,7 @@ const SigninSubmitButton = styled.button`
   margin-top: 1rem;
   border: none;
   cursor: pointer;
-  ${ (props) => props.signInState.email && props.signInState.password 
+  ${ ({ signinState }) => signinState.email && signinState.password 
     ? css`
         color: white;
         background-color: ${styles.palette.unifolioBlue};
@@ -175,6 +177,7 @@ const SigninSubmitButton = styled.button`
 
 const SigninRememberCheckBoxLayer = styled.div`
   color: ${styles.palette.unifolioBlue};
+  
   display: flex;
   align-items: center;
   

@@ -1,12 +1,10 @@
 import React, {useRef} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
-const Card = ({ idx, info, openModal}) => {
+const Card = ({ idx, info, openModal, type}) => {
 	const $card = useRef();
-	console.log(info);
-	
 	return (
-		<CardLayout>
+		<CardLayout type={type}>
       <CardInnerLayout ref={$card}>
         <CardHeader>
           <CardHeaderLeft>
@@ -23,17 +21,17 @@ const Card = ({ idx, info, openModal}) => {
           </InfomationTitle>
         <SectionPosition>
           {info.education?.map((educate, index)=>
-                  <InfomationRow key={index}>
-                      <InfomationMain>
-                        {educate.school_name}
-                      </InfomationMain>
-                      <InfomationMiddle>
-                        {educate.major}
-                      </InfomationMiddle>
-                      <InfomationRight>
-                        {educate.attend_status}
-                      </InfomationRight>
-                  </InfomationRow>
+            <InfomationRow key={index}>
+              <InfomationMain>
+                {educate.school_name}
+              </InfomationMain>
+              <InfomationMiddle>
+                {educate.major}
+              </InfomationMiddle>
+              <InfomationRight>
+                {educate.attend_status}
+              </InfomationRight>
+            </InfomationRow>
           )}
         </SectionPosition>
 
@@ -75,9 +73,13 @@ const Card = ({ idx, info, openModal}) => {
           }
         </SectionPosition>
       </CardInnerLayout>
-      <ButtonPosition>
-        <Button onClick={() => openModal({ idx, info, $card: $card.current.cloneNode(true) })}>문의하기</Button>
-      </ButtonPosition>
+      {type !== "modal" 
+        && (
+          <ButtonPosition>
+            <Button onClick={() => openModal({ idx, info, $card: $card.current.cloneNode(true) })}>문의하기</Button>
+          </ButtonPosition>
+        )
+      }
     </CardLayout>
 	);
 };
@@ -85,11 +87,15 @@ const Card = ({ idx, info, openModal}) => {
 const CardLayout = styled.div`
 	width: 100%;
 	height: 100%;
-	min-width:297px;
-  max-height:329px;
-	box-shadow: 0 5px 7px -1px gray;
-	padding: 1rem 1.5rem;
-
+  ${({ type }) => {
+    return type !== "modal" && css`
+      min-width:297px;
+      max-height:329px;
+      box-shadow: 0 5px 7px -1px gray;
+      padding: 1rem 1.5rem;
+    `;
+  }}
+	
 `;
 const CardInnerLayout = styled.div` // ref로 가져감.
   width: 100%;
