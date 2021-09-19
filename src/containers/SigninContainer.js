@@ -6,7 +6,7 @@ import SigninPresentational from '../components/Signin/SigninPresentational';
 
 const SigninContainer = () => {
   const history = useHistory();
-	const handleClickSignin = async (data) => {
+	const handleSignin = async (data) => {
 		const response = await API.post.newToken(data);
     
 		if (response.status === 401) {
@@ -18,14 +18,12 @@ const SigninContainer = () => {
       const responseByToken = await API.post.tokenToGetUser(token);
       
 			if (responseByToken.status === 200) {
-				// localStorage.setItem('unifolioUser', JSON.stringify(responseByToken.data.data));
-				// window.location.href = '/profile';
         history.push('/finding');        
 			}
 		}
 	};
 
-	return <SigninPresentational onClickSignin={handleClickSignin} />;
+	return <SigninPresentational handleSignin={handleSignin} />;
 };
 
 export default SigninContainer;
