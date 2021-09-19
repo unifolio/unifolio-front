@@ -64,6 +64,7 @@ const WaitingPeople = (props) => {
   return (
 		<>
 			{filteredUsers?.map((user, i) => {
+          console.log(user);
 					return (
 						<WaitingPeopleCell key={`${i}`}>
 							<Card idx={i + 1} info={user} openModal={onOpenModal} />

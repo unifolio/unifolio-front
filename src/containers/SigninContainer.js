@@ -1,10 +1,11 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import API  from '../lib/api';
 
 import SigninPresentational from '../components/Signin/SigninPresentational';
 
 const SigninContainer = () => {
-
+  const history = useHistory();
 	const handleClickSignin = async (data) => {
 		const response = await API.post.newToken(data);
     
@@ -18,7 +19,8 @@ const SigninContainer = () => {
       
 			if (responseByToken.status === 200) {
 				// localStorage.setItem('unifolioUser', JSON.stringify(responseByToken.data.data));
-				window.location.href = '/profile';
+				// window.location.href = '/profile';
+        history.push('/finding');        
 			}
 		}
 	};

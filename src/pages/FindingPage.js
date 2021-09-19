@@ -1,33 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import qs from 'qs';
 
-import Responsive from '../components/common/Responsive';
-import HomeHeader from '../components/Header/HomeHeader';
+import Responsive from 'components/common/Responsive';
+import HomeHeader from 'components/Header/HomeHeader';
 
-import WaitingPeople from '../components/WaitingPeople';
+import WaitingPeople from 'components/WaitingPeople';
 
-import WaitingUnions from '../components/Modal/WaitingUnions';
-import MoreInfoPerson from '../components/Modal/MoreInfoPerson';
-import MoreInfoUnion from '../components/Modal/MoreInfoUnion';
+import WaitingUnions from 'components/Modal/WaitingUnions';
+import MoreInfoPerson from 'components/Modal/MoreInfoPerson';
+import MoreInfoUnion from 'components/Modal/MoreInfoUnion';
 import Filter from 'components/common/Filter';
 
-import API from '../lib/api';
+import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import API from 'lib/api';
 
-
-const MainPage = (props) => {
-	const { location } = props;
+const FindingPage = ({ location }) => {
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  	const [modalContents, setModalContents] = useState({});
+  const [modalContents, setModalContents] = useState({});
 	const [filterVisible, setFilterVisible] = useState(false);
-	const [filterValue, setFilterValue] = useState({"waiting-people":{},
-	'waiting-unions':{}});
+	const [filterValue, setFilterValue] = useState({
+    "waiting-people":{},
+	  'waiting-unions':{}
+  });
 	const [categories, setCategories] = useState();
 	const [dataLength, setDataLength] = useState();
-	const $mainRef = React.createRef(),
-		$modalRef = React.createRef();
+  const [isModalActive, setIsModalActive] = useState(true);
+	const $mainRef = useRef(), $modalRef = useRef();
+  const { user } = useFetchUserToken();
+  useEffect(() => {
+    if (user && (user.career.length === 0 || user.education.length === 0)) {
+      
+    }
+  }, [user])
 
 	useEffect(() => {
+    if (!$modalRef.current) return;
     if (Object.keys(modalContents).length !== 0 ) {
 			document.querySelector('body').style.overflow = 'hidden';
 			$modalRef.current.style.display = 'flex';
@@ -75,11 +83,8 @@ const MainPage = (props) => {
 		}
 	};
 
-
-
-
 	const toggleModal = (cardObj) => {
-		console.log("====toggleModal====", cardObj)
+    if (!$modalRef.current) return;
     // 모달 닫기
 		if (typeof cardObj === 'boolean' && !cardObj) {
 			document.querySelector('body').style.overflow = '';
@@ -99,28 +104,28 @@ const MainPage = (props) => {
 		}
 	};
 
+  if (!user) return <></>;
 	return (
 		<>
 			<HomeHeader current={query.mode??'waiting-people'} />
-			<HomePagePosition className="HomePage">
-				<HomeMainSectionPosition>
-					<HomeMainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</HomeMainSection>
-				</HomeMainSectionPosition>
-				<HomeSideSectionPosition filterVisible={filterVisible}>
+			<FindingPagePosition className="FindingPage">
+				<MainSectionPosition>
+					<MainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</MainSection>
+				</MainSectionPosition>
+				<SideSectionPosition filterVisible={filterVisible}>
 					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} dataLength={dataLength} />
-				</HomeSideSectionPosition>
-			</HomePagePosition>
-			<HomeModalPosition ref={$modalRef} onClick={() => { toggleModal(false); }} >
-				<HomeModalMain onClick={(e) => { e.stopPropagation(); }} >
-          {/* 위치 판별 후 렌더 */}
+				</SideSectionPosition>
+			</FindingPagePosition>
+			<ModalPosition isModalActive={isModalActive} ref={$modalRef} > {/* onClick={() => { toggleModal(false); }} >*/}
+				<Modal onClick={(e) => { e.stopPropagation(); }} >
           {modalSectionSelector(query.mode)}
-				</HomeModalMain>
-			</HomeModalPosition>
+				</Modal>
+			</ModalPosition>
 		</>
 	);
 };
 
-const HomePagePosition = styled(Responsive)`
+const FindingPagePosition = styled(Responsive)`
 	position: relative;
 	max-width: 1440px;
 	margin: 0 auto;
@@ -129,7 +134,7 @@ const HomePagePosition = styled(Responsive)`
 	padding-left:0;
 `;
 
-const HomeMainSectionPosition = styled.div`
+const MainSectionPosition = styled.div`
 	width: 100%;
 	max-width:1009px;
 	height: 100%;
@@ -140,7 +145,7 @@ const HomeMainSectionPosition = styled.div`
 	align-items:center;
 `
 
-const HomeMainSection = styled.main`
+const MainSection = styled.main`
 	width: 100%;
 	height: 100%;
 	padding: 2rem 1rem 2rem 1rem;
@@ -156,7 +161,7 @@ const HomeMainSection = styled.main`
 	} 
 `;
 
-const HomeModalPosition = styled.div`
+const ModalPosition = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
@@ -170,10 +175,14 @@ const HomeModalPosition = styled.div`
 	display: none;
 	justify-content: center;
 	align-items: center;
+
+  ${({isModalActive}) => isModalActive && css`
+    display: flex;
+  `}
 `;
 
 
-const HomeModalMain = styled.div`
+const Modal = styled.div`
 	width: 30vw;
 	min-width: 720px;
 	min-height: 426px;
@@ -190,7 +199,7 @@ const HomeModalMain = styled.div`
 		margin:0 1rem;
 	}
 `;
-const HomeSideSectionPosition = styled.aside`
+const SideSectionPosition = styled.aside`
 	width: 267px;
 	min-height: calc(100vh - 8rem);
 	position: sticky;
@@ -218,4 +227,4 @@ const HomeSideSectionPosition = styled.aside`
 
 `;
 
-export default MainPage;
+export default FindingPage;

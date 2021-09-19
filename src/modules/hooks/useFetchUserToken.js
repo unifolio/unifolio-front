@@ -1,9 +1,12 @@
 import { useEffect, useState} from "react";
+import { useHistory } from "react-router-dom";
+
 import API from 'lib/api';
 
 const useFetchUserToken = () => {
 
   const [user, setUser] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +18,7 @@ const useFetchUserToken = () => {
       if (tokenData.accessToken === null) {
         // alert('로그인 기록이 없습니다 1');
         // localStorage.removeItem('unifolioUser');
-        window.location.href = '/signin';
+        history.push('/signin');
       }
       
       const response = await API.post.tokenToGetUser(tokenData);
@@ -30,7 +33,7 @@ const useFetchUserToken = () => {
         alert('로그인이 만료되었습니다. 다시 로그인 해주세요.');
         // localStorage.removeItem('unifolioAccess');
         // localStorage.removeItem('unifolioUser');
-        window.location.href = '/signin';
+        history.push('/signin');
       }
     };
     if (user === null) {

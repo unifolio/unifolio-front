@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
-import HomePage from './pages/HomePage';
+import FindingPage from './pages/FindingPage';
 import ProfilePage from './pages/ProfilePage';
 import UnionCreatePage from './pages/UnionCreatePage';
 import AssociationManagePage from './pages/AssociationManagePage';
@@ -22,7 +22,7 @@ function App() {
 		<>
 			<Navbar />
 			<Route component={LandingPage} path="/" exact />
-			<Route component={HomePage} path="/finding" />
+			<Route component={FindingPage} path="/finding" />
 			<Route component={ProfilePage} path="/profile" />
 			<Route component={AssociationManagePage} path="/union/manage" exact/>
 			<Route component={ManageUserChatPage} path="/union/manage/userchat" exact/>
