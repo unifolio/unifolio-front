@@ -11,8 +11,7 @@ const WaitingPeopleCell = styled.div`
 	display: flex;
 `;
 
-const WaitingPeople = (props) => {
-	const { openModal,filterValue ,setDataLength} = props;
+const WaitingPeople = ({ openModal, filterValue, setDataLength}) => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers,setFilteredUsers] = useState([]);
 	
@@ -64,6 +63,7 @@ const WaitingPeople = (props) => {
   return (
 		<>
 			{filteredUsers?.map((user, i) => {
+          console.log(user);
 					return (
 						<WaitingPeopleCell key={`${i}`}>
 							<Card idx={i + 1} info={user} openModal={onOpenModal} />

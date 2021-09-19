@@ -1,63 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import qs from 'qs';
+import React from 'react';
+import styled from 'styled-components';
 
 import Responsive from 'components/common/Responsive';
-import ProfileHeader from 'components/Header/ProfileHeader';
 
 import DefaultInfoContainer from 'containers/DefaultInfoContainer';
 import AdditionalInfoContainer from 'containers/AdditionalInfoContainer';
 
-import CreateUnion from 'composition/Profile/CreateUnion';
 // import ManageAssociation from '../components/ManageAssociation';
 import useFetchUserToken from "modules/hooks/useFetchUserToken";
 
-const ProfilePage = ({ location }) => {
-	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+const ProfilePage = () => {
 	
-	const [status, setStatus] = useState(query.mode !== undefined ? query.mode : 'profile');
   const { user } = useFetchUserToken();
-
-	// const mainSectionSelector = (current) => {
-	// 	console.log('mainSectionSelector', current);
-	// 	if (status !== current && current !== undefined) {
-	// 		setStatus(current);
-	// 	}
-	// 	switch (current) {
-	// 		case 'create-association':
-	// 			return <CreateUnion />;
-	// 		case 'profile':
-	// 			console.log('profile not usable');
-	// 			return <div style={{ width: '100%' }}> profile </div>;
-	// 		default:
-	// 			return <div style={{ width: '100%' }}> profile </div>;
-	// 	}
-	// };
-
-	const onChangeHeaderStatus = (value) => {
-		console.log('onChangeHeaderStatus', value);
-		setStatus(value);
-	};
 
   if (!user) return <></>;
 	return (
-		<>
-			<ProfileHeader current={query.mode} status={status} submitChangeHeaderStatus={onChangeHeaderStatus} />
-			
-			<ProfilePageLayout className="ProfilePage">
-				{status === 'profile' && (
-					<>
-						<DefaultInfoContainer user={user}/>
-						<AdditionalInfoContainer user={user}/>
-					</>
-				)}
-				{status !== 'profile' && (
-					<ProfilePageMainSection>
-						<CreateUnion />
-					</ProfilePageMainSection>
-				)}
-			</ProfilePageLayout>
-		</>
+    <ProfilePageLayout className="ProfilePage">
+      <DefaultInfoContainer user={user}/>
+      <AdditionalInfoContainer user={user}/>
+    </ProfilePageLayout>
 	);
 };
 
