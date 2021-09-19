@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import qs from 'qs';
 
 import Responsive from 'components/common/Responsive';
-import HomeHeader from 'components/Header/HomeHeader';
+import FindingHeader from 'components/Header/FindingHeader';
 
 import WaitingPeople from 'components/WaitingPeople';
 
@@ -107,7 +107,7 @@ const FindingPage = ({ location }) => {
   if (!user) return <></>;
 	return (
 		<>
-			<HomeHeader current={query.mode??'waiting-people'} />
+			<FindingHeader current={query.mode ?? 'waiting-people'} />
 			<FindingPagePosition className="FindingPage">
 				<MainSectionPosition>
 					<MainSection ref={$mainRef}>{mainSectionSelector(query.mode)}</MainSection>

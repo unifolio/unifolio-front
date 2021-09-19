@@ -11,8 +11,7 @@ const WaitingPeopleCell = styled.div`
 	display: flex;
 `;
 
-const WaitingPeople = (props) => {
-	const { openModal,filterValue ,setDataLength} = props;
+const WaitingPeople = ({ openModal, filterValue, setDataLength}) => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers,setFilteredUsers] = useState([]);
 	
