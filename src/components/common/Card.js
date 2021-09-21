@@ -107,7 +107,7 @@ const CardHeaderLeft = styled.div`
 `; 
 
 const UserName = styled.span`
-	font-size:1.5rem;
+	font-size:1.2rem;
 	font-weight:600;
 `;
 const CardHeaderRight = styled.div`
@@ -128,7 +128,9 @@ const MoneyText = styled.span`
 
 const SectionPosition = styled.section`
   max-height: 80px;
-  overflow:scroll;
+  min-height: 80px;
+  height: 80px;
+  overflow-y:scroll;
 `
 
 const InfomationTitle = styled.div`
