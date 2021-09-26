@@ -3,11 +3,12 @@ import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import styles from 'lib/styles';
+import useFetchUserToken from "modules/hooks/useFetchUserToken";
 
 const UnionCreateHeaderBusiness = ({ location, current }) => {
 	const [titleIdx, setTitileIdx] = useState(current - 1);
+  const { user } = useFetchUserToken();
 	
-  const url = location.pathname;
 	const titles = [
     'Step 1. 업무집행조합원 개인정보 입력: 법인 대표자',
     'Step 2. 업무집행조합원 개인정보 입력: 투자심사역', 
@@ -15,18 +16,23 @@ const UnionCreateHeaderBusiness = ({ location, current }) => {
     'Step 4. 조합 사무소 정보 입력', 
     'Step 5. 조합원 상세 모집계획',
   ];
-	if (titleIdx !== current - 1) {
+	
+  if (titleIdx !== current - 1) {
 		setTitileIdx(current - 1);
 	}
-
-	const titleSelector = () => {
-		return titles[titleIdx];
-	};
+  
+  useEffect(() => {
+    if (user === null) return;
+    if (user.education.length === 0 || !user.address_business) {
+      alert("유저 정보를 올바르게 수정 후 다시 시도해 주세요.");
+      window.location.href = "/profile"
+    }
+  }, [ user ])
 
 	return (
 		<UnionCreateHeaderPosition className="UnionCreateHeader">
 			<UnionCreateHeaderLayout>
-				<div className="associationheader-item">{titleSelector()}</div>
+				<div className="associationheader-item">{titles[titleIdx]}</div>
 				<div className="associationheader-item">
           {titles.map((title, i) => {
             return (
