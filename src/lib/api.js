@@ -30,6 +30,17 @@ const API = {
         });
       return response;
     },
+    userBusiness: ({ userId }) => {
+      const response = axiosInstance
+        .get(`${END_POINT}/users/business/${userId}/`)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      return response;
+    },
     usersGeneral: () => {
       const response = axios.get(`${END_POINT}/users/general/?limit=50`)
         .then((resolve) => {
@@ -173,12 +184,28 @@ const API = {
     },
   },
   patch: {
-    usersGeneral: async (id, data) => {
+    userGeneral: async (id, data) => {
       const config = {
         headers: { "Content-Type": "application/json" },
       };
       const response = await axios
         .patch(`${END_POINT}/users/general/${id}/`, data, config)
+        .then((response) => {
+          return response;
+        })
+        .catch((error) => {
+          console.error("patch user Error", error.response);
+          return error.response;
+        });
+      console.log(response);
+      return response;
+    },
+    userBusiness: async (id, data) => {
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const response = await axios
+        .patch(`${END_POINT}/users/business/${id}/`, data, config)
         .then((response) => {
           return response;
         })

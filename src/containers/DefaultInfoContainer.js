@@ -12,7 +12,7 @@ const DefaultInfoContainer = ({ user }) => {
 		const response = await API.post.tokenToGetUser(token);
 		const userId = response.data.data.id;
 		console.log(":handleSubmit", data);
-		API.patch.usersGeneral(userId, data);
+		API.patch.userGeneral(userId, data);
 	};
 
   if (!user) return <></>;
