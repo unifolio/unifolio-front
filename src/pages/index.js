@@ -2,6 +2,8 @@ import LandingPage from 'pages/LandingPage';
 import FindingPage from 'pages/FindingPage';
 import ProfilePage from 'pages/ProfilePage';
 import UnionCreatePage from 'pages/UnionCreatePage';
+import UnionCreateBusinessPage from 'pages/UnionCreateBusinessPage';
+
 import AssociationManagePage from 'pages/AssociationManagePage';
 import SignupPage from 'pages/SignupPage';
 import SigninPage from 'pages/SigninPage';
@@ -14,6 +16,6 @@ export {
   LandingPage, FindingPage, 
   AssociationManagePage,
   SignupPage, SigninPage, ProfilePage, 
-  UnionNewPage, UnionDocumentPage, UnionCreatePage, 
+  UnionNewPage, UnionDocumentPage, UnionCreatePage, UnionCreateBusinessPage,
   ManageUnionChatPage, ManageUserChatPage, 
 }
