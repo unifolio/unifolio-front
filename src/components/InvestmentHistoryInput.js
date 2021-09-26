@@ -48,8 +48,8 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
           })}
         </Select>
         <Input
-          className="firm"
-          name={`investment-history-firm-${count}`}
+          className="company"
+          name={`investment-history-company-${count}`}
           size="large"
           placeholder="회사명"
           onChange={handleInvestmentHistoryChange}
