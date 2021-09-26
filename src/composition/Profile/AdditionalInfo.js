@@ -106,7 +106,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         console.log(careerInput) // 임시
         return {
           count: i+1,
-          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.type,
+          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.option_type,
           info: {
             ...careerInput
           }
@@ -190,7 +190,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
 	};
 
   const handleCareerChange = ({ count, name, value }) => {
-    console.log("변화@", count, name, value)
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
@@ -203,8 +202,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       }
       return careerInput;
     });
-    console.log(changedCareerInputs)
-    
     setCareerInputs(changedCareerInputs);
 	};
 
@@ -252,6 +249,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     // console.log("userEducation", userEducation)
     const userCareer = careerInputs.map((careerInput) => {
       if (Object.values(careerInput.info).includes(null)) return false;
+      if (careerInput.info.category.id) return {...careerInput.info, category: {category: careerInput.info.category.id} }
       return {...careerInput.info, category: {category: careerInput.info.category} }
     })
     console.log("userCareer", userCareer)
@@ -260,6 +258,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     
     const targetData = {};
     if (!userEducation.includes(false)) targetData.education = userEducation;
+    targetData.career = userCareer;
     if (!userCareer.includes(false)) targetData.career = userCareer;
     if (Object.values(targetData).length === 0) {
       alert("정보를 올바르게 입력해주세요.");
