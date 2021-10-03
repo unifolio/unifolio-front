@@ -1,12 +1,13 @@
+import { dateFormating } from 'lib/dateFormat';
 import React from 'react';
 import styled from 'styled-components';
 
 const UnionCard = ({ idx, union, openModal }) => {
-	
+	console.log(union);
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date))/1000/60/60/24;
     if (remainDateInteger >= 1) {
-      return `${Number(remainDateInteger/24)}일 남음`
+      return `${Math.floor(Number(remainDateInteger/24))}일 남음`
     } 
     return `${Number(remainDateInteger*24)}시간 남음`
   }
@@ -21,11 +22,11 @@ const UnionCard = ({ idx, union, openModal }) => {
 	return (
 		<CardLayout>
       <section className="title">
-        <span style={{fontSize: '26px'}}>{union.name}</span>
+        <UnionName>{union.name}</UnionName>
       </section>
       <section className="contents default-info">
         <div className="row">
-          <span>조합 소개입니다 조합 소개입니다 조합 소개입니다 {union?.description}</span>
+          <span>{union?.description}</span>
         </div>
         <div className="row">
           <div className="column column-1">
@@ -50,7 +51,7 @@ const UnionCard = ({ idx, union, openModal }) => {
             <span className="grey">현재 출자액 </span>
           </div>
           <div className="column column-5">
-            <span className="bold">이거는 어떻게 계산하지..? </span>  
+            <span className="bold">{calculateMillionWon(union.collected_amount)}</span>  
           </div>
         </div>
         <div className="row">
@@ -66,13 +67,13 @@ const UnionCard = ({ idx, union, openModal }) => {
             <span className="grey">모집기간</span>
           </div>
           <div className="column column-5">
-            <span className="bold">{calculateDate(union.recruitment_end_date, union.recruitment_start_date)} ({union.recruitment_end_date})</span>  
+            <span className="bold">{calculateDate(union.recruitment_end_date, union.recruitment_start_date)} ({dateFormating(union.recruitment_end_date)})</span>  
           </div>
         </div>  
       </section>
 			<section className="bottom-button">
         <div className="row center">
-          <button className="participate-button unifolio-blue" onClick={onClickParticipateButton}>참여 하기</button>
+          <Button className="participate-button" onClick={onClickParticipateButton}>참여 하기</Button>
         </div>
       </section>
 		</CardLayout>
@@ -85,7 +86,7 @@ const CardLayout = styled.div`
 	box-shadow: 0 5px 7px -1px gray;
 	padding: 1rem;
 	display: grid;
-
+  font-size: 12px;
   section.contents {
     margin: 10px;
 
@@ -115,7 +116,8 @@ const CardLayout = styled.div`
   
   .row {
     width: 100%;
-    
+    margin-top: 10px;
+
     display: flex;
     &.center {
       justify-content: center;
@@ -127,16 +129,15 @@ const CardLayout = styled.div`
     
     &-1 {
       flex-grow: 1;
-      flex-basis: 80px;
+      flex-basis: 67px;
     }
     &-5 {
-      flex-grow: 5;
+      flex-grow: 10;
       flex-basis: 80px;
     }
   }
 
   .column + .column {
-    margin-left: 10px;
   }
 
   section + section {
@@ -144,5 +145,18 @@ const CardLayout = styled.div`
   }
 
 `;
-
+const UnionName = styled.span`
+  font-size: 20px;
+  word-break: keep-all;
+`;
+const Button = styled.button`
+  width: 200px;
+  height: 43px;
+  color: #847F7F;
+  background-color: #fff;
+  border-radius: 100px;
+  font-weight: bold;
+  line-height: 16px;
+  cursor: pointer;
+`;
 export default UnionCard;
