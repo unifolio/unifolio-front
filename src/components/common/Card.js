@@ -140,6 +140,7 @@ const InfomationRow = styled.div`
 	width:100%;
 	display:flex;
 	justify-content:space-between;
+  gap: 10px;
 	margin: 6px 0;
 `;
 const InfomationMain = styled(CommonText)`
