@@ -72,14 +72,14 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  padding-top:30px;
-  padding-bottom:30px;
+  padding-top:20px;
+  padding-bottom:20px;
 `;
 
 const QustionTitle = styled.span`
-  font-size: 28px;
-  line-height: 28px;
-  height: 32px;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
   color: rgba(132, 127, 127, 1);
   font-weight: 400;
 `;
@@ -96,10 +96,10 @@ const ContentsWrapper = styled.section`
 `;
 
 const Contents = styled.p`
-  padding: 50px 0;
+  padding: 30px 0;
   word-break:keep-all;
   font-weight: 300;
-  font-size: 28px;
+  font-size: 18px;
   color: #847F7F;
 `;
 
