@@ -62,7 +62,7 @@ const Container = styled.li`
   flex-direction: column;
   justify-content: center;
   padding:0 40px;
-  margin: 20px 0px;
+  margin: 10px 0px;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0.5px rgba(0, 0, 0, 0.25);
 `;
