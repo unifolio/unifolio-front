@@ -9,7 +9,7 @@ import Header from 'composition/Signup/Header';
 import ProcessIndicator from 'composition/Signup/ProcessIndicator';
 import * as SignupPersonal from 'composition/Signup/PersonalPhase';
 import * as SignupCorporation from 'composition/Signup/CorporationPhase';
-
+import Conditional from 'components/common/Conditional';
 import API from '../lib/api';
 
 const SignupContainer = () => {
@@ -108,13 +108,15 @@ const SignupContainer = () => {
 	return (
     <>
       <Header current={current} process={process} />
-      {current === "default" 
-        ? <CardArea>
+      <Conditional condition={current === "default"}>
+        <CardArea>
             <Card type={"general"} onChangeCurrent={handleChangeCurrent} />
             <Card type={"business"} onChangeCurrent={handleChangeCurrent} />
           </CardArea>
-        : <ProcessIndicator current={current} process={process} />
-      }
+      </Conditional>
+      <Conditional condition={current !== "default"}>
+        <ProcessIndicator current={current} process={process} />
+      </Conditional>
       <SignupBlock>
         {render()}
       </SignupBlock>
@@ -123,7 +125,7 @@ const SignupContainer = () => {
 };
 
 const CardArea = styled.div`
-  margin-top: 111px;
+  margin-top: 80px;
   font-size: var(--fontSize18);
 
   display: flex; 

@@ -21,10 +21,10 @@ const SignupLayout = styled.div`
   
   display:flex;
   justify-content: center;
+  align-items: center;
 `
 const SignupArea = styled.div`
   width: 60%;
-  margin-top: 10%;
 
   display:flex;
   flex-direction:column; 
