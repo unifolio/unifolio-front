@@ -1,23 +1,23 @@
-import React , {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
-import API from '../lib/api';
+import API from 'lib/api';
 
-import { addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, addUnionInvestInfo, getUnionCreateStateThunk } from 'modules/reducers/unionCreate';
+import { 
+  addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, addUnionInvestInfo, 
+  getUnionCreateStateThunk 
+} from 'modules/reducers/unionCreate';
 
-import PersonalUnionCreate01 from 'composition/UnionCreate/PersonalUnionCreate01';
-import PersonalUnionCreate02 from 'composition/UnionCreate/PersonalUnionCreate02';
-import PersonalUnionCreate03 from 'composition/UnionCreate/PersonalUnionCreate03';
-import PersonalUnionCreate04 from 'composition/UnionCreate/PersonalUnionCreate04';
-import PersonalUnionCreate05 from 'composition/UnionCreate/PersonalUnionCreate05';
+// import * as UnionCreate from 'composition/UnionCreate';
+import { Personal, Corporation } from 'composition/UnionCreate';
 
 const UnionCreateContainer = () => {
-	const dispatch = useDispatch();
-  const [process, setProcess] = useState(1);
-
-	const onClickNext = async (formData, process) => {
+	const [process, setProcess] = useState(1);
+  const dispatch = useDispatch();
+  
+	const handleClickNext = async (formData, process) => {
 		
 		switch (process) {
 			case 1:
@@ -47,21 +47,21 @@ const UnionCreateContainer = () => {
       default:
         console.error("회원가입 에러");
 		}
-    setProcess(process+1); // 프로세스 값 갱신
+    setProcess((prevProcess) => prevProcess+1); // 프로세스 값 갱신
 	};
 
-  const render = () => {
+  const renderSteps = () => {
     switch (process) {
       case 1:
-        return <PersonalUnionCreate01 onClickNext={onClickNext} />
+        return <Personal._01 onClickNext={handleClickNext} />
       case 2:
-        return <PersonalUnionCreate02 onClickNext={onClickNext} />
+        return <Personal._02 onClickNext={handleClickNext} />
       case 3:
-        return <PersonalUnionCreate03 onClickNext={onClickNext} />
+        return <Personal._03 onClickNext={handleClickNext} />
       case 4:
-        return <PersonalUnionCreate04 onClickNext={onClickNext} />
+        return <Personal._04 onClickNext={handleClickNext} />
       case 5:
-        return <PersonalUnionCreate05 onClickNext={onClickNext} />
+        return <Personal._05 onClickNext={handleClickNext} />
       default:
         return <></>
     }
@@ -69,11 +69,13 @@ const UnionCreateContainer = () => {
 
 	return (
 		<PersonalUnionCreateLayout>
-      {render()}
+      {renderSteps()}
 		</PersonalUnionCreateLayout>
 	);
 };
+
 const PersonalUnionCreateLayout = styled.div`
 	width: 100%;
 `;
+
 export default UnionCreateContainer;
