@@ -43,7 +43,7 @@ const API = {
   
   mergeWith: function(serviceInstance) {
     try {
-      if (serviceInstance) throw new Error("serviceInstance is corrupted");
+      if (!serviceInstance) throw new Error("serviceInstance is corrupted");
       Object.entries(serviceInstance).forEach( ([key, service]) => {
         this[key] = {...this[key], ...service};
       });

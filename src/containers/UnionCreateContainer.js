@@ -10,7 +10,6 @@ import {
   getUnionCreateStateThunk 
 } from 'modules/reducers/unionCreate';
 
-// import * as UnionCreate from 'composition/UnionCreate';
 import { Personal, Corporation } from 'composition/UnionCreate';
 
 const UnionCreateContainer = () => {
