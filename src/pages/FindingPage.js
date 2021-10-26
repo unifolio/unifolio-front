@@ -12,7 +12,7 @@ import MoreInfoPerson from 'components/Modal/MoreInfoPerson';
 import MoreInfoUnion from 'components/Modal/MoreInfoUnion';
 import Filter from 'components/common/Filter';
 
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 import API from 'lib/api';
 
 const FindingPage = ({ location }) => {

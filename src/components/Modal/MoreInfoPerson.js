@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Card from 'components/common/Card';
 
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 // import CancelImage from 'assets/images/cancel.png';
 import { dummyUser } from "util/data";
 
