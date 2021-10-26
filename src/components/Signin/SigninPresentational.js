@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import styles from 'lib/styles';
+
 import * as Icons from "components/common/Icons/";
-import styles from '../../lib/styles';
+import SigninSocial from "components/Signin/SigninSocial";
+
 
 const SigninPresentational = ({ handleSignin }) => {
   const [signinState, setSigninState] = useState({
@@ -51,10 +54,15 @@ const SigninPresentational = ({ handleSignin }) => {
         </SigninBlockBottomSection>
         <SigninBlockRow> 소셜 로그인</SigninBlockRow>
         <SigninSocialsSection>
-          <button> <Icons.GoogleIcon /> </button>
+          <SigninSocial> <Icons.GoogleIcon /> </SigninSocial>
+          <SigninSocial> <Icons.FacebookIcon /> </SigninSocial>
+          <SigninSocial> <Icons.NaverIcon />  </SigninSocial>
+          <SigninSocial> <Icons.KakaoIcon /> </SigninSocial> 
+          
+          {/* <button> <Icons.GoogleIcon /> </button>
           <button> <Icons.FacebookIcon /> </button>
           <button> <Icons.NaverIcon /> </button>
-          <button> <Icons.KakaoIcon /> </button>
+          <button> <Icons.KakaoIcon /> </button> */}
         </SigninSocialsSection>
         <SigninBlockRow marginTop={"3rem"}> 
           <div>
