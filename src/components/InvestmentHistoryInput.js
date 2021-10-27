@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Input, Button, Select } from "antd";
 
-import useFetchCategories from "modules/hooks/useFetchCategories";
+import useFetchCategories from "hooks/useFetchCategories";
 
 const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
   const { categories } = useFetchCategories();

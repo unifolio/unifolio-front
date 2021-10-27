@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Input, Button, Select } from "antd";
 
-import useFetchCategories from "modules/hooks/useFetchCategories";
+import useFetchCategories from "hooks/useFetchCategories";
 
 const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => {
   const { categories } = useFetchCategories();

@@ -7,7 +7,7 @@ import DefaultInfoContainer from 'containers/DefaultInfoContainer';
 import AdditionalInfoContainer from 'containers/AdditionalInfoContainer';
 
 // import ManageAssociation from '../components/ManageAssociation';
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 
 const ProfilePage = () => {
 	
