@@ -44,6 +44,12 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      naverCallback: ({code}) => {
+        const response = axiosInstance.get(`${END_POINT}/users/signin/naver/callback/?code=${code}`)
+          .then((response) => { return response.date; })
+          .catch((error) => { return error.response; });
+        return response;
+      }
     },
     post: {
       userSignupBusiness: async (formData) => {

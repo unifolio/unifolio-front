@@ -54,10 +54,10 @@ const SigninPresentational = ({ handleSignin }) => {
         </SigninBlockBottomSection>
         <SigninBlockRow> 소셜 로그인</SigninBlockRow>
         <SigninSocialsSection>
-          <SigninSocial> <Icons.GoogleIcon /> </SigninSocial>
-          <SigninSocial> <Icons.FacebookIcon /> </SigninSocial>
+          {/* <SigninSocial> <Icons.GoogleIcon /> </SigninSocial>
+          <SigninSocial> <Icons.FacebookIcon /> </SigninSocial> */}
           <SigninSocial> <Icons.NaverIcon />  </SigninSocial>
-          <SigninSocial> <Icons.KakaoIcon /> </SigninSocial> 
+          {/* <SigninSocial> <Icons.KakaoIcon /> </SigninSocial>  */}
           
           {/* <button> <Icons.GoogleIcon /> </button>
           <button> <Icons.FacebookIcon /> </button>
