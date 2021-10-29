@@ -15,7 +15,6 @@ const SigninSocial = ({ children }) => {
     script.src = "https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js";
     script.type = "text/javascript"
     script.onload = () => { 
-      console.log("is onload ?"); 
       setSigninInstance(
         new window.naver.LoginWithNaverId({
           clientId: "aqhPGNC46YJwoCymHo_9",
