@@ -6,7 +6,8 @@ import 'antd/dist/antd.css';
 import {
   LandingPage, FindingPage, 
   AssociationManagePage,
-  SignupPage, SigninPage, ProfilePage, 
+  SignupPage, SigninPage, OAuthSigninCallbackPage,
+  ProfilePage, 
   UnionNewPage, UnionDocumentPage, UnionCreatePage, 
   ManageUnionChatPage, ManageUserChatPage, UnionCreateBusinessPage
 } from 'pages'
@@ -28,6 +29,7 @@ function App() {
       <Route component={UnionCreateBusinessPage} path="/union-create/business" />
 			<Route component={SignupPage} path="/signup" />
 			<Route component={SigninPage} path="/signin" />
+      <Route component={OAuthSigninCallbackPage} path="/users/signin/" />
 			<Route component={UnionDocumentPage} path="/union/document" />
 		</>
 	);
