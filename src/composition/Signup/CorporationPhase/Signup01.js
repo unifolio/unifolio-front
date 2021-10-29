@@ -5,11 +5,11 @@ import styles from 'lib/styles';
 import * as Icons from "components/common/Icons";
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup01 = ({ onClickNext, className }) => {
+const Signup01 = ({ signupInputData, onClickNext }) => {
   
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState({ value: "", isVisible: false });
-  const [passwordCheck, setPasswordCheck] = useState({ value: "", isVisible: false });
+  const [email, setEmail] = useState(signupInputData.email ?? '');
+  const [password, setPassword] = useState({ value: signupInputData.password ?? '', isVisible: false });
+  const [passwordCheck, setPasswordCheck] = useState({ value: signupInputData.password_check ?? '', isVisible: false });
   const [isActive, setIsActive] = useState(false);
   const [$password, $passwordCheck] = [useRef(), useRef()];
 
@@ -19,7 +19,7 @@ const Signup01 = ({ onClickNext, className }) => {
     } else {
       setIsActive(false);
     }
-  })
+  });
 
   const handleEmailChange = (e) => { setEmail(e.target.value); }
   const handlePasswordChange = (e) => { setPassword({...password, value: e.target.value}); }
@@ -54,11 +54,11 @@ const Signup01 = ({ onClickNext, className }) => {
   }
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
-        <SignupEmailInput onChange={handleEmailChange} /> <br />
+        <SignupEmailInput onChange={handleEmailChange} value={email}/> <br />
         <div style={{width: "100%"}}>
-          <SignupPasswordInput ref={$password} onChange={handlePasswordChange} /> 
+          <SignupPasswordInput ref={$password} onChange={handlePasswordChange} value={password.value}/> 
           <Icons.EyeIcon 
             onClick={() => handleClickEyeIcon("password")}
             style={{
@@ -68,7 +68,7 @@ const Signup01 = ({ onClickNext, className }) => {
         </div>
         <br />
         <div style={{width: "100%"}}>
-          <SignupPasswordChkInput ref={$passwordCheck} onChange={handlePasswordCheckChange} /> 
+          <SignupPasswordChkInput ref={$passwordCheck} onChange={handlePasswordCheckChange} value={passwordCheck.value}/> 
           <Icons.EyeIcon
             onClick={() => handleClickEyeIcon("passwordCheck")}
             style={{
@@ -77,13 +77,13 @@ const Signup01 = ({ onClickNext, className }) => {
           />
         </div>
         <br />
-        <SignupSubmitButton active={isActive}> 다음 단계 진행하기 </SignupSubmitButton>
+        <SubmitButton active={isActive}> 다음 단계 진행하기 </SubmitButton>
       </SignupForm>
     </SignupRowBlock>
   );
 }
 
-const SignupSubmitButton = styled(UnsettedButton)`
+const SubmitButton = styled(UnsettedButton)`
   width: 100%;
   height: 64px;
   color: ${props => props.active ? "white" : "#BCB6B6"};
@@ -113,7 +113,7 @@ const SignupEmailInput = styled.input.attrs(
   ${styles.layout.signInput}
 `;
 const SignupPasswordInput = styled.input.attrs(
-  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)"})
+  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)", autocomplete: "on"})
 )`
   width: 100%;
   ${styles.layout.signInput}
@@ -123,7 +123,7 @@ const SignupPasswordInput = styled.input.attrs(
   }
 `;
 const SignupPasswordChkInput = styled.input.attrs(
-  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인"})
+  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인", autocomplete: "on"})
 )`
   width: 100%;
   ${styles.layout.signInput}
