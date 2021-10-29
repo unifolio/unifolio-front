@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import styles from 'lib/styles';
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 
 const UnionCreateHeaderBusiness = ({ location, current }) => {
 	const [titleIdx, setTitileIdx] = useState(current - 1);
