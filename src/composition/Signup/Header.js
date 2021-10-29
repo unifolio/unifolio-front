@@ -22,6 +22,8 @@ const Header = ({ current = "default" }) => {
         return (
           <HeaderTitle>법인 회원 가입</HeaderTitle>
         )
+      default:
+        return <></>;
     }
   }
   

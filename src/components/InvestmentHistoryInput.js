@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Input, Button, Select } from "antd";
 
-import useFetchCategories from "modules/hooks/useFetchCategories";
+import useFetchCategories from "hooks/useFetchCategories";
 
 const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
   const { categories } = useFetchCategories();
@@ -48,8 +48,8 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
           })}
         </Select>
         <Input
-          className="firm"
-          name={`investment-history-firm-${count}`}
+          className="company"
+          name={`investment-history-company-${count}`}
           size="large"
           placeholder="회사명"
           onChange={handleInvestmentHistoryChange}

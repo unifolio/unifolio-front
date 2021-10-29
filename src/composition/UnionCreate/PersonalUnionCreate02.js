@@ -6,7 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import { Input, Button, Select } from "antd";
 
 import Numpad from "components/common/Numpad";
-import useFetchCategories from "modules/hooks/useFetchCategories";
+import useFetchCategories from "hooks/useFetchCategories";
 
 const PersonalUnionCreate02 = React.memo((props) => {
   const { onClickNext, className } = props;

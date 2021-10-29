@@ -4,17 +4,18 @@ import styled from 'styled-components';
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup02 = ({ onClickNext, className }) => {
-  const [corporate_name, setCorporateName] = useState("");
-  const [company_registration_number, setCompanyRegistrationNumber] = useState("");
-  const [corporate_registration, setCorporateRegistration] = useState("");
-  const [postcode, setPostCode] = useState("");
-  const [address, setAddress] = useState("");
-  const [addressDetail, setAddressDetail] = useState("");
+import * as Icons from "components/common/Icons";
+
+const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
+  const [corporate_name, setCorporateName] = useState(signupInputData.corporate_name ?? "");
+  const [company_registration_number, setCompanyRegistrationNumber] = useState(signupInputData.company_registration_number ?? "");
+  const [corporate_registration, setCorporateRegistration] = useState(signupInputData.corporate_registration ?? "");
+  const [postcode, setPostCode] = useState(signupInputData.address_postcode_business ?? "");
+  const [address, setAddress] = useState(signupInputData.address_business ?? "");
+  const [addressDetail, setAddressDetail] = useState(signupInputData.address_detail_business ?? "");
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
-    
     const script = document.createElement('script');
     script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.onload = () => { console.log("is onload ?"); }
@@ -83,39 +84,68 @@ const Signup02 = ({ onClickNext, className }) => {
     }, 2);
   }
 
+  const handleClickBackward = () => {
+    onClickBack(1);
+  }
+
   return (
-    <SignupRowBlock className={className}>
-      <SignupForm onSubmit={handleSubmit}>
-        <SignupCorporationNameInput onChange={handleChangeCorporateName} /> <br />
-        <SignupCompanyRegistrationNumberInput onChange={handleChangeCompanyRegistrationNumber} /> <br />
-        <SignupCorporateRegistrationInput onChange={handleCorporateRegistration} /> <br />
-        <SignupButton onClick={(e) => {clickPostAdress(true)}}> 우편번호 찾기 </SignupButton> <br />
-        <SignupPostCodeInput onClick={clickPostAdress}/> <br />
-        <SignupAddressInput onClick={clickPostAdress}/> <br />
-        <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
-        <SignupSubmitButton active={isActive}> 다음으로 </SignupSubmitButton>
+    <SignupRowBlock>
+      <SignupForm>
+        <SignupCorporationNameInput value={corporate_name} onChange={handleChangeCorporateName} /> <br />
+        <div style={{width: "100%"}}>
+          <SignupCompanyRegistrationNumberInput value={company_registration_number} onChange={handleChangeCompanyRegistrationNumber} />
+          <Icons.SearchIcon 
+            onClick={() => {}}
+            style={{ position: "absolute", transform: "translateX(-25px)", cursor: "pointer" }}
+          />
+        </div> <br />
+        <SignupCorporateRegistrationInput value={corporate_registration} onChange={handleCorporateRegistration} /> <br />
+        {/* <SignupButton onClick={(e) => {e.preventDefault(); clickPostAdress(true)}}> 우편번호 찾기 </SignupButton> <br /> */}
+        <div style={{width: "100%"}}>
+          <SignupPostCodeInput value={postcode} onClick={clickPostAdress} />
+          <Icons.SearchIcon 
+            onClick={clickPostAdress}
+            style={{ position: "absolute", transform: "translateX(-25px)", cursor: "pointer" }}
+          />
+        </div> <br />
+        <SignupAddressInput value={address} onClick={clickPostAdress}/> <br />
+        <SignupDetailAddressInput value={addressDetail} onChange={handleChangeAddressDetail} /> <br />
       </SignupForm>  
+      <Buttons>
+        <BackwardButton onClick={handleClickBackward}> 뒤로가기 </BackwardButton>
+        <SubmitButton onClick={handleSubmit} active={isActive}> 다음으로 </SubmitButton>
+      </Buttons>
     </SignupRowBlock>
   );
 }
+
+const Buttons = styled.div`
+  display: flex;
+`;
 
 const SignupButton = styled(UnsettedButton)`
   width: 100%;
   height: 64px;
   border-radius: 5px;
-  background-color: "#F4F4F4";
+  background-color: #F4F4F4;
   
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
-
 `;
 
-const SignupSubmitButton = styled(SignupButton)`
+const SubmitButton = styled(SignupButton)`
   color: ${props => props.active ? "white" : "#BCB6B6"};
   background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"}; 
   pointer-events: ${props => props.active ? "" : "none"}; 
+`;
+
+const BackwardButton = styled(SignupButton)`
+  width: 40%;
+  margin-right: 15px;
+  background-color: ${styles.palette.unifolioBlue}; 
+  color: white;
 `
 
 const SignupRowBlock = styled.div`
@@ -137,6 +167,7 @@ const SignupCorporationNameInput = styled.input.attrs(
 const SignupCompanyRegistrationNumberInput = styled.input.attrs(
   props => ({ type: "text", name: "company_registration_number", placeholder: "사업자등록번호" })
 )`
+  width: 100%;
   ${styles.layout.signInput}
 `;
 
@@ -149,6 +180,7 @@ const SignupCorporateRegistrationInput = styled.input.attrs(
 const SignupPostCodeInput = styled.input.attrs(
   props => ({type: "text", name:"postcode", id:"postcode", placeholder: "우편번호", readOnly: true, required:true})
 )`
+  width: 100%;
   ${styles.layout.signInput}
 `;
 

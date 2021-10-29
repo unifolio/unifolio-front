@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import styles from 'lib/styles';
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup03 = ({ onClickNext, className }) => {
+const Signup03 = ({ signupInputData, onClickNext, onClickBack }) => {
   const [approval_access_terms, setCheck01] = useState(false)
   const [approval_marketing, setCheck02] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -25,13 +25,18 @@ const Signup03 = ({ onClickNext, className }) => {
     setCheck02(e.target.checked)
   }
 
+  const handleClickBackward = () => {
+    console.log("handleClickBackward")
+    onClickBack(2);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onClickNext({approval_access_terms, approval_marketing}, 3);
   }
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
         법인정보 수집 및 이용에 관한 동의 (필수) <input type="checkbox" name="check01" onChange={handleCheck01Change} /> <br />
         <div>
@@ -41,25 +46,45 @@ const Signup03 = ({ onClickNext, className }) => {
         <div>
           내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
         </div>
-        <SignupSubmitButton active={isActive}> 회원 가입하기 </SignupSubmitButton>
+        
       </SignupForm>
+      <Buttons>
+        <BackwardButton onClick={handleClickBackward}> 뒤로가기 </BackwardButton>
+        <SubmitButton onClick={handleSubmit} active={isActive}> 회원 가입하기 </SubmitButton>
+      </Buttons>
     </SignupRowBlock>
   );
 }
 
-const SignupSubmitButton = styled(UnsettedButton)`
+const Buttons = styled.div`
+  display: flex;
+`;
+
+const SignupButton = styled(UnsettedButton)`
   width: 100%;
   height: 64px;
   color: ${props => props.active ? "white" : "#BCB6B6"};
   background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"};
-  pointer-events: ${props => props.active ? "" : "none"}; 
   border-radius: 5px;
   
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
-`
+`;
+
+const SubmitButton = styled(SignupButton)`
+  color: ${props => props.active ? "white" : "#BCB6B6"};
+  background-color: ${props => props.active ? styles.palette.unifolioBlue : "#F4F4F4"}; 
+  pointer-events: ${props => props.active ? "" : "none"}; 
+`;
+
+const BackwardButton = styled(SignupButton)`
+  width: 40%;
+  margin-right: 15px;
+  background-color: ${styles.palette.unifolioBlue}; 
+  color: white;
+`;
 
 const SignupRowBlock = styled.div`
   padding-top:1rem;
