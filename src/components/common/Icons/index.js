@@ -1,6 +1,7 @@
 import ScrewIcon from "./ScrewIcon";
 import CancelIcon from "./CancelIcon";
 import { ReactComponent as EyeIcon} from "./EyeIcon.svg";
+import { ReactComponent as SearchIcon} from "./SearchIcon.svg"
 
 import GoogleIcon from "./GoogleIcon";
 import FacebookIcon from "./FacebookIcon";
@@ -10,9 +11,6 @@ import KakaoIcon from "./KakaoIcon";
 export {
   ScrewIcon,
   CancelIcon,
-  GoogleIcon,
-  FacebookIcon,
-  NaverIcon,
-  KakaoIcon, 
-  EyeIcon
+  GoogleIcon, FacebookIcon, NaverIcon, KakaoIcon, 
+  EyeIcon, SearchIcon
 }
