@@ -1,7 +1,9 @@
 import { useState } from "react";
-import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 
-const useEducationInputs = ({counts, user}) => {
+import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
+import EducationInputContainer from 'containers/EducationInputContainer';
+
+const useEducationInputs = ({counts, user, at}) => {
   const [educationInputs, setEducationInputs] = useState(
     user.education.length !== 0 
     ? user.education.map((educationInput, i) => {
@@ -92,6 +94,14 @@ const useEducationInputs = ({counts, user}) => {
     }
   }
 
+  const inputSelector = () => {
+    if (at.includes("/profile")) {
+      return ProfileEducationInput;
+    } else if (at.includes("/union-create/business")) {
+      return EducationInputContainer;
+    }
+  }
+
   return {
     educationInputs,
     handleEducationInput: {
@@ -102,7 +112,7 @@ const useEducationInputs = ({counts, user}) => {
       changeType: handleChangeEducationInputType,
     },
     selectEducationType,
-    ProfileEducationInput
+    EducationInput: inputSelector()
   }
 };
 
