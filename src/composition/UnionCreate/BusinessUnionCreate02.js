@@ -1,19 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import UnsettedButton from 'components/common/UnsettedButton';
+import InputAddHeader from 'components/Inputs/InputAddHeader';
 import BusinessGeneralInformationInput from 'components/Inputs/BusinessGeneralInformationInput'
 
 import useEducationInputs from 'hooks/useEducationInputs';
+import useCareerInputs from 'hooks/useCareerInputs';
+import useInvestHistoryInputs from 'hooks/useInvestHistoryInputs';
+import useDaumPostcode from 'hooks/useDaumPostcode';
 
 import styles from 'lib/styles';
 
-const BusinessUnionCreate01 = ({ user, onClickNext }) => {
-  const {
-    educationInputs, EducationInput
-  } = useEducationInputs({ user, at: window.location.href });
+const BusinessUnionCreate02 = ({ user, onClickNext }) => {
   
+  const counts = useRef({ education: 2, career: 2, investHistory: 1 });
+  const [formData, setFormData] = useState({
+  });
+  
+  const { handleClickToChangeAddress } = useDaumPostcode(callbackCompleteSearchPostcodeProcess)
+  const generalInformations = [
+    {labelKr: "이름", labelEn: "name", value:user.name},
+    {labelKr: "주민번호", labelEn: "rrn", value:user.rrn},
+    {labelKr: "우편번호", labelEn: "address_postcode", value:user.address_postcode},
+    {labelKr: "주소", labelEn: "address", value:user.address},
+    {labelKr: "상세 주소", labelEn: "address_detail", value:user.address_detail},
+  ];
+  
+  const {
+    educationInputs, handleEducationInput, selectEducationType, EducationInput
+  } = useEducationInputs({ counts, at: window.location.href, isModifiable: true });
+  
+  const {
+    careerInputs, handleCareerInput, CareerInput
+  } = useCareerInputs({counts, at: window.location.href, isModifiable: true})
+
+  const {
+    investHistoryInputs, handleInvestHistoryInput, ProfileInvestHistoryInput
+  } = useInvestHistoryInputs({counts, user});
+
+  function callbackCompleteSearchPostcodeProcess(data) {
+    setFormData({...formData, address: data.address, address_postcode: data.zonecode });
+  }
+
+  const handleInputChange = ({name, value}) => {
+    const newFormData = {...formData, [name]: value }
+    setFormData(newFormData);
+  }
+
+
 	const handleNext = () => {
     // owner {} 래핑 가공 데이터 넘김
     // let educationData = [];
@@ -24,56 +60,61 @@ const BusinessUnionCreate01 = ({ user, onClickNext }) => {
     // const ownerData = {
     //   ...owner, education: educationData,
     // }
-		onClickNext({ owner: user.id }, 1);
+		onClickNext({
+      reviewer: {
+        ...formData, rrn:`${formData["rrn-front"]}${formData["rrn-back"]}`,
+        education: educationInputs.map(each => each.info),
+        career: careerInputs.map(each => each.info),
+      } 
+    }, 2);
 	};
-
-  const handleSubmitInformation = async () => {
-    const userEducation = educationInputs.map((educationInput) => {
-      if (Object.values(educationInput.info).includes(null)) return false;
-      return {...educationInput.info}
-    })
-  
-    
-    console.log("==== update start ====")
-    
-    const targetData = {};
-    if (!userEducation.includes(false)) targetData.education = userEducation;
-    
-    if (Object.values(targetData).length === 0) {
-      alert("정보를 올바르게 입력해주세요.");
-      return;
-    }
-    // handleSubmit({formData: targetData});
-    console.log("==== update end ====")
-    
-  }
 
   if (!user.id) return <></>;
 	return (
-		<BusinessUnionCreate01Layout>
+		<BusinessUnionCreate02Layout>
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <AdditionalInfoSubTitle> 법인 대표자에 관한 일반 사항 </AdditionalInfoSubTitle>
-            <AdditionalInfoButtons>
-              <Link to={'/profile'}>전체 수정하기</Link>
-            </AdditionalInfoButtons>
+            <AdditionalInfoSubTitle> 투자 심사역에 관한 일반 사항 </AdditionalInfoSubTitle>
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          <BusinessGeneralInformationInput user={user} isReadonly={true} />
+          <BusinessGeneralInformationInput user={formData} handleInputChange={handleInputChange}/>
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
-            <AdditionalInfoSubTitle> 법인 대표자에 관한 학력 사항 </AdditionalInfoSubTitle>
+            <InputAddHeader
+              target={"투자 심사역에 관한 학력 사항"}
+              handleClickActive= {() => handleEducationInput.create()}
+            />
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
           <EducationInput 
-            educationInputs={educationInputs} 
-            type={"readonly"}
+            educationInputs={educationInputs} counts={counts}
+            changeEducationInputType={handleEducationInput.changeType} 
+            onEducationDelete={handleEducationInput.delete}
+            onEducationChange={handleEducationInput.update}
+          />
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <InputAddHeader
+              target={"투자 심사역에 관한 경력 사항"}
+              handleClickActive= {() => handleCareerInput.create()}
+            />
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <CareerInput 
+            careerInputs={careerInputs}
+            // addCareerInput={() => handleCareerInput.create} 
+            onCareerChange={handleCareerInput.update} 
+            onCareerDelete={handleCareerInput.delete}
           />
         </AdditionalInfoRow>
       </AdditionalInfoSection>
@@ -84,11 +125,11 @@ const BusinessUnionCreate01 = ({ user, onClickNext }) => {
           : (<NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton>)
         }
       </AdditionalInfoRow>
-    </BusinessUnionCreate01Layout>
+    </BusinessUnionCreate02Layout>
 	);
 };
 
-const BusinessUnionCreate01Layout = styled.section`
+const BusinessUnionCreate02Layout = styled.section`
 		display: flex;
 	flex-direction: column;
 
@@ -195,4 +236,4 @@ const NextButton = styled.button`
   padding: 0 1rem;
 `
 
-export default BusinessUnionCreate01;
+export default BusinessUnionCreate02;

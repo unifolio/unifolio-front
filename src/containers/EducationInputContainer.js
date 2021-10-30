@@ -21,7 +21,7 @@ const EducationInputContainer = ({type, educationInputs, changeEducationInputTyp
             <Select.Option value="highschool">고등학교</Select.Option>
             <Select.Option value="undergraduate">대학교(전문학사/학사)</Select.Option>
             <Select.Option value="master">대학원(석사)</Select.Option>
-            <Select.Option value="docter">대학원(박사)</Select.Option>
+            <Select.Option value="doctor">대학원(박사)</Select.Option>
           </Select>
           <EducationInputWithSelect disabled={type === "readonly"}
             type={educationInput.type} count={educationInput.count} value={educationInput.info} 

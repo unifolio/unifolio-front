@@ -57,7 +57,7 @@ const UnionCreateContainer = ({ type }) => {
           if (user) return <Business._01 onClickNext={handleClickNext} user={user}/>
           else return <></>;
         case 2:
-          return <Business._02 onClickNext={handleClickNext} />
+          return <Business._02 onClickNext={handleClickNext} user={user} />
         case 3:
           return <Business._03 onClickNext={handleClickNext} />
         case 4:

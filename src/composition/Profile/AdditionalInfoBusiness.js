@@ -174,7 +174,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
               target={"법인 대표자에 관한 학력 사항"}
               isModifiable={isModifiable.education} 
               handleToggleModify={() => {setIsModifiable( {...isModifiable, education: !isModifiable.education} )}}
-              handleClickActive= {handleEducationInput.create}
+              handleClickActive= {() => handleEducationInput.create()}
             />
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
