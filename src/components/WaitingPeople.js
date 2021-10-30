@@ -14,23 +14,30 @@ const WaitingPeopleCell = styled.div`
 const WaitingPeople = ({ openModal, filterValue, setDataLength}) => {
 	const [users, setUsers] = useState([]);
 	const [filteredUsers,setFilteredUsers] = useState([]);
+  console.log("filteredUsers", filteredUsers)
 	
 	const onOpenModal = (cardObj) => {
 		openModal(cardObj);
 	};
 
 	useEffect(() => {
-	(async () => {
-      const fetchUsers = await API.get.usersGeneral();
-	    console.log(fetchUsers)
-      if (fetchUsers.status === 500) {
-        console.error("fetchUsers is 500");
-      } else if (fetchUsers.status === 200) {
-			setFilteredUsers(fetchUsers.data.results);
-			setUsers(fetchUsers.data.results);
-			setDataLength(fetchUsers.data.count);
-      }
-	})()
+    (async () => {
+        const fetchUsers = await API.get.usersGeneral();
+        console.log(fetchUsers)
+        if (fetchUsers.status === 500) {
+          console.error("fetchUsers is 500");
+        } else if (fetchUsers.status === 200) {
+        
+        // 임시 API 변경에 따른 수정 전
+        // setFilteredUsers(fetchUsers.data.results);
+        // setUsers(fetchUsers.data.results);
+        // 임시 API 변경에 따른 수정 후
+        setFilteredUsers(fetchUsers.data);
+        setUsers(fetchUsers.data);
+        
+        setDataLength(fetchUsers.data.count);
+        }
+    })()
 	}, []);
 
 	useEffect(()=>{

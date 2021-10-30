@@ -116,7 +116,7 @@ const FindingPage = ({ location }) => {
 					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} dataLength={dataLength} />
 				</SideSectionPosition>
 			</FindingPagePosition>
-			<ModalPosition isModalActive={isModalActive} ref={$modalRef} > {/* onClick={() => { toggleModal(false); }} >*/}
+			<ModalPosition isModalActive={isModalActive} ref={$modalRef} onClick={() => { toggleModal(false); }} >
 				<Modal onClick={(e) => { e.stopPropagation(); }} >
           {modalSectionSelector(query.mode)}
 				</Modal>
