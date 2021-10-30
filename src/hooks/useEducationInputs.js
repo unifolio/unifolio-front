@@ -1,10 +1,12 @@
 import { useState } from "react";
-import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 
-const useEducationInputs = ({counts, user}) => {
+import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
+import EducationInputContainer from 'containers/EducationInputContainer';
+
+const useEducationInputs = ({counts, user = null, at, isModifiable}) => {
   const [educationInputs, setEducationInputs] = useState(
-    user.education.length !== 0 
-    ? user.education.map((educationInput, i) => {
+    (!!user && user.education.length !== 0)
+    ? user.education?.map((educationInput, i) => {
       return {
         count: i+1,
         type: educationInput.education_type,
@@ -28,6 +30,7 @@ const useEducationInputs = ({counts, user}) => {
   );
 
   const handleEducationInputCreate = (selectedEducationType = "highschool") => {
+    console.log("selectedEducationType", selectedEducationType)
     let data = {
       count: counts.current.education + 1, // count,
       type: selectedEducationType, //selected,
@@ -92,6 +95,14 @@ const useEducationInputs = ({counts, user}) => {
     }
   }
 
+  const inputSelector = () => {
+    if (at.includes("/profile") || isModifiable) {
+      return ProfileEducationInput;
+    } else if (at.includes("/union-create/business")) {
+      return EducationInputContainer;
+    } 
+  }
+
   return {
     educationInputs,
     handleEducationInput: {
@@ -102,7 +113,7 @@ const useEducationInputs = ({counts, user}) => {
       changeType: handleChangeEducationInputType,
     },
     selectEducationType,
-    ProfileEducationInput
+    EducationInput: inputSelector()
   }
 };
 

@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-
-// import ProfileMaximumInvestableAmount from 'composition/Profile/ProfileMaximumInvestableAmount';
-
 import AdditionalInfoEditHeader from 'composition/Profile/AdditionalInfoEditHeader';
 
 import useEducationInputs from 'hooks/useEducationInputs';
@@ -31,8 +28,8 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   ];
   
   const {
-    educationInputs, handleEducationInput, selectEducationType, ProfileEducationInput
-  } = useEducationInputs({counts, user});
+    educationInputs, handleEducationInput, selectEducationType, EducationInput
+  } = useEducationInputs({ counts, user, at: window.location.href });
     
   const {
     investHistoryInputs, handleInvestHistoryInput, ProfileInvestHistoryInput
@@ -52,13 +49,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
       if (Object.values(educationInput.info).includes(null)) return false;
       return {...educationInput.info}
     })
-    // console.log("userEducation", userEducation)
-    // const userCareer = careerInputs.map((careerInput) => {
-    //   if (Object.values(careerInput.info).includes(null)) return false;
-    //   if (careerInput.info.category.id) return {...careerInput.info, category: {category: careerInput.info.category.id} }
-    //   return {...careerInput.info, category: {category: careerInput.info.category} }
-    // })
-    // // console.log("userCareer", userCareer)
+    
     const userInvestHistory = investHistoryInputs.map((investHistoryInput) => {
       if (Object.values(investHistoryInput.info).includes(null)) return false;
       if (investHistoryInput.info.category.id) return {...investHistoryInput.info, category: {category: investHistoryInput.info.category.id} }
@@ -69,7 +60,6 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
     
     const targetData = {...formData};
     if (!userEducation.includes(false)) targetData.education = userEducation;
-    // if (!userCareer.includes(false)) targetData.career = userCareer;
     if (!userInvestHistory.includes(false)) targetData.invest_history = userInvestHistory;
     if (Object.values(targetData).length === 0) {
       alert("정보를 올바르게 입력해주세요.");
@@ -122,7 +112,6 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
           }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
-
       <AdditionalInfoSection className={"general"}>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
@@ -178,7 +167,6 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
           }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
-
       <AdditionalInfoSection className={"education"}>
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
@@ -186,7 +174,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
               target={"법인 대표자에 관한 학력 사항"}
               isModifiable={isModifiable.education} 
               handleToggleModify={() => {setIsModifiable( {...isModifiable, education: !isModifiable.education} )}}
-              handleClickActive= {handleEducationInput.create}
+              handleClickActive= {() => handleEducationInput.create()}
             />
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
@@ -204,7 +192,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
                   </DescriptionLayer>
                 ) 
               })
-            : <ProfileEducationInput 
+            : <EducationInput 
                 educationInputs={educationInputs} 
                 changeEducationInputType={handleEducationInput.changeType} 
                 onEducationDelete={handleEducationInput.delete}
@@ -213,7 +201,6 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
           }
         </AdditionalInfoRow>
       </AdditionalInfoSection>
-    
     </AdditionalInfoLayout>
   )
 }
@@ -227,8 +214,6 @@ const AdditionalInfoTitle = styled.span`
   font-weight: bold;
 `;
 
-
-
 const AdditionalInfoSubmitButton = styled.button`
   width: 65px;
 
@@ -240,8 +225,6 @@ const AdditionalInfoSubmitButton = styled.button`
   border: 1px solid;
   border-radius: 30px;
   cursor: pointer;
-
-
 `;
 
 const AdditionalInfoRow = styled.div`
@@ -258,7 +241,6 @@ const AdditionalInfoColumns = styled.div`
   display:flex;
   justify-content: space-between;
 `;
-
 
 const AdditionalInfoSection = styled.section``;
 
@@ -279,9 +261,6 @@ const AdditionalInfoLayout = styled.section`
 const HeadlineBottomBorder = styled.div`
 	border-bottom: 2px solid;
 	margin: 1rem 0;
-`;
-const AdditionalInfoColumn = styled.section`
-	display: flex;
 `;
 
 const InfoModifier = styled.div``;
@@ -329,4 +308,4 @@ const DescriptionColumnRight = styled.div`
   font-size: 20px;
 `
 
-export default AdditionalInfoBusiness
+export default AdditionalInfoBusiness;

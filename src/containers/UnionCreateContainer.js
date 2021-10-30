@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-
 import styled from 'styled-components';
 
+import { Personal, Business } from 'composition/UnionCreate';
+
+import useFetchUserToken from 'hooks/useFetchUserToken';
 import API from 'lib/api';
 
 import { 
@@ -10,12 +12,11 @@ import {
   getUnionCreateStateThunk 
 } from 'modules/reducers/unionCreate';
 
-import { Personal, Corporation } from 'composition/UnionCreate';
-
-const UnionCreateContainer = () => {
+const UnionCreateContainer = ({ type }) => {
 	const [process, setProcess] = useState(1);
   const dispatch = useDispatch();
-  
+  const { user } = useFetchUserToken();
+
 	const handleClickNext = async (formData, process) => {
 		
 		switch (process) {
@@ -50,20 +51,38 @@ const UnionCreateContainer = () => {
 	};
 
   const renderSteps = () => {
-    switch (process) {
-      case 1:
-        return <Personal._01 onClickNext={handleClickNext} />
-      case 2:
-        return <Personal._02 onClickNext={handleClickNext} />
-      case 3:
-        return <Personal._03 onClickNext={handleClickNext} />
-      case 4:
-        return <Personal._04 onClickNext={handleClickNext} />
-      case 5:
-        return <Personal._05 onClickNext={handleClickNext} />
-      default:
-        return <></>
-    }
+    if (type === "business") {
+      switch (process) {
+        case 1:
+          if (user) return <Business._01 onClickNext={handleClickNext} user={user}/>
+          else return <></>;
+        case 2:
+          return <Business._02 onClickNext={handleClickNext} user={user} />
+        case 3:
+          return <Business._03 onClickNext={handleClickNext} />
+        case 4:
+          return <Business._04 onClickNext={handleClickNext} />
+        case 5:
+          return <Business._05 onClickNext={handleClickNext} />
+        default:
+          return <></>
+      }
+    } else {
+      switch (process) {
+        case 1:
+          return <Personal._01 onClickNext={handleClickNext} />
+        case 2:
+          return <Personal._02 onClickNext={handleClickNext} />
+        case 3:
+          return <Personal._03 onClickNext={handleClickNext} />
+        case 4:
+          return <Personal._04 onClickNext={handleClickNext} />
+        case 5:
+          return <Personal._05 onClickNext={handleClickNext} />
+        default:
+          return <></>
+      }
+    }    
   }
 
 	return (

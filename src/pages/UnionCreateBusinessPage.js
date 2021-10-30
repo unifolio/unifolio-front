@@ -1,18 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import qs from 'qs';
 
 import Responsive from 'components/common/Responsive';
 import UnionCreateHeaderBusiness from 'components/Header/UnionCreateHeaderBusiness';
+
 import UnionCreateContainer from 'containers/UnionCreateContainer';
 
 import styles from "lib/styles";
 
 const UnionCreateBusinessPage = () => {
-	// console.log('props', props);
-	// const { location } = props;
-	// const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-	const mainRef = React.createRef();
 
 	// const mainSectionSelector = (current) => {
 	// 	console.log('mainSectionSelector', current);
@@ -37,7 +33,7 @@ const UnionCreateBusinessPage = () => {
       <UnionPagePosition>
       <UnionCreateHeaderBusiness current={1}></UnionCreateHeaderBusiness>
 			<br />
-      <UnionCreateContainer />
+      <UnionCreateContainer type={"business"} />
       {/* <AssociationMainSection ref={mainRef}>{mainSectionSelector(location.pathname.split('/').slice(-1)[0])}</AssociationMainSection> */}
       </UnionPagePosition>
 		</UnionPageLayout>
