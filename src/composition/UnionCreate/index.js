@@ -4,6 +4,8 @@ import PersonalUnionCreate03 from 'composition/UnionCreate/PersonalUnionCreate03
 import PersonalUnionCreate04 from 'composition/UnionCreate/PersonalUnionCreate04';
 import PersonalUnionCreate05 from 'composition/UnionCreate/PersonalUnionCreate05';
 
+import BusinessUnionCreate01 from 'composition/UnionCreate/BusinessUnionCreate01';
+
 export const Personal = {
   _01: PersonalUnionCreate01,
   _02: PersonalUnionCreate02,
@@ -12,8 +14,8 @@ export const Personal = {
   _05: PersonalUnionCreate05,
 }
 
-export const Corporation = {
-  _01: PersonalUnionCreate01,
+export const Business = {
+  _01: BusinessUnionCreate01,
   _02: PersonalUnionCreate02,
   _03: PersonalUnionCreate03,
   _04: PersonalUnionCreate04,
