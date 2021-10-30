@@ -7,6 +7,7 @@ import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGeneral';
 import ProfileCareerInputFinancial from 'composition/Profile/ProfileCareerInputFinancial';
 import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestmentHistoryInput';
+import ProfileMaximumInvestableAmount from 'composition/Profile/ProfileMaximumInvestableAmount';
 
 import palette from 'lib/styles/palette';
 
@@ -15,6 +16,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
   const [educationInputs, setEducationInputs] = useState([]);
   const [careerInputs, setCareerInputs] = useState([]);
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
+  const [maximumInvestableAmount, setMaximumInvestableAmount] = useState();
 
   const [inputStatus, setInputStatus] = useState({ 
     education: user.education.length !== 0 ? false : true, 
@@ -62,7 +64,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     const investmentHistoryData = [{
       count: 1,
       info: {
-        category: null, firm: null, description: null
+        category: null, company: null, description: null
       }
     }]
     setInvestmentHistoryInputs([...investmentHistoryData]);
@@ -106,7 +108,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         console.log(careerInput) // 임시
         return {
           count: i+1,
-          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.type,
+          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.option_type,
           info: {
             ...careerInput
           }
@@ -168,7 +170,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     let data = {
       count: counts.current.investmentHistory + 1,
       info: {
-        category: null, firm: null, description: null
+        category: null, company: null, description: null
       }
     }
     counts.current.investmentHistory += 1;
@@ -190,7 +192,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
 	};
 
   const handleCareerChange = ({ count, name, value }) => {
-    console.log("변화@", count, name, value)
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
@@ -203,8 +204,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       }
       return careerInput;
     });
-    console.log(changedCareerInputs)
-    
     setCareerInputs(changedCareerInputs);
 	};
 
@@ -213,7 +212,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     const changedInvestmentHistoryInputs = investmentHistoryInputs.map((investmentHistoryInput) => {
       if (investmentHistoryInput.count === Number(count)) {
         if (name.includes("category")) investmentHistoryInput.info["category"] = value;
-        else if (name.includes("firm")) investmentHistoryInput.info["firm"] = value;
+        else if (name.includes("company")) investmentHistoryInput.info["company"] = value;
         else if (name.includes("description")) investmentHistoryInput.info["description"] = value;
       }
       return investmentHistoryInput;
@@ -244,6 +243,10 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     setInvestmentHistoryInputs(filteredInvestmentHistoryInputs);
   }
   
+  const handleMaximumInvestableAmountChange = (value) => {
+    setMaximumInvestableAmount(value)
+  }
+
   const handleSubmitInformation = async () => {
     const userEducation = educationInputs.map((educationInput) => {
       if (Object.values(educationInput.info).includes(null)) return false;
@@ -252,15 +255,22 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     // console.log("userEducation", userEducation)
     const userCareer = careerInputs.map((careerInput) => {
       if (Object.values(careerInput.info).includes(null)) return false;
+      if (careerInput.info.category.id) return {...careerInput.info, category: {category: careerInput.info.category.id} }
       return {...careerInput.info, category: {category: careerInput.info.category} }
     })
-    console.log("userCareer", userCareer)
+    // console.log("userCareer", userCareer)
+    const userInvestmentHistory = investmentHistoryInputs.map((investmentHistoryInput) => {
+      if (Object.values(investmentHistoryInput.info).includes(null)) return false;
+      if (investmentHistoryInput.info.category.id) return {...investmentHistoryInput.info, category: {category: investmentHistoryInput.info.category.id} }
+      return {...investmentHistoryInput.info, category: {category: investmentHistoryInput.info.category} }
+    })
     
     console.log("==== update start ====")
     
     const targetData = {};
     if (!userEducation.includes(false)) targetData.education = userEducation;
     if (!userCareer.includes(false)) targetData.career = userCareer;
+    if (!userInvestmentHistory.includes(false)) targetData.invest_history = userInvestmentHistory;
     if (Object.values(targetData).length === 0) {
       alert("정보를 올바르게 입력해주세요.");
       return;
@@ -268,15 +278,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     
     handleSubmit({formData: targetData});
     console.log("==== update end ====")
-    console.log(investmentHistoryInputs);
   }
-
-  // const onEducationSubmit = () => {
-  //   handleSubmit(educationInputs);
-  // }
-  // const onInvestmentHistorySubmit = () => {
-  //   handleSubmit()
-  // }
 
 	return (
     
@@ -428,6 +430,22 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
           />
         </AdditionalInfoRow>
       </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <AdditionalInfoSubTitle> 최대 출자 가능액 </AdditionalInfoSubTitle>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <ProfileMaximumInvestableAmount 
+              maximumInvestableAmount={maximumInvestableAmount}
+              handleMaximumInvestableAmountChange={handleMaximumInvestableAmountChange}
+            />
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <div style={{height: "150px"}}></div>
     </AdditionalInfoLayout>
 	);
 };

@@ -96,7 +96,6 @@ const CardRow = styled.div`
 const CardButton = styled.button`
   width:100%;
   font-size: 20px;
-  line-height: 14px;
   padding: 19px 30px;
   
   border: 1px solid #C4C4C4;

@@ -12,7 +12,7 @@ import MoreInfoPerson from 'components/Modal/MoreInfoPerson';
 import MoreInfoUnion from 'components/Modal/MoreInfoUnion';
 import Filter from 'components/common/Filter';
 
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 import API from 'lib/api';
 
 const FindingPage = ({ location }) => {
@@ -116,7 +116,7 @@ const FindingPage = ({ location }) => {
 					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} dataLength={dataLength} />
 				</SideSectionPosition>
 			</FindingPagePosition>
-			<ModalPosition isModalActive={isModalActive} ref={$modalRef} > {/* onClick={() => { toggleModal(false); }} >*/}
+			<ModalPosition isModalActive={isModalActive} ref={$modalRef} onClick={() => { toggleModal(false); }} >
 				<Modal onClick={(e) => { e.stopPropagation(); }} >
           {modalSectionSelector(query.mode)}
 				</Modal>

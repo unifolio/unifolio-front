@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { addIDPW, addPersonalInfo, addCorporationInfo, addPhone, addAgreement, getSignupStateThunk } from 'modules/reducers/signup';
@@ -16,6 +16,12 @@ const SignupContainer = () => {
 	const dispatch = useDispatch();
   const [current, setCurrent] = useState("default");
   const [process, setProcess] = useState(0);
+
+  const signupInputData = useSelector((state) => state.signup);
+
+  useEffect(() => {
+    console.log("signupInputData", signupInputData)
+  }, [process])
 
   const handleChangeCurrent = (value) => {
     setCurrent(value);
@@ -40,11 +46,11 @@ const SignupContainer = () => {
     } else if (current === "business") {
       switch (process) {
         case 1:
-          return <SignupCorporation._01 onClickNext={handleClickNext} />
+          return <SignupCorporation._01 signupInputData={signupInputData} onClickNext={handleClickNext} />
         case 2:
-          return <SignupCorporation._02 onClickNext={handleClickNext} />
+          return <SignupCorporation._02 signupInputData={signupInputData} onClickNext={handleClickNext} onClickBack={handleClickBack}/>
         case 3:
-          return <SignupCorporation._03 onClickNext={handleClickNext} />
+          return <SignupCorporation._03 signupInputData={signupInputData} onClickNext={handleClickNext} onClickBack={handleClickBack} />
         default:
           return <></>
       }
@@ -108,6 +114,11 @@ const SignupContainer = () => {
     }
     setProcess(process+1); // 회원가입 프로세스 값 갱신
 	};
+
+  const handleClickBack = (process) => {
+    if (current === "business") { setProcess(process); }
+  }
+
 	return (
     <>
       <Header current={current} process={process} />

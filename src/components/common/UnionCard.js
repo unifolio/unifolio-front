@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const UnionCard = ({ idx, union, openModal }) => {
-	
+	// return (<>"테스트"</>);
+
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date))/1000/60/60/24;
     if (remainDateInteger >= 1) {
@@ -32,7 +33,9 @@ const UnionCard = ({ idx, union, openModal }) => {
             <span className="grey">투자 분야 </span>
           </div>
           <div className="column column-5">
-            <span className="grey"> {union.invest_category} </span>  
+            {union.invest_category.map((each, i) => (
+              <span className="grey" key={`${each.category}-${Math.random()}`}> {each.category}, </span> 
+            ))}
           </div>
         </div>
       </section>

@@ -8,7 +8,7 @@ import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGen
 import ProfileCareerInputFinancial from 'composition/Profile/ProfileCareerInputFinancial';
 import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestmentHistoryInput';
 
-import useFetchUserToken from "modules/hooks/useFetchUserToken";
+import useFetchUserToken from "hooks/useFetchUserToken";
 import styles from 'lib/styles';
 import API from 'lib/api';
 

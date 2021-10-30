@@ -8,7 +8,7 @@ import { Input, Button, Select } from "antd";
 import Numpad from "components/common/Numpad";
 import useFetchCategories from "hooks/useFetchCategories";
 
-const PersonalUnionCreate02 = React.memo((props) => {
+const BusinessUnionCreate03 = React.memo((props) => {
   const { onClickNext, className } = props;
   const [unionCreate02Inputs, setUnionCreate02Inputs] = useState({
     name: "",
@@ -226,7 +226,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
                       .filter((category) => ![unionCreate02Inputs.invest_category_1, unionCreate02Inputs.invest_category_2, unionCreate02Inputs.invest_category_3].includes(category.id) )
                       .map((categoryData, i) => {
                         return (
-                          <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.id}>
+                          <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.category}>
                             {categoryData.category}
                           </Select.Option>
                         );
@@ -618,4 +618,4 @@ const PersonalUnionCreate02Layout = styled.div`
   }
 `;
 
-export default PersonalUnionCreate02;
+export default BusinessUnionCreate03;
