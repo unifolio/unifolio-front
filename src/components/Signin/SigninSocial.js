@@ -18,7 +18,8 @@ const SigninSocial = ({ children }) => {
       setSigninInstance(
         new window.naver.LoginWithNaverId({
           clientId: "aqhPGNC46YJwoCymHo_9",
-          callbackUrl: "http://localhost:3000/users/signin/naver/callback/", 
+          // callbackUrl: "http://localhost:3000/users/signin/naver/callback/", 
+          callbackUrl: "https://unifolio.kr/users/signin/naver/callback/", 
           isPopup: false, // popup 형식으로 띄울것인지 설정
           state: "UNIFOLIO_NAVER_LOGIN"
         })
