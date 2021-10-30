@@ -11,7 +11,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
     if (!e.target) {
       // select일 때
       let { value, name } = e;
-      onInvestmentHistoryChange({ value, name, count: name.slice(-1) });
+      onInvestmentHistoryChange({ value: categories[value].category, name, count: name.slice(-1) });
       return;
     }
 
@@ -41,7 +41,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
         >
           {categories.map((categoryObject, idx) => {
             return (
-              <Select.Option key={`investment-history-select-${idx}`} value={categoryObject.id}>
+              <Select.Option key={`investment-history-select-${idx}`} value={idx}>
                 {categoryObject.category}
               </Select.Option>
             );
