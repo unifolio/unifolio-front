@@ -7,7 +7,7 @@ const DefaultInfoBusiness = ({ user, handleSubmit }) => {
   const [isModifing, setIsModifing] = useState(false);
   const [formData, setFormData] = useState({...user});
   const { handleClickToChangeAddress } = useDaumPostcode(callbackCompleteSearchPostcodeProcess)
-  const infomations = [
+  const informations = [
     {labelKr: "법인 이름", labelEn: "corporate_name", value:user.corporate_name},
     {labelKr: "이메일", labelEn: "email", value:user.email},
     {labelKr: "사업자 등록번호", labelEn: "corporate_registration", value:user.corporate_registration},
@@ -46,7 +46,7 @@ const DefaultInfoBusiness = ({ user, handleSubmit }) => {
 			<HeadlineBottomBorder />
       {!isModifing
       ? <InfoPresenter>
-          {infomations.map(({labelKr, labelEn, value}) => (
+          {informations.map(({labelKr, labelEn, value}) => (
             <InfoRow key={`${labelEn}-modify`}>
               <InfoLabel>{labelKr}</InfoLabel>
               <InfoContents>{value ?? `${labelKr} 입력이 필요합니다.`}</InfoContents>
@@ -54,7 +54,7 @@ const DefaultInfoBusiness = ({ user, handleSubmit }) => {
           ))}
         </InfoPresenter>
       : <InfoModifier>
-          {infomations.map(({labelKr, labelEn}) => {
+          {informations.map(({labelKr, labelEn}) => {
             if (labelEn === "address_business" || labelEn === "address_postcode_business") {
               return (
                 <InfoRow key={`${labelEn}-modify`}>
