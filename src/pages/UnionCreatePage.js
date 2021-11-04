@@ -14,24 +14,6 @@ const UnionCreatePage = () => {
 	// const query = qs.parse(location.search, { ignoreQueryPrefix: true });
 	const mainRef = React.createRef();
 
-	// const mainSectionSelector = (current) => {
-	// 	console.log('mainSectionSelector', current);
-	// 	switch (current) {
-	// 		case 'personal-1':
-	// 			return <PersonalAssociationCreate01 />;
-	// 		case 'personal-2':
-	// 			return <PersonalAssociationCreate02 />;
-	// 		case 'personal-3':
-	// 			return <PersonalAssociationCreate03 />;
-	// 		case 'personal-4':
-	// 			return <PersonalAssociationCreate04 />;
-	// 		case 'personal-5':
-	// 			return <PersonalAssociationCreate05 />;
-	// 		default:
-	// 			return <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>;
-	// 	}
-	// };
-
 	return (
 		<UnionPageLayout>
       <UnionPagePosition>

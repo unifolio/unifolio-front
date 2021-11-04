@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Input, Button, Select } from "antd";
 
-import useFetchCategories from "modules/hooks/useFetchCategories";
+import useFetchCategories from "hooks/useFetchCategories";
 
 const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
   const { categories } = useFetchCategories();
@@ -11,7 +11,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
     if (!e.target) {
       // select일 때
       let { value, name } = e;
-      onInvestmentHistoryChange({ value, name, count: name.slice(-1) });
+      onInvestmentHistoryChange({ value: categories[value].category, name, count: name.slice(-1) });
       return;
     }
 
@@ -41,15 +41,15 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
         >
           {categories.map((categoryObject, idx) => {
             return (
-              <Select.Option key={`select-${idx}`} value={categoryObject.id}>
+              <Select.Option key={`investment-history-select-${idx}`} value={idx}>
                 {categoryObject.category}
               </Select.Option>
             );
           })}
         </Select>
         <Input
-          className="firm"
-          name={`investment-history-firm-${count}`}
+          className="company"
+          name={`investment-history-company-${count}`}
           size="large"
           placeholder="회사명"
           onChange={handleInvestmentHistoryChange}

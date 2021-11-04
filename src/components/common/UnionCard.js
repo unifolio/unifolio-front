@@ -33,7 +33,9 @@ const UnionCard = ({ idx, union, openModal }) => {
             <span className="grey">투자 분야 </span>
           </div>
           <div className="column column-5">
-            <span className="grey"> {union.invest_category} </span>  
+            {union.invest_category.map((each, i) => (
+              <span className="grey" key={`${each.category}-${Math.random()}`}> {each.category}, </span> 
+            ))}
           </div>
         </div>
       </section>

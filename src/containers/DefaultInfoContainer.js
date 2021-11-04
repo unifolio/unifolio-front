@@ -2,17 +2,25 @@ import React from 'react';
 
 import DefaultInfoGeneral from 'composition/Profile/DefaultInfoGeneral.js';
 import DefaultInfoBusiness from 'composition/Profile/DefaultInfoBusiness.js';
+
 import API from 'lib/api';
 
 const DefaultInfoContainer = ({ user }) => {
-	// const [user, setUser] = useState(JSON.parse(localStorage.getItem('unifolioUser')));
-  console.log(user)
+	
 	const handleSubmit = async (data) => {
-		const token = { accessToken: localStorage.getItem('unifolioAccess') };
-		const response = await API.post.tokenToGetUser(token);
-		const userId = response.data.data.id;
-		console.log(":handleSubmit", data);
-		API.patch.usersGeneral(userId, data);
+    try {
+      if (user.role === "business") {
+        API.patch.userBusiness(user.id, data);
+      } else if (user.role === "general") {
+        API.patch.userGeneral(user.id, data);
+      } else {
+        throw new Error("DefaultInfoContainer, handleSubmit is error")
+      }
+      alert("업데이트가 진행됩니다."); // 여기서부터 임시
+      window.location.href = window.location.href; 
+    } catch (e) {
+      console.error(e);
+    }
 	};
 
   if (!user) return <></>;

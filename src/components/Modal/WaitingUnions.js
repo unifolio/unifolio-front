@@ -10,16 +10,18 @@ const WaitingUnionsCell = styled.div`
 	display: flex;
 `;
 
-const WaitingUnions = (props) => {
+const WaitingUnions = ({ openModal }) => {
 	const [unions, setUnions] = useState([]);
-  const { openModal } = props;
 
   const onOpenModal = (cardObj) => {
 		openModal(cardObj);
 	};
 
 	useEffect(() => {
-		
+    console.log(unions.length)
+    
+		if (unions.length > 0) return;
+    
     const fetchUnions = async () => {
       const responseCategories = await API.get.all_categories();
       const categories = [...responseCategories.data];
@@ -30,21 +32,24 @@ const WaitingUnions = (props) => {
           ['invest_category']: eachUnion.invest_category
         }
       })
-      setUnions(unionsData);
-
+      if (unions.length === 0) {
+        setUnions(unionsData);
+      }
+      
       // incoming changes
       // const response = await API.get.unions();
       // setUnions(response.data);
       // console.log(response)
 		};
 		fetchUnions();
-	});
+	}, []);
 
 
   if (unions.length === 0 ) {
     console.log(`unions ${unions.length}`)
     return <></>;
   }
+
 	return (
 		<>
 			{unions?.map((union, i) => {

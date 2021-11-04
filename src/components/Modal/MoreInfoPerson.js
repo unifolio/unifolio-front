@@ -1,49 +1,46 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
-import CancelImage from '../../assets/images/cancel.png';
+
+import Card from 'components/common/Card';
+
+import useFetchUserToken from "hooks/useFetchUserToken";
+// import CancelImage from 'assets/images/cancel.png';
+import { dummyUser } from "util/data";
 
 const MoreInfoPerson = ({ $dom, idx, toggleModal }) => {
-	const [modalIdx, setModalIdx] = useState(null);
-
-  const isLogin = () => {
-    const accessToken = localStorage.getItem('unifolioAccess');
-      if (!accessToken) return false;
-      return true;
-  }
+  const history = useHistory();
+  const { user } = useFetchUserToken();
   
-  useEffect(() => {
-    
-    if (idx !== modalIdx) setModalIdx(idx);
-    if ($dom && !modalIdx) {
-      const $innerCardSection = document.querySelector(".inner-card");
-      $innerCardSection.innerHTML = "";
-      $innerCardSection.append($dom);
-    }
-  }, [$dom])
-  // if ($dom === null) return null;
+  const isLogin = () => {
+    return user ? true : false;
+  }
+
 	return (
 		<WaitingInfoPosition>
 			<WaitingInfoBlock>
         <Header>
-          <CancelButton onClick={ () => toggleModal(false) }>
+          {/* <CancelButton onClick={ () => toggleModal(false) }>
             <img src={CancelImage} alt="닫기"/>
-          </CancelButton>
+          </CancelButton> */}
           <InfoSection>
-            <HeadBigFont>더 많은 정보를 보고 싶다면?</HeadBigFont>
+            <HeadBigFont>더 많은 정보를 보고 싶다면 아래와 같이 경력을 등록해주세요!</HeadBigFont>
           </InfoSection>
         </Header>
         <InfoColumn>
-          <InfoSection className="inner-card"></InfoSection>
+          <InfoSection className="inner-card">
+            <Card info={dummyUser} type={"modal"} />
+          </InfoSection>
           <InfoSection>
             {
               isLogin() 
               ? (<InfoContents>
-                  <BigFont> 등록하신 경력은 마스킹되어 일부만 조합을 만드는 운용사에게 공개됩니다. </BigFont>
-                  <Button onClick={() => {window.location.href="/profile"}}> 내 경력 등록하기 </Button>
+                  <BigFont> 등록하신 경력은 <Bold>마스킹되어 일부만</Bold> 조합을 만드는 운용사에게 공개됩니다. </BigFont>
+                  <Button onClick={() => {history.push("/profile")}}> 내 경력 등록하기 </Button>
                 </InfoContents>)
               : (<InfoContents style={{justifyContent: 'flex-start' }}>
                   <BigFont> 조회를 위해 먼저 로그인 해주세요 </BigFont>
-                  <Button onClick={() => {window.location.href="/signin"}} > 로그인 하기 </Button>
+                  <Button onClick={() => {history.push("/signin")}} > 로그인 하기 </Button>
                 </InfoContents>)
             }
           </InfoSection>
@@ -131,12 +128,9 @@ const InfoContents = styled.div`
   
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  text-align: center;
   
-  span {
-    display: flex;
-  }
   button {
     display: flex;
     justify-content: center;
@@ -159,7 +153,9 @@ const Category = styled.span`
 const BigFont = styled.span`
 	display:block;
 	font-size:1.25rem;
-	
+`;
+const Bold = styled.span`
+  font-weight: bold;
 `;
 
 const Tag = styled.span`

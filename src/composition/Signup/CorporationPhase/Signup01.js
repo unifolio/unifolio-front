@@ -1,46 +1,89 @@
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
+import * as Icons from "components/common/Icons";
 import UnsettedButton from 'components/common/UnsettedButton.js';
 
-const Signup01 = ({ onClickNext, className }) => {
+const Signup01 = ({ signupInputData, onClickNext }) => {
   
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordCheck, setPasswordCheck] = useState("");
+  const [email, setEmail] = useState(signupInputData.email ?? '');
+  const [password, setPassword] = useState({ value: signupInputData.password ?? '', isVisible: false });
+  const [passwordCheck, setPasswordCheck] = useState({ value: signupInputData.password_check ?? '', isVisible: false });
   const [isActive, setIsActive] = useState(false);
+  const [$password, $passwordCheck] = [useRef(), useRef()];
 
   useEffect(() => {
-    if (email !== "" && password !== "" && passwordCheck !== "") {
+    if (email !== "" && password.value !== "" && passwordCheck.value !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
-  })
+  });
 
   const handleEmailChange = (e) => { setEmail(e.target.value); }
-  const handlePasswordChange = (e) => { setPassword(e.target.value); }
-  const handlePasswordCheckChange = (e) => { setPasswordCheck(e.target.value); }
+  const handlePasswordChange = (e) => { setPassword({...password, value: e.target.value}); }
+  const handlePasswordCheckChange = (e) => { setPasswordCheck({...passwordCheck, value: e.target.value}); }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onClickNext({email, password, password_check: passwordCheck}, 1, e.target.parentNode);
+    onClickNext({ email, password: password.value, password_check: passwordCheck.value }, 1, e.target.parentNode);
+  }
+  
+  const handleClickEyeIcon = (key) => {
+    if (key === "password") {
+      if (password.isVisible) {
+        password.isVisible = false;
+        $password.current.type = "password"
+      }
+      else {
+        password.isVisible = true;
+        $password.current.type = "text"
+      }
+    }
+    else if (key === "passwordCheck") {
+      if (password.isVisible) {
+        passwordCheck.isVisible = false;
+        $passwordCheck.current.type = "password";
+      }
+      else {
+        passwordCheck.isVisible = true;
+        $passwordCheck.current.type = "text"
+      }
+    }
   }
 
   return (
-    <SignupRowBlock className={className}>
+    <SignupRowBlock>
       <SignupForm onSubmit={handleSubmit}>
-        <SignupEmailInput onChange={handleEmailChange} /> <br />
-        <SignupPasswordInput onChange={handlePasswordChange} /> <br />
-        <SignupPasswordChkInput onChange={handlePasswordCheckChange} /> <br />
-        <SignupSubmitButton active={isActive}> 다음 단계 진행하기 </SignupSubmitButton>
+        <SignupEmailInput onChange={handleEmailChange} value={email}/> <br />
+        <div style={{width: "100%"}}>
+          <SignupPasswordInput ref={$password} onChange={handlePasswordChange} value={password.value}/> 
+          <Icons.EyeIcon 
+            onClick={() => handleClickEyeIcon("password")}
+            style={{
+              position: "absolute", transform: "translateX(-25px)", cursor: "pointer"
+            }}
+          />
+        </div>
+        <br />
+        <div style={{width: "100%"}}>
+          <SignupPasswordChkInput ref={$passwordCheck} onChange={handlePasswordCheckChange} value={passwordCheck.value}/> 
+          <Icons.EyeIcon
+            onClick={() => handleClickEyeIcon("passwordCheck")}
+            style={{
+              position: "absolute", transform: "translateX(-25px)", cursor: "pointer"
+            }}
+          />
+        </div>
+        <br />
+        <SubmitButton active={isActive}> 다음 단계 진행하기 </SubmitButton>
       </SignupForm>
     </SignupRowBlock>
   );
 }
 
-const SignupSubmitButton = styled(UnsettedButton)`
+const SubmitButton = styled(UnsettedButton)`
   width: 100%;
   height: 64px;
   color: ${props => props.active ? "white" : "#BCB6B6"};
@@ -70,13 +113,23 @@ const SignupEmailInput = styled.input.attrs(
   ${styles.layout.signInput}
 `;
 const SignupPasswordInput = styled.input.attrs(
-  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)"})
+  props => ({type: "password", name:"password", placeholder: "비밀번호(영문, 숫자 포함 10~16자리)", autocomplete: "on"})
 )`
+  width: 100%;
   ${styles.layout.signInput}
+  
+  &:focus {
+    outline: none
+  }
 `;
 const SignupPasswordChkInput = styled.input.attrs(
-  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인"})
+  props => ({type: "password", name:"password_check", placeholder: "비밀번호 재확인", autocomplete: "on"})
 )`
+  width: 100%;
   ${styles.layout.signInput}
+  
+  &:focus {
+    outline: none
+  }
 `;
 export default Signup01;

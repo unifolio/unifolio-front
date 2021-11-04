@@ -7,6 +7,7 @@ import ProfileEducationInput from 'composition/Profile/ProfileEducationInput';
 import ProfileCareerInputGeneral from 'composition/Profile/ProfileCareerInputGeneral';
 import ProfileCareerInputFinancial from 'composition/Profile/ProfileCareerInputFinancial';
 import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestmentHistoryInput';
+import ProfileMaximumInvestableAmount from 'composition/Profile/ProfileMaximumInvestableAmount';
 
 import palette from 'lib/styles/palette';
 
@@ -15,6 +16,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
   const [educationInputs, setEducationInputs] = useState([]);
   const [careerInputs, setCareerInputs] = useState([]);
   const [investmentHistoryInputs, setInvestmentHistoryInputs] = useState([]);
+  const [maximumInvestableAmount, setMaximumInvestableAmount] = useState();
 
   const [inputStatus, setInputStatus] = useState({ 
     education: user.education.length !== 0 ? false : true, 
@@ -27,17 +29,23 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
   
   const counts = useRef({ education: 2, career: 2, investmentHistory: 1 });
 
-  // helper
-  const educationTypeSelector = (educationInput) => {
-    if (educationInput.highschool !== "") return "highschool";
-    else if (educationInput.university !== "") return "university";
-    else if (educationInput.university_doctor !== "") return "university_doctor";
-    else if (educationInput.university_master !== "") return "university_master";
+  // helper 
+  const selectEducationType = (educationType) => {
+    switch(educationType){
+      case "highschool":
+        return "고등학교";
+      case "undergraduate":
+        return "대학교";
+      case "master":
+        return "대학원 (석사)";
+      case "doctor":
+        return "대학원 (박사)";
+      default:
+        return "에러입니다. 관리자에게 문의하세요."
+    }
   }
-  
   useEffect(() => {
-    
-
+  
     // 경력사항
     const careerData = [{
       count: 1,
@@ -56,7 +64,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     const investmentHistoryData = [{
       count: 1,
       info: {
-        category: null, firm: null, description: null
+        category: null, company: null, description: null
       }
     }]
     setInvestmentHistoryInputs([...investmentHistoryData]);
@@ -69,14 +77,14 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     // 학력사항
     if (user.education.length !== 0) {
       const changedEducationInputs = user.education.map((educationInput, i) => {
-        const type = educationTypeSelector(educationInput);
         return {
           count: i+1,
-          type: type,
+          type: educationInput.education_type,
           info: {
+            school_name: educationInput.school_name,
+            major: educationInput.major,
+            education_type: educationInput.education_type,
             attend_status: educationInput.attend_status,
-            [type]: educationInput[type],
-            [`${type}_major`]: educationInput[`${type}_major`],
           }
         }
       });
@@ -85,12 +93,12 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       const educationData = [{
         count: 1,
         type: "highschool",
-        info: { attend_status: null, highschool: "" }
+        info: { school_name: "", major: "", education_type: "highschool", attend_status: null  }
       },
       {
         count: 2,
-        type: "university",
-        info: { attend_status: null, university:"", university_major:null }
+        type: "undergraduate",
+        info: { school_name: "", major: "", education_type: "undergraduate", attend_status: null  }
       }];
       setEducationInputs(educationData);
     }
@@ -100,7 +108,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         console.log(careerInput) // 임시
         return {
           count: i+1,
-          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.type,
+          type: ["reviewer", "general", null].includes(careerInput.option_type) ? "general" : careerInput.option_type,
           info: {
             ...careerInput
           }
@@ -127,12 +135,9 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     let data = {
       count: counts.current.education + 1, // count,
       type: selectedEducationInfo, //selected,
-      info: { attend_status: null, [selectedEducationInfo]:null }
+      info: { school_name: "", major: "", education_type: selectedEducationInfo, attend_status: null }
     }
 
-    if (selectedEducationInfo !== "highschool")
-      data.info[`${selectedEducationInfo}_major`] = null;
-    
     counts.current.education += 1;
     setEducationInputs([...educationInputs, data]);
   }
@@ -140,15 +145,11 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
   const changeEducationInputType = (payload) => {
     const changedEducationInputs = educationInputs.map((inputData) => {
       if (inputData.count === payload.count) {
-        let data = {
+        return {
           count: payload.count,
           type: payload.type,
-          info: { attend_status: null, [payload.type]: null }
+          info: { attend_status: null, education_type: payload.type, major: "", school_name: ""}
         }
-        if (payload.type !== "highschool") {
-          data.info[`${payload.type}_major`] = null;
-        }
-        return data;
       }
       return inputData;
     });
@@ -169,7 +170,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     let data = {
       count: counts.current.investmentHistory + 1,
       info: {
-        category: null, firm: null, description: null
+        category: null, company: null, description: null
       }
     }
     counts.current.investmentHistory += 1;
@@ -181,8 +182,9 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     const changedEducationInputs = educationInputs.map((educationInput) => {
       if (educationInput.count === Number(count)) {
         if (name.includes("attend-status")) educationInput.info["attend_status"] = value
-        else if (name.includes("name")) educationInput.info[educationInput.type] = value
-        else if (name.includes("major")) educationInput.info[`${educationInput.type}_major`] = value;
+        else if (name.includes("school-name")) educationInput.info["school_name"] = value
+        else if (name.includes("major")) educationInput.info["major"] = value;
+        else if (name.includes("education_type")) educationInput.info["education_type"] = value;
       }
       return educationInput;
     });
@@ -190,7 +192,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
 	};
 
   const handleCareerChange = ({ count, name, value }) => {
-    console.log("변화@", count, name, value)
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
@@ -203,8 +204,6 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
       }
       return careerInput;
     });
-    console.log(changedCareerInputs)
-    
     setCareerInputs(changedCareerInputs);
 	};
 
@@ -213,7 +212,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     const changedInvestmentHistoryInputs = investmentHistoryInputs.map((investmentHistoryInput) => {
       if (investmentHistoryInput.count === Number(count)) {
         if (name.includes("category")) investmentHistoryInput.info["category"] = value;
-        else if (name.includes("firm")) investmentHistoryInput.info["firm"] = value;
+        else if (name.includes("company")) investmentHistoryInput.info["company"] = value;
         else if (name.includes("description")) investmentHistoryInput.info["description"] = value;
       }
       return investmentHistoryInput;
@@ -244,6 +243,10 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     setInvestmentHistoryInputs(filteredInvestmentHistoryInputs);
   }
   
+  const handleMaximumInvestableAmountChange = (value) => {
+    setMaximumInvestableAmount(value)
+  }
+
   const handleSubmitInformation = async () => {
     const userEducation = educationInputs.map((educationInput) => {
       if (Object.values(educationInput.info).includes(null)) return false;
@@ -252,15 +255,22 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     // console.log("userEducation", userEducation)
     const userCareer = careerInputs.map((careerInput) => {
       if (Object.values(careerInput.info).includes(null)) return false;
+      if (careerInput.info.category.id) return {...careerInput.info, category: {category: careerInput.info.category.id} }
       return {...careerInput.info, category: {category: careerInput.info.category} }
     })
-    console.log("userCareer", userCareer)
+    // console.log("userCareer", userCareer)
+    const userInvestmentHistory = investmentHistoryInputs.map((investmentHistoryInput) => {
+      if (Object.values(investmentHistoryInput.info).includes(null)) return false;
+      if (investmentHistoryInput.info.category.id) return {...investmentHistoryInput.info, category: {category: investmentHistoryInput.info.category.id} }
+      return {...investmentHistoryInput.info, category: {category: investmentHistoryInput.info.category} }
+    })
     
     console.log("==== update start ====")
     
     const targetData = {};
     if (!userEducation.includes(false)) targetData.education = userEducation;
     if (!userCareer.includes(false)) targetData.career = userCareer;
+    if (!userInvestmentHistory.includes(false)) targetData.invest_history = userInvestmentHistory;
     if (Object.values(targetData).length === 0) {
       alert("정보를 올바르게 입력해주세요.");
       return;
@@ -268,15 +278,7 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
     
     handleSubmit({formData: targetData});
     console.log("==== update end ====")
-    console.log(investmentHistoryInputs);
   }
-
-  // const onEducationSubmit = () => {
-  //   handleSubmit(educationInputs);
-  // }
-  // const onInvestmentHistorySubmit = () => {
-  //   handleSubmit()
-  // }
 
 	return (
     
@@ -314,7 +316,14 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
         <AdditionalInfoRow>
           {!inputStatus.education
             ? user.education.map((educationData, i) => {
-              return <DescriptionLayer key={`education-${i}`}>{educationData[educationTypeSelector(educationData)]}</DescriptionLayer> 
+              return (<DescriptionLayer key={`education-${i}`}>
+                <DescriptionColumnLeft>
+                  {selectEducationType(educationData.education_type)}
+                </DescriptionColumnLeft>
+                <DescriptionColumnRight>
+                  {educationData.school_name} {!educationData.major ? "" : educationData.major} {educationData.attend_status}
+                </DescriptionColumnRight>
+              </DescriptionLayer>) 
             })
             : <ProfileEducationInput 
               educationInputs={educationInputs} 
@@ -421,6 +430,22 @@ const AdditionalInfo = ({ user, handleSubmit }) => {
           />
         </AdditionalInfoRow>
       </AdditionalInfoSection>
+      <AdditionalInfoSection>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <AdditionalInfoSubTitle> 최대 출자 가능액 </AdditionalInfoSubTitle>
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+        <AdditionalInfoRow>
+          <AdditionalInfoColumns>
+            <ProfileMaximumInvestableAmount 
+              maximumInvestableAmount={maximumInvestableAmount}
+              handleMaximumInvestableAmountChange={handleMaximumInvestableAmountChange}
+            />
+          </AdditionalInfoColumns>
+        </AdditionalInfoRow>
+      </AdditionalInfoSection>
+      <div style={{height: "150px"}}></div>
     </AdditionalInfoLayout>
 	);
 };
@@ -513,6 +538,17 @@ const CancelButton = styled(Button)`
 `
 
 const DescriptionLayer = styled.div`
+  display: flex;
+  margin-top: 20px;
 `;
 
+const DescriptionColumnLeft = styled.div`
+  width: 180px;
+  font-size: 14px;
+  color: ${palette.deactiveGrey};
+`;
+
+const DescriptionColumnRight = styled.div`
+  font-size: 20px;
+`
 export default AdditionalInfo;

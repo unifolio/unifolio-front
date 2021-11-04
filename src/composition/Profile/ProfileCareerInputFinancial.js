@@ -10,7 +10,7 @@ const ProfileCareerInputFinancial = ({addCareerInput, careerInputs, onCareerChan
         return careerInput.type === "financial" && (
             <CareerInput 
               key={`career-financial-${idx}`} 
-              type={careerInput.type} count={careerInput.count} 
+              type={careerInput.type} count={careerInput.count} value={careerInput.info}
               onCareerChange={onCareerChange} onCareerDelete={onCareerDelete} 
             />
           )
