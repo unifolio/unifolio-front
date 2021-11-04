@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import styles from 'lib/styles';
+import Conditional from 'components/common/Conditional';
 
 const Card = ({ type, onChangeCurrent }) => {
 
@@ -15,20 +16,14 @@ const Card = ({ type, onChangeCurrent }) => {
         <CardTitle> {selectCardTitle(type)} </CardTitle>
       </CardRow>
       <CardRow className={"description"}>
-        {
-          type === "general" 
-          && <>
-            <CardDescription> 개인투자조합 <CardDescriptionApprove>참여 가능</CardDescriptionApprove> </CardDescription>
-            <CardDescription> 개인투자조합 <CardDescriptionReject>결성 불가능</CardDescriptionReject> </CardDescription>
-          </>
-        }
-        {
-          type === "business" && <>
+        <Conditional condition={type === "general"}>
+          <CardDescription> 개인투자조합 <CardDescriptionApprove>참여 가능</CardDescriptionApprove> </CardDescription>
+          <CardDescription> 개인투자조합 <CardDescriptionReject>결성 불가능</CardDescriptionReject> </CardDescription>
+        </Conditional>
+        <Conditional condition={type === "business"}>
             <CardDescription> 개인투자조합 <CardDescriptionApprove>참여 가능</CardDescriptionApprove> </CardDescription>
             <CardDescription> 개인투자조합 <CardDescriptionApprove>결성 가능</CardDescriptionApprove> </CardDescription>
-          </>
-        }
-        
+        </Conditional>
       </CardRow>
       <CardRow className={"button"}>
         <CardButton onClick={() => {onChangeCurrent(type) }}> 가입 시작하기 </CardButton>
@@ -77,10 +72,10 @@ const CardRow = styled.div`
   align-items: center;
   
   &.top {
-    margin-top: 75px;
+    margin-top: 40px;
   }
   &.description {
-    margin-top: 27px;
+    margin-top: 24px;
   }
   &.button {
     margin-top: 49px;
@@ -102,7 +97,7 @@ const CardButton = styled.button`
 `
 
 const CardTitle = styled.span`
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: ${styles.palette.unifolioBlue};
 `

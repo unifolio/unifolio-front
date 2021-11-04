@@ -76,7 +76,7 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                             회사 분야
                         </FilterSubTitle>
                         <FilterList>
-                        {(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
+                        {categories && (moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
                             <FilterListItem key={index}> 
                                 <FilterCheckBox type='checkbox' name='회사 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['회사 분야']?.includes(item.category)}/>
                                 <FilterListLabel htmlFor={item.category} >
@@ -125,10 +125,10 @@ const Filter = ({filterVisible, setFilterVisible,mode="waiting-people",filterVal
                             투자 분야
                         </FilterSubTitle>
                         <FilterList>
-                        {(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
+                        {categories &&(moreCategory? categories:categories?.slice(0,5)).map((item,index)=>
                             <FilterListItem key={index+`item`}>
                                 
-                                <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode]['투자 분야']?.includes(item.category)}/>
+                                <FilterCheckBox type='checkbox' name='투자 분야' value={item.category} id={item.category} onClick={onClickCheckBox} defaultChecked={filterValue[mode][' 분야']?.includes(item.category)}/>
                                 <FilterListLabel htmlFor={item.category} >
                                     {item.category}
                                 </FilterListLabel>

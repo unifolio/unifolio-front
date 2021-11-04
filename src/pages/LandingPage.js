@@ -12,7 +12,7 @@ import JokeImage from '../assets/images/ping.png';
 
 const TopSection = styled.section`
   width:100%;
-  height:670px;
+  height:500px;
   background-color: #49458B;
   display:flex;
   align-items: center;
@@ -34,8 +34,8 @@ const TopCardsSection = styled.section`
   margin: 0 auto;
   max-width: 1440px;
   left: 50%; 
-  margin-top: -100px;
-  padding: 0 100px;
+  margin-top: -75px;
+  padding: 0 75px;
 
 	/* @media (max-width: 1140px) {
     grid-template-columns: 1fr 1fr;
@@ -56,7 +56,7 @@ const TopCardsSection = styled.section`
 const Title = styled.span`
   display:block;
   font-weight: bold;
-  font-size: 64px;  
+  font-size: 32px;  
   color: #ffffff;
   text-align: left;
   margin-top: 30px;
@@ -65,7 +65,7 @@ const Title = styled.span`
 
 `;
 const Summary = styled.p`
-  font-size: 32px;
+  font-size: 24px;
   line-height: 40px;
   text-align: left;
   color: #ffffff;
@@ -73,25 +73,25 @@ const Summary = styled.p`
   word-break:keep-all;
 `;
 const MiddleSection1 = styled.section`
-  height: 1199px;
-  padding-top: 180px;
+  padding-top: 50px;
 `;
 const SectionTitle = styled.span`
   display:block;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 `;
 const SectionSummary = styled(Summary)`
-  font-size:28px;
+  font-size:24px;
   color: #494949;
 `;
 const ImageSectionOuterLayout = styled.div`
   display:flex;
   align-items:center;
   justify-content: center;
-  margin-top:120px;
-  padding: 0 90px;
+  margin-top:30px;
+  margin-bottom: 50px;
+  padding: 0 120px;
   gap:30px;
 `;
 const ImageSectionInnerLayout = styled.div`
@@ -100,8 +100,8 @@ const ImageSectionInnerLayout = styled.div`
   gap:30px;
 `;
 const ImageItem = styled.article`
-  width:200px;
-  height:200px;
+  width:150px;
+  height:150px;
   display:flex;
   flex-direction: column;
   justify-content: center;
@@ -111,10 +111,10 @@ const ImageItem = styled.article`
 `;
 const ArticleTitle = styled.h4`
   font-weight: bold;
-  font-size: 24px;
+  font-size: 18px;
   color: #767676;
   line-height: 24px;
-  margin-bottom:30px;
+  margin-bottom:14px;
 `;
 const ImageItemBrown = styled(ImageItem)`
   background: #767676;
@@ -127,7 +127,7 @@ const ArticleTitleWhite = styled(ArticleTitle)`
 `;
 const ServiceImageLayout = styled.div`
   width:100%;
-  height:422px;
+  height:322px;
   border: 1px solid #C4C4C4;
   display:flex;
   justify-content: center;
@@ -141,8 +141,8 @@ const MiddleSection2 = styled.section`
 const MiddleSection3 = styled(TopSection)`
   width:100%;
   height:auto;
-  padding-top:140px;
-  padding-bottom:140px;
+  padding-top:50px;
+  padding-bottom:50px;
 `;
 const Section3Title = styled(SectionTitle)`
   margin-top:0;
@@ -164,32 +164,34 @@ const Section4Title = styled(Section3Title)`
 const Section4Summary = styled(SectionSummary)`
   color: #49458B;  
   font-weight: 500;
-  margin-bottom:98px;
+  margin-bottom:70px;
 `;
 const CardContainer = styled.section`
   display:flex;
-  align-items:center;
+  align-items: stretch;
   justify-content: space-between;
   gap:20px;
 `;
 const SummaryCard = styled.section`
   background-color: #49458B;  
-  width: 376px;
-  height: 444px;
-  padding-top: 70px;
+  width: 350px;
+  min-height: 380px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  word-break: keep-all;
 `;
 const CardTitle = styled.span`
   display:block;
   text-align:center;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 24px;
   color: #FFFFFF;
   margin-bottom:50px;
 `;
 const CardSummary = styled.span`
   display:block;
-  font-size: 20px;
-  line-height: 38px;
+  font-size: 18px;
+  line-height: 28px;
   font-weight: 300;
   text-align: center;
   color: #FFFFFF;
@@ -201,8 +203,8 @@ const MiddleSection5 = styled(TopSection)`
   background: #F2F2F2;
   width:100%;
   height:auto;
-  padding-top:140px;
-  padding-bottom:140px;
+  padding-top:50px;
+  padding-bottom:50px;
   flex-direction: column;
 `;
 const QustionTitle = styled(SectionTitle)`
@@ -225,7 +227,7 @@ const LandingPage = () => {
       <TopCardsSection>
           <LandingCard title="출자 대기중인 출자자" number="000"/>
           <LandingCard title="결성 대기중인 개인투자조합" number="000"/>
-          <LandingCard title="결성 완료된 개인 투자조합" number="000"/>
+          <LandingCard title="결성 완료된 개인투자조합" number="000"/>
         </TopCardsSection>
         <MiddleSection1>
           <SectionLayout>

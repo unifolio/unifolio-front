@@ -4,7 +4,7 @@ import React from 'react';
 const Card = styled.section`
     max-width: 388px;
     width: 100%;
-    height: 210px;
+    height: 150px;
     background-color:white;
     color:black;
     border-radius: 5px;
@@ -44,7 +44,7 @@ const Title = styled.span`
     display:flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 18px;
     line-height: 32px;
     font-weight: 500;
     text-align: center;
@@ -53,38 +53,14 @@ const Title = styled.span`
     /* @media (max-width: 610px) {
         min-width:0px;
 	} */
-    @media (max-width: 1040px) {
-        font-size: 18px;
-        line-height: 24px;
-	}
-    @media (max-width: 915px) {
-        font-size: 24px;
-        line-height: 32px;
-	}
-    @media (max-width: 615px) {
-        font-size: 18px;
-        line-height: 24px;
-	}
 `;
 
 const Count = styled(Title)`
-    font-size: 70px;
+    font-size: 45px;
     line-height: 70px;
     font-style: italic;
     font-weight: 300;
     text-align: center;
-    @media (max-width: 1040px) {
-        font-size: 50px;
-        line-height: 50px;
-	}
-    @media (max-width: 915px) {
-        font-size: 70px;
-        line-height: 70px;
-	}
-    @media (max-width: 615px) {
-        font-size: 50px;
-        line-height: 50px;
-	}
 `;
 
 const LandingCard = ({title, number}) => {
