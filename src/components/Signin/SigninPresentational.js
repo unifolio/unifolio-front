@@ -135,10 +135,13 @@ const SigninSocialsSection = styled.div`
   padding-top:1.5rem;
   display: flex;
   justify-content: center;
-
+  #naverIdLogin{
+    width: 2rem;
+    height: 2rem;
+  }
   button {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     border: none;
     border-radius: 50%;
     background-color: white;

@@ -168,15 +168,17 @@ const Section4Summary = styled(SectionSummary)`
 `;
 const CardContainer = styled.section`
   display:flex;
-  align-items:center;
+  align-items: stretch;
   justify-content: space-between;
   gap:20px;
 `;
 const SummaryCard = styled.section`
   background-color: #49458B;  
   width: 350px;
-  height: 380px;
+  min-height: 380px;
   padding-top: 40px;
+  padding-bottom: 20px;
+  word-break: keep-all;
 `;
 const CardTitle = styled.span`
   display:block;
