@@ -28,7 +28,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   ];
   
   const {
-    educationInputs, handleEducationInput, selectEducationType, EducationInput
+    educationInputs, handleEducationInput, educationUtil, EducationInput
   } = useEducationInputs({ counts, user, at: window.location.href });
     
   const {
@@ -184,10 +184,10 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
                 return (
                   <DescriptionLayer key={`education-${i}`}>
                     <DescriptionColumnLeft>
-                      {selectEducationType(educationData.education_type)}
+                      {educationUtil.selectEducationType(educationData.education_type)}
                     </DescriptionColumnLeft>
                     <DescriptionColumnRight>
-                      {educationData.school_name} {!educationData.major ? "" : educationData.major} {educationData.attend_status}
+                      {educationData.school_name} {!educationData.major ? "" : educationData.major} {educationUtil.selectAttendStatus(educationData.attend_status)}
                     </DescriptionColumnRight>
                   </DescriptionLayer>
                 ) 
