@@ -9,7 +9,7 @@ export const dummyUser = {
           "school_name": "유니폴리오 대학교",
           "major": "유니폴리오 공학",
           "education_type": "master",
-          "attend_status": "재학"
+          "attend_status": "ongoing"
       },
       {
           "id": 4,
@@ -18,7 +18,7 @@ export const dummyUser = {
           "school_name": "유니폴리오 대학교",
           "major": "유니폴리오 공학",
           "education_type": "undergraduate",
-          "attend_status": "졸업"
+          "attend_status": "graduate"
       },
   ],
   "career": [
