@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png'
 
 const Navbar = () => {
+  const { page } = useParams();
   const isLogin = () => {
     const accessToken = localStorage.getItem('unifolioAccess');
       if (!accessToken) return false;
