@@ -26,8 +26,8 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       usersGeneral: () => {
         // users general 현재 데이터 0개
         // 임시로 변경
-        // const response = axios.get(`${END_POINT}/users/general/?limit=50`)
-        const response = axios.get(`${END_POINT}/users/business/?limit=50`)
+        const response = axios.get(`${END_POINT}/users/general/?limit=50`)
+        // const response = axios.get(`${END_POINT}/users/business/?limit=50`)
           .then((resolve) => {
             return resolve;
           })
