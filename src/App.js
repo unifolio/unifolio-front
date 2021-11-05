@@ -17,7 +17,7 @@ import Navbar from 'components/common/Navbar';
 function App() {
 	return (
 		<>
-			<Navbar />
+			<Route component={Navbar} path="/:page" />
 			<Route component={LandingPage} path="/" exact />
 			<Route component={FindingPage} path="/finding" />
 			<Route component={ProfilePage} path="/profile" />
