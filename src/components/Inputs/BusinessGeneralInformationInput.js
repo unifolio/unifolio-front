@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Input } from 'antd';
 
-const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputChange }) => {
+const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputChange, options }) => {
   
   return (
     <BusinessGeneralInformationInputLayout>
@@ -25,13 +25,18 @@ const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputC
       <InfoRow>
         <InfoColumns>
           <Input type={"text"} size="large" placeholder="우편번호" style={{width: "195px"}} disabled={isReadonly ? true : false}  
-            value={user?.address_postcode ?? ""} onChange={(e) => {handleInputChange({name:"address_postcode", value:e.target.value})}} 
+            value={user?.address_postcode ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address_postcode", value:e.target.value})}} 
+            onClick={!isReadonly ? options.handleClickToChangeAddress : undefined}
           />
           <Input type={"text"} size="large" placeholder="주소" style={{width: "415px"}} disabled={isReadonly ? true : false}  
-            value={user?.address ?? ""} onChange={(e) => {handleInputChange({name:"address", value:e.target.value})}} 
+            value={user?.address ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address", value:e.target.value})}} 
+            onClick={!isReadonly ? options.handleClickToChangeAddress : undefined}
           />
           <Input type={"text"} size="large" placeholder="상세 주소 입력" style={{width: "195px"}} disabled={isReadonly ? true : false}  
-            value={user?.address_detail ?? ""} onChange={(e) => {handleInputChange({name:"address_detail", value:e.target.value})}} 
+            value={user?.address_detail ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address_detail", value:e.target.value})}} 
           />
         </InfoColumns>
       </InfoRow>
