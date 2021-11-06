@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { Personal, Business } from 'composition/UnionCreate';
+import UnionCreateHeaderBusiness from 'components/Header/UnionCreateHeaderBusiness';
 
 import useFetchUserToken from 'hooks/useFetchUserToken';
 import API from 'lib/api';
@@ -86,9 +87,13 @@ const UnionCreateContainer = ({ type }) => {
   }
 
 	return (
-		<PersonalUnionCreateLayout>
-      {renderSteps()}
-		</PersonalUnionCreateLayout>
+    <>
+      <UnionCreateHeaderBusiness current={process} />
+      <br />
+      <PersonalUnionCreateLayout>
+        {renderSteps()}
+      </PersonalUnionCreateLayout>
+    </>
 	);
 };
 
