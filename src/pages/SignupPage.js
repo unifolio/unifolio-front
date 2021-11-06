@@ -16,9 +16,9 @@ const SignupPage = () => {
 }
 
 const SignupLayout = styled.div`
-  height:calc(100vh - 4rem);
+  height:100%;
   ${style.layout.marginContainer}
-  
+  padding: 2rem 0;
   display:flex;
   justify-content: center;
   align-items: center;

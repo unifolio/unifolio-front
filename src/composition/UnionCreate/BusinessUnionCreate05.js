@@ -25,6 +25,8 @@ const BusinessUnionCreate05 = ({ user, unionCreateInputData, onClickNext, onClic
 
     invest_year_total: 0,
     recovery_year_total: 0,
+
+    min_of_amount: 0,
 	});
   const {
     recruitment_plan, invest_year, recovery_year, management_remuneration_plan, invest_year_total, recovery_year_total 

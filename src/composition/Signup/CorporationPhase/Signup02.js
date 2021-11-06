@@ -96,7 +96,7 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
           <SignupCompanyRegistrationNumberInput value={company_registration_number} onChange={handleChangeCompanyRegistrationNumber} />
           <Icons.SearchIcon 
             onClick={() => {}}
-            style={{ position: "absolute", transform: "translateX(-25px)", cursor: "pointer" }}
+            style={{ position: "absolute", transform: "translate(-25px,15px)", cursor: "pointer" }}
           />
         </div> <br />
         <SignupCorporateRegistrationInput value={corporate_registration} onChange={handleCorporateRegistration} /> <br />
@@ -105,7 +105,7 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
           <SignupPostCodeInput value={postcode} onClick={clickPostAdress} />
           <Icons.SearchIcon 
             onClick={clickPostAdress}
-            style={{ position: "absolute", transform: "translateX(-25px)", cursor: "pointer" }}
+            style={{ position: "absolute", transform: "translate(-25px,15px)", cursor: "pointer" }}
           />
         </div> <br />
         <SignupAddressInput value={address} onClick={clickPostAdress}/> <br />
