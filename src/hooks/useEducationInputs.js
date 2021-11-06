@@ -95,6 +95,19 @@ const useEducationInputs = ({counts, user = null, at, isModifiable}) => {
     }
   }
 
+  const selectAttendStatus = (attendStatus) => {
+    switch (attendStatus) {
+      case "ongoing":
+        return "재학";
+      case "graduate":
+        return "졸업";
+      case "complete":
+        return "수료";
+      default:
+        return "에러입니다. 관리자에게 문의하세요."
+    }
+  }
+
   const inputSelector = () => {
     if (at.includes("/profile") || isModifiable) {
       return ProfileEducationInput;
@@ -112,7 +125,10 @@ const useEducationInputs = ({counts, user = null, at, isModifiable}) => {
       delete: handleEducationInputDelete,
       changeType: handleChangeEducationInputType,
     },
-    selectEducationType,
+    educationUtil: {
+      selectEducationType,
+      selectAttendStatus
+    },
     EducationInput: inputSelector()
   }
 };

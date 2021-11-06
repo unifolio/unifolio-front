@@ -2,11 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Responsive from 'components/common/Responsive';
-import UnionCreateHeaderBusiness from 'components/Header/UnionCreateHeaderBusiness';
-
 import UnionCreateContainer from 'containers/UnionCreateContainer';
-
-import styles from "lib/styles";
 
 const UnionCreateBusinessPage = () => {
 
@@ -31,10 +27,8 @@ const UnionCreateBusinessPage = () => {
 	return (
 		<UnionPageLayout>
       <UnionPagePosition>
-      <UnionCreateHeaderBusiness current={1}></UnionCreateHeaderBusiness>
-			<br />
-      <UnionCreateContainer type={"business"} />
-      {/* <AssociationMainSection ref={mainRef}>{mainSectionSelector(location.pathname.split('/').slice(-1)[0])}</AssociationMainSection> */}
+        <UnionCreateContainer type={"business"} />
+        {/* <AssociationMainSection ref={mainRef}>{mainSectionSelector(location.pathname.split('/').slice(-1)[0])}</AssociationMainSection> */}
       </UnionPagePosition>
 		</UnionPageLayout>
 	);

@@ -34,8 +34,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="재학">재학</Select.Option>
-                <Select.Option value="졸업">졸업</Select.Option>
+                <Select.Option value="ongoing">재학</Select.Option>
+                <Select.Option value="graduate">졸업</Select.Option>
               </Select>
               
 							<Button
@@ -63,8 +63,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="재학">재학</Select.Option>
-                <Select.Option value="졸업">졸업</Select.Option>
+                <Select.Option value="ongoing">재학</Select.Option>
+                <Select.Option value="graduate">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}
@@ -91,8 +91,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="재학">재학</Select.Option>
-                <Select.Option value="졸업">졸업</Select.Option>
+                <Select.Option value="ongoing">재학</Select.Option>
+                <Select.Option value="graduate">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}
@@ -119,8 +119,8 @@ const EducationInput = ({ type, count, value, onEducationChange, onEducationDele
                   value: value,
                 })}}
               >
-                <Select.Option value="재학">재학</Select.Option>
-                <Select.Option value="졸업">졸업</Select.Option>
+                <Select.Option value="ongoing">재학</Select.Option>
+                <Select.Option value="graduate">졸업</Select.Option>
               </Select>
 							<Button
 								onClick={() => { deleteEducationInput(count); }}

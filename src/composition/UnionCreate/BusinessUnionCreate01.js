@@ -15,15 +15,6 @@ const BusinessUnionCreate01 = ({ user, onClickNext }) => {
   } = useEducationInputs({ user, at: window.location.href });
   
 	const handleNext = () => {
-    // owner {} 래핑 가공 데이터 넘김
-    // let educationData = [];
-    // educationInputs.forEach((education) => {
-    //   educationData.push(education.info);
-    // })
-
-    // const ownerData = {
-    //   ...owner, education: educationData,
-    // }
 		onClickNext({ owner: user.id }, 1);
 	};
 
@@ -33,7 +24,6 @@ const BusinessUnionCreate01 = ({ user, onClickNext }) => {
       return {...educationInput.info}
     })
   
-    
     console.log("==== update start ====")
     
     const targetData = {};

@@ -31,7 +31,8 @@ const CreateUnionSelectCard = ({ type }) => {
       <CardRow className={"button"}>
         {
           type === "general" 
-          && <CardButton onClick={() => { window.location.href="/union-create/personal" }}> 개인이 운용할 신규 개인투자조합 만들기 </CardButton>
+          // && <CardButton onClick={() => { window.location.href="/union-create/personal" }}> 개인이 운용할 신규 개인투자조합 만들기 </CardButton>
+          && <CardButton onClick={() => { alert("지금은 진행할 수 없습니다.") }}> 개인이 운용할 신규 개인투자조합 만들기 </CardButton>
         }
           {
           type === "business" 

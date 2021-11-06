@@ -70,6 +70,17 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      newUnionBusiness: (data) => {
+        const response = axios
+          .post(`${END_POINT}/unions/create/business`, data)
+          .then(async (response) => {
+            return await response;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
     }
   }
 }

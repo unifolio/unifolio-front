@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Input } from 'antd';
 
-const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputChange }) => {
+const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputChange, options }) => {
   
   return (
     <BusinessGeneralInformationInputLayout>
@@ -13,23 +13,30 @@ const BusinessGeneralInformationInput = ({ user = null, isReadonly, handleInputC
             value={user?.name ?? ""} onChange={(e) => {handleInputChange({name:"name", value:e.target.value})}} 
           />
           <Input type={"text"} size="large" placeholder="주민번호 앞 6자리" style={{width: "195px"}} disabled={isReadonly ? true : false} 
-            value={user["rrn-front"] ?? ""} onChange={(e) => {handleInputChange({name:"rrn-front", value:e.target.value})}} 
+            value={user["rrn-front"] ? user["rrn-front"] : user["rrn"] ? user["rrn"].slice(0, 6) : ""} 
+            onChange={(e) => {handleInputChange({name:"rrn-front", value:e.target.value})}} 
           /> -
           <Input type={"text"} size="large" placeholder="주민번호 뒷자리" style={{width: "195px", marginLeft:"10px"}} disabled={isReadonly ? true : false} 
-            value={user["rrn-back"] ?? ""} onChange={(e) => {handleInputChange({name:"rrn-back", value:e.target.value})}} 
+            value={user["rrn-back"] ? user["rrn-back"] : user["rrn"] ? user["rrn"].slice(6) : ""}
+            onChange={(e) => {handleInputChange({name:"rrn-back", value:e.target.value})}} 
           />
         </InfoColumns>
       </InfoRow>
       <InfoRow>
         <InfoColumns>
           <Input type={"text"} size="large" placeholder="우편번호" style={{width: "195px"}} disabled={isReadonly ? true : false}  
-            value={user?.address_postcode ?? ""} onChange={(e) => {handleInputChange({name:"address_postcode", value:e.target.value})}} 
+            value={user?.address_postcode ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address_postcode", value:e.target.value})}} 
+            onClick={!isReadonly ? options.handleClickToChangeAddress : undefined}
           />
           <Input type={"text"} size="large" placeholder="주소" style={{width: "415px"}} disabled={isReadonly ? true : false}  
-            value={user?.address ?? ""} onChange={(e) => {handleInputChange({name:"address", value:e.target.value})}} 
+            value={user?.address ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address", value:e.target.value})}} 
+            onClick={!isReadonly ? options.handleClickToChangeAddress : undefined}
           />
           <Input type={"text"} size="large" placeholder="상세 주소 입력" style={{width: "195px"}} disabled={isReadonly ? true : false}  
-            value={user?.address_detail ?? ""} onChange={(e) => {handleInputChange({name:"address_detail", value:e.target.value})}} 
+            value={user?.address_detail ?? ""} 
+            onChange={(e) => {handleInputChange({name:"address_detail", value:e.target.value})}} 
           />
         </InfoColumns>
       </InfoRow>

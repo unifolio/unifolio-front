@@ -28,7 +28,7 @@ const useCareerInputs = ({counts, user = null, at, isModifiable}) => {
     const changedCareerInputs = careerInputs.map((careerInput) => {
       if (careerInput.count === Number(count)) {
         if (name.includes("status")) careerInput.info["status"] = value;
-        else if (name.includes("category")) careerInput.info["category"] = value;
+        else if (name.includes("category")) careerInput.info["category"] = {category: value};
         else if (name.includes("company")) careerInput.info["company"] = value;
         else if (name.includes("job")) careerInput.info["job"] = value;
         else if (name.includes("start-date")) careerInput.info["start_date"] = value;

@@ -35,8 +35,8 @@ const EducationInputWithSelect = ({ type, count, value, onEducationChange, onEdu
                 value: value,
               })}}
             >
-              <Select.Option value="재학">재학</Select.Option>
-              <Select.Option value="졸업">졸업</Select.Option>
+              <Select.Option value="ongoing">재학</Select.Option>
+              <Select.Option value="graduate">졸업</Select.Option>
             </Select>
           </>
         );
@@ -53,8 +53,8 @@ const EducationInputWithSelect = ({ type, count, value, onEducationChange, onEdu
                 value: value,
               })}}
             >
-              <Select.Option value="재학">재학</Select.Option>
-              <Select.Option value="졸업">졸업</Select.Option>
+              <Select.Option value="ongoing">재학</Select.Option>
+              <Select.Option value="graduate">졸업</Select.Option>
             </Select>
           </>
         );
@@ -71,8 +71,8 @@ const EducationInputWithSelect = ({ type, count, value, onEducationChange, onEdu
                 value: value,
               })}}
             >
-              <Select.Option value="재학">재학</Select.Option>
-              <Select.Option value="졸업">졸업</Select.Option>
+              <Select.Option value="ongoing">재학</Select.Option>
+              <Select.Option value="graduate">졸업</Select.Option>
             </Select>
           </>
         );
@@ -89,8 +89,8 @@ const EducationInputWithSelect = ({ type, count, value, onEducationChange, onEdu
                 value: value,
               })}}
             >
-              <Select.Option value="재학">재학</Select.Option>
-              <Select.Option value="졸업">졸업</Select.Option>
+              <Select.Option value="ongoing">재학</Select.Option>
+              <Select.Option value="graduate">졸업</Select.Option>
             </Select>
           </>
         );
