@@ -21,7 +21,9 @@ const AssociationManagePage = () => {
       }
       fetchUnionData();  
     }, []);
-    
+  
+  alert("본페이지는 예시페이지입니다 마무리가 늦어져서 죄송합니다")
+  
   return (
     <Responsive level={2}>
       <UnionInfo unionData={unionData}/>
