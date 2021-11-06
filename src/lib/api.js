@@ -3,6 +3,8 @@ import { cacheAdapterEnhancer } from "axios-extensions";
 import * as Service from "services";
 
 const END_POINT = "https://unifolio.kr:8080";
+// const END_POINT = "http://localhost:8000";
+
 const axiosInstance = axios.create({
   adapter: cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false }),
 });
