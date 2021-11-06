@@ -8,8 +8,7 @@ import { Input, Button, Select } from "antd";
 import Numpad from "components/common/Numpad";
 import useFetchCategories from "hooks/useFetchCategories";
 
-const BusinessUnionCreate03 = React.memo((props) => {
-  const { onClickNext, className } = props;
+const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClickBack, }) => {
   const [unionCreate02Inputs, setUnionCreate02Inputs] = useState({
     name: "",
     invest_category_1: "",
@@ -188,11 +187,17 @@ const BusinessUnionCreate03 = React.memo((props) => {
   };
 
   const handleCareerChange = () => {};
+
+  const handlePrev = () => {
+    onClickBack(2);
+  }
+
   if (categories.length === 0) return <></>;
+
   return (
-    <PersonalUnionCreate02Layout className={className} ref={layoutRef}>
+    <PersonalUnionCreate02Layout ref={layoutRef}>
       <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
-      <Input name={`hidden`} size="large" disabled type={"hidden"} />{" "}
+      <Input name={`hidden`} size="large" disabled type={"hidden"} />
       {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
         <div className="row">
@@ -506,11 +511,12 @@ const BusinessUnionCreate03 = React.memo((props) => {
         </div>
       </section>
       <section>
-      <NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton>
+        <NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton><br />
+        <NextButton onClick={handlePrev}>이전 단계로 돌아가기</NextButton>
       </section>
     </PersonalUnionCreate02Layout>
   );
-});
+};
 const NextButton = styled.button`
   height: 3rem;
   border: none;
