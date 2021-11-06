@@ -24,6 +24,7 @@ const BusinessUnionCreate02 = ({ user, unionCreateInputData, onClickNext, onClic
     address_detail: unionCreateInputData.reviewer?.address_detail ?? "",
     "rrn-front": unionCreateInputData.reviewer?.["rrn-front"] ?? "",
     "rrn-back": unionCreateInputData.reviewer?.["rrn-back"] ?? "",
+    phone_number: unionCreateInputData.reviewer?.phone_number ?? "01011112222",
   });
   
   const { handleClickToChangeAddress } = useDaumPostcode(callbackCompleteSearchPostcodeProcess)
@@ -37,15 +38,15 @@ const BusinessUnionCreate02 = ({ user, unionCreateInputData, onClickNext, onClic
   
   const {
     educationInputs, handleEducationInput, EducationInput
-  } = useEducationInputs({ counts, at: window.location.href, isModifiable: true });
+  } = useEducationInputs({ user: user.reviewer, counts, at: window.location.href, isModifiable: true });
   
   const {
     careerInputs, handleCareerInput, CareerInput
-  } = useCareerInputs({counts, at: window.location.href, isModifiable: true})
+  } = useCareerInputs({ user: user.reviewer, counts, at: window.location.href, isModifiable: true })
 
   const {
     investHistoryInputs, handleInvestHistoryInput, ProfileInvestHistoryInput
-  } = useInvestHistoryInputs({counts, user});
+  } = useInvestHistoryInputs({counts, user: user.reviewer});
 
   function callbackCompleteSearchPostcodeProcess(data) {
     setFormData({...formData, address: data.address, address_postcode: data.zonecode });
@@ -61,20 +62,11 @@ const BusinessUnionCreate02 = ({ user, unionCreateInputData, onClickNext, onClic
   }
 
 	const handleNext = () => {
-    // owner {} 래핑 가공 데이터 넘김
-    // let educationData = [];
-    // educationInputs.forEach((education) => {
-    //   educationData.push(education.info);
-    // })
-
-    // const ownerData = {
-    //   ...owner, education: educationData,
-    // }
 		onClickNext({
       reviewer: {
         ...formData, rrn:`${formData["rrn-front"]}${formData["rrn-back"]}`,
         education: educationInputs.map(each => each.info),
-        career: careerInputs.map(each => each.info),
+        career: careerInputs.map(each => ({...each.info, option_type:"reviewer"})),
       } 
     }, 2);
 	};

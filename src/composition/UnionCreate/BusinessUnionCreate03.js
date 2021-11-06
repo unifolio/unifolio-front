@@ -168,6 +168,8 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
     ];
     unionCreate02Inputs.invest_category = invest_category;
     console.log(unionCreate02Inputs)
+    unionCreate02Inputs.recruitment_start_date = `${recruitment_start_date}T00:00`;
+    unionCreate02Inputs.recruitment_end_date = `${recruitment_end_date}T00:00`
     onClickNext(unionCreate02Inputs, 2);
   };
 
