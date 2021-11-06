@@ -23,11 +23,3 @@ export const Business = {
   _04: PersonalUnionCreate04,
   _05: PersonalUnionCreate05,
 }
-
-// export {
-//   PersonalUnionCreate01 as _01,
-//   PersonalUnionCreate02 as _02,
-//   PersonalUnionCreate03 as _03,
-//   PersonalUnionCreate04 as _04,
-//   PersonalUnionCreate05 as _05
-// }
