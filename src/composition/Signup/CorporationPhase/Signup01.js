@@ -62,7 +62,7 @@ const Signup01 = ({ signupInputData, onClickNext }) => {
           <Icons.EyeIcon 
             onClick={() => handleClickEyeIcon("password")}
             style={{
-              position: "absolute", transform: "translateX(-25px)", cursor: "pointer"
+              position: "absolute", transform: "translate(-25px,15px)", cursor: "pointer"
             }}
           />
         </div>
@@ -72,7 +72,7 @@ const Signup01 = ({ signupInputData, onClickNext }) => {
           <Icons.EyeIcon
             onClick={() => handleClickEyeIcon("passwordCheck")}
             style={{
-              position: "absolute", transform: "translateX(-25px)", cursor: "pointer"
+              position: "absolute", transform: "translate(-25px,15px)", cursor: "pointer"
             }}
           />
         </div>

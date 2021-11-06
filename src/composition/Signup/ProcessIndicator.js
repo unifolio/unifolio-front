@@ -67,8 +67,8 @@ const ProcessIndicator = ({ process, current }) => {
 
 const IndicatorArea = styled.div`
   width: ${props => props.current === "general" ? "100%" : "75%"};
-  margin-top: 85px;
-  margin-bottom: 100px;
+  margin-top: 60px;
+  margin-bottom: 70px;
 
   display: flex;
   flex-direction: column;
