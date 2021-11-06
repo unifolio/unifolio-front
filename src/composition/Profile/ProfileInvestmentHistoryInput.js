@@ -9,7 +9,7 @@ const ProfileInvestmentHistoryInput = ({investmentHistoryInputs, onInvestmentHis
       {investmentHistoryInputs.map((input) => (
           <InvestmentHistoryInput 
             key={`investment-history-${input.count}`} 
-            type={input.type} count={input.count}
+            type={input.type} count={input.count} value={input.info}
             onInvestmentHistoryChange={onInvestmentHistoryChange} onInvestmentHistoryDelete={onInvestmentHistoryDelete}
           />
         )

@@ -19,11 +19,9 @@ const FindingPage = ({ location }) => {
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [modalContents, setModalContents] = useState({});
 	const [filterVisible, setFilterVisible] = useState(false);
-	const [filterValue, setFilterValue] = useState({
-    "waiting-people":{},
-	  'waiting-unions':{}
-  });
-	const [categories, setCategories] = useState();
+	const [filterValue, setFilterValue] = useState({"waiting-people":{},
+	'waiting-unions':{}});
+	const [categories, setCategories] = useState([]);
 	const [dataLength, setDataLength] = useState();
   const [isModalActive, setIsModalActive] = useState(true);
 	const $mainRef = useRef(), $modalRef = useRef();
@@ -47,7 +45,7 @@ const FindingPage = ({ location }) => {
 	useEffect(()=>{
 		(async()=>{
 			const fetchCategories = await API.get.all_categories();			
-			setCategories(fetchCategories.data.data)
+			setCategories(fetchCategories.data)
 		})();
 	},[])
 	

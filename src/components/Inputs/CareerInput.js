@@ -8,9 +8,39 @@ import useFetchCategories from "hooks/useFetchCategories";
 const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => {
   const { categories } = useFetchCategories();
   const jobs = [
-    "인사/총무/노무", "마케팅/MD", "홍보/CSR", "영업/영업관리", "회계/재무/금융", "해외/기술영업", "유통/무역/구매", "전략/기획", "IT개발", "서비스 기획/UI", "UX등", "디자인/예술", "미디어", "서비스", "연구/설계", "전문/특수", "교육/상담/컨설팅", "공무원/공공/비영리", "생산/품질/제조", "기타사무"
+    "인사/총무/노무", "마케팅/MD", "홍보/CSR", "영업/영업관리", "회계/재무/금융", "해외/기술영업", 
+    "유통/무역/구매", "전략/기획", "IT개발", "서비스 기획/UI, UX등", "디자인/예술", "미디어", 
+    "서비스", "연구/설계", "전문/특수", "교육/상담/컨설팅", "공무원/공공/비영리", "생산/품질/제조", "기타사무"
   ]
-  
+  const jobsObjects = [
+    {"HR": "인사/총무/노무"},
+    {"MARKETING": "마케팅/MD"},
+    {"CSR": "홍보/CSR"},
+    {"SALES": "영업/영업관리"},
+    {"FINANCE": "회계/재무/금융"},
+    {"OVERSEAS": "해외/기술영업"},
+    {"TRADE":"유통/무역/구매"},
+    {"PLAN":"전략/기획"},
+    {"DEV":"IT개발"},
+    {"SERVICE_PLAN":"서비스 기획/UI, UX등"},
+    {"DESIGN":"디자인/예술"},
+    {"MEDIA":"미디어"},
+    {"SERVICE":"서비스"},
+    {"RESEARCH":"연구/설계"},
+    {"PROF":"전문/특수"},
+    {"CONSULTING":"교육/상담/컨설팅"},
+    {"PUBLIC":"공무원/공공/비영리"},
+    {"MANUFACTURE":"생산/품질/제조"},
+    {"ETC":"기타사무"}
+  ]
+  const findJob = (value) => {
+    for (const jobObject of jobsObjects) {
+      if (Object.values(jobObject)[0] === value) {
+        return Object.keys(jobObject)[0];
+      }
+    }
+  }
+
   const handleCareerChange = (e) => {
     if (!e.target) {
       // select일 때
@@ -63,7 +93,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
               >
                 {categories.map((categoryData, i) => {
                   return (
-                    <Select.Option key={`career-category-${i}`} value={categoryData.id}>
+                    <Select.Option key={`career-category-${i}`} value={categoryData.category}>
                       {categoryData.category}
                     </Select.Option>
                   );
@@ -91,7 +121,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
                 }}
               >
                 {jobs.map((job, idx) => (
-                  <Select.Option key={`career-${job}-${idx}`} value={job}>{job}</Select.Option>
+                  <Select.Option key={`career-${job}-${idx}`} value={findJob(job)}>{job}</Select.Option>
                 ))}
               </Select>
               <Select
@@ -158,7 +188,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
               >
                 {categories.map((categoryData, i) => {
                   return (
-                    <Select.Option key={`career-financial-category-${i}`} value={categoryData.id}>
+                    <Select.Option key={`career-financial-category-${i}`} value={categoryData.category}>
                       {categoryData.category}
                     </Select.Option>
                   );
@@ -186,7 +216,7 @@ const CareerInput = ({ type, count, value, onCareerChange, onCareerDelete }) => 
                 }}
               >
                 {jobs.map((job, idx) => (
-                  <Select.Option key={`career-financial-${job}-${idx}`} value={job}>{job}</Select.Option>
+                  <Select.Option key={`career-financial-${job}-${idx}`} value={findJob(job)}>{job}</Select.Option>
                 ))}
               </Select>
               <Select

@@ -28,7 +28,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   ];
   
   const {
-    educationInputs, handleEducationInput, selectEducationType, EducationInput
+    educationInputs, handleEducationInput, educationUtil, EducationInput
   } = useEducationInputs({ counts, user, at: window.location.href });
     
   const {
@@ -49,11 +49,11 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
       if (Object.values(educationInput.info).includes(null)) return false;
       return {...educationInput.info}
     })
-    
+
     const userInvestHistory = investHistoryInputs.map((investHistoryInput) => {
       if (Object.values(investHistoryInput.info).includes(null)) return false;
-      if (investHistoryInput.info.category.id) return {...investHistoryInput.info, category: {category: investHistoryInput.info.category.id} }
-      return {...investHistoryInput.info, category: {category: investHistoryInput.info.category} }
+      // if (investHistoryInput.info.category.id) return {...investHistoryInput.info, category: {category: investHistoryInput.info.category.id} }
+      return {...investHistoryInput.info }
     })
     
     console.log("==== update start ====")
@@ -184,10 +184,10 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
                 return (
                   <DescriptionLayer key={`education-${i}`}>
                     <DescriptionColumnLeft>
-                      {selectEducationType(educationData.education_type)}
+                      {educationUtil.selectEducationType(educationData.education_type)}
                     </DescriptionColumnLeft>
                     <DescriptionColumnRight>
-                      {educationData.school_name} {!educationData.major ? "" : educationData.major} {educationData.attend_status}
+                      {educationData.school_name} {!educationData.major ? "" : educationData.major} {educationUtil.selectAttendStatus(educationData.attend_status)}
                     </DescriptionColumnRight>
                   </DescriptionLayer>
                 ) 

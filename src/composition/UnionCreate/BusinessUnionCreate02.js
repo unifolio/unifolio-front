@@ -13,32 +13,40 @@ import useDaumPostcode from 'hooks/useDaumPostcode';
 
 import styles from 'lib/styles';
 
-const BusinessUnionCreate02 = ({ user, onClickNext }) => {
+const BusinessUnionCreate02 = ({ user, unionCreateInputData, onClickNext, onClickBack }) => {
   
   const counts = useRef({ education: 2, career: 2, investHistory: 1 });
   const [formData, setFormData] = useState({
+    name: unionCreateInputData.reviewer?.name ?? "",
+    rrn: unionCreateInputData.reviewer?.rrn ?? "",
+    address_postcode: unionCreateInputData.reviewer?.address_postcode ?? "",
+    address: unionCreateInputData.reviewer?.address ?? "",
+    address_detail: unionCreateInputData.reviewer?.address_detail ?? "",
+    "rrn-front": unionCreateInputData.reviewer?.["rrn-front"] ?? "",
+    "rrn-back": unionCreateInputData.reviewer?.["rrn-back"] ?? "",
+    phone_number: unionCreateInputData.reviewer?.phone_number ?? "01011112222",
   });
   
   const { handleClickToChangeAddress } = useDaumPostcode(callbackCompleteSearchPostcodeProcess)
-  const generalInformations = [
-    {labelKr: "이름", labelEn: "name", value:user.name},
-    {labelKr: "주민번호", labelEn: "rrn", value:user.rrn},
-    {labelKr: "우편번호", labelEn: "address_postcode", value:user.address_postcode},
-    {labelKr: "주소", labelEn: "address", value:user.address},
-    {labelKr: "상세 주소", labelEn: "address_detail", value:user.address_detail},
-  ];
+  // const generalInformations = [
+  //   {labelKr: "이름", labelEn: "name", value:user.name},
+  //   {labelKr: "주민번호", labelEn: "rrn", value:user.rrn},
+  //   {labelKr: "우편번호", labelEn: "address_postcode", value:user.address_postcode},
+  //   {labelKr: "주소", labelEn: "address", value:user.address},
+  //   {labelKr: "상세 주소", labelEn: "address_detail", value:user.address_detail},
+  // ];
   
   const {
-    educationInputs, handleEducationInput, selectEducationType, EducationInput
-  } = useEducationInputs({ counts, at: window.location.href, isModifiable: true });
+    educationInputs, handleEducationInput, EducationInput
+  } = useEducationInputs({ user: user.reviewer, counts, at: window.location.href, isModifiable: true });
   
   const {
     careerInputs, handleCareerInput, CareerInput
-  } = useCareerInputs({counts, at: window.location.href, isModifiable: true})
+  } = useCareerInputs({ user: user.reviewer, counts, at: window.location.href, isModifiable: true })
 
   const {
     investHistoryInputs, handleInvestHistoryInput, ProfileInvestHistoryInput
-  } = useInvestHistoryInputs({counts, user});
+  } = useInvestHistoryInputs({counts, user: user.reviewer});
 
   function callbackCompleteSearchPostcodeProcess(data) {
     setFormData({...formData, address: data.address, address_postcode: data.zonecode });
@@ -49,22 +57,16 @@ const BusinessUnionCreate02 = ({ user, onClickNext }) => {
     setFormData(newFormData);
   }
 
+  const handlePrev = () => {
+    onClickBack(1);
+  }
 
 	const handleNext = () => {
-    // owner {} 래핑 가공 데이터 넘김
-    // let educationData = [];
-    // educationInputs.forEach((education) => {
-    //   educationData.push(education.info);
-    // })
-
-    // const ownerData = {
-    //   ...owner, education: educationData,
-    // }
 		onClickNext({
       reviewer: {
         ...formData, rrn:`${formData["rrn-front"]}${formData["rrn-back"]}`,
         education: educationInputs.map(each => each.info),
-        career: careerInputs.map(each => each.info),
+        career: careerInputs.map(each => ({...each.info, option_type:"reviewer"})),
       } 
     }, 2);
 	};
@@ -79,7 +81,7 @@ const BusinessUnionCreate02 = ({ user, onClickNext }) => {
           </AdditionalInfoColumns>
         </AdditionalInfoRow>
         <AdditionalInfoRow>
-          <BusinessGeneralInformationInput user={formData} handleInputChange={handleInputChange}/>
+          <BusinessGeneralInformationInput user={formData} handleInputChange={handleInputChange} options={{handleClickToChangeAddress}}/>
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoSection>
@@ -119,11 +121,8 @@ const BusinessUnionCreate02 = ({ user, onClickNext }) => {
         </AdditionalInfoRow>
       </AdditionalInfoSection>
       <AdditionalInfoRow style={{ alignItems: "center" }}>
-        {
-          (!user.name || !user.rrn || !user.address_postcode || !user.address || !user.address_detail) 
-          ? alert("유저정보를 프로필에서 완성해주세요.")
-          : (<NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton>)
-        }
+        <NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton><br />
+        <NextButton onClick={handlePrev}>이전 단계로 돌아가기</NextButton>
       </AdditionalInfoRow>
     </BusinessUnionCreate02Layout>
 	);

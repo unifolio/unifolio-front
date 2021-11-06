@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Personal, Business } from 'composition/UnionCreate';
+import UnionCreateHeaderBusiness from 'components/Header/UnionCreateHeaderBusiness';
 
 import useFetchUserToken from 'hooks/useFetchUserToken';
 import API from 'lib/api';
 
 import { 
-  addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, addUnionInvestInfo, 
+  addExecutiveMemberInfo, addUnionDefaultInfo, addUnionOfficeInfo, addUnionInvestInfo, addUnionDetailPlanInfo, 
   getUnionCreateStateThunk 
 } from 'modules/reducers/unionCreate';
 
 const UnionCreateContainer = ({ type }) => {
 	const [process, setProcess] = useState(1);
-  const dispatch = useDispatch();
   const { user } = useFetchUserToken();
 
+  const dispatch = useDispatch();
+  const unionCreateInputData = useSelector((state) => state.unionCreate);
+
 	const handleClickNext = async (formData, process) => {
-		
+		if (type !== "business") {
+      console.log("비즈니스 계정이 아닙니다")
+      return false;
+    }
 		switch (process) {
 			case 1:
 				dispatch(addExecutiveMemberInfo(formData));
@@ -32,10 +38,13 @@ const UnionCreateContainer = ({ type }) => {
       case 4:
         dispatch(addUnionInvestInfo(formData));
         break;
-			case 5:
+      case 5:
+        dispatch(addUnionDetailPlanInfo(formData));
+        break;
+			case 6:
         const data = dispatch(getUnionCreateStateThunk());
         console.log(data)
-        const response = await API.post.newUnion(data);
+        const response = await API.post.newUnionBusiness(data);
         if (response.status === 200 || response.status === 201) {
           alert('조합 생성이 완료되었습니다');
         } else {
@@ -47,23 +56,50 @@ const UnionCreateContainer = ({ type }) => {
       default:
         console.error("회원가입 에러");
 		}
-    setProcess((prevProcess) => prevProcess+1); // 프로세스 값 갱신
+    setProcess((prevProcess) => prevProcess + 1); // 프로세스 값 갱신
 	};
+  
+  
+  const handleClickBack = (targetProcess) => {
+    if (type === "business") { setProcess(targetProcess); }
+  }
 
   const renderSteps = () => {
     if (type === "business") {
       switch (process) {
         case 1:
-          if (user) return <Business._01 onClickNext={handleClickNext} user={user}/>
+          if (user) return <Business._01 onClickNext={handleClickNext} user={user} />
           else return <></>;
         case 2:
-          return <Business._02 onClickNext={handleClickNext} user={user} />
+          return (
+            <Business._02 user={user} unionCreateInputData={unionCreateInputData}
+              onClickNext={handleClickNext} onClickBack={handleClickBack} 
+            />
+          )
         case 3:
-          return <Business._03 onClickNext={handleClickNext} />
+          return (
+            <Business._03 user={user} unionCreateInputData={unionCreateInputData}
+              onClickNext={handleClickNext} onClickBack={handleClickBack} 
+            />
+          )
         case 4:
-          return <Business._04 onClickNext={handleClickNext} />
+          return (
+            <Business._04 user={user} unionCreateInputData={unionCreateInputData}
+              onClickNext={handleClickNext} onClickBack={handleClickBack} 
+            />
+          )
         case 5:
-          return <Business._05 onClickNext={handleClickNext} />
+          return (
+            <Business._05 user={user} unionCreateInputData={unionCreateInputData}
+              onClickNext={handleClickNext} onClickBack={handleClickBack} 
+            />
+          )
+        case 6:
+          return (
+            <Business._06 user={user} unionCreateInputData={unionCreateInputData}
+              onClickNext={handleClickNext} onClickBack={handleClickBack} 
+            />
+          )
         default:
           return <></>
       }
@@ -86,9 +122,13 @@ const UnionCreateContainer = ({ type }) => {
   }
 
 	return (
-		<PersonalUnionCreateLayout>
-      {renderSteps()}
-		</PersonalUnionCreateLayout>
+    <>
+      <UnionCreateHeaderBusiness current={process} />
+      <br />
+      <PersonalUnionCreateLayout>
+        {renderSteps()}
+      </PersonalUnionCreateLayout>
+    </>
 	);
 };
 

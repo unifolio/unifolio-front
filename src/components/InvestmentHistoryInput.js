@@ -4,14 +4,16 @@ import { Input, Button, Select } from "antd";
 
 import useFetchCategories from "hooks/useFetchCategories";
 
-const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
+const InvestmentHistoryInput = ({ type, count, value, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
   const { categories } = useFetchCategories();
 
   const handleInvestmentHistoryChange = (e) => {
     if (!e.target) {
       // select일 때
       let { value, name } = e;
-      onInvestmentHistoryChange({ value: categories[value].category, name, count: name.slice(-1) });
+      if (name.includes("category")) {
+        onInvestmentHistoryChange({ count: name.slice(-1), name, value });
+      }
       return;
     }
 
@@ -32,17 +34,18 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
           name={`investment-history-category-${count}`}
           size="large"
           placeholder="투자 분야"
+          defaultValue={value?.category?.category}
           onChange={(value) => {
             handleInvestmentHistoryChange({
               name: `investment-history-category-${count}`,
-              value: value,
+              value: {category: value},
             });
           }}
         >
-          {categories.map((categoryObject, idx) => {
+          {categories.map((categoryData, idx) => {
             return (
-              <Select.Option key={`investment-history-select-${idx}`} value={idx}>
-                {categoryObject.category}
+              <Select.Option key={`investment-history-select-${idx}`} value={categoryData.category}>
+                {categoryData.category}
               </Select.Option>
             );
           })}
@@ -52,6 +55,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
           name={`investment-history-company-${count}`}
           size="large"
           placeholder="회사명"
+          defaultValue={value.company}
           onChange={handleInvestmentHistoryChange}
         />
         <Input
@@ -59,6 +63,7 @@ const InvestmentHistoryInput = ({ type, count, onInvestmentHistoryChange, onInve
           name={`investment-history-description-${count}`}
           size="large"
           placeholder="설명(수익률 등)"
+          defaultValue={value.description}
           onChange={handleInvestmentHistoryChange}
         />
         <Button

@@ -3,8 +3,8 @@ import ProfileInvestmentHistoryInput from 'composition/Profile/ProfileInvestment
 
 const useInvestHistoryInputs = ({ counts, user }) => {
   const [investHistoryInputs, setInvestHistoryInputs] = useState(
-    user.invest_history.length !== 0 
-    ? user.invest_history.map((investHistoryInput, i) => {
+    user?.invest_history.length !== 0 
+    ? user?.invest_history.map((investHistoryInput, i) => {
       return {
         count: i+1,
         info: {

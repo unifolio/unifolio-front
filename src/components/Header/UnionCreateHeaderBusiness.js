@@ -23,10 +23,10 @@ const UnionCreateHeaderBusiness = ({ location, current }) => {
   
   useEffect(() => {
     if (user === null) return;
-    if (user.education.length === 0 || !user.address_business) {
-      alert("유저 정보를 올바르게 수정 후 다시 시도해 주세요.");
-      window.location.href = "/profile"
-    }
+    // if (user.education.length === 0 || !user.address_business) {
+    //   alert("유저 정보를 올바르게 수정 후 다시 시도해 주세요.");
+    //   window.location.href = "/profile"
+    // }
   }, [ user ])
 
 	return (

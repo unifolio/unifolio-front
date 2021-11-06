@@ -64,7 +64,7 @@ const SigninPresentational = ({ handleSignin }) => {
           <button> <Icons.NaverIcon /> </button>
           <button> <Icons.KakaoIcon /> </button> */}
         </SigninSocialsSection>
-        <SigninBlockRow marginTop={"3rem"}> 
+        <SigninBlockRow marginTop={"2rem"}> 
           <div>
             <span>아직 계정이 없으시다면?</span>
             <Link to="/signup"> 
@@ -81,13 +81,12 @@ const SigninLayout = styled.div`
   height:calc(100vh - 4rem);
   ${styles.layout.marginContainer}
   font-size: var(--fontSize18);
-  
   display:flex;
   justify-content: center;
 `
 
 const SigninTitle = styled.span`
-  font-size: 2.357rem;
+  font-size: 2rem;
   color: ${styles.palette.unifolioBlue};
 `;
 
@@ -96,14 +95,12 @@ const HighlightSpan = styled.span`
 `
 
 const SigninBlock = styled.div`
-  width: 60%;
-  margin-top: 10%;
-  
+  width: 60%;  
   display:flex;
   flex-direction:column; 
 `;
 const SigninBlockRow = styled.div`
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   font-size: 1.2rem;
   
   display:flex;
@@ -117,7 +114,7 @@ const SigninBlockRowSpaceBetween = styled(SigninBlockRow)`
 `;
 
 const SigninBlockCenterSection = styled.div`
-  margin-top: 62px;
+  margin-top: 40px;
 
   display: flex;
   flex-direction: column;
@@ -135,13 +132,16 @@ const SigninBlockBottomSection = styled.div`
   justify-content: space-between;
 `
 const SigninSocialsSection = styled.div`
-  padding-top:2rem;
+  padding-top:1.5rem;
   display: flex;
   justify-content: center;
-
+  #naverIdLogin{
+    width: 2rem;
+    height: 2rem;
+  }
   button {
-    width: 4rem;
-    height: 4rem;
+    width: 2rem;
+    height: 2rem;
     border: none;
     border-radius: 50%;
     background-color: white;
@@ -153,7 +153,7 @@ const SigninSocialsSection = styled.div`
 const SigninIdInput = styled.input.attrs(
   props => ({ type: "text", name: "email", placeholder: "User ID" })
 )`
-  height: 4rem;
+  height: 3rem;
   border: none;
   border-bottom: 1px solid gray;
   padding: 0 1rem;
@@ -161,14 +161,14 @@ const SigninIdInput = styled.input.attrs(
 const SigninPasswordInput = styled.input.attrs(
   props => ({type: "password", name:"password", placeholder: "Password"})
 )`
-  height: 4rem;
+  height: 3rem;
   border: none;
   border-bottom: 1px solid gray;
   padding: 0 1rem;
 `;
 
 const SigninSubmitButton = styled.button`
-  height: 4rem;
+  height: 3rem;
   margin-top: 1rem;
   border: none;
   cursor: pointer;
@@ -184,6 +184,7 @@ const SigninSubmitButton = styled.button`
 `;
 
 const SigninRememberCheckBoxLayer = styled.div`
+  font-size: 16px;
   color: ${styles.palette.unifolioBlue};
   
   display: flex;
@@ -212,6 +213,7 @@ const SigninCheckBoxInputLabel = styled.label`
 
 
 const SigninForgotPassword = styled.div`
+  font-size: 16px;
   color: ${styles.palette.unifolioBlue};
   background-color: none;
   

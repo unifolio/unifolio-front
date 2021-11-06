@@ -8,6 +8,7 @@ const ADD_EXECUTIVE_MEMBER_INFO = 'unionCreate/ADD_EXECUTIVE_MEMBER_INFO';
 const ADD_UNION_DEFAULT_INFO = 'unionCreate/ADD_UNION_DEFAULT_INFO';
 const ADD_UNION_OFFICE_INFO = 'unionCreate/ADD_UNION_OFFICE_INFO';
 const ADD_UNION_INVEST_INFO = 'unionCreate/ADD_UNION_INVEST_INFO';
+const ADD_UNION_DETAIL_PLAN_INFO = 'unionCreate/ADD_UNION_DETAIL_PLAN_INFO';
 
 const GET_UNION_CREATE_STATE = 'unionCreate/GET_UNION_CREATE_STATE';
 const GET_UNION_CREATE_STATE_SUCCESS = 'unionCreate/GET_UNION_CREATE_STATE_SUCCESS';
@@ -31,6 +32,11 @@ export const addUnionInvestInfo = (formData) => ({
 	type: ADD_UNION_INVEST_INFO,
 	unionCreateData: formData,
 });
+
+export const addUnionDetailPlanInfo = (formData) => ({
+  type: ADD_UNION_DETAIL_PLAN_INFO,
+	unionCreateData: formData,
+})
 
 export const getUnionCreateState = () => ({
 	type: GET_UNION_CREATE_STATE,
@@ -63,7 +69,9 @@ export default function unionCreate(state = initialState, action) {
 		case ADD_UNION_OFFICE_INFO:
 			return { ...state, ...action.unionCreateData };
     case ADD_UNION_INVEST_INFO:
-        return { ...state, ...action.unionCreateData };
+      return { ...state, ...action.unionCreateData };
+    case ADD_UNION_DETAIL_PLAN_INFO:
+      return { ...state, ...action.unionCreateData };
 		case GET_UNION_CREATE_STATE:
 			return {
         ...state,
