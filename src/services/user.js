@@ -52,7 +52,14 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
           .then((response) => { return response.date; })
           .catch((error) => { return error.response; });
         return response;
+      },
+      userVerify: ({ key }) => {
+        const response = axiosInstance.get(`${END_POINT}/users/verify/${key}`)
+          .then((response) => { return response.date; })
+          .catch((error) => { return error.response; });
+        return response;
       }
+      
     },
     post: {
       userSignupBusiness: async (formData) => {

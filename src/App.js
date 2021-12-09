@@ -7,7 +7,8 @@ import {
   SignupPage, SigninPage, OAuthSigninCallbackPage,
   ProfilePage, 
   UnionNewPage, UnionDocumentPage, UnionCreatePage, 
-  ManageUnionChatPage, ManageUserChatPage, UnionCreateBusinessPage
+  ManageUnionChatPage, ManageUserChatPage, UnionCreateBusinessPage,
+	UsersVerifyPage
 } from 'pages'
 
 import Navbar from 'components/common/Navbar';
@@ -29,6 +30,7 @@ function App() {
 			<Route component={SigninPage} path="/signin" />
       <Route component={OAuthSigninCallbackPage} path="/users/signin/" />
 			<Route component={UnionDocumentPage} path="/union/document" />
+			<Route component={UsersVerifyPage} path="/users/verify" exact />
 		</>
 	);
 }
