@@ -4,7 +4,7 @@ import ProfilePage from 'pages/ProfilePage';
 import UnionCreatePage from 'pages/UnionCreatePage';
 import UnionCreateBusinessPage from 'pages/UnionCreateBusinessPage';
 
-import AssociationManagePage from 'pages/AssociationManagePage';
+import UnionManagePage from 'pages/UnionManagePage';
 import SignupPage from 'pages/SignupPage';
 import OAuthSigninCallbackPage from 'pages/OAuthSigninCallbackPage';
 import SigninPage from 'pages/SigninPage';
@@ -16,7 +16,7 @@ import UsersVerifyPage from 'pages/UsersVerifyPage';
 
 export {
   LandingPage, FindingPage, 
-  AssociationManagePage,
+  UnionManagePage,
   SignupPage, SigninPage, OAuthSigninCallbackPage,
   ProfilePage, 
   UnionNewPage, UnionDocumentPage, UnionCreatePage, UnionCreateBusinessPage,

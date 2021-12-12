@@ -76,12 +76,12 @@ const SignupContainer = () => {
           
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다');
-            window.location.href = '/signin';
+            // window.location.href = '/signin';
           } else {
-            // alert("오류가 발생하였습니다.")
-            alert("오류가 발생했지만 회원가입은 진행되었을 것입니다.. 210912 기준 SMTPSender Refused 에러 개발자 도구를 확인해주세요");
+            alert("오류가 발생하였습니다.")
+            // alert("오류가 발생했지만 회원가입은 진행되었을 것입니다.. 210912 기준 SMTPSender Refused 에러 개발자 도구를 확인해주세요");
             console.error(response.data);
-            window.location.href= "/signin";
+            // window.location.href= "/signin";
           }
           break;
         default:

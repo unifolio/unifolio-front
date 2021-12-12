@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import {
   LandingPage, FindingPage, 
-  AssociationManagePage,
+  UnionManagePage,
   SignupPage, SigninPage, OAuthSigninCallbackPage,
   ProfilePage, 
   UnionNewPage, UnionDocumentPage, UnionCreatePage, 
@@ -21,7 +21,7 @@ function App() {
 			<Route component={FindingPage} path="/finding" />
 			<Route component={ProfilePage} path="/profile" />
       <Route component={UnionNewPage} path="/union/new" />
-			<Route component={AssociationManagePage} path="/union/manage" exact/>
+			<Route component={UnionManagePage} path="/union/manage" exact/>
 			<Route component={ManageUserChatPage} path="/union/manage/userchat" exact/>
 			<Route component={ManageUnionChatPage} path="/union/manage/unionchat" exact/>
 			<Route component={UnionCreatePage} path="/union-create/personal" />
