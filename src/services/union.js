@@ -3,8 +3,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
   return {
     get: {
       unions: () => {
-        const response = axios
-          .get(`${END_POINT}/unions/`)
+        const response = axios.get(`${END_POINT}/unions/`)
           .then((response) => {
             return response;
           })
@@ -14,8 +13,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
         return response;
       },
       union: (id) => {
-        const response = axios
-          .get(`${END_POINT}/${id}`)
+        const response = axios.get(`${END_POINT}/${id}`)
           .then((response) => {
             return response;
           })
@@ -24,11 +22,10 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },    
-      union_detail: (id) => {
-        const response = axios
-          .get(`${END_POINT}/unions/manage/${id}/`)
-          .then((resolve) => {
-            return resolve;
+      unionDetail: (id) => {
+        const response = axios.get(`${END_POINT}/unions/manage/${id}/`)
+          .then((response) => {
+            return response.data;
           })
           .catch((error) => {
             return error.response;
@@ -36,8 +33,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
         return response;
       },
       get_protocol: (id) => {
-        const response = axios
-          .get(`${END_POINT}/unions/${id}/get_protocol`)
+        const response = axios.get(`${END_POINT}/unions/${id}/get_protocol`)
           .then((response) => {
             return response;
           })
@@ -47,8 +43,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
         return response;
       },
       create_protocol: (id) => {
-        const response = axios
-          .get(`${END_POINT}/unions/${id}/create_protocol`)
+        const response = axios.get(`${END_POINT}/unions/${id}/create_protocol`)
           .then((response) => {
             return response;
           })
@@ -60,8 +55,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
     },
     post: {
       newUnion: (data) => {
-        const response = axios
-          .post(`${END_POINT}/unions/create/general`, data)
+        const response = axios.post(`${END_POINT}/unions/create/general`, data)
           .then(async (response) => {
             return await response;
           })
@@ -71,8 +65,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
         return response;
       },
       newUnionBusiness: (data) => {
-        const response = axios
-          .post(`${END_POINT}/unions/create/business`, data)
+        const response = axios.post(`${END_POINT}/unions/create/business`, data)
           .then(async (response) => {
             return await response;
           })
