@@ -19,18 +19,23 @@ const FindingPage = ({ location }) => {
 	const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [modalContents, setModalContents] = useState({});
 	const [filterVisible, setFilterVisible] = useState(false);
-	const [filterValue, setFilterValue] = useState({"waiting-people":{},
-	'waiting-unions':{}});
+	const [filterValue, setFilterValue] = useState({
+		"waiting-people": {}, 
+		"waiting-unions": {}
+	});
 	const [categories, setCategories] = useState([]);
 	const [dataLength, setDataLength] = useState();
   const [isModalActive, setIsModalActive] = useState(true);
 	const $mainRef = useRef(), $modalRef = useRef();
   const { user } = useFetchUserToken();
-  useEffect(() => {
-    if (user && (user.career.length === 0 || user.education.length === 0)) {
-      
-    }
-  }, [user])
+  
+	useEffect(() => {
+    if (query.mode === "waiting-people" && user && user.career.length !== 0 && user.education.length !== 0) {
+      setIsModalActive(false);
+    } else {
+			setIsModalActive(true);
+		}
+  }, [user, query.mode])
 
 	useEffect(() => {
     if (!$modalRef.current) return;
@@ -114,11 +119,14 @@ const FindingPage = ({ location }) => {
 					<Filter setFilterVisible={setFilterVisible} filterVisible={filterVisible} mode={query.mode} filterValue={filterValue} setFilterValue={setFilterValue} categories={categories} dataLength={dataLength} />
 				</SideSectionPosition>
 			</FindingPagePosition>
-			<ModalPosition isModalActive={isModalActive} ref={$modalRef} onClick={() => { toggleModal(false); }} >
-				<Modal onClick={(e) => { e.stopPropagation(); }} >
-          {modalSectionSelector(query.mode)}
-				</Modal>
-			</ModalPosition>
+			{/* 경력 등록 체크 */}
+			{isModalActive && 
+				<ModalPosition isModalActive={isModalActive} ref={$modalRef} onClick={() => { toggleModal(false); }} >
+					<Modal onClick={(e) => { e.stopPropagation(); }} >
+						{modalSectionSelector(query.mode)}
+					</Modal>
+				</ModalPosition>
+			}
 		</>
 	);
 };
