@@ -22,12 +22,12 @@ const UnionManagePage = () => {
         
         const unions = await API.get.unions();
         const unionId = unions.data.filter((union) => union.owner.id === userId)[0].id;
-        const {data:{data}} = await API.get.union_detail(unionId);
-        
-        setUnionData(data.union_info);
-        setPostData(data.post_info);
-        setParticiPationListData(data.union_info.participants);
-        setTempParticipantsData(data.union_info.temp_participants);
+        const { data: unionDetails } = await API.get.unionDetail(unionId);
+        console.log(unionDetails)
+        setUnionData(unionDetails.union_info);
+        setPostData(unionDetails.post_info);
+        setParticiPationListData(unionDetails.union_info.participants);
+        setTempParticipantsData(unionDetails.union_info.temp_participants);
         // console.log(data)
       }
       fetchUnionData();  

@@ -103,7 +103,7 @@ const SignupContainer = () => {
           
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다');
-            window.location.href = '/signin';
+            // window.location.href = '/signin';
           } else {
             alert("오류가 발생했습니다.");
           }
