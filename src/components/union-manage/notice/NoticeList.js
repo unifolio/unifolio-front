@@ -3,10 +3,8 @@ import styled from 'styled-components';
 
 import NoticeListItem from "./NoticeListItem"
 
-const NoticeList = () => {
+const NoticeList = ({editor = null}) => {
 
-
-  
     return(
         <ListSection>
             <SectionHeader>
@@ -17,6 +15,7 @@ const NoticeList = () => {
                 <NoticeListItem />
                 <NoticeListItem />
                 <NoticeListItem />
+                {!!editor && editor}
             </ListMain>
         </ListSection>
     );

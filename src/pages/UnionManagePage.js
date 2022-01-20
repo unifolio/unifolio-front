@@ -4,6 +4,7 @@ import Responsive from 'components/common/Responsive';
 import UnionInfo from "components/Union-manage/UnionInfo";
 import ParticipationList from 'components/Union-manage/participation/ParticipationList';
 import NoticeList from 'components/Union-manage/notice/NoticeList';
+import Editor from 'components/Union-manage/Editor';
 
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from 'lib/api';
@@ -14,7 +15,7 @@ const UnionManagePage = () => {
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData,setTempParticipantsData] = useState([]);
   const { user } = useFetchUserToken();
-
+  
   useEffect(() => {
       const fetchUnionData = async () => {
         const userId = user?.id;
@@ -40,7 +41,7 @@ const UnionManagePage = () => {
       <UnionInfo unionData={unionData}/>
       <ParticipationList data={tempParticipantsData} title={"조합 참여 미확정자"} object={"대화상대"}/>
       <ParticipationList data={participationListData} title={"조합 참여 확정"} object={"확정자"}/>
-      <NoticeList />
+      <NoticeList editor={<Editor />}/>
     </Responsive>
   );
 }
