@@ -4,7 +4,7 @@ import {ReactComponent as BottomArrow} from "../../../assets/svgs/BottomArrow-S.
 import {ReactComponent as UpArrow} from "../../../assets/svgs/UpArrow-S.svg";
 import Conditional from 'components/common/Conditional';
 
-const NoticeListItem = ({ noticeData }) => {
+const MockNoticeListItem = ({ noticeData }) => {
     const parentRef = useRef(null);
     const childRef = useRef(null);
     const [isCollapse, setIsCollapse] = useState(false);
@@ -25,38 +25,38 @@ const NoticeListItem = ({ noticeData }) => {
       },
       [isCollapse]
     );
-
-    if (!noticeData) return <></>;
     return(
-        noticeData.map(({post_id, title, content, writer, writer_id, created_at}) => (
-                <li key={post_id}>
-                    <ListItemHeader>
-                        <Category>{created_at}</Category>
-                        <Contents>{title}</Contents>
-                        <Date>
-                            <ButtonGroup>
-                                <Conditional condition={isCollapse}>
-                                    <SUpArrow onClick={handleButtonClick} />
-                                </Conditional>
-                                <Conditional condition={!isCollapse}>
-                                    <SBottomArrow onClick={handleButtonClick} />
-                                </Conditional>
-                            </ButtonGroup>
-                        </Date>
-                    </ListItemHeader>
-                    <FormWrapper ref={parentRef}>
-                        <ContentSection ref={childRef}>
-                            <NoticeContents> {content} </NoticeContents>
-                            <Button> 수정하기 </Button>
-                        </ContentSection>
-                    </FormWrapper>
-                </li>
-            )
-        )
-    )
+        <li>
+            <ListItemHeader>
+                <Category>0000.00.00</Category>
+                <Contents>현재 가입 승인이 지연되는 점에 대하여 안내드립니다</Contents>
+                <Date>
+                    <ButtonGroup>
+                        <Conditional condition={isCollapse}>
+                            <SUpArrow onClick={handleButtonClick} />
+                        </Conditional>
+                        <Conditional condition={!isCollapse}>
+                            <SBottomArrow onClick={handleButtonClick} />
+                        </Conditional>
+                    </ButtonGroup>
+                </Date>
+            </ListItemHeader>
+            <FormWrapper ref={parentRef}>
+                <ContentSection ref={childRef}>
+                    <NoticeContents>
+                    여기에 공지사랑이 들어가는거 같아요오오
+                    </NoticeContents>
+                    <Button>
+                        수정하기
+                    </Button>
+                </ContentSection>
+            </FormWrapper>
+        </li>
+        
+    );
 }
 
-export default NoticeListItem;
+export default MockNoticeListItem;
 
 const ListItemHeader = styled.header`
     padding: 16px;

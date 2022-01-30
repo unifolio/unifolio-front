@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {ReactComponent as BottomArrow} from "../../../assets/svgs/BottomArrow-S.svg";
 import {ReactComponent as UpArrow} from "../../../assets/svgs/UpArrow-S.svg";
 import ParticipationListItem from './ParticipationListItem';
-const ParticipationList = ({title, object,data}) => {
+const ParticipationList = ({title, object, data, participantsConversationData}) => {
     const parentRef = useRef(null);
     const childRef = useRef(null);
     const [isCollapse, setIsCollapse] = useState(false);
@@ -44,7 +44,11 @@ const ParticipationList = ({title, object,data}) => {
             </SectionHeader>
             <ListWrapper ref={parentRef} >
                 <ul  ref={childRef} >
-                    {data?.map((item,idx)=><ParticipationListItem key={idx} data={item}/> )}
+                    {data?.map((item, idx) => {
+                            const participantConversationData = participantsConversationData.filter(({receiver}) => item.id === receiver)
+                            return <ParticipationListItem key={idx} data={item} participantConversationData={participantConversationData} />
+                        }
+                    )}
                 </ul>
             </ListWrapper>
         </ListSection>

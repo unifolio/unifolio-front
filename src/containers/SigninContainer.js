@@ -17,7 +17,7 @@ const SigninContainer = () => {
 			const token = { accessToken: response.data.access };
       const responseByToken = await API.post.tokenToGetUser(token);
       
-			if (responseByToken.status === 200) {
+			if (responseByToken.status === 200 || responseByToken.status === 201) {
         history.push('/finding');        
 			}
 		}

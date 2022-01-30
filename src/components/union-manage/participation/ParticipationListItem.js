@@ -1,19 +1,41 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const ParticipationListItem = ({data}) => {
-
-    return(
-        <ListItem>
-            <UserNickName>{data.name}</UserNickName>
-            <Contents>여기엔 뭐가 들어가나???</Contents>
-            <Date>
-                <span>0000년 00월 00일</span>
-                <div>
-                    <span>00:00:00 (0분전)</span>
-                </div>
-            </Date>
-        </ListItem>
+const ParticipationListItem = ({data, participantConversationData}) => {
+    console.log("participantConversationData", participantConversationData)
+    return (
+        <Link to={`/union/manage/userchat/${data.id}`}>
+            <ListItem>
+                <UserNickName>{data.name}</UserNickName>
+                {participantConversationData.length !== 0 
+                    ? (
+                        participantConversationData.map((data) => (
+                            <React.Fragment key={data.id}>
+                                <Contents>{data.title}</Contents>
+                                <Date>
+                                    <span>{new window.Date(data.created).toLocaleDateString()}</span>
+                                    <div>
+                                        <span>{new window.Date(data.created).toLocaleTimeString()} (0분전)</span>
+                                    </div>
+                                </Date>
+                            </React.Fragment>
+                        ))
+                    )
+                    : (
+                        <>
+                            <Contents>목업 데이터 입니다</Contents>
+                            <Date>
+                                <span>0000년 00월 00일</span>
+                                <div>
+                                    <span>00:00:00 (0분전)</span>
+                                </div>
+                            </Date>
+                        </>
+                    )
+                }
+            </ListItem>
+        </Link>
     );
 }
 

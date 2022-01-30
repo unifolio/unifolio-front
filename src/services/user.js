@@ -92,7 +92,8 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
         const response = axios
           .post(`${END_POINT}/users/token/`, {token: accessToken})
           .then((response) => {
-            return {...response.data, status: response.status};
+            if (!response.data.status) return {...response.data, status: response.status }
+            else return {...response.data};
           })
           .catch((error) => {
             return error.response;

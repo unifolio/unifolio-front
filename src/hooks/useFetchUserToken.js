@@ -22,7 +22,8 @@ const useFetchUserToken = () => {
       }
       
       const response = await API.post.tokenToGetUser(tokenData);
-      
+      console.log("response", response) // 0116 정상
+
       if (response.status === 200 || response.status === 201) {
         if (response.data.role === "business") {
           console.log("user id", response.data.id);
@@ -39,9 +40,9 @@ const useFetchUserToken = () => {
       } 
       else {
         alert('로그인이 만료되었습니다. 다시 로그인 해주세요.');
-        // localStorage.removeItem('unifolioAccess');
-        // localStorage.removeItem('unifolioUser');
-        history.push('/signin');
+        localStorage.removeItem('unifolioAccess');
+        localStorage.removeItem('unifolioUser');
+        // history.push('/signin');
       }
     };
     if (user === null) {

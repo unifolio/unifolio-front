@@ -3,11 +3,11 @@ import UserDetailInfo from 'components/Union-manage/UserDetailInfo';
 import React from 'react';
 import styled from 'styled-components';
 
-const InfoSection = () => {
+const InfoSection = ({ unionData, receiverData }) => {
     return(
         <DetailInfoSection>
-            <UnionDetailInfo/>
-            <UserDetailInfo />
+            <UnionDetailInfo unionData={unionData} />
+            <UserDetailInfo receiverData={receiverData}/>
         </DetailInfoSection>
 
     )

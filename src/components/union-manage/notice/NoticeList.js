@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import NoticeListItem from "./NoticeListItem"
+import MockNoticeListItem from "./MockNoticeListItem"
 
-const NoticeList = ({editor = null}) => {
+const NoticeList = ({postData, editor = null}) => {
 
     return(
         <ListSection>
@@ -11,10 +12,20 @@ const NoticeList = ({editor = null}) => {
                 <Title>공지사항</Title>
             </SectionHeader>
             <ListMain>
-                <NoticeListItem />
-                <NoticeListItem />
-                <NoticeListItem />
-                <NoticeListItem />
+                {postData.notice?.length !== 0 
+                    ? (
+                        <NoticeListItem noticeData={postData.notice} />
+                    ) 
+                    : (
+                        <>
+                            <MockNoticeListItem />
+                            <MockNoticeListItem />
+                            <MockNoticeListItem />
+                            <MockNoticeListItem />
+                        </>
+                    )
+                }
+                
                 {!!editor && editor}
             </ListMain>
         </ListSection>

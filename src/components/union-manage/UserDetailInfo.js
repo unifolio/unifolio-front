@@ -1,87 +1,65 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const UserDetailInfo = () => {
-    return(
-    <UserInfoSection>
-        <Header>                        
-            <UserInfoLeft>
-                <Title>개인 상세정보</Title>
-                <UserInfoMoreButton>모두보기 &nbsp;	&gt;</UserInfoMoreButton>
-            </UserInfoLeft>
-            <UserInfoRight>
-                <User>달리는 토끼바람</User>
-                <UserBG>미참여자</UserBG>
-            </UserInfoRight>
-        </Header>
-        <InfoMain>
-            <InfoRow>
-                <Category>학력사항</Category>
-                <InfoList>
-                    <InfoSummary > 경희대학교</InfoSummary>                            
-                    <InfoPosition> 산업경영공학과</InfoPosition>
-                    <InfoDate></InfoDate>
-                </InfoList>
-            </InfoRow>
-            <UserInfoListRow>
-                <Category>일반경력사항</Category>
-                <InfoListWrapper>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06 ~ 2018.06</InfoDate>
-                    </InfoList>
-                </InfoListWrapper>
-            </UserInfoListRow>
-            <UserInfoListRow>
-                <Category>투자 경력사항</Category>
-                <InfoListWrapper>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                    <InfoList>
-                        <InfoSummary > Hㅇㅇㅇㅇ사</InfoSummary>                            
-                        <InfoPosition> 품질경영팀 책임연구원</InfoPosition>
-                        <InfoDate>2018.06~</InfoDate>
-                    </InfoList>
-                </InfoListWrapper>
-            </UserInfoListRow>
-        </InfoMain>
-    </UserInfoSection>
+const UserDetailInfo = ({ receiverData }) => {
+    console.log("receiverData", receiverData)
+    return (
+        <UserInfoSection>
+            <Header>                        
+                <UserInfoLeft>
+                    <Title>개인 상세정보</Title>
+                    <UserInfoMoreButton>모두보기 &nbsp;	&gt;</UserInfoMoreButton>
+                </UserInfoLeft>
+                <UserInfoRight>
+                    <User>{receiverData.nickname}</User>
+                    <UserBG>참여자</UserBG>
+                </UserInfoRight>
+            </Header>
+            <InfoMain>
+                <UserInfoListRow>
+                    <Category>학력사항</Category>
+                    <InfoListWrapper>
+                        {receiverData.education.map(({ id, school_name, major }) => (
+                                <InfoList key={`${id}-${school_name}`}>
+                                    <InfoSummary > {school_name} </InfoSummary>
+                                    <InfoPosition> {major} </InfoPosition>
+                                </InfoList>
+                            ))
+                        }
+                    </InfoListWrapper>
+                </UserInfoListRow>
+                <UserInfoListRow>
+                    <Category>일반경력사항</Category>
+                    <InfoListWrapper>
+                        {receiverData.career.filter(({option_type}) => option_type === "general").map(({ id, company, job, start_date, end_date }) => (
+                                <InfoList key={`${id}-${company}`}>
+                                    <InfoSummary > {company} </InfoSummary>
+                                    <InfoPosition> {job} </InfoPosition>
+                                    <InfoDate>{start_date.split(" ")[0].slice(0,7)} ~ {end_date?.split(" ")[0].slice(0,7)}</InfoDate>
+                                </InfoList>
+                            ))
+                        }
+                    </InfoListWrapper>
+                </UserInfoListRow>
+                <UserInfoListRow>
+                    <Category>투자 경력사항</Category>
+                    <InfoListWrapper>
+                        {receiverData.career.filter(({option_type}) => option_type === "financial").map(({ id, company, job, start_date, end_date }) => (
+                                <InfoList key={`${id}-${company}`}>
+                                    <InfoSummary > {company} </InfoSummary>
+                                    <InfoPosition> {job} </InfoPosition>
+                                    <InfoDate>{start_date.split(" ")[0].slice(0,7)} ~ {end_date?.split(" ")[0].slice(0,7)}</InfoDate>
+                                </InfoList>
+                            ))
+                        }
+                    </InfoListWrapper>
+                </UserInfoListRow>
+            </InfoMain>
+        </UserInfoSection>
     )
-
 }
 
 export default UserDetailInfo;
-
-
 
 const Header = styled.header`
     display: flex;
@@ -170,10 +148,9 @@ const UserInfoListRow = styled(InfoRow)`
     align-items:flex-start;
 `;
 const InfoPosition = styled.span`
-    flex:2;
-    margin-left:10px;
+    flex: 2;
+    margin-left: 10px;
     word-break: keep-all;
-    text-align:center;
 `;
 
 const InfoDate = styled.span`

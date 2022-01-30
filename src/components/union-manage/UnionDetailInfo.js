@@ -1,40 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
-const UnionDetailInfo = () => {
-    return(
+const UnionDetailInfo = ({ unionData }) => {
+    console.log("unionData", unionData)
+    
+    const remainDate = () => {
+        const remain = Math.ceil((new Date(unionData.recruitment_end_date).getTime() - Date.now()) / (1000*60*60*24));
+        return remain >= 0 ? remain : "초과";
+    }
+    
+    if (!unionData) return <>로딩중</>
+    
+    return (
             <UnionInfoSection>
                 <Header>
                     <Title>조합 상세정보</Title>
-                    <TimeLimit>모집기간 3일 남음 (2020년 8월 6일 자정 마감)</TimeLimit>
+                    {typeof remainDate() === 'number' 
+                        ? <TimeLimit>모집기간 {remainDate()}일 남음 ({ new window.Date(unionData.recruitment_end_date).toLocaleDateString()} 자정 마감)</TimeLimit>
+                        : <TimeLimit>모집기간 초과 ({ new window.Date(unionData.recruitment_end_date).toLocaleDateString()} 자정 마감)</TimeLimit>
+                    }
                 </Header>
                 <InfoMain>
                     <InfoRow>
                         <Category>운용사</Category>
-                        <InfoSummary > A 엑셀레이터 </InfoSummary>
+                        <InfoSummary > {unionData.owner.corporate_name} </InfoSummary>
                     </InfoRow>
 
                     <InfoRow>
                         <Category>투자 분야</Category>
                         <InfoSummary>
-                            <CategoryBG>IT 분야</CategoryBG>
-                            <CategoryBG>기술 분야</CategoryBG>
+                            {unionData.invest_category.map(({category}, idx) => (
+                                    <CategoryBG key={`${category}-${idx}`}>{category}</CategoryBG>
+                                ))
+                            }
                         </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>현재인원</Category>
-                        <InfoSummary>00명</InfoSummary>
+                        <InfoSummary> {unionData.participants.length} 명 </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>모집 기간</Category>
-                        <InfoSummary> 2021년 00월 00일 오후 00시 </InfoSummary>
+                        <InfoSummary> {new window.Date(unionData.recruitment_end_date).toLocaleDateString()}까지 </InfoSummary>
                     </InfoRow>
                     <InfoRow>
-                        <Category>출자총액 / 현재 출자액</Category>
-                        <InfoSummary> 4억원 / 2억원 (50%) </InfoSummary>
+                        <Category>현재 출자액 / 출자총액 </Category>
+                        <InfoSummary> {(unionData.collected_amount * 1000000).toLocaleString()}원 / {(unionData.expected_amount*1000000).toLocaleString()}원 </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>최소출자액 / 최소구좌수</Category>
-                        <InfoSummary> 1천만원 / 2구좌 </InfoSummary>
+                        <InfoSummary> {(unionData.amount_per_account * 1000000).toLocaleString()} 원 / {unionData.min_of_account}구좌 </InfoSummary>
                     </InfoRow>
                 </InfoMain>
             </UnionInfoSection>
@@ -105,7 +119,6 @@ const Category = styled.span`
     height: auto;
     font-size: 12px;
     color: #3C2FF2;
-    text-align: right;
     font-weight: bold;
     margin-right: 27px;
     line-height: 20px;

@@ -22,7 +22,7 @@ function App() {
 			<Route component={ProfilePage} path="/profile" />
       <Route component={UnionNewPage} path="/union/new" />
 			<Route component={UnionManagePage} path="/union/manage" exact/>
-			<Route component={ManageUserChatPage} path="/union/manage/userchat" exact/>
+			<Route component={ManageUserChatPage} path="/union/manage/userchat/:id"/>
 			<Route component={ManageUnionChatPage} path="/union/manage/unionchat" exact/>
 			<Route component={UnionCreatePage} path="/union-create/personal" />
       <Route component={UnionCreateBusinessPage} path="/union-create/business" />

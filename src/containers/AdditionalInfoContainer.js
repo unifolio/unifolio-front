@@ -6,7 +6,6 @@ import AdditionalInfoBusiness from 'composition/Profile/AdditionalInfoBusiness';
 import API from 'lib/api';
 
 const AdditionalInfoContainer = ({ user }) => {
-  
 	const handleSubmit = async ({formData}) => {
     if (user.role === "business") {
       const result = await API.patch.userBusiness(user.id, formData);

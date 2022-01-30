@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import {ReactComponent as LeftArrow} from "../../assets/svgs/LeftArrow.svg";
 
-const ManageHeader = ({title,backPage}) => {
-    return(
+const ManageHeader = ({match, title, backPage}) => {
+    console.log(match)
+    return (
         <Header>
             <BackButton>
                 <LeftArrow/>
-                <span>{backPage}</span>
+                {/* <Link to={match}>{backPage}</Link> */}
             </BackButton>
             <Title>{title}</Title>
             <JoinButton>조합 참여 요청</JoinButton>

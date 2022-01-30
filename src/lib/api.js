@@ -57,6 +57,7 @@ const API = {
 
 API.mergeWith(Service.User(serviceDependencies));
 API.mergeWith(Service.Union(serviceDependencies));
+API.mergeWith(Service.Post(serviceDependencies));
 
 export default API;
 
