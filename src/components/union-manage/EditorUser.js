@@ -4,7 +4,7 @@ import styled from "styled-components";
 import EditorJS from "@editorjs/editorjs";
 import API from "lib/api";
 
-const Editor = ({ noticePrimaryInfo = null }) => {
+const EditorUser = ({ noticePrimaryInfo = null }) => {
   const editorInstance = useRef();
   const $postTitle = useRef();
   const $postFiles = useRef([]);
@@ -40,9 +40,10 @@ const Editor = ({ noticePrimaryInfo = null }) => {
           password: String(1234),
           title: $postTitle.current.value,
           content: content,
-          is_notice: true,
+          is_notice: false,
           union: Number(noticePrimaryInfo && noticePrimaryInfo.unionId),
           writer: Number(noticePrimaryInfo && noticePrimaryInfo.userId),
+          receiver: Number(noticePrimaryInfo && noticePrimaryInfo.ownerId),
         };
 
         if ($postFiles.current?.length !== 0) {
@@ -54,7 +55,7 @@ const Editor = ({ noticePrimaryInfo = null }) => {
 
         API.post.posts(postData).then((response) => {
           if (response.status === 201) {
-            alert("공지사항 작성이 완료되었습니다.");
+            alert("문의사항 작성이 완료되었습니다.");
             window.location.reload();
           }
         });
@@ -121,4 +122,4 @@ const EditorToolBoxLayer = styled.div`
   justify-content: space-between;
 `;
 
-export default Editor;
+export default EditorUser;

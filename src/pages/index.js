@@ -14,6 +14,7 @@ import UnionDocumentPage from "pages/UnionDocumentPage";
 import ManageUnionChatPage from "pages/ManageUnionChatPage";
 import ManageUserChatPage from "pages/ManageUserChatPage";
 import UsersVerifyPage from "pages/UsersVerifyPage";
+import UnionParticipatePage from "pages/UnionParticipatePage";
 
 export {
   LandingPage,
@@ -31,4 +32,5 @@ export {
   ManageUnionChatPage,
   ManageUserChatPage,
   UsersVerifyPage,
+  UnionParticipatePage,
 };

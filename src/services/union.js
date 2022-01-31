@@ -92,6 +92,28 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      unionRequest: (data) => {
+        const response = axios
+          .post(`${END_POINT}/unions/manage/request`, data)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
+      unionApproveRequest: (data) => {
+        const response = axios
+          .post(`${END_POINT}/unions/manage/approve`, data)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
     },
   };
 };
