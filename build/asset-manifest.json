@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/static/js/main.8e74e92c.chunk.js",
-    "main.js.map": "/static/js/main.8e74e92c.chunk.js.map",
+    "main.js": "/static/js/main.df793771.chunk.js",
+    "main.js.map": "/static/js/main.df793771.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.df3ad0ce.js",
     "runtime-main.js.map": "/static/js/runtime-main.df3ad0ce.js.map",
     "static/css/2.8dbe6964.chunk.css": "/static/css/2.8dbe6964.chunk.css",
-    "static/js/2.0c082b04.chunk.js": "/static/js/2.0c082b04.chunk.js",
-    "static/js/2.0c082b04.chunk.js.map": "/static/js/2.0c082b04.chunk.js.map",
+    "static/js/2.a624e378.chunk.js": "/static/js/2.a624e378.chunk.js",
+    "static/js/2.a624e378.chunk.js.map": "/static/js/2.a624e378.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.63474b44e6db717156242e6cfe7da2a7.js": "/precache-manifest.63474b44e6db717156242e6cfe7da2a7.js",
+    "precache-manifest.e9ae45030c15627ec31c11777e6ecbd3.js": "/precache-manifest.e9ae45030c15627ec31c11777e6ecbd3.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.8dbe6964.chunk.css.map": "/static/css/2.8dbe6964.chunk.css.map",
-    "static/js/2.0c082b04.chunk.js.LICENSE.txt": "/static/js/2.0c082b04.chunk.js.LICENSE.txt",
+    "static/js/2.a624e378.chunk.js.LICENSE.txt": "/static/js/2.a624e378.chunk.js.LICENSE.txt",
     "static/media/BottomArrow-S.a23a0603.svg": "/static/media/BottomArrow-S.a23a0603.svg",
     "static/media/BottomArrow.6a7f48af.svg": "/static/media/BottomArrow.6a7f48af.svg",
     "static/media/Company.14c8e890.svg": "/static/media/Company.14c8e890.svg",
@@ -22,12 +22,13 @@
     "static/media/SearchIcon.84daf930.svg": "/static/media/SearchIcon.84daf930.svg",
     "static/media/UpArrow-S.9d0ca048.svg": "/static/media/UpArrow-S.9d0ca048.svg",
     "static/media/UpArrow.6b6bfb56.svg": "/static/media/UpArrow.6b6bfb56.svg",
-    "static/media/ping.png": "/static/media/ping.43b7574f.png"
+    "static/media/landing.png": "/static/media/landing.ba7a65d1.png",
+    "static/media/landing2.png": "/static/media/landing2.5f029467.png"
   },
   "entrypoints": [
     "static/js/runtime-main.df3ad0ce.js",
     "static/css/2.8dbe6964.chunk.css",
-    "static/js/2.0c082b04.chunk.js",
-    "static/js/main.8e74e92c.chunk.js"
+    "static/js/2.a624e378.chunk.js",
+    "static/js/main.df793771.chunk.js"
   ]
 }
