@@ -1,9 +1,8 @@
-import React, { useCallback, useRef, useState } from "react";
-import styled from "styled-components";
-import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow.svg";
-import { ReactComponent as DownArrow } from "../../../assets/svgs/BottomArrow.svg";
-import Conditional from "../Conditional";
-
+import React, { useCallback, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { ReactComponent as UpArrow } from '../../../assets/svgs/UpArrow.svg';
+import { ReactComponent as DownArrow } from '../../../assets/svgs/BottomArrow.svg';
+import Conditional from '../Conditional';
 
 function AccordionItem(props) {
   const parentRef = useRef(null);
@@ -19,32 +18,30 @@ function AccordionItem(props) {
         return;
       }
       if (parentRef.current.clientHeight > 0) {
-        parentRef.current.style.height = "0";
-        titleRef.current.style.color = "rgba(132, 127, 127, 1)";
-        titleRef.current.style.fontWeight=400;
+        parentRef.current.style.height = '0';
+        titleRef.current.style.color = 'rgba(132, 127, 127, 1)';
+        titleRef.current.style.fontWeight = 400;
         headerRef.current.style.borderBottom = 0;
-
       } else {
         parentRef.current.style.height = `${childRef.current.clientHeight}px`;
-        headerRef.current.style.borderBottom = "1px solid #A9A9A9";
+        headerRef.current.style.borderBottom = '1px solid #A9A9A9';
       }
       setIsCollapse(!isCollapse);
     },
-    [isCollapse]
+    [isCollapse],
   );
-
 
   return (
     <Container>
       <Header ref={headerRef} onClick={handleButtonClick}>
         <QustionTitle ref={titleRef}>{props.title}</QustionTitle>
         <Button>
-            <Conditional condition={isCollapse}>
-                <UpArrow />
-            </Conditional>
-            <Conditional condition={!isCollapse}>
-                <DownArrow />
-            </Conditional>
+          <Conditional condition={isCollapse}>
+            <UpArrow />
+          </Conditional>
+          <Conditional condition={!isCollapse}>
+            <DownArrow />
+          </Conditional>
         </Button>
       </Header>
       <ContentsWrapper ref={parentRef}>
@@ -56,12 +53,12 @@ function AccordionItem(props) {
 
 const Container = styled.li`
   background-color: #fff;
-  width:100%;
+  width: 100%;
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: center;
-  padding:0 40px;
+  padding: 0 40px;
   margin: 10px 0px;
   border-radius: 4px;
   box-shadow: 0 1px 3px 0.5px rgba(0, 0, 0, 0.25);
@@ -72,21 +69,19 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  padding-top:20px;
-  padding-bottom:20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
 const QustionTitle = styled.span`
   font-size: 18px;
   line-height: 24px;
-  height: 24px;
   color: rgba(132, 127, 127, 1);
   font-weight: 400;
+  word-break: keep-all;
 `;
 
-const Button = styled.div`
-
-`;
+const Button = styled.div``;
 
 const ContentsWrapper = styled.section`
   height: 0;
@@ -97,10 +92,10 @@ const ContentsWrapper = styled.section`
 
 const Contents = styled.p`
   padding: 30px 0;
-  word-break:keep-all;
+  word-break: keep-all;
   font-weight: 300;
   font-size: 18px;
-  color: #847F7F;
+  color: #847f7f;
 `;
 
 export default React.memo(AccordionItem);
