@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import Responsive from "components/common/Responsive";
 import UnionInfo from "components/Union-manage/UnionInfo";
@@ -20,28 +21,50 @@ const ManageUserChatPage = ({ match }) => {
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
   const { user } = useFetchUserToken(); // 유저정보
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchUnionData = async () => {
       const userId = user?.id;
       if (!userId) return;
 
-      const receiverId = match.params.id;
+      const unions = await API.get.unionManageOwner(userId);
+
+      const unionId = unions.data.filter(
+        (union) => union.owner.id === userId
+      )[0].id;
+      const receiverId = id;
+      const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
+
       const { data: receiver } = await API.get.userGeneral({
         userId: receiverId,
       }); // 채팅하는 사람의 idx
 
-      const unions = await API.get.unions();
-      const unionId = unions.data.filter(
-        (union) => union.owner.id === userId
-      )[0].id;
-      const { data: unionDetails } = await API.get.unionDetail(unionId);
-
-      const allPosts = await API.get.posts();
-
-      const chatPosts = allPosts.filter(
-        ({ writer, receiver }) => writer === user.id || receiver === receiverId
+      // post notice 재정의
+      unionDetails.post_info.notice = await Promise.all(
+        unionDetails.post_info.notice.map(async ({ post_id }) => {
+          const { data: unionPost } = await API.get.posts(post_id);
+          return unionPost;
+        })
       );
+      // unconfirmed_p 재정의
+      unionDetails.post_info.unconfirmed_p = await Promise.all(
+        unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
+          const { data: unionConversation } = await API.get.posts(post_id);
+          return unionConversation;
+        })
+      );
+
+      // const allPosts = await API.get.posts();
+
+      const chatPosts = unionDetails.post_info.unconfirmed_p.filter(
+        ({ writer, receiver }) =>
+          writer === receiverId ||
+          writer === user.id ||
+          receiver === receiverId ||
+          receiver === user.id
+      );
+      console.log("chatPosts", chatPosts);
 
       // writer의 id로 post를 조회, receiver의 id로 post를 조회
       // left join -> writer 전체 post 조회 중 -> receiver의 id로 조회

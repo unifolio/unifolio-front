@@ -1,9 +1,17 @@
+import API from "lib/api";
 import React from "react";
 import styled from "styled-components";
 import { ReactComponent as LeftArrow } from "../../assets/svgs/LeftArrow.svg";
 
-const ManageHeader = ({ match, title, backPage }) => {
+const ManageHeader = ({ match, title, backPage, userId, unionData }) => {
   console.log(match);
+
+  const handleClickApprove = () => {
+    API.post.unionApproveRequest({
+      user: userId,
+      union: unionData.id,
+    });
+  };
   return (
     <Header>
       <BackButton>
@@ -11,7 +19,7 @@ const ManageHeader = ({ match, title, backPage }) => {
         {/* <Link to={match}>{backPage}</Link> */}
       </BackButton>
       <Title>{title}</Title>
-      <JoinButton>조합 참여 요청</JoinButton>
+      <JoinButton onClick={handleClickApprove}>조합 참여 요청</JoinButton>
     </Header>
   );
 };
