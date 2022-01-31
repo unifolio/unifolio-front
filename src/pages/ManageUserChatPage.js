@@ -79,6 +79,18 @@ const ManageUserChatPage = ({ match }) => {
     fetchUnionData();
   }, [user]);
 
+  const handleClickApprove = () => {
+    API.post
+      .unionApproveRequest({
+        user: Number(id),
+        union: unionData.id,
+      })
+      .then((res) => {
+        console.log(res);
+        alert("조합 참여 요청이 허용되었습니다");
+      });
+  };
+
   if (!!!user || !receiverData || !postData) return <> 로딩중 </>;
 
   return (
@@ -86,6 +98,7 @@ const ManageUserChatPage = ({ match }) => {
       <ManageHeader
         title={`${receiverData.nickname} 님과의 대화`}
         backPage={"전체"}
+        handleClickApprove={handleClickApprove}
       />
       <InfoSection unionData={unionData} receiverData={receiverData} />
       <ChatList title={"대화 내용"} postData={postData} />

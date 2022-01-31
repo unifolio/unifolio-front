@@ -105,7 +105,7 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
       },
       unionApproveRequest: (data) => {
         const response = axios
-          .post(`${END_POINT}/unions/manage/approve`, data)
+          .post(`${END_POINT}/unions/manage/request/approve`, data)
           .then((response) => {
             return response.data;
           })
