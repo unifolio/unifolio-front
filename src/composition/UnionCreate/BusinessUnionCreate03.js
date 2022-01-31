@@ -8,7 +8,12 @@ import { Input, Button, Select } from "antd";
 import Numpad from "components/common/Numpad";
 import useFetchCategories from "hooks/useFetchCategories";
 
-const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClickBack, }) => {
+const BusinessUnionCreate03 = ({
+  user,
+  unionCreateInputData,
+  onClickNext,
+  onClickBack,
+}) => {
   const [unionCreate02Inputs, setUnionCreate02Inputs] = useState({
     name: "",
     invest_category_1: "",
@@ -72,12 +77,12 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
   const { categories } = useFetchCategories();
 
   const onChange = (e) => {
-  
     if (e.type.includes("calendar")) {
       // 캘린더일 때
       const date = new Date(e.value);
       const yy = date.getFullYear();
-      const mm = date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+      const mm =
+        date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
       const dd = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
       if (e.type === "start-calendar") {
         setUnionCreate02Inputs({
@@ -107,7 +112,7 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
     if (e?.target.name.includes("invest_category")) {
       const targetRound = e.target.name.split("_").pop();
       let investCategories = unionCreate02Inputs.invest_category;
-      investCategories[targetRound - 1] = {category: e.target.value};
+      investCategories[targetRound - 1] = { category: e.target.value };
       setUnionCreate02Inputs({
         ...unionCreate02Inputs,
         ["invest_category"]: [...investCategories],
@@ -132,7 +137,9 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
   const calculate = () => {
     const newState = {};
     if (isNotNull(amount_per_account) && isNotNull(expected_amount)) {
-      newState["total_account"] = Math.floor(expected_amount / amount_per_account);
+      newState["total_account"] = Math.floor(
+        expected_amount / amount_per_account
+      );
     }
     if (
       isNotNull(num_of_account_by_operator) &&
@@ -140,11 +147,19 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
       isNotNull(total_account) &&
       isNotNull(amount_per_account)
     ) {
-      newState["amount_operator"] = amount_per_account * num_of_account_by_operator;
-      newState["amount_operator_ratio"] = Math.floor((num_of_account_by_operator / total_account) * 100);
+      newState["amount_operator"] =
+        amount_per_account * num_of_account_by_operator;
+      newState["amount_operator_ratio"] = Math.floor(
+        (num_of_account_by_operator / total_account) * 100
+      );
     }
-    if (isNotNull(min_of_account) && isNotNull(amount_operator) && isNotNull(amount_operator_ratio)) {
-      newState["num_of_account_by_lp"] = total_account - num_of_account_by_operator;
+    if (
+      isNotNull(min_of_account) &&
+      isNotNull(amount_operator) &&
+      isNotNull(amount_operator_ratio)
+    ) {
+      newState["num_of_account_by_lp"] =
+        total_account - num_of_account_by_operator;
       newState["amount_lp"] = expected_amount - amount_operator;
       newState["amount_lp_ratio"] = Math.floor(100 - amount_operator_ratio);
     }
@@ -157,19 +172,28 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
   const $toggleBack = useRef();
 
   const handleNext = (e) => {
-    
-    const checkList = ["expected_amount", "amount_per_account", "amount_operator", "amount_lp"];
-    checkList.forEach((key) => unionCreate02Inputs[key] = Math.floor(unionCreate02Inputs[key] / 1000000));
-    
+    const checkList = [
+      "expected_amount",
+      "amount_per_account",
+      "amount_operator",
+      "amount_lp",
+    ];
+    checkList.forEach(
+      (key) =>
+        (unionCreate02Inputs[key] = Math.floor(
+          unionCreate02Inputs[key] / 1000000
+        ))
+    );
+
     const invest_category = [
-      {category: unionCreate02Inputs.invest_category_1}, 
-      {category: unionCreate02Inputs.invest_category_2}, 
-      {category: unionCreate02Inputs.invest_category_3}
+      { category: unionCreate02Inputs.invest_category_1 },
+      { category: unionCreate02Inputs.invest_category_2 },
+      { category: unionCreate02Inputs.invest_category_3 },
     ];
     unionCreate02Inputs.invest_category = invest_category;
-    console.log(unionCreate02Inputs)
+    console.log(unionCreate02Inputs);
     unionCreate02Inputs.recruitment_start_date = `${recruitment_start_date}T00:00`;
-    unionCreate02Inputs.recruitment_end_date = `${recruitment_end_date}T00:00`
+    unionCreate02Inputs.recruitment_end_date = `${recruitment_end_date}T00:00`;
     onClickNext(unionCreate02Inputs, 2);
   };
 
@@ -192,13 +216,17 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
 
   const handlePrev = () => {
     onClickBack(2);
-  }
+  };
 
   if (categories.length === 0) return <></>;
 
   return (
     <PersonalUnionCreate02Layout ref={layoutRef}>
-      <ToggleBack onClick={toggleCalender} ref={$toggleBack} className={"toggle-back"} />
+      <ToggleBack
+        onClick={toggleCalender}
+        ref={$toggleBack}
+        className={"toggle-back"}
+      />
       <Input name={`hidden`} size="large" disabled type={"hidden"} />
       {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
@@ -208,7 +236,13 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
               <h2> 조합 이름 </h2>
             </div>
             <div className="column contents">
-              <NumInput name={`name`} value={name} size="large" placeholder="조합 이름" onChange={onChange} />
+              <NumInput
+                name={`name`}
+                value={name}
+                size="large"
+                placeholder="조합 이름"
+                onChange={onChange}
+              />
             </div>
           </div>
           <div className="column">
@@ -225,20 +259,34 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
                     onChange={(value) => {
                       setUnionCreate02Inputs({
                         ...unionCreate02Inputs,
-                        [`invest_category_${i + 1}`]: value,
+                        [`invest_category_${i + 1}`]: { category: value },
                       });
                     }}
                   >
                     {categories
-                      .filter((category) => ![unionCreate02Inputs.invest_category_1, unionCreate02Inputs.invest_category_2, unionCreate02Inputs.invest_category_3].includes(category.id) )
+                      .filter(
+                        (category) =>
+                          ![
+                            unionCreate02Inputs.invest_category_1,
+                            unionCreate02Inputs.invest_category_2,
+                            unionCreate02Inputs.invest_category_3,
+                          ].includes(category.id)
+                      )
                       .map((categoryData, i) => {
+                        // return (
+                        //   <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.category}>
+                        //     {categoryData.category}
+                        //   </Select.Option>
+                        // ); //임시 0131
                         return (
-                          <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.category}>
+                          <Select.Option
+                            key={`category-${categoryData.id}-${categoryData.category}`}
+                            value={categoryData.id}
+                          >
                             {categoryData.category}
                           </Select.Option>
                         );
-                      }
-                    )}
+                      })}
                   </Select>
                 ))}
               </div>
@@ -261,7 +309,15 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
                 placeholder="모집 시작 날짜"
                 onFocus={toggleCalender}
               />
-              <div ref={$startCalendar} style={{ position: "absolute", marginTop: "60px", display: "none", zIndex: 2 }}>
+              <div
+                ref={$startCalendar}
+                style={{
+                  position: "absolute",
+                  marginTop: "60px",
+                  display: "none",
+                  zIndex: 2,
+                }}
+              >
                 <Calendar
                   onChange={(value) => {
                     onChange({ type: "start-calendar", value: value });
@@ -279,7 +335,15 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
                 placeholder="모집 마감 날짜"
                 onFocus={toggleCalender}
               />
-              <div ref={$endCalendar} style={{ position: "absolute", marginTop: "60px", display: "none", zIndex: 2 }}>
+              <div
+                ref={$endCalendar}
+                style={{
+                  position: "absolute",
+                  marginTop: "60px",
+                  display: "none",
+                  zIndex: 2,
+                }}
+              >
                 <Calendar
                   onChange={(value) => {
                     onChange({ type: "end-calendar", value: value });
@@ -347,7 +411,12 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
             <div className="column amount-contents">
               <div className="row">
                 <span>총</span>
-                <Input name={`total_account`} value={total_account} size="large" disabled />
+                <Input
+                  name={`total_account`}
+                  value={total_account}
+                  size="large"
+                  disabled
+                />
                 <span>구좌</span>
               </div>
             </div>
@@ -406,7 +475,10 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
           </div>
           <div className="row">
             <div className="colmun amount-contents--label">
-              <label>* 업무집행조합원의 경우 필수적으로 출자 총액의 5% 이상 출자해야합니다.</label>
+              <label>
+                * 업무집행조합원의 경우 필수적으로 출자 총액의 5% 이상
+                출자해야합니다.
+              </label>
             </div>
           </div>
         </div>
@@ -513,7 +585,10 @@ const BusinessUnionCreate03 = ({ user, unionCreateInputData, onClickNext, onClic
         </div>
       </section>
       <section>
-        <NextButton onClick={handleNext}>임시 저장 후 다음 단계 진행하기</NextButton><br />
+        <NextButton onClick={handleNext}>
+          임시 저장 후 다음 단계 진행하기
+        </NextButton>
+        <br />
         <NextButton onClick={handlePrev}>이전 단계로 돌아가기</NextButton>
       </section>
     </PersonalUnionCreate02Layout>
@@ -524,7 +599,7 @@ const NextButton = styled.button`
   border: none;
   padding: 0 1rem;
   flex-grow: 1;
-`
+`;
 
 const NumInput = styled.input`
   margin: 0;

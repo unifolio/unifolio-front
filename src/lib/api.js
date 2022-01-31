@@ -2,13 +2,16 @@ import axios from "axios";
 import { cacheAdapterEnhancer } from "axios-extensions";
 import * as Service from "services";
 
-const END_POINT = "https://unifolio.kr:8080";
 // const END_POINT = "http://localhost:8000";
+// const END_POINT = "https://unifolio.kr:8081";
+const END_POINT = "http://unifolio.kr:8042";
 
 const axiosInstance = axios.create({
-  adapter: cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false }),
+  adapter: cacheAdapterEnhancer(axios.defaults.adapter, {
+    enabledByDefault: false,
+  }),
 });
-const serviceDependencies = { axios, axiosInstance, END_POINT }
+const serviceDependencies = { axios, axiosInstance, END_POINT };
 
 const API = {
   get: {
@@ -27,9 +30,11 @@ const API = {
   post: {
     newToken: (data) => {
       const config = {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
       };
-      const response = axiosInstance
+      const response = axios
         .post(`${END_POINT}/api/v1/token/`, data, config)
         .then((response) => {
           return response;
@@ -42,17 +47,17 @@ const API = {
     },
   },
   patch: {},
-  
-  mergeWith: function(serviceInstance) {
+
+  mergeWith: function (serviceInstance) {
     try {
       if (!serviceInstance) throw new Error("serviceInstance is corrupted");
-      Object.entries(serviceInstance).forEach( ([key, service]) => {
-        this[key] = {...this[key], ...service};
+      Object.entries(serviceInstance).forEach(([key, service]) => {
+        this[key] = { ...this[key], ...service };
       });
     } catch (e) {
       console.error(e);
     }
-  }
+  },
 };
 
 API.mergeWith(Service.User(serviceDependencies));

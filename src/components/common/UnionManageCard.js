@@ -1,8 +1,10 @@
-import { dateFormating } from "lib/dateFormat";
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
-const UnionCard = ({ idx, union, openModal, id }) => {
+import { dateFormating } from "lib/dateFormat";
+
+const UnionManageCard = ({ history, union, id }) => {
   console.log(union);
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     const remainDateInteger =
@@ -22,7 +24,7 @@ const UnionCard = ({ idx, union, openModal, id }) => {
   };
 
   const onClickParticipateButton = () => {
-    openModal({ idx, info: union });
+    history.push(`/union/manage/${id}`);
   };
   return (
     <CardLayout>
@@ -186,4 +188,4 @@ const Button = styled.button`
   line-height: 16px;
   cursor: pointer;
 `;
-export default UnionCard;
+export default withRouter(UnionManageCard);

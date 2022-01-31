@@ -4,7 +4,13 @@ import { Input, Button, Select } from "antd";
 
 import useFetchCategories from "hooks/useFetchCategories";
 
-const InvestmentHistoryInput = ({ type, count, value, onInvestmentHistoryChange, onInvestmentHistoryDelete }) => {
+const InvestmentHistoryInput = ({
+  type,
+  count,
+  value,
+  onInvestmentHistoryChange,
+  onInvestmentHistoryDelete,
+}) => {
   const { categories } = useFetchCategories();
 
   const handleInvestmentHistoryChange = (e) => {
@@ -38,13 +44,21 @@ const InvestmentHistoryInput = ({ type, count, value, onInvestmentHistoryChange,
           onChange={(value) => {
             handleInvestmentHistoryChange({
               name: `investment-history-category-${count}`,
-              value: {category: value},
+              value: { category: value },
             });
           }}
         >
           {categories.map((categoryData, idx) => {
+            // return (
+            //   <Select.Option key={`investment-history-select-${idx}`} value={categoryData.category}>
+            //     {categoryData.category}
+            //   </Select.Option>
+            // ); // 임시 0131
             return (
-              <Select.Option key={`investment-history-select-${idx}`} value={categoryData.category}>
+              <Select.Option
+                key={`investment-history-select-${idx}`}
+                value={categoryData.id}
+              >
                 {categoryData.category}
               </Select.Option>
             );

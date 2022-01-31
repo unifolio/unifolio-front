@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import Responsive from "components/common/Responsive";
 import UnionInfo from "components/Union-manage/UnionInfo";
@@ -15,22 +16,19 @@ const UnionManagePage = () => {
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
   const { user } = useFetchUserToken();
+  const { id: unionId } = useParams();
 
   useEffect(() => {
     const fetchUnionData = async () => {
       const userId = user?.id;
       if (!userId) return;
 
-      const unions = await API.get.unions(); //전체 유니언 조회 100
-      const unionId = unions.data.filter(
-        (union) => union.owner.id === userId
-      )[0].id; // 유저값 비교 => 유니언 도출
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
 
       // post notice 재정의
       unionDetails.post_info.notice = await Promise.all(
         unionDetails.post_info.notice.map(async ({ post_id }) => {
-          const unionPost = await API.get.posts(post_id);
+          const { data: unionPost } = await API.get.posts(post_id);
           return unionPost;
         })
       );

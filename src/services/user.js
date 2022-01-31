@@ -2,7 +2,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
   return {
     get: {
       usersGeneral: () => {
-        const response = axios
+        const response = axiosInstance
           .get(`${END_POINT}/users/general/`)
           .then((response) => {
             return response;
@@ -26,8 +26,9 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       usersGeneral: () => {
         // users general 현재 데이터 0개
         // 임시로 변경
-        const response = axios.get(`${END_POINT}/users/general/?limit=50`)
-        // const response = axios.get(`${END_POINT}/users/business/?limit=50`)
+        const response = axiosInstance
+          .get(`${END_POINT}/users/general/?limit=50`)
+          // const response = axios.get(`${END_POINT}/users/business/?limit=50`)
           .then((resolve) => {
             return resolve;
           })
@@ -47,19 +48,28 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
-      naverCallback: ({code}) => {
-        const response = axiosInstance.get(`${END_POINT}/users/signin/naver/callback/?code=${code}`)
-          .then((response) => { return response.date; })
-          .catch((error) => { return error.response; });
+      naverCallback: ({ code }) => {
+        const response = axiosInstance
+          .get(`${END_POINT}/users/signin/naver/callback/?code=${code}`)
+          .then((response) => {
+            return response.date;
+          })
+          .catch((error) => {
+            return error.response;
+          });
         return response;
       },
       userVerify: ({ key }) => {
-        const response = axiosInstance.get(`${END_POINT}/users/verify/${key}`)
-          .then((response) => { return response.date; })
-          .catch((error) => { return error.response; });
+        const response = axiosInstance
+          .get(`${END_POINT}/users/verify/${key}`)
+          .then((response) => {
+            return response.date;
+          })
+          .catch((error) => {
+            return error.response;
+          });
         return response;
-      }
-      
+      },
     },
     post: {
       userSignupBusiness: async (formData) => {
@@ -87,13 +97,14 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
         console.log(result);
         return result;
       },
-  
-      tokenToGetUser: ({accessToken}) => {
+
+      tokenToGetUser: ({ accessToken }) => {
         const response = axios
-          .post(`${END_POINT}/users/token/`, {token: accessToken})
+          .post(`${END_POINT}/users/token/`, { token: accessToken })
           .then((response) => {
-            if (!response.data.status) return {...response.data, status: response.status }
-            else return {...response.data};
+            if (!response.data.status)
+              return { ...response.data, status: response.status };
+            else return { ...response.data };
           })
           .catch((error) => {
             return error.response;
@@ -167,8 +178,8 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
         console.log(response);
         return response;
       },
-    }
-  }
-}
+    },
+  };
+};
 
 export default userService;
