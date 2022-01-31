@@ -59,11 +59,11 @@ const UnionManagePage = () => {
   return (
     <Responsive level={2}>
       <UnionInfo unionData={unionData} />
-      <ParticipationList
+      {/* <ParticipationList
         data={tempParticipantsData}
         title={"조합 참여 미확정자"}
         object={"대화상대"}
-      />
+      /> */}
       <ParticipationList
         data={participationListData}
         participantsConversationData={postData.unconfirmed_p}
