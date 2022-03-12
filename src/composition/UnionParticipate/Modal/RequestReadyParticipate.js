@@ -4,18 +4,16 @@ import styled from "styled-components";
 const RequestReadyParticipate = ({
   unionData,
   userData,
+  userRequestData,
   handleClickApprove,
+  handleClickDeny,
 }) => {
   // console.log(unionData);
-  console.log(userData);
-  const [requestAccount, setRequestAccount] = useState(0);
-  const {
-    participants,
-    expected_amount,
-    collected_amount,
-    min_of_account,
-    amount_per_account,
-  } = unionData;
+  // console.log(userData);
+
+  const { participants, expected_amount, collected_amount, min_of_account } =
+    unionData;
+  const { amount_per_account, request_invest_account } = userRequestData;
   const min_of_amount_per_account = min_of_account * amount_per_account;
   const amountCalculator = (value) => (value * 1000000).toLocaleString();
   const UnionRowData = [
@@ -38,41 +36,23 @@ const RequestReadyParticipate = ({
     },
   ];
 
-  const handleChangeRequestAccount = ({ target }) =>
-    setRequestAccount(target.value);
   const requestAmount = (value) => value * 1000000 * amount_per_account;
   const UserRowData = [
     {
       left: "출자 요청 구좌수",
-      right: (
-        <>
-          <input
-            type="number"
-            value={requestAccount}
-            onChange={handleChangeRequestAccount}
-          />
-          구좌
-        </>
-      ),
+      right: `${request_invest_account} 구좌`,
     },
     {
       left: "출자 요청액",
-      right: (
-        <>
-          <input
-            type="text"
-            value={requestAmount(requestAccount).toLocaleString("ko-kr")}
-            disabled
-          />
-          만원
-        </>
-      ),
+      right: `${requestAmount(request_invest_account).toLocaleString(
+        "ko-kr"
+      )} 만원`,
     },
     {
       left: "남은 출자액",
       right: `${(
         expected_amount * 1000000 -
-        requestAmount(requestAccount)
+        requestAmount(request_invest_account)
       ).toLocaleString("ko-kr")}`,
     },
   ];
@@ -96,7 +76,7 @@ const RequestReadyParticipate = ({
           </Row>
         ))}
         <button onClick={handleClickApprove}> 조합참여 승인 </button>
-        <button onClick={() => {}}> 조합참여 불허 </button>
+        <button onClick={handleClickDeny}> 조합참여 불허 </button>
       </ModalContentsBodyLayout>
     </ModalContentsLayout>
   );

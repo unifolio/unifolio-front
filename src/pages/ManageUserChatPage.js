@@ -21,6 +21,7 @@ const ManageUserChatPage = ({ match }) => {
   const [unionData, setUnionData] = useState("");
   const [postData, setPostData] = useState("");
   const [receiverData, setReceiverData] = useState("");
+  const [receiverRequestData, setReceiverRequestData] = useState({});
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
@@ -49,6 +50,17 @@ const ManageUserChatPage = ({ match }) => {
           )
         )[0].id;
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
+
+      const { data: unionManageUserData } = await API.get.unionManageUser({
+        unionId: unionId,
+        userId: receiverId,
+      });
+
+      // console.log(" ***** unionManageUserData ", unionManageUserData);
+      setReceiverRequestData({
+        amount_per_account: unionManageUserData.amount_per_account,
+        request_invest_account: unionManageUserData.request_invest_account,
+      });
 
       const { data: receiver } = await API.get.userGeneral({
         userId: receiverId,
@@ -98,16 +110,28 @@ const ManageUserChatPage = ({ match }) => {
   };
 
   const handleClickApprove = () => {
-    alert("이얍");
-    // API.post
-    //   .unionApproveRequest({
-    //     user: Number(id),
-    //     union: unionData.id,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //     alert("조합 참여 요청이 허용되었습니다");
-    //   });
+    // alert("이얍");
+    const fetchApprove = async () => {
+      const approveResult = await API.post.unionApproveRequest({
+        user: Number(id),
+        union: unionData.id,
+      });
+      console.log(approveResult);
+      alert("승인되었습니다.");
+    };
+    fetchApprove();
+  };
+
+  const handleClickDeny = () => {
+    const fetchDeny = async () => {
+      const denyResult = await API.patch.unionDenyRequest({
+        user: Number(id),
+        union: unionData.id,
+      });
+      console.log(denyResult);
+      alert("거절되었습니다.");
+    };
+    fetchDeny();
   };
 
   if (!!!user || !receiverData || !postData) return <> 로딩중 </>;
@@ -126,9 +150,11 @@ const ManageUserChatPage = ({ match }) => {
         handleModalVisibility={handleModalVisibility}
       >
         <RequestReadyParticipate
-          userData={user}
+          userData={receiverData}
+          userRequestData={receiverRequestData}
           unionData={unionData}
           handleClickApprove={handleClickApprove}
+          handleClickDeny={handleClickDeny}
         />
       </UnionCommonModal>
     </Responsive>
