@@ -32,7 +32,7 @@ const UnionManageLists = ({ myUnions }) => {
   //   fetchUnions();
   // }, []);
 
-  if (myUnions.length === 0) {
+  if (myUnions.length === 0 || !myUnions) {
     console.log(`unions ${myUnions.length}`);
     return <></>;
   }
