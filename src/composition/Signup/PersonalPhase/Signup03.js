@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 import styles from 'lib/styles';
 
 const Signup03 = ({ onClickNext }) => {
   const [signupState, setSignupState] = useState({});
   const [isComplete, setIsComplete] = useState(false);
   const [isAuthActive, setIsAuthActive] = useState(false);
+  const [isValidatePhoneNumber, setIsValidatePhoneNumber] = useState(false);
 
   useEffect(() => {
-    for (const key of ["phoneNumber", "authCode"]) {
+    if (phoneNumberRegExp.test(signupState.phoneNumber)) {
+      setIsValidatePhoneNumber(true);
+    } else {
+      setIsValidatePhoneNumber(false);
+    }
+  }, [signupState]);
+  useEffect(() => {
+    for (const key of ['phoneNumber', 'authCode']) {
       if (!signupState[key]) {
         setIsComplete(false);
         return;
@@ -17,59 +25,81 @@ const Signup03 = ({ onClickNext }) => {
     setIsComplete(true);
   }, [signupState]);
 
-	const authCodeRequest = () => {
-		alert(Math.floor(Math.random() * 10000));
-		setIsAuthActive(true);
-	};
+  const authCodeRequest = () => {
+    alert(Math.floor(Math.random() * 10000));
+    setIsAuthActive(true);
+  };
 
-	const handlePhoneNumberChange = ({target}) => {
-    setSignupState((state) => ({...state, phoneNumber: target.value}));
-  }
+  const handlePhoneNumberChange = ({ target }) => {
+    setSignupState((state) => ({ ...state, phoneNumber: target.value }));
+  };
 
-	const handleAuthCodeChange = ({target}) => {
-    setSignupState((state) => ({...state, authCode: target.value}));
-  }
+  const handleAuthCodeChange = ({ target }) => {
+    setSignupState((state) => ({ ...state, authCode: target.value }));
+  };
 
-  const handlePrev = () => {}
+  const handlePrev = () => {};
   const handleNext = () => {
-    onClickNext({...signupState, phone_number: signupState.phoneNumber, auth_code: signupState.authCode }, 3);
-  }
+    onClickNext(
+      {
+        ...signupState,
+        phone_number: signupState.phoneNumber,
+        auth_code: signupState.authCode,
+      },
+      3,
+    );
+  };
+  const phoneNumberRegExp = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{7})/;
 
-	return (
-		<SignupRowBlock>
-			<SignupForm>
+  return (
+    <SignupRowBlock>
+      <SignupForm>
         <SignupPhoneNumberLayer>
-          <SignupAuthCodeRequestButton>
-            SKT (임시)
-          </SignupAuthCodeRequestButton>  
-          <SignupPhoneNumberInput onChange={handlePhoneNumberChange} />
-          <SignupAuthCodeRequestButton onClick={authCodeRequest}>
+          <SignupAuthCodeRequestButton>SKT (임시)</SignupAuthCodeRequestButton>
+          <SignupPhoneNumberInput
+            onChange={handlePhoneNumberChange}
+            disabled={isAuthActive}
+          />
+          <SignupAuthCodeRequestButton
+            onClick={authCodeRequest}
+            disabled={!isValidatePhoneNumber}
+          >
             인증번호 받기
           </SignupAuthCodeRequestButton>
         </SignupPhoneNumberLayer>
-				<br />
-				{isAuthActive && <>
+        <br />
+        {isAuthActive && (
+          <>
             <SignupAuthCodeInput onChange={handleAuthCodeChange} /> <br />
           </>
-        } 
-				<SignupButtonsLayer>
-          <SignupPrevButton type="button" onClick={handlePrev}> 뒤로가기 </SignupPrevButton>
-          <SignupNextButton type="button" onClick={handleNext} isComplete={isComplete} disabled={!isComplete}> 다음으로 </SignupNextButton>
+        )}
+        <SignupButtonsLayer>
+          <SignupPrevButton type='button' onClick={handlePrev}>
+            뒤로가기
+          </SignupPrevButton>
+          <SignupNextButton
+            type='button'
+            onClick={handleNext}
+            isComplete={isComplete}
+            disabled={!isComplete}
+          >
+            다음으로
+          </SignupNextButton>
         </SignupButtonsLayer>
-			</SignupForm>
-		</SignupRowBlock>
-	);
+      </SignupForm>
+    </SignupRowBlock>
+  );
 };
 
 const SignupRowBlock = styled.div`
-	padding-top: 1rem;
+  padding-top: 1rem;
 
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
-const SignupForm = styled.form`
-	display: flex;
-	flex-direction: column;
+const SignupForm = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const SignupPhoneNumberLayer = styled.div`
   display: flex;
@@ -81,21 +111,43 @@ const SignupPhoneNumberLayer = styled.div`
   input + button {
     margin-left: 15px;
   }
-`
-const SignupPhoneNumberInput = styled.input.attrs((props) => ({ type: 'text', name: 'phoneNumber', placeholder: '휴대폰번호' }))`
-	${styles.layout.signInput}
+`;
+const SignupPhoneNumberInput = styled.input.attrs((props) => ({
+  type: 'text',
+  name: 'phoneNumber',
+  placeholder: '휴대폰번호 (01012341234)',
+}))`
+  ${styles.layout.signInput}
   flex-grow: 1;
 `;
 
-const SignupAuthCodeInput = styled.input.attrs((props) => ({ type: 'number', name: 'authCode', id: 'authCodeInputField', placeholder: '인증번호', required: true }))`
-	${styles.layout.signInput}
+const SignupAuthCodeInput = styled.input.attrs((props) => ({
+  type: 'number',
+  name: 'authCode',
+  id: 'authCodeInputField',
+  placeholder: '인증번호',
+  required: true,
+}))`
+  ${styles.layout.signInput}
 `;
 
 const SignupAuthCodeRequestButton = styled.button`
   color: ${styles.palette.unifolioBlue};
   background: none;
   border: none;
-`
+  ${({ disabled }) => {
+    return disabled
+      ? css`
+          background-color: ${styles.palette.deactiveBackgroundGrey};
+          color: ${styles.palette.deactiveGrey};
+        `
+      : css`
+          color: ${styles.palette.unifolioBlue};
+          background: none;
+          border: none;
+        `;
+  }}
+`;
 
 const SignupButtonsLayer = styled.div`
   display: flex;
@@ -103,7 +155,7 @@ const SignupButtonsLayer = styled.div`
   button + button {
     margin-left: 15px;
   }
-`
+`;
 
 const SignupNextButton = styled.button`
   height: 3rem;
@@ -111,16 +163,16 @@ const SignupNextButton = styled.button`
   padding: 0 1rem;
   flex-grow: 1;
 
-  ${({isComplete}) => {
+  ${({ isComplete }) => {
     return isComplete
-    ? css`
-        background-color: ${styles.palette.unifolioBlue};
-        color: white;
-      `
-    : css`
-        background-color: ${styles.palette.deactiveBackgroundGrey};
-        color: ${styles.palette.deactiveGrey};
-      `
+      ? css`
+          background-color: ${styles.palette.unifolioBlue};
+          color: white;
+        `
+      : css`
+          background-color: ${styles.palette.deactiveBackgroundGrey};
+          color: ${styles.palette.deactiveGrey};
+        `;
   }}
 `;
 
@@ -128,6 +180,6 @@ const SignupPrevButton = styled.button`
   height: 3rem;
   border: none;
   padding: 0 1rem;
-`
+`;
 
 export default Signup03;

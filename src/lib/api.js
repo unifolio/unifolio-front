@@ -1,9 +1,9 @@
-import axios from "axios";
-import { cacheAdapterEnhancer } from "axios-extensions";
-import * as Service from "services";
+import axios from 'axios';
+import { cacheAdapterEnhancer } from 'axios-extensions';
+import * as Service from 'services';
 
 // const END_POINT = "http://localhost:8000";
-const END_POINT = "https://unifolio.kr:8081";
+const END_POINT = 'https://unifolio.kr:8080';
 // const END_POINT = "http://unifolio.kr:8042";
 
 const axiosInstance = axios.create({
@@ -31,7 +31,7 @@ const API = {
     newToken: (data) => {
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
       const response = axios
@@ -40,7 +40,7 @@ const API = {
           return response;
         })
         .catch((error) => {
-          console.log("post.newToken Error", error.response);
+          console.log('post.newToken Error', error.response);
           return error.response;
         });
       return response;
@@ -50,7 +50,7 @@ const API = {
 
   mergeWith: function (serviceInstance) {
     try {
-      if (!serviceInstance) throw new Error("serviceInstance is corrupted");
+      if (!serviceInstance) throw new Error('serviceInstance is corrupted');
       Object.entries(serviceInstance).forEach(([key, service]) => {
         this[key] = { ...this[key], ...service };
       });

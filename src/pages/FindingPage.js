@@ -30,7 +30,7 @@ const FindingPage = ({ location }) => {
   const $mainRef = useRef(),
     $modalRef = useRef();
   const { user } = useFetchUserToken();
-
+  console.log(filterValue);
   useEffect(() => {
     if (
       query.mode === 'waiting-people' &&
