@@ -33,7 +33,7 @@ const Signup03 = ({ signupInputData, onClickNext, onClickBack }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onClickNext({ approval_access_terms, approval_marketing }, 2);
+    onClickNext({ approval_access_terms, approval_marketing }, 3);
   };
 
   return (

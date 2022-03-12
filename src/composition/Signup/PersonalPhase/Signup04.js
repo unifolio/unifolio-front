@@ -44,7 +44,7 @@ const Signup04 = ({ onClickNext, onClickBack }) => {
         approval_access_terms: signupState.approval_access_terms,
         approval_marketing: signupState.approval_marketing || false,
       },
-      3,
+      4,
     );
     // onClickNext({...signupState, phone_number: signupState.phoneNumber, auth_code: signupState.authCode }, 3);
   };

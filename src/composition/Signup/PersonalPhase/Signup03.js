@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import styles from 'lib/styles';
 import { useSelector } from 'react-redux';
+import API from 'lib/api';
 
 const Signup03 = ({ onClickNext, onClickBack }) => {
   const [signupState, setSignupState] = useState({});
@@ -9,6 +10,7 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
   const [isAuthActive, setIsAuthActive] = useState(false);
   const [isValidatePhoneNumber, setIsValidatePhoneNumber] = useState(false);
   const signupStateFormData = useSelector((store) => store.signup);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setSignupState(signupStateFormData);
   }, []);
@@ -29,8 +31,10 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
     setIsComplete(true);
   }, [signupState]);
 
-  const authCodeRequest = () => {
-    alert(Math.floor(Math.random() * 10000));
+  const authCodeRequest = async (e) => {
+    setIsLoading(true);
+    await API.post.userSMS(signupState.phoneNumber);
+    setIsLoading(false);
     setIsAuthActive(true);
   };
 
@@ -43,7 +47,13 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
   };
 
   const handlePrev = () => {};
-  const handleNext = () => {
+  const handleNext = async () => {
+    const response = await API.get.userSMSVerify(
+      signupState.phoneNumber,
+      signupState.authCode,
+    );
+    console.log(response);
+    if (response.status !== 200) return;
     onClickNext(
       {
         ...signupState,
@@ -67,7 +77,7 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
           />
           <SignupAuthCodeRequestButton
             onClick={authCodeRequest}
-            disabled={!isValidatePhoneNumber}
+            disabled={!isValidatePhoneNumber && !isLoading}
           >
             인증번호 받기
           </SignupAuthCodeRequestButton>
