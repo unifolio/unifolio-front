@@ -3,11 +3,15 @@ import styled, { css } from 'styled-components';
 import styles from 'lib/styles';
 
 import Accordion from 'components/common/Accordion/Accordion';
+import { useSelector } from 'react-redux';
 
-const Signup04 = ({ onClickNext }) => {
+const Signup04 = ({ onClickNext, onClickBack }) => {
   const [signupState, setSignupState] = useState({});
   const [isComplete, setIsComplete] = useState(false);
-
+  const signupStateFormData = useSelector((store) => store.signup);
+  useEffect(() => {
+    setSignupState(signupStateFormData);
+  }, []);
   useEffect(() => {
     for (const key of ['approval_access_terms']) {
       if (!signupState[key]) {
@@ -58,6 +62,7 @@ const Signup04 = ({ onClickNext }) => {
                 type='checkbox'
                 id='1'
                 onChange={handleCheck01Change}
+                defaultChecked={signupState?.approval_access_terms}
               />
             </SignupCheckBoxLayer>
           }
@@ -73,12 +78,13 @@ const Signup04 = ({ onClickNext }) => {
                 type='checkbox'
                 id='2'
                 onChange={handleCheck02Change}
+                defaultChecked={signupState?.approval_marketing}
               />
             </SignupCheckBoxLayer>
           }
         />
         <SignupButtonsLayer>
-          <SignupPrevButton type='button' onClick={handlePrev}>
+          <SignupPrevButton type='button' onClick={onClickBack}>
             뒤로가기
           </SignupPrevButton>
           <SignupNextButton
@@ -157,6 +163,7 @@ const SignupPrevButton = styled.button`
   height: 3rem;
   border: none;
   padding: 0 1rem;
+  cursor: pointer;
 `;
 
 export default Signup04;

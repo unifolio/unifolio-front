@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import styles from 'lib/styles';
+import { useSelector } from 'react-redux';
 
-const Signup03 = ({ onClickNext }) => {
+const Signup03 = ({ onClickNext, onClickBack }) => {
   const [signupState, setSignupState] = useState({});
   const [isComplete, setIsComplete] = useState(false);
   const [isAuthActive, setIsAuthActive] = useState(false);
   const [isValidatePhoneNumber, setIsValidatePhoneNumber] = useState(false);
-
+  const signupStateFormData = useSelector((store) => store.signup);
+  useEffect(() => {
+    setSignupState(signupStateFormData);
+  }, []);
   useEffect(() => {
     if (phoneNumberRegExp.test(signupState.phoneNumber)) {
       setIsValidatePhoneNumber(true);
@@ -59,6 +63,7 @@ const Signup03 = ({ onClickNext }) => {
           <SignupPhoneNumberInput
             onChange={handlePhoneNumberChange}
             disabled={isAuthActive}
+            defaultValue={signupStateFormData?.phoneNumber}
           />
           <SignupAuthCodeRequestButton
             onClick={authCodeRequest}
@@ -74,7 +79,7 @@ const Signup03 = ({ onClickNext }) => {
           </>
         )}
         <SignupButtonsLayer>
-          <SignupPrevButton type='button' onClick={handlePrev}>
+          <SignupPrevButton type='button' onClick={onClickBack}>
             뒤로가기
           </SignupPrevButton>
           <SignupNextButton
@@ -180,6 +185,7 @@ const SignupPrevButton = styled.button`
   height: 3rem;
   border: none;
   padding: 0 1rem;
+  cursor: pointer;
 `;
 
 export default Signup03;

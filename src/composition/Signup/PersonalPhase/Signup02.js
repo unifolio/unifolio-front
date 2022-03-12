@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import styles from 'lib/styles';
+import { useSelector } from 'react-redux';
 
-const Signup02 = ({ onClickNext }) => {
+const Signup02 = ({ onClickNext, onClickBack }) => {
   const [signupState, setSignupState] = useState({});
   const [isComplete, setIsComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const rrnRef = useRef(null);
-
+  const signupStateFormData = useSelector((store) => store.signup);
+  useEffect(() => {
+    setSignupState({
+      ...signupStateFormData,
+      rrn: sliceRRN(signupStateFormData.rrn),
+    });
+  }, []);
   useEffect(() => {
     const script = document.createElement('script');
     script.src =
@@ -27,7 +34,12 @@ const Signup02 = ({ onClickNext }) => {
     }
     setIsComplete(true);
   }, [signupState]);
-
+  const sliceRRN = (rrn) => {
+    if (!rrn) return;
+    const prevRRN = rrn.slice(0, 6);
+    const postRRN = rrn.slice(6, 13);
+    return `${prevRRN}-${postRRN}`;
+  };
   const handleClickPostAdress = (open = false) => {
     if (open === false) {
       if (document.querySelector('input#postcode').value !== '') {
@@ -115,13 +127,34 @@ const Signup02 = ({ onClickNext }) => {
   return (
     <SignupRowBlock>
       <SignupForm>
-        <SignupNameInput onChange={handleChangeName} /> <br />
-        <SignupRRNInput ref={rrnRef} onChange={handleChangeRRN} /> <br />
-        <SignupPostCodeInput onClick={handleClickPostAdress} /> <br />
-        <SignupAddressInput onClick={handleClickPostAdress} /> <br />
-        <SignupDetailAddressInput onChange={handleChangeAddressDetail} /> <br />
+        <SignupNameInput
+          onChange={handleChangeName}
+          defaultValue={signupState?.name}
+        />{' '}
+        <br />
+        <SignupRRNInput
+          ref={rrnRef}
+          onChange={handleChangeRRN}
+          defaultValue={signupState?.rrn}
+        />{' '}
+        <br />
+        <SignupPostCodeInput
+          onClick={handleClickPostAdress}
+          defaultValue={signupState?.postcode}
+        />{' '}
+        <br />
+        <SignupAddressInput
+          onClick={handleClickPostAdress}
+          defaultValue={signupState?.address}
+        />{' '}
+        <br />
+        <SignupDetailAddressInput
+          onChange={handleChangeAddressDetail}
+          defaultValue={signupState?.addressDetail}
+        />{' '}
+        <br />
         <SignupButtonsLayer>
-          <SignupPrevButton type='button' onClick={handlePrev}>
+          <SignupPrevButton type='button' onClick={onClickBack}>
             뒤로가기
           </SignupPrevButton>
           <SignupNextButton
@@ -228,6 +261,7 @@ const SignupPrevButton = styled.button`
   height: 3rem;
   border: none;
   padding: 0 1rem;
+  cursor: pointer;
 `;
 
 const ErrorMessage = styled.div`
