@@ -57,7 +57,7 @@ function App() {
       <Route component={SigninPage} path="/signin" />
       <Route component={OAuthSigninCallbackPage} path="/users/signin/" />
       <Route component={UnionDocumentPage} path="/union/document" />
-      <Route component={UsersVerifyPage} path="/users/verify" exact />
+      <Route component={UsersVerifyPage} path="/users/verify" />
     </>
   );
 }
