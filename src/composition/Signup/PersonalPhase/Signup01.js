@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import styles from 'lib/styles';
+import { useSelector } from 'react-redux';
 
 const Signup01 = ({ onClickNext }) => {
   const [signupState, setSignupState] = useState({});
@@ -9,6 +10,10 @@ const Signup01 = ({ onClickNext }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const signupStateFormData = useSelector((store) => store.signup);
+  useEffect(() => {
+    setSignupState(signupStateFormData);
+  }, []);
   useEffect(() => {
     if (
       signupState.email &&
@@ -64,18 +69,29 @@ const Signup01 = ({ onClickNext }) => {
         <SignupEmailInput
           ref={emailRef}
           onChange={handleEmailChange}
+          defaultValue={signupStateFormData?.email}
           required
         />
         <br />
         <SignupPasswordInput
           ref={passwordRef}
           onChange={handlePasswordChange}
+          defaultValue={signupStateFormData?.password}
           required
         />
         <br />
-        <SignupPasswordChkInput onChange={handlePasswordCheckChange} required />
+        <SignupPasswordChkInput
+          onChange={handlePasswordCheckChange}
+          required
+          defaultValue={signupStateFormData?.passwordCheck}
+        />
         <br />
-        <SignupNickNameInput onChange={handleChangeNickName} required /> <br />
+        <SignupNickNameInput
+          onChange={handleChangeNickName}
+          required
+          defaultValue={signupStateFormData?.nickname}
+        />{' '}
+        <br />
         <SignupNextButton
           onClick={handleNext}
           isComplete={isComplete}

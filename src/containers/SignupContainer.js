@@ -35,18 +35,35 @@ const SignupContainer = ({ history }) => {
     setCurrent(value);
     setProcess(1);
   };
-
+  const personalSignupBack = (process) => () => {
+    setProcess(process);
+  };
   const render = () => {
     if (current === 'general') {
       switch (process) {
         case 1:
           return <SignupPersonal._01 onClickNext={handleClickNext} />;
         case 2:
-          return <SignupPersonal._02 onClickNext={handleClickNext} />;
+          return (
+            <SignupPersonal._02
+              onClickNext={handleClickNext}
+              onClickBack={personalSignupBack(1)}
+            />
+          );
         case 3:
-          return <SignupPersonal._03 onClickNext={handleClickNext} />;
+          return (
+            <SignupPersonal._03
+              onClickNext={handleClickNext}
+              onClickBack={personalSignupBack(2)}
+            />
+          );
         case 4:
-          return <SignupPersonal._04 onClickNext={handleClickNext} />;
+          return (
+            <SignupPersonal._04
+              onClickNext={handleClickNext}
+              onClickBack={personalSignupBack(3)}
+            />
+          );
         default:
           return <></>;
       }
