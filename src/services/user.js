@@ -1,6 +1,25 @@
 const userService = ({ axios, axiosInstance, END_POINT }) => {
   return {
     get: {
+      users: async () => {
+        const businessResponse = await axiosInstance
+          .get(`${END_POINT}/users/business/`)
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        const generalResponse = await axiosInstance
+          .get(`${END_POINT}/users/general/`)
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return [...businessResponse.data, ...generalResponse.data];
+      },
       usersGeneral: () => {
         const response = axiosInstance
           .get(`${END_POINT}/users/general/`)
@@ -141,7 +160,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
     patch: {
       userGeneral: async (id, data) => {
         const config = {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         };
         const response = await axios
           .patch(`${END_POINT}/users/general/${id}/`, data, config)
@@ -149,7 +168,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error('patch user Error', error.response);
+            console.error("patch user Error", error.response);
             return error.response;
           });
         console.log(response);
@@ -157,7 +176,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       usersGeneral: async (id, data) => {
         const config = {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         };
         const response = await axios
           .patch(`${END_POINT}/users/general/${id}/`, data, config)
@@ -165,7 +184,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error('patch user Error', error.response);
+            console.error("patch user Error", error.response);
             return error.response;
           });
         console.log(response);
@@ -173,7 +192,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       userBusiness: async (id, data) => {
         const config = {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         };
         const response = await axios
           .patch(`${END_POINT}/users/business/${id}/`, data, config)
@@ -181,7 +200,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error('patch user Error', error.response);
+            console.error("patch user Error", error.response);
             return error.response;
           });
         console.log(response);
@@ -189,7 +208,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       additionalUserEducation: (id, data) => {
         const config = {
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         };
         const response = axios
           .patch(`${END_POINT}/users/mypage/additional/${id}/`, data, config)
@@ -198,7 +217,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.log('patch user Error', error.response);
+            console.log("patch user Error", error.response);
             return error.response;
           });
         console.log(response);

@@ -39,9 +39,9 @@ const UnionManageListPage = ({ location }) => {
     fetchUnionData();
   }, [user]);
 
-  const mainSectionSelector = (current = "my-unions-manage") => {
+  const mainSectionSelector = (current = "ready") => {
     switch (current) {
-      case "my-unions-manage":
+      case "ready":
         return <UnionManageLists myUnions={myUnions} />;
       default:
         return (
