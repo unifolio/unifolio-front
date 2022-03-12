@@ -215,7 +215,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
         ref={$toggleBack}
         className={"toggle-back"}
       />
-      <Input name={`hidden`} size="large" disabled type={"hidden"} />{" "}
+      <Input name={`hidden`} size="large" disabled type={"hidden"} />
       {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
         <div className="row">

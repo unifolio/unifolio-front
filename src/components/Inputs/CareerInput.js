@@ -121,7 +121,6 @@ const CareerInput = ({
                       key={`career-category-${i}`}
                       value={categoryData.category}
                     >
-                      {" "}
                       {categoryData.category}
                     </Select.Option>
                   );
@@ -204,8 +203,7 @@ const CareerInput = ({
                 }}
                 style={{ height: "auto" }}
               >
-                {" "}
-                삭제{" "}
+                삭제
               </Button>
             </div>
           </div>

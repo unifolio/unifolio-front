@@ -56,7 +56,8 @@ const InvestmentHistoryInput = ({
               >
                 {categoryData.category}
               </Select.Option>
-            ); // 임시 0131
+            );
+            // 임시 0131
             // return (
             //   <Select.Option
             //     key={`investment-history-select-${idx}`}

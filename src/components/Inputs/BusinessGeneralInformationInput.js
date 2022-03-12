@@ -40,7 +40,7 @@ const BusinessGeneralInformationInput = ({
             onChange={(e) => {
               handleInputChange({ name: "rrn-front", value: e.target.value });
             }}
-          />{" "}
+          />
           -
           <Input
             type={"text"}

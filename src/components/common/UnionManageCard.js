@@ -42,8 +42,7 @@ const UnionManageCard = ({ history, union, id }) => {
           <div className="column column-5">
             {union.invest_category.map((each, i) => (
               <span className="grey" key={`${each.category}-${Math.random()}`}>
-                {" "}
-                {each.category},{" "}
+                {each.category},
               </span>
             ))}
           </div>
@@ -90,7 +89,7 @@ const UnionManageCard = ({ history, union, id }) => {
               {calculateDate(
                 union.recruitment_end_date,
                 union.recruitment_start_date
-              )}{" "}
+              )}
               ({dateFormating(union.recruitment_end_date)})
             </span>
           </div>
