@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ChatListItem from "./ChatListItem";
 import MockChatListItem from "./MockChatListItem";
 
 const ChatList = ({ title, postData = null }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [postData]);
+
+  if (isLoading) return <></>;
+
   return (
     <ListSection>
       <SectionHeader>

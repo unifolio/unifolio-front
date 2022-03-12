@@ -14,7 +14,7 @@ const UnionManagePage = () => {
   const [unionData, setUnionData] = useState("");
   const [postData, setPostData] = useState("");
   const [participationListData, setParticiPationListData] = useState([]);
-  const [tempParticipantsData, setTempParticipantsData] = useState([]);
+  const [tempParticipantsData, setTempParticipantsData] = useState();
   const { user } = useFetchUserToken();
   const { id: unionId } = useParams();
 
@@ -35,7 +35,7 @@ const UnionManagePage = () => {
       // unconfirmed_p 재정의
       unionDetails.post_info.unconfirmed_p = await Promise.all(
         unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
-          const unionConversation = await API.get.posts(post_id);
+          const { data: unionConversation } = await API.get.posts(post_id);
           return unionConversation;
         })
       );
@@ -55,12 +55,13 @@ const UnionManagePage = () => {
     fetchUnionData();
   }, [user]);
 
-  if (!!!user) return <></>;
+  if (!!!user || !tempParticipantsData) return <></>;
   return (
     <Responsive level={2}>
       <UnionInfo unionData={unionData} />
       <ParticipationList
         data={tempParticipantsData}
+        participantsConversationData={postData.unconfirmed_p}
         title={"조합 참여 미확정자"}
         object={"대화상대"}
       />

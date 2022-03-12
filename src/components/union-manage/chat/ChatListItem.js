@@ -28,7 +28,7 @@ const ChatListItem = ({ post }) => {
     <li>
       <ListItemHeader>
         <Category>달리는 토끼 바람</Category>
-        <Contents>뭐요ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ</Contents>
+        <Contents>{post.title}</Contents>
         <Date>
           <span>0000.00.00 / 0000.00.00</span>
           <ButtonGroup>
@@ -43,9 +43,7 @@ const ChatListItem = ({ post }) => {
       </ListItemHeader>
       <FormWrapper ref={parentRef}>
         <ContentSection ref={childRef}>
-          <NoticeContents>
-            여기에 공지사랑이 들어가는거 같아요오오
-          </NoticeContents>
+          <NoticeContents>{post.content}</NoticeContents>
           <Button>수정하기</Button>
         </ContentSection>
       </FormWrapper>

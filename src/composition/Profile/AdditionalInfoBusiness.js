@@ -11,7 +11,10 @@ import palette from "lib/styles/palette";
 
 const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   const counts = useRef({ education: 2, investHistory: 1 });
-  const [formData, setFormData] = useState({ ...user });
+  const [formData, setFormData] = useState({
+    ...user,
+    rrn: user.rrn ? `${user.rrn.slice(0, 6)}-${user.rrn.slice(6)}` : "",
+  });
 
   const [isModifiable, setIsModifiable] = useState({
     education: user.education.length !== 0 ? false : true,
@@ -30,7 +33,11 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   );
   const generalInformations = [
     { labelKr: "이름", labelEn: "name", value: user.name },
-    { labelKr: "주민번호", labelEn: "rrn", value: user.rrn },
+    {
+      labelKr: "주민번호",
+      labelEn: "rrn",
+      value: `${user.rrn?.slice(0, 6)}-${user.rrn?.slice(6)}`,
+    },
     {
       labelKr: "우편번호",
       labelEn: "address_postcode",
@@ -66,7 +73,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
   }
 
   const handleInputChange = ({ name, value }) => {
-    console.log(name, value, name === "rnn" && value.length === 7);
+    // console.log(name, value, name === "rnn" && value.length === 7);
     let newFormData;
     if (name === "rrn" && value.length === 6 && value.slice(-1) !== "-") {
       newFormData = { ...formData, [name]: `${value}-` };
@@ -79,7 +86,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
     } else {
       newFormData = { ...formData, [name]: value };
     }
-    console.log(newFormData);
+    // console.log(newFormData);
     setFormData(newFormData);
   };
 
@@ -105,7 +112,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
       alert("정보를 올바르게 입력해주세요.");
       return;
     }
-
+    targetData.rrn = targetData.rrn.split("-").join("");
     handleSubmit({ formData: targetData });
     console.log("==== update end ====");
   };
@@ -115,8 +122,7 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
       <AdditionalInfoHeader>
         <AdditionalInfoTitle> 추가 정보 </AdditionalInfoTitle>
         <AdditionalInfoSubmitButton onClick={handleSubmitInformation}>
-          {" "}
-          저장{" "}
+          저장
         </AdditionalInfoSubmitButton>
       </AdditionalInfoHeader>
 

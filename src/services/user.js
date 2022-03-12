@@ -52,7 +52,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
         const response = axiosInstance
           .get(`${END_POINT}/users/signin/naver/callback/?code=${code}`)
           .then((response) => {
-            return response.date;
+            return response.data;
           })
           .catch((error) => {
             return error.response;
@@ -63,7 +63,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
         const response = axiosInstance
           .get(`${END_POINT}/users/verify/${key}`)
           .then((response) => {
-            return response.date;
+            return response.data;
           })
           .catch((error) => {
             return error.response;
