@@ -11,6 +11,9 @@ import ChatList from "components/Union-manage/chat/ChatList";
 import ManageHeader from "components/Union-manage/ManageHeader";
 import InfoSection from "composition/UnionManage/UserChat/InfoSection";
 
+import UnionCommonModal from "components/Modal/UnionCommonModal";
+import RequestReadyParticipate from "composition/UnionParticipate/Modal/RequestReadyParticipate";
+
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from "lib/api";
 
@@ -20,6 +23,8 @@ const ManageUserChatPage = ({ match }) => {
   const [receiverData, setReceiverData] = useState("");
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
+  const [isModalActive, setIsModalActive] = useState(false);
+
   const { user } = useFetchUserToken(); // 유저정보
   const { id } = useParams();
 
@@ -30,10 +35,19 @@ const ManageUserChatPage = ({ match }) => {
 
       const unions = await API.get.unionManageOwner(userId);
 
-      const unionId = unions.data.filter(
-        (union) => union.owner.id === userId
-      )[0].id;
+      // console.log(unions.data.filter((union) => union.owner.id === userId));
+      // const unionId = unions.data.filter(
+      //   (union) => union.owner.id === userId
+      // )[0].id;
+
       const receiverId = id;
+      const unionId = unions.data
+        .filter((union) => union.owner.id === userId)
+        .filter((union) =>
+          union.temp_participants.find(
+            (participant) => participant.id === Number(receiverId)
+          )
+        )[0].id;
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
 
       const { data: receiver } = await API.get.userGeneral({
@@ -79,16 +93,21 @@ const ManageUserChatPage = ({ match }) => {
     fetchUnionData();
   }, [user]);
 
+  const handleModalVisibility = (value) => {
+    setIsModalActive(value ?? true);
+  };
+
   const handleClickApprove = () => {
-    API.post
-      .unionApproveRequest({
-        user: Number(id),
-        union: unionData.id,
-      })
-      .then((res) => {
-        console.log(res);
-        alert("조합 참여 요청이 허용되었습니다");
-      });
+    alert("이얍");
+    // API.post
+    //   .unionApproveRequest({
+    //     user: Number(id),
+    //     union: unionData.id,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     alert("조합 참여 요청이 허용되었습니다");
+    //   });
   };
 
   if (!!!user || !receiverData || !postData) return <> 로딩중 </>;
@@ -98,10 +117,20 @@ const ManageUserChatPage = ({ match }) => {
       <ManageHeader
         title={`${receiverData.nickname} 님과의 대화`}
         backPage={"전체"}
-        handleClickApprove={handleClickApprove}
+        handleClickApprove={handleModalVisibility}
       />
       <InfoSection unionData={unionData} receiverData={receiverData} />
       <ChatList title={"대화 내용"} postData={postData} />
+      <UnionCommonModal
+        isModalActive={isModalActive}
+        handleModalVisibility={handleModalVisibility}
+      >
+        <RequestReadyParticipate
+          userData={user}
+          unionData={unionData}
+          handleClickApprove={handleClickApprove}
+        />
+      </UnionCommonModal>
     </Responsive>
   );
 };
