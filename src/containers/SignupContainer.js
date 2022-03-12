@@ -141,9 +141,9 @@ const SignupContainer = ({ history }) => {
           const data = dispatch(getSignupStateThunk());
           const response = await API.post.userSignupBusiness(data);
 
-          if (response.status === 200) {
+          if (response.data.status === 201) {
             alert('회원가입이 완료되었습니다');
-            // window.location.href = '/signin';
+            history.push('/signin');
           } else {
             alert('오류가 발생했습니다.');
           }
