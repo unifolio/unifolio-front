@@ -38,7 +38,7 @@ const Signup01 = ({ signupInputData, onClickNext }) => {
     setPasswordCheck({ ...passwordCheck, value: e.target.value });
   };
   const emailRegExp =
-    /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    /^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/;
   const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,16}$/;
   const handleSubmit = (e) => {
     if (!emailRegExp.test(email)) {
