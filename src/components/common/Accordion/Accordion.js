@@ -1,18 +1,21 @@
 import React from 'react';
 import AccordionItem from './AccordionItem';
 import Conditional from '../../common/Conditional';
+import SignupAccordionItem from './SignupAccordionItem';
 
 const Accordion = (props) => {
   return (
     <ul>
       <Conditional condition={props.type === 'signup'}>
-        <AccordionItem
+        <SignupAccordionItem
           title='개인정보 수집 및 이용에 관한 동의 (필수)'
           contents='내용 미정'
+          checkBox={props.checkBox1}
         />
-        <AccordionItem
+        <SignupAccordionItem
           title='홍보 및 마케팅에 관한 동의 (선택)'
           contents='내용 미정'
+          checkBox={props.checkBox2}
         />
       </Conditional>
       <Conditional condition={props.type !== 'signup'}>
