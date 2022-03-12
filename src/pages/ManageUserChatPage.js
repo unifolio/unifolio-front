@@ -124,7 +124,7 @@ const ManageUserChatPage = ({ match }) => {
 
   const handleClickDeny = () => {
     const fetchDeny = async () => {
-      const denyResult = await API.patch.unionDenyRequest({
+      const denyResult = await API.put.unionDenyRequest({
         user: Number(id),
         union: unionData.id,
       });

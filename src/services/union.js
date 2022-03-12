@@ -126,10 +126,10 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
         return response;
       },
     },
-    patch: {
+    put: {
       unionDenyRequest: (data) => {
         const response = axios
-          .post(`${END_POINT}/unions/manage/request/deny`, data)
+          .put(`${END_POINT}/unions/manage/request/deny`, data)
           .then((response) => {
             return response.data;
           })
