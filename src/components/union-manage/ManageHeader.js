@@ -13,7 +13,9 @@ const ManageHeader = ({ match, title, backPage, handleClickApprove }) => {
         {/* <Link to={match}>{backPage}</Link> */}
       </BackButton>
       <Title>{title}</Title>
-      <JoinButton onClick={handleClickApprove}>조합 참여 요청</JoinButton>
+      <JoinButton onClick={handleClickApprove}>
+        조합 참여 승인 및 거절
+      </JoinButton>
     </Header>
   );
 };

@@ -11,6 +11,9 @@ import ChatList from "components/Union-manage/chat/ChatList";
 import ManageHeader from "components/Union-manage/ManageHeader";
 import InfoSection from "composition/UnionManage/UserChat/InfoSection";
 
+import UnionCommonModal from "components/Modal/UnionCommonModal";
+import RequestReadyParticipate from "composition/UnionParticipate/Modal/RequestReadyParticipate";
+
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from "lib/api";
 
@@ -18,8 +21,11 @@ const ManageUserChatPage = ({ match }) => {
   const [unionData, setUnionData] = useState("");
   const [postData, setPostData] = useState("");
   const [receiverData, setReceiverData] = useState("");
+  const [receiverRequestData, setReceiverRequestData] = useState({});
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
+  const [isModalActive, setIsModalActive] = useState(false);
+
   const { user } = useFetchUserToken(); // 유저정보
   const { id } = useParams();
 
@@ -30,11 +36,31 @@ const ManageUserChatPage = ({ match }) => {
 
       const unions = await API.get.unionManageOwner(userId);
 
-      const unionId = unions.data.filter(
-        (union) => union.owner.id === userId
-      )[0].id;
+      // console.log(unions.data.filter((union) => union.owner.id === userId));
+      // const unionId = unions.data.filter(
+      //   (union) => union.owner.id === userId
+      // )[0].id;
+
       const receiverId = id;
+      const unionId = unions.data
+        .filter((union) => union.owner.id === userId)
+        .filter((union) =>
+          union.temp_participants.find(
+            (participant) => participant.id === Number(receiverId)
+          )
+        )[0].id;
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
+
+      const { data: unionManageUserData } = await API.get.unionManageUser({
+        unionId: unionId,
+        userId: receiverId,
+      });
+
+      // console.log(" ***** unionManageUserData ", unionManageUserData);
+      setReceiverRequestData({
+        amount_per_account: unionManageUserData.amount_per_account,
+        request_invest_account: unionManageUserData.request_invest_account,
+      });
 
       const { data: receiver } = await API.get.userGeneral({
         userId: receiverId,
@@ -79,16 +105,33 @@ const ManageUserChatPage = ({ match }) => {
     fetchUnionData();
   }, [user]);
 
+  const handleModalVisibility = (value) => {
+    setIsModalActive(value ?? true);
+  };
+
   const handleClickApprove = () => {
-    API.post
-      .unionApproveRequest({
+    // alert("이얍");
+    const fetchApprove = async () => {
+      const approveResult = await API.post.unionApproveRequest({
         user: Number(id),
         union: unionData.id,
-      })
-      .then((res) => {
-        console.log(res);
-        alert("조합 참여 요청이 허용되었습니다");
       });
+      console.log(approveResult);
+      alert("승인되었습니다.");
+    };
+    fetchApprove();
+  };
+
+  const handleClickDeny = () => {
+    const fetchDeny = async () => {
+      const denyResult = await API.patch.unionDenyRequest({
+        user: Number(id),
+        union: unionData.id,
+      });
+      console.log(denyResult);
+      alert("거절되었습니다.");
+    };
+    fetchDeny();
   };
 
   if (!!!user || !receiverData || !postData) return <> 로딩중 </>;
@@ -98,10 +141,22 @@ const ManageUserChatPage = ({ match }) => {
       <ManageHeader
         title={`${receiverData.nickname} 님과의 대화`}
         backPage={"전체"}
-        handleClickApprove={handleClickApprove}
+        handleClickApprove={handleModalVisibility}
       />
       <InfoSection unionData={unionData} receiverData={receiverData} />
       <ChatList title={"대화 내용"} postData={postData} />
+      <UnionCommonModal
+        isModalActive={isModalActive}
+        handleModalVisibility={handleModalVisibility}
+      >
+        <RequestReadyParticipate
+          userData={receiverData}
+          userRequestData={receiverRequestData}
+          unionData={unionData}
+          handleClickApprove={handleClickApprove}
+          handleClickDeny={handleClickDeny}
+        />
+      </UnionCommonModal>
     </Responsive>
   );
 };

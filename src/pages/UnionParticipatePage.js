@@ -8,6 +8,9 @@ import NoticeList from "components/Union-manage/notice/NoticeList";
 import PostList from "components/Union-manage/post/PostList";
 import EditorUser from "components/Union-manage/EditorUser";
 
+import UnionCommonModal from "components/Modal/UnionCommonModal";
+import RequestParticipate from "composition/UnionParticipate/Modal/RequestParticipate";
+
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from "lib/api";
 
@@ -16,6 +19,8 @@ const UnionParticipatePage = () => {
   const [postData, setPostData] = useState("");
   const [participationListData, setParticiPationListData] = useState([]);
   const [tempParticipantsData, setTempParticipantsData] = useState([]);
+  const [isModalActive, setIsModalActive] = useState(false);
+
   const { user } = useFetchUserToken();
   const { id: unionId } = useParams();
 
@@ -56,10 +61,31 @@ const UnionParticipatePage = () => {
     fetchUnionData();
   }, [user]);
 
+  const handleModalVisibility = (value) => {
+    setIsModalActive(value ?? true);
+  };
+
+  const handleClickRequestParticipate = () => {
+    const fetchUnionRequest = async () => {
+      const requestResult = await API.post.unionRequest({
+        user: user.id,
+        union: unionData.id,
+        request_invest_account: 10,
+        amount_per_account: 10,
+      });
+      alert("요청이 전송되었습니다.");
+    };
+    fetchUnionRequest();
+  };
+
   if (!!!user) return <></>;
   return (
     <Responsive level={2}>
-      <UnionInfoParticipate userData={user} unionData={unionData} />
+      <UnionInfoParticipate
+        userData={user}
+        unionData={unionData}
+        handleModalVisibility={handleModalVisibility}
+      />
       <NoticeList postData={postData} />
       <PostList
         postData={postData}
@@ -77,6 +103,15 @@ const UnionParticipatePage = () => {
           />
         }
       />
+      <UnionCommonModal
+        isModalActive={isModalActive}
+        handleModalVisibility={handleModalVisibility}
+      >
+        <RequestParticipate
+          unionData={unionData}
+          handleClickRequestParticipate={handleClickRequestParticipate}
+        />
+      </UnionCommonModal>
     </Responsive>
   );
 };

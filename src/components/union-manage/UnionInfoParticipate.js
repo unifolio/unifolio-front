@@ -7,22 +7,17 @@ import { dateFormating } from "lib/dateFormat";
 
 import API from "lib/api";
 
-const UnionInfoParticipate = ({ userData, unionData }) => {
-  console.log("&&&& userData", userData);
+const UnionInfoParticipate = ({
+  userData,
+  unionData,
+  handleModalVisibility,
+}) => {
+  // console.log("&&&& userData", userData);
 
   const handleClickRequest = () => {
-    API.post
-      .unionRequest({
-        user: userData.id,
-        union: unionData.id,
-        request_invest_account: 10,
-        amount_per_account: 10,
-      })
-      .then((res) => {
-        console.log(res);
-        alert(res);
-      });
+    handleModalVisibility(true);
   };
+
   return (
     <Conditional condition={unionData}>
       <InfoSection>
@@ -50,27 +45,24 @@ const UnionInfoParticipate = ({ userData, unionData }) => {
           <InfoRow>
             <Category>모집 기간</Category>
             <InfoSummary>
-              {" "}
-              {dateFormating(unionData.recruitment_end_date)}{" "}
+              {dateFormating(unionData.recruitment_end_date)}
             </InfoSummary>
           </InfoRow>
           <InfoRow>
             <Category>출자총액 / 현재 출자액</Category>
             <InfoSummary>
-              {" "}
-              {amountFormating(unionData.expected_amount)} /{" "}
-              {amountFormating(unionData.collected_amount)} (목표금액의{" "}
-              {(unionData.collected_amount / unionData.expected_amount) * 100}%){" "}
+              {amountFormating(unionData.expected_amount)} /
+              {amountFormating(unionData.collected_amount)} (목표금액의
+              {(unionData.collected_amount / unionData.expected_amount) * 100}%)
             </InfoSummary>
           </InfoRow>
           <InfoRow>
             <Category>최소출자액 / 최소구좌수</Category>
             <InfoSummary>
-              {" "}
               {amountFormating(
                 unionData.amount_per_account * unionData.min_of_account
-              )}{" "}
-              / {unionData.min_of_account}구좌{" "}
+              )}
+              / {unionData.min_of_account}구좌
             </InfoSummary>
           </InfoRow>
         </InfoMain>

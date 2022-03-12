@@ -75,7 +75,7 @@ const Editor = ({ noticePrimaryInfo = null }) => {
       <EditorLayer id="unifolio-editorjs"></EditorLayer>
       <EditorToolBoxLayer>
         <div>
-          파일 업로드 :{" "}
+          파일 업로드 :
           <input
             type="file"
             id="staged_files"

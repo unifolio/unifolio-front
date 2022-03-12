@@ -49,19 +49,23 @@ const InvestmentHistoryInput = ({
           }}
         >
           {categories.map((categoryData, idx) => {
-            // return (
-            //   <Select.Option key={`investment-history-select-${idx}`} value={categoryData.category}>
-            //     {categoryData.category}
-            //   </Select.Option>
-            // ); // 임시 0131
             return (
               <Select.Option
                 key={`investment-history-select-${idx}`}
-                value={categoryData.id}
+                value={categoryData.category}
               >
                 {categoryData.category}
               </Select.Option>
             );
+            // 임시 0131
+            // return (
+            //   <Select.Option
+            //     key={`investment-history-select-${idx}`}
+            //     value={categoryData.id}
+            //   >
+            //     {categoryData.category}
+            //   </Select.Option>
+            // );
           })}
         </Select>
         <Input
