@@ -70,6 +70,17 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      userSMSVerify: (phone_number, authcode) => {
+        const response = axiosInstance
+          .get(`${END_POINT}/users/sms/verify/${phone_number}/${authcode}/`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
     },
     post: {
       userSignupBusiness: async (formData) => {
@@ -111,11 +122,26 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      userSMS: async (phone_number) => {
+        const result = await axios
+          .post(`${END_POINT}/users/sms/`, {
+            phone_number: phone_number,
+          })
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            console.log(error);
+            return error.response;
+          });
+        console.log(result);
+        return result;
+      },
     },
     patch: {
       userGeneral: async (id, data) => {
         const config = {
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
         };
         const response = await axios
           .patch(`${END_POINT}/users/general/${id}/`, data, config)
@@ -123,7 +149,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error("patch user Error", error.response);
+            console.error('patch user Error', error.response);
             return error.response;
           });
         console.log(response);
@@ -131,7 +157,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       usersGeneral: async (id, data) => {
         const config = {
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
         };
         const response = await axios
           .patch(`${END_POINT}/users/general/${id}/`, data, config)
@@ -139,7 +165,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error("patch user Error", error.response);
+            console.error('patch user Error', error.response);
             return error.response;
           });
         console.log(response);
@@ -147,7 +173,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       userBusiness: async (id, data) => {
         const config = {
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
         };
         const response = await axios
           .patch(`${END_POINT}/users/business/${id}/`, data, config)
@@ -155,7 +181,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.error("patch user Error", error.response);
+            console.error('patch user Error', error.response);
             return error.response;
           });
         console.log(response);
@@ -163,7 +189,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
       },
       additionalUserEducation: (id, data) => {
         const config = {
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
         };
         const response = axios
           .patch(`${END_POINT}/users/mypage/additional/${id}/`, data, config)
@@ -172,7 +198,7 @@ const userService = ({ axios, axiosInstance, END_POINT }) => {
             return response;
           })
           .catch((error) => {
-            console.log("patch user Error", error.response);
+            console.log('patch user Error', error.response);
             return error.response;
           });
         console.log(response);
