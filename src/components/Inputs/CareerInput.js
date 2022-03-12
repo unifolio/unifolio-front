@@ -117,9 +117,7 @@ const CareerInput = ({
               >
                 {categories.map((categoryData, i) => {
                   // return (
-                  //   <Select.Option key={`career-category-${i}`} value={categoryData.category}>
-                  //     {categoryData.category}
-                  //   </Select.Option>
+                  //   <Select.Option key={`career-category-${i}`} value={categoryData.category}> {categoryData.category}</Select.Option>
                   // ); //임시 0131
                   return (
                     <Select.Option
