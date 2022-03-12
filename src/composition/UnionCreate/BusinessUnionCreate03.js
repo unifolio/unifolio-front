@@ -273,19 +273,22 @@ const BusinessUnionCreate03 = ({
                           ].includes(category.id)
                       )
                       .map((categoryData, i) => {
-                        // return (
-                        //   <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.category}>
-                        //     {categoryData.category}
-                        //   </Select.Option>
-                        // ); //임시 0131
                         return (
                           <Select.Option
                             key={`category-${categoryData.id}-${categoryData.category}`}
-                            value={categoryData.id}
+                            value={categoryData.category}
                           >
                             {categoryData.category}
                           </Select.Option>
-                        );
+                        ); //임시 0131
+                        // return (
+                        //   <Select.Option
+                        //     key={`category-${categoryData.id}-${categoryData.category}`}
+                        //     value={categoryData.id}
+                        //   >
+                        //     {categoryData.category}
+                        //   </Select.Option>
+                        // );
                       })}
                   </Select>
                 ))}

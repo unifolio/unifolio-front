@@ -116,17 +116,24 @@ const CareerInput = ({
                 }}
               >
                 {categories.map((categoryData, i) => {
-                  // return (
-                  //   <Select.Option key={`career-category-${i}`} value={categoryData.category}> {categoryData.category}</Select.Option>
-                  // ); //임시 0131
                   return (
                     <Select.Option
                       key={`career-category-${i}`}
-                      value={categoryData.id}
+                      value={categoryData.category}
                     >
+                      {" "}
                       {categoryData.category}
                     </Select.Option>
                   );
+                  //임시 0131
+                  // return (
+                  //   <Select.Option
+                  //     key={`career-category-${i}`}
+                  //     value={categoryData.id}
+                  //   >
+                  //     {categoryData.category}
+                  //   </Select.Option>
+                  // );
                 })}
               </Select>
               <Input
@@ -222,22 +229,23 @@ const CareerInput = ({
                 }}
               >
                 {categories.map((categoryData, i) => {
-                  // return (
-                  //   <Select.Option
-                  //     key={`career-financial-category-${i}`}
-                  //     value={categoryData.category}
-                  //   >
-                  //     {categoryData.category}
-                  //   </Select.Option>
-                  // ); //임시 0131
                   return (
                     <Select.Option
                       key={`career-financial-category-${i}`}
-                      value={categoryData.id}
+                      value={categoryData.category}
                     >
                       {categoryData.category}
                     </Select.Option>
                   );
+                  //임시 0131
+                  // return (
+                  //   <Select.Option
+                  //     key={`career-financial-category-${i}`}
+                  //     value={categoryData.id}
+                  //   >
+                  //     {categoryData.category}
+                  //   </Select.Option>
+                  // );
                 })}
               </Select>
               <Input
@@ -308,8 +316,7 @@ const CareerInput = ({
                 }}
                 style={{ height: "auto" }}
               >
-                {" "}
-                삭제{" "}
+                삭제
               </Button>
             </div>
           </div>

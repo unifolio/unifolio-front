@@ -85,6 +85,7 @@ const BusinessUnionCreate02 = ({
   };
 
   const handleNext = () => {
+    console.log("handleNext", careerInputs);
     onClickNext(
       {
         reviewer: {
@@ -108,8 +109,7 @@ const BusinessUnionCreate02 = ({
         <AdditionalInfoRow>
           <AdditionalInfoColumns>
             <AdditionalInfoSubTitle>
-              {" "}
-              투자 심사역에 관한 일반 사항{" "}
+              투자 심사역에 관한 일반 사항
             </AdditionalInfoSubTitle>
           </AdditionalInfoColumns>
         </AdditionalInfoRow>

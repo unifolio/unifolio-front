@@ -12,7 +12,6 @@ const ProfileCareerInputFinancial = ({
   return (
     <CareerInputSection className="career-inputs-section">
       {careerInputs.map((careerInput, idx) => {
-        console.log(" ==== 커리어 인풋 ==== ", careerInput);
         return (
           careerInput.type === "financial" && (
             <CareerInput

@@ -3,7 +3,6 @@ import { useState } from "react";
 import ProfileCareerInputFinancial from "composition/Profile/ProfileCareerInputFinancial";
 
 const useCareerInputs = ({ counts, user = null, at, isModifiable }) => {
-  console.log(user?.career);
   const [careerInputs, setCareerInputs] = useState(
     !!user && user.career.length !== 0
       ? user.career?.map((careerInput, i) => {
