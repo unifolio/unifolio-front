@@ -1,40 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import UnionManageCard from "components/common/UnionManageCard";
-// import API from "lib/api";
 
 const UnionManageLists = ({ myUnions }) => {
-  // useEffect(() => {
-  //   console.log(unions.length);
-
-  //   if (unions.length > 0) return;
-
-  //   const fetchUnions = async () => {
-  //     const responseCategories = await API.get.all_categories();
-  //     const categories = [...responseCategories.data];
-  //     const responseUnions = await API.get.unions();
-  //     const unionsData = responseUnions.data.map((eachUnion) => {
-  //       return {
-  //         ...eachUnion,
-  //         ["invest_category"]: eachUnion.invest_category,
-  //       };
-  //     });
-  //     if (unions.length === 0) {
-  //       setUnions(unionsData);
-  //     }
-
-  //     // incoming changes
-  //     // const response = await API.get.unions();
-  //     // setUnions(response.data);
-  //     // console.log(response)
-  //   };
-  //   fetchUnions();
-  // }, []);
-
-  if (myUnions.length === 0 || !myUnions) {
-    console.log(`unions ${myUnions.length}`);
-    return <></>;
+  if (myUnions?.length === 0 || !myUnions) {
+    console.log(`unions ${myUnions?.length}`);
+    return <div>해당 상태의 조합이 존재하지 않습니다</div>;
   }
 
   return (

@@ -15,26 +15,17 @@ const UnionManageListPage = ({ location }) => {
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const $mainRef = useRef();
   const { user } = useFetchUserToken();
-  const [myUnions, setMyUnions] = useState();
+  const [myReadyUnions, setMyReadyUnions] = useState();
+  const [myCompleteUnions, setMyCompleteUnions] = useState();
+
   useEffect(() => {
     const fetchUnionData = async () => {
       const userId = user?.id;
       if (!userId) return;
 
       const { data: myUnionsData } = await API.get.unionManageOwner(userId);
-      setMyUnions(myUnionsData);
-      // const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
-
-      // GET union/manage/22 =>
-      // Q : 포스트의 전체 정보를 내려줄 것인지?
-      //     아니면 포스트의 primary key만 내려줘서 조회를 따로 할것인지?
-      // A : 전체 정보를 보내주는 것이 원래의 의도였음.
-
-      // setUnionData(unionDetails.union_info);
-      // setPostData(unionDetails.post_info);
-      // setParticiPationListData(unionDetails.union_info.participants);
-      // setTempParticipantsData(unionDetails.union_info.temp_participants);
-      // console.log(data)
+      setMyReadyUnions(myUnionsData.filter((union) => !union.is_recruited));
+      setMyCompleteUnions(myUnionsData.filter((union) => union.is_recruited));
     };
     fetchUnionData();
   }, [user]);
@@ -42,7 +33,9 @@ const UnionManageListPage = ({ location }) => {
   const mainSectionSelector = (current = "ready") => {
     switch (current) {
       case "ready":
-        return <UnionManageLists myUnions={myUnions} />;
+        return <UnionManageLists myUnions={myReadyUnions} />;
+      case "complete":
+        return <UnionManageLists myUnions={myCompleteUnions} />;
       default:
         return (
           <div style={{ width: "100%" }}> 상단의 메뉴를 선택해주세요 </div>
@@ -50,7 +43,7 @@ const UnionManageListPage = ({ location }) => {
     }
   };
 
-  if (!user || !myUnions) return <></>;
+  if (!user || (!myReadyUnions && !myCompleteUnions)) return <></>;
   return (
     <>
       <UnionManageListHeader current={query.mode ?? "my-unions-manage"} />

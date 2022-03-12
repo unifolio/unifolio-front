@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -10,6 +10,10 @@ const UnionManageListHeader = ({ history, current }) => {
   const handleClickHeaderItem = (value) => {
     history.push(`/union/my-unions-manage?mode=${value}`);
   };
+
+  useEffect(() => {
+    history.push(`/union/my-unions-manage?mode=ready`);
+  }, []);
 
   return (
     <FindingHeaderPosition>
