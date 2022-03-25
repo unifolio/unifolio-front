@@ -1,28 +1,28 @@
-import React, { useRef, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-import qs from 'qs';
+import React, { useRef, useState, useEffect } from "react";
+import styled, { css } from "styled-components";
+import qs from "qs";
 
-import Responsive from 'components/common/Responsive';
-import FindingHeader from 'components/Header/FindingHeader';
+import Responsive from "components/common/Responsive";
+import FindingHeader from "components/Header/FindingHeader";
 
-import WaitingPeople from 'components/WaitingPeople';
+import WaitingPeople from "components/WaitingPeople";
 
-import WaitingUnions from 'components/Modal/WaitingUnions';
-import MoreInfoPerson from 'components/Modal/MoreInfoPerson';
-import MoreInfoUnion from 'components/Modal/MoreInfoUnion';
+import WaitingUnions from "components/Modal/WaitingUnions";
+import MoreInfoPerson from "components/Modal/MoreInfoPerson";
+import MoreInfoUnion from "components/Modal/MoreInfoUnion";
 
-import Filter from 'components/common/Filter';
+import Filter from "components/common/Filter";
 
-import useFetchUserToken from 'hooks/useFetchUserToken';
-import API from 'lib/api';
+import useFetchUserToken from "hooks/useFetchUserToken";
+import API from "lib/api";
 
 const FindingPage = ({ location }) => {
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
   const [modalContents, setModalContents] = useState({});
   const [filterVisible, setFilterVisible] = useState(false);
   const [filterValue, setFilterValue] = useState({
-    'waiting-people': {},
-    'waiting-unions': {},
+    "waiting-people": {},
+    "waiting-unions": {},
   });
   const [categories, setCategories] = useState([]);
   const [dataLength, setDataLength] = useState();
@@ -32,12 +32,7 @@ const FindingPage = ({ location }) => {
   const { user } = useFetchUserToken();
   console.log(filterValue);
   useEffect(() => {
-    if (
-      query.mode === 'waiting-people' &&
-      user &&
-      user.career.length !== 0 &&
-      user.education.length !== 0
-    ) {
+    if (user && user.career.length !== 0 && user.education.length !== 0) {
       setIsModalActive(false);
     } else {
       setIsModalActive(true);
@@ -47,10 +42,10 @@ const FindingPage = ({ location }) => {
   useEffect(() => {
     if (!$modalRef.current) return;
     if (Object.keys(modalContents).length !== 0) {
-      document.querySelector('body').style.overflow = 'hidden';
-      $modalRef.current.style.display = 'flex';
+      document.querySelector("body").style.overflow = "hidden";
+      $modalRef.current.style.display = "flex";
     } else {
-      $modalRef.current.style.display = 'none';
+      $modalRef.current.style.display = "none";
     }
   }, [$modalRef, modalContents]);
 
@@ -61,9 +56,9 @@ const FindingPage = ({ location }) => {
     })();
   }, []);
 
-  const modalSectionSelector = (current = 'waiting-people') => {
+  const modalSectionSelector = (current = "waiting-people") => {
     switch (current) {
-      case 'waiting-people':
+      case "waiting-people":
         return (
           <MoreInfoPerson
             idx={modalContents.idx}
@@ -76,7 +71,7 @@ const FindingPage = ({ location }) => {
       // ? <WaitingInfo info={modalContents.info} idx={modalContents.idx} toggleModal={toggleModal} />
       // : <MoreInfoPerson idx={modalContents.idx} $dom={modalContents.$card} toggleModal={toggleModal} />
 
-      case 'waiting-unions':
+      case "waiting-unions":
         return <MoreInfoUnion toggleModal={toggleModal} />;
       // api 경력 조회 프로세스 만든 후
       // return isLogin()
@@ -84,14 +79,14 @@ const FindingPage = ({ location }) => {
       // : <MoreInfoUnion toggleModal={toggleModal} />
       default:
         return (
-          <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>
+          <div style={{ width: "100%" }}> 상단의 메뉴를 선택해주세요 </div>
         );
     }
   };
 
-  const mainSectionSelector = (current = 'waiting-people') => {
+  const mainSectionSelector = (current = "waiting-people") => {
     switch (current) {
-      case 'waiting-people':
+      case "waiting-people":
         return (
           <WaitingPeople
             openModal={toggleModal}
@@ -99,11 +94,11 @@ const FindingPage = ({ location }) => {
             setDataLength={setDataLength}
           />
         );
-      case 'waiting-unions':
+      case "waiting-unions":
         return <WaitingUnions openModal={toggleModal} />;
       default:
         return (
-          <div style={{ width: '100%' }}> 상단의 메뉴를 선택해주세요 </div>
+          <div style={{ width: "100%" }}> 상단의 메뉴를 선택해주세요 </div>
         );
     }
   };
@@ -111,29 +106,29 @@ const FindingPage = ({ location }) => {
   const toggleModal = (cardObj) => {
     if (!$modalRef.current) return;
     // 모달 닫기
-    if (typeof cardObj === 'boolean' && !cardObj) {
-      document.querySelector('body').style.overflow = '';
-      $modalRef.current.style.display = 'none';
+    if (typeof cardObj === "boolean" && !cardObj) {
+      document.querySelector("body").style.overflow = "";
+      $modalRef.current.style.display = "none";
       setModalContents({});
       return;
     }
 
     // 모달 set
-    if (typeof cardObj.idx === 'number') {
+    if (typeof cardObj.idx === "number") {
       setModalContents(cardObj);
     }
 
     if (modalContents.idx !== null || cardObj !== null) {
-      document.querySelector('body').style.overflow = 'hidden';
-      $modalRef.current.style.display = 'flex';
+      document.querySelector("body").style.overflow = "hidden";
+      $modalRef.current.style.display = "flex";
     }
   };
 
   if (!user) return <></>;
   return (
     <>
-      <FindingHeader current={query.mode ?? 'waiting-people'} />
-      <FindingPagePosition className='FindingPage'>
+      <FindingHeader current={query.mode ?? "waiting-people"} />
+      <FindingPagePosition className="FindingPage">
         <MainSectionPosition>
           <MainSection ref={$mainRef}>
             {mainSectionSelector(query.mode)}

@@ -39,13 +39,11 @@ const Navbar = () => {
             </Link>
             {isLogin() ? (
               <span className="button signout" onClick={signout}>
-                {" "}
-                로그아웃{" "}
+                로그아웃
               </span>
             ) : (
               <Link to="/signin" className="button signin">
-                {" "}
-                로그인{" "}
+                로그인
               </Link>
             )}
           </div>

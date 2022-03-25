@@ -215,7 +215,7 @@ const PersonalUnionCreate02 = React.memo((props) => {
         ref={$toggleBack}
         className={"toggle-back"}
       />
-      <Input name={`hidden`} size="large" disabled type={"hidden"} />{" "}
+      <Input name={`hidden`} size="large" disabled type={"hidden"} />
       {/* 첫번째 disabled input은 스타일을 안먹는 버그가 있음. */}
       <section>
         <div className="row">
@@ -261,19 +261,22 @@ const PersonalUnionCreate02 = React.memo((props) => {
                           ].includes(category.id)
                       )
                       .map((categoryData, i) => {
-                        // return (
-                        //   <Select.Option key={`category-${categoryData.id}-${categoryData.category}`} value={categoryData.category}>
-                        //     {categoryData.category}
-                        //   </Select.Option>
-                        // ); //임시 0131
                         return (
                           <Select.Option
                             key={`category-${categoryData.id}-${categoryData.category}`}
-                            value={categoryData.id}
+                            value={categoryData.category}
                           >
                             {categoryData.category}
                           </Select.Option>
-                        );
+                        ); //임시 0131
+                        // return (
+                        //   <Select.Option
+                        //     key={`category-${categoryData.id}-${categoryData.category}`}
+                        //     value={categoryData.id}
+                        //   >
+                        //     {categoryData.category}
+                        //   </Select.Option>
+                        // );
                       })}
                   </Select>
                 ))}

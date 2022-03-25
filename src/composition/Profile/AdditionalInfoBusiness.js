@@ -262,8 +262,8 @@ const AdditionalInfoBusiness = ({ user, handleSubmit }) => {
                     )}
                   </DescriptionColumnLeft>
                   <DescriptionColumnRight>
-                    {educationData.school_name}{" "}
-                    {!educationData.major ? "" : educationData.major}{" "}
+                    {educationData.school_name}
+                    {!educationData.major ? "" : educationData.major}
                     {educationUtil.selectAttendStatus(
                       educationData.attend_status
                     )}

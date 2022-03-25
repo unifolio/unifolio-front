@@ -68,6 +68,17 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      unionManageUser: ({ unionId, userId }) => {
+        const response = axiosInstance
+          .get(`${END_POINT}/unions/manage/union/${unionId}/user/${userId}`)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
     },
     post: {
       newUnion: (data) => {
@@ -106,6 +117,19 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
       unionApproveRequest: (data) => {
         const response = axios
           .post(`${END_POINT}/unions/manage/request/approve`, data)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
+    },
+    put: {
+      unionDenyRequest: (data) => {
+        const response = axios
+          .put(`${END_POINT}/unions/manage/request/deny`, data)
           .then((response) => {
             return response.data;
           })
