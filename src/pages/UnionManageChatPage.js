@@ -16,9 +16,36 @@ const UnionManageChatPage = () => {
   const { unionId, receiverId } = useParams();
   const [unionData, setUnionData] = useState();
   const [userMessageData, setUserMessageData] = useState();
+  const [userRequestedData, setUserRequestedData] = useState();
   const { user } = useFetchUserToken();
   
-  console.log("unionId, receiverId", unionId, receiverId)
+  const handleClickApprove = () => {
+    
+    const fetchApprove = async () => {
+      const approveResult = await API.post.unionApproveRequest({
+        user: Number(receiverId),
+        union: Number(unionId),
+        my_invest_account: Number(userRequestedData.request_invest_account), // 출자 요청 구좌수
+        amount_per_account: Number(userRequestedData.amount_per_account), // 1구좌당 금액 900만
+      });
+      console.log(approveResult);
+      alert("승인되었습니다.");
+    };
+    fetchApprove();
+  };
+  const handleClickDeny = () => {
+    const fetchDeny = async () => {
+      const denyResult = await API.put.unionDenyRequest({
+        user: Number(receiverId),
+        union: Number(unionId),
+        my_invest_account: Number(userRequestedData.request_invest_account), // 출자 요청 구좌수
+        amount_per_account: Number(userRequestedData.amount_per_account), // 1구좌당 금액 900만
+      });
+      console.log(denyResult);
+      alert("거절되었습니다.");
+    }
+    fetchDeny();
+  }
   
   useEffect(() => {
     const fetchUnionData = async () => {
@@ -27,12 +54,13 @@ const UnionManageChatPage = () => {
         unionId: unionId,
         userId: receiverId,
       });
-      const {union, user_message} = unionManageUserData;
+      const {union, user_message, amount_per_account, request_invest_account, is_participant} = unionManageUserData;
       
       console.log("unionManageUserData", unionManageUserData)
       
       setUnionData(union);
       setUserMessageData(user_message);
+      setUserRequestedData({amount_per_account, request_invest_account, is_participant});
     };
     fetchUnionData();
   }, []);
@@ -44,6 +72,9 @@ const UnionManageChatPage = () => {
       <ManageHeader
         title={`${unionData.name} 조합`}
         backPage={"대화중인 조합"}
+        is_participant={userRequestedData.is_participant}
+        handleClickApprove={handleClickApprove}
+        handleClickDeny={handleClickDeny}
         // userId={user}
       />
       <InfoSection unionData={unionData} />

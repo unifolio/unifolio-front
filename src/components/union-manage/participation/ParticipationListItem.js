@@ -5,6 +5,15 @@ import styled from "styled-components";
 const ParticipationListItem = ({ participantConversationData }) => {
   const { id } = useParams();
   
+  const calculateDate = (recruitment_end_date, recruitment_start_date) => {
+    console.log(recruitment_end_date, recruitment_start_date)
+    const remainDateInteger = (recruitment_end_date - recruitment_start_date) / 1000 / 60 / 60 / 24;
+    if (remainDateInteger >= 1) {
+      return `${Math.floor(remainDateInteger)}일 전`;
+    }
+    return `${Math.floor(remainDateInteger* 24)}시간 전`;
+  };
+
   return (
     participantConversationData.map((conversationData) => (
       <ListItem key={conversationData.post_id}>
@@ -17,7 +26,9 @@ const ParticipationListItem = ({ participantConversationData }) => {
             </span>
             <div>
               <span>
-                {new window.Date(conversationData.created).toLocaleTimeString()} (0분전)
+                {new window.Date(conversationData.created).toLocaleTimeString()} (
+                  {calculateDate(new window.Date(), new window.Date(conversationData.created))}
+                  )
               </span>
             </div>
           </Date>

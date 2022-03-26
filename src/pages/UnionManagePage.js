@@ -49,10 +49,10 @@ const UnionManagePage = () => {
     fetchUnionData();
   }, [user]);
 
-  if (!!!user || !tempParticipantsData) return <></>;
+  if (!user || !tempParticipantsData) return <></>;
   return (
     <Responsive level={2}>
-      <UnionInfo unionData={unionData} />
+      <UnionInfo unionData={{...unionData, description: user.introduction }} />
       <ParticipationList
         data={tempParticipantsData}
         participantsConversationData={postData.unconfirmed_p}

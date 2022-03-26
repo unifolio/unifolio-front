@@ -12,7 +12,6 @@ import SigninPage from "pages/SigninPage";
 import UnionNewPage from "pages/UnionNewPage";
 import UnionDocumentPage from "pages/UnionDocumentPage";
 import UnionManageChatPage from "pages/UnionManageChatPage";
-import ManageUserChatPage from "pages/ManageUserChatPage";
 import UsersVerifyPage from "pages/UsersVerifyPage";
 import UnionParticipatePage from "pages/UnionParticipatePage";
 import UnionParticipateListPage from "pages/UnionParticipateListPage";
@@ -31,7 +30,6 @@ export {
   UnionCreatePage,
   UnionCreateBusinessPage,
   UnionManageChatPage,
-  ManageUserChatPage,
   UsersVerifyPage,
   UnionParticipatePage,
   UnionParticipateListPage

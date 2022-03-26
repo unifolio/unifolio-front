@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import Conditional from "components/common/Conditional";
-import Editor from "../Editor";
 
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
@@ -13,15 +12,6 @@ const ChatListItem = ({ post }) => {
   const childRef = useRef(null);
   const [isCollapse, setIsCollapse] = useState(false);
   const { user } = useFetchUserToken();
-
-  // useEffect(() => {
-  //   editorInstance.current = new EditorJS({
-  //     holder: "unifolio-editorjs",
-  //     // holder: modifyingInfo ? `editor-post-${modifyingInfo.post_id}` : "unifolio-editorjs", 
-  //     placeholder: modifyingInfo && modifyingInfo.content
-  //   });
-  //   $postTitle.current.value = modifyingInfo && modifyingInfo.title;
-  // }, []);
   
   const handleButtonClick = useCallback(
     (event) => {
@@ -47,7 +37,8 @@ const ChatListItem = ({ post }) => {
         <Category>{post.writer.name}</Category>
         <Contents>{post.title}</Contents>
         <Date>
-          <span>0000.00.00 / 0000.00.00</span>
+          {/* <span>0000.00.00 / 0000.00.00</span> */}
+          {/* <span>{new window.Date().toLocaleString()}</span> */}
           <ButtonGroup>
             <Conditional condition={isCollapse}>
               <SUpArrow onClick={handleButtonClick} />

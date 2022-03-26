@@ -91,7 +91,7 @@ const RequestParticipate = ({ unionData, handleClickRequestParticipate }) => {
             <div>{right}</div>
           </Row>
         ))}
-        <button onClick={handleClickRequestParticipate}> 조합참여 요청 </button>
+        <button onClick={() => handleClickRequestParticipate(requestAccount)}> 조합참여 요청 </button>
       </ModalContentsBodyLayout>
     </ModalContentsLayout>
   );

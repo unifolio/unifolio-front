@@ -5,22 +5,18 @@ import { withRouter } from "react-router-dom";
 import { dateFormating } from "lib/dateFormat";
 
 const UnionManageCard = ({ history, union, id }) => {
-  console.log(union);
+  
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
-    const remainDateInteger =
-      (new Date(recruitment_end_date) - new Date(recruitment_start_date)) /
-      1000 /
-      60 /
-      60 /
-      24;
+    console.log(recruitment_end_date, recruitment_start_date)
+    const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date)) / 1000 / 60 / 60 / 24;
     if (remainDateInteger >= 1) {
-      return `${Math.floor(Number(remainDateInteger / 24))}일 남음`;
+      return `${Math.floor(remainDateInteger)}일 남음`;
     }
     return `${Number(remainDateInteger * 24)}시간 남음`;
   };
 
   const calculateMillionWon = (won) => {
-    return won / 1000000;
+    return (won * 1000000).toLocaleString('ko');
   };
 
   const onClickParticipateButton = () => {
@@ -55,7 +51,7 @@ const UnionManageCard = ({ history, union, id }) => {
           </div>
           <div className="column column-5">
             <span className="bold">
-              {calculateMillionWon(union.expected_amount)} 백만원
+              {calculateMillionWon(union.expected_amount)} 원
             </span>
           </div>
         </div>
@@ -75,7 +71,7 @@ const UnionManageCard = ({ history, union, id }) => {
           </div>
           <div className="column column-5">
             <span className="bold">
-              구좌당 {calculateMillionWon(union.amount_per_account)} 백만원 |
+              구좌당 {calculateMillionWon(union.amount_per_account)} 원 |
               최소 {union.min_of_account}구좌
             </span>
           </div>
@@ -90,7 +86,7 @@ const UnionManageCard = ({ history, union, id }) => {
                 union.recruitment_end_date,
                 union.recruitment_start_date
               )}
-              ({dateFormating(union.recruitment_end_date)})
+              ({dateFormating(union.recruitment_end_date)} 까지)
             </span>
           </div>
         </div>
