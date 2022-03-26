@@ -45,10 +45,8 @@ const useFetchUserToken = () => {
         // history.push('/signin');
       }
     };
-    if (user === null) {
-      fetchData();
-    }
-  }, [user]);
+    if (user === null) fetchData(); 
+  }, [user, history.location.pathname]);
 
   return { user };
 }
