@@ -8,23 +8,23 @@ import palette from "lib/styles/palette.js";
 
 const UnionManageListHeader = ({ history, current }) => {
   const handleClickHeaderItem = (value) => {
-    // history.push(`/finding?mode=${value}`);
+    history.push(`/union/my-unions-manage?mode=${value}`);
   };
 
   return (
     <FindingHeaderPosition>
       <FindingHeaderLayout>
         <HeaderItem
-          onClick={() => handleClickHeaderItem("my-unions-manage")}
+          onClick={() => handleClickHeaderItem("ready")}
           current={current}
-          value={"my-unions-manage"}
+          value={"ready"}
         >
           모집 진행중인 조합
         </HeaderItem>
         <HeaderItem
-          onClick={() => handleClickHeaderItem("my-unions-manage")}
+          onClick={() => handleClickHeaderItem("complete")}
           current={current}
-          value={"my-unions-manage"}
+          value={"complete"}
         >
           모집 완료한 조합
         </HeaderItem>

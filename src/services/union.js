@@ -12,6 +12,17 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      unionsWaiting: () => {
+        const response = axiosInstance
+          .get(`${END_POINT}/unions/waiting/`)
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
       union: (id) => {
         const response = axiosInstance
           .get(`${END_POINT}/${id}`)
