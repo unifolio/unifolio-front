@@ -18,6 +18,7 @@ import {
   UnionCreateBusinessPage,
   UsersVerifyPage,
   UnionParticipatePage,
+  UnionParticipateListPage
 } from "pages";
 
 import Navbar from "components/common/Navbar";
@@ -31,17 +32,15 @@ function App() {
       <Route component={ProfilePage} path="/profile" />
       <Route component={UnionNewPage} path="/union/new" />
 
-      <Route
-        component={UnionManageListPage}
-        path="/union/my-unions-manage"
-        exact
-      />
+      <Route component={UnionManageListPage} path="/union/my-unions-manage" exact />
+      <Route component={UnionParticipateListPage} path="/union/my-participate-unions" />
       <Route component={UnionManagePage} path="/union/manage/:id" exact />
       <Route
         component={UnionParticipatePage}
         path="/union/participate/:id"
         exact
       />
+      
       <Route component={ManageUserChatPage} path="/union/manage/userchat/:id" />
       <Route
         component={ManageUnionChatPage}
