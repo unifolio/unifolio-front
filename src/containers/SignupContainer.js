@@ -116,8 +116,11 @@ const SignupContainer = ({ history }) => {
           const response = await API.post.userSignupGeneral(data);
 
           if (response.data.status === 201) {
-            alert('회원가입이 완료되었습니다');
+            alert('회원가입이 완료되었습니다.');
             history.push('/signin');
+          } else if (response.data.status === 400) {
+            alert('이메일이 중복이 되었습니다.');
+            return setProcess(1);
           } else {
             alert('오류가 발생하였습니다.');
             // alert("오류가 발생했지만 회원가입은 진행되었을 것입니다.. 210912 기준 SMTPSender Refused 에러 개발자 도구를 확인해주세요");
@@ -140,10 +143,12 @@ const SignupContainer = ({ history }) => {
           dispatch(addAgreement({ ...formData, role: current }));
           const data = dispatch(getSignupStateThunk());
           const response = await API.post.userSignupBusiness(data);
-
           if (response.data.status === 201) {
-            alert('회원가입이 완료되었습니다');
+            alert('회원가입이 완료되었습니다.');
             history.push('/signin');
+          } else if (response.data.status === 400) {
+            alert('이메일이 중복이 되었습니다.');
+            return setProcess(1);
           } else {
             alert('오류가 발생했습니다.');
           }

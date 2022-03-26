@@ -71,13 +71,9 @@ const Signup03 = ({ signupInputData, onClickNext, onClickBack }) => {
         />
       </SignupForm>
       <Buttons>
-        <BackwardButton onClick={handleClickBackward}>
-          {' '}
-          뒤로가기{' '}
-        </BackwardButton>
+        <BackwardButton onClick={handleClickBackward}>뒤로가기</BackwardButton>
         <SubmitButton onClick={handleSubmit} active={isActive}>
-          {' '}
-          회원 가입하기{' '}
+          회원 가입하기
         </SubmitButton>
       </Buttons>
     </SignupRowBlock>

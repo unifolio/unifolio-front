@@ -4,86 +4,101 @@ import { Link } from 'react-router-dom';
 
 import styles from 'lib/styles';
 
-import * as Icons from "components/common/Icons/";
-import SigninSocial from "components/Signin/SigninSocial";
-
+import * as Icons from 'components/common/Icons/';
+import SigninSocial from 'components/Signin/SigninSocial';
 
 const SigninPresentational = ({ handleSignin }) => {
   const [signinState, setSigninState] = useState({
-    email: localStorage.getItem("_unifolio_signin_account") ? localStorage.getItem("_unifolio_signin_account") : ""
+    email: localStorage.getItem('_unifolio_signin_account')
+      ? localStorage.getItem('_unifolio_signin_account')
+      : '',
   });
-    
-  const handleEmailChange = ({target}) => {
-    setSigninState((state) => ({...state, email: target.value}));
-  };
-  
-  const handlePasswordChange = ({target}) => {
-    setSigninState((state) => ({...state, password: target.value}));
-  };
-  
-  const handleRememberChange = () => {
-    setSigninState((state) => ({...state, remember: !state.remember}));
+
+  const handleEmailChange = ({ target }) => {
+    setSigninState((state) => ({ ...state, email: target.value }));
   };
 
-  const handleClickSignin = () => {
-    if (signinState.remember) localStorage.setItem("_unifolio_signin_account", signinState.email)
+  const handlePasswordChange = ({ target }) => {
+    setSigninState((state) => ({ ...state, password: target.value }));
+  };
+
+  const handleRememberChange = () => {
+    setSigninState((state) => ({ ...state, remember: !state.remember }));
+  };
+
+  const handleClickSignin = (e) => {
+    e.preventDefault();
+    if (signinState.remember)
+      localStorage.setItem('_unifolio_signin_account', signinState.email);
     handleSignin(signinState);
   };
-  
+
   return (
     <SigninLayout>
       <SigninBlock>
         <SigninBlockRow>
           <SigninTitle> 로그인 </SigninTitle>
         </SigninBlockRow>
-        <SigninBlockCenterSection>
-          <SigninIdInput onChange={handleEmailChange} value={signinState.email}/> 
+        <SigninBlockCenterSection onSubmit={handleClickSignin}>
+          <SigninIdInput
+            onChange={handleEmailChange}
+            value={signinState.email}
+          />
           <SigninPasswordInput onChange={handlePasswordChange} />
-          <SigninSubmitButton onClick={handleClickSignin} signinState={signinState}> 로그인하기 </SigninSubmitButton>
+          <SigninSubmitButton
+            type='submit'
+            onSubmit={handleClickSignin}
+            signinState={signinState}
+          >
+            로그인하기
+          </SigninSubmitButton>
           <SigninBlockRowSpaceBetween>
             <SigninRememberCheckBoxLayer>
-              <SigninCheckBoxInput type="checkbox" id="willbeRemembered" />
-              <SigninCheckBoxInputLabel htmlFor="willbeRemembered" onClick={handleRememberChange}/>
+              <SigninCheckBoxInput type='checkbox' id='willbeRemembered' />
+              <SigninCheckBoxInputLabel
+                htmlFor='willbeRemembered'
+                onClick={handleRememberChange}
+              />
             </SigninRememberCheckBoxLayer>
-            <SigninForgotPassword /> 
+            <SigninForgotPassword />
           </SigninBlockRowSpaceBetween>
         </SigninBlockCenterSection>
-        
-        <SigninBlockBottomSection>
-          
-        </SigninBlockBottomSection>
+
+        <SigninBlockBottomSection></SigninBlockBottomSection>
         <SigninBlockRow> 소셜 로그인</SigninBlockRow>
         <SigninSocialsSection>
           {/* <SigninSocial> <Icons.GoogleIcon /> </SigninSocial>
           <SigninSocial> <Icons.FacebookIcon /> </SigninSocial> */}
-          <SigninSocial> <Icons.NaverIcon />  </SigninSocial>
+          <SigninSocial>
+            {' '}
+            <Icons.NaverIcon />{' '}
+          </SigninSocial>
           {/* <SigninSocial> <Icons.KakaoIcon /> </SigninSocial>  */}
-          
+
           {/* <button> <Icons.GoogleIcon /> </button>
           <button> <Icons.FacebookIcon /> </button>
           <button> <Icons.NaverIcon /> </button>
           <button> <Icons.KakaoIcon /> </button> */}
         </SigninSocialsSection>
-        <SigninBlockRow marginTop={"2rem"}> 
+        <SigninBlockRow marginTop={'2rem'}>
           <div>
             <span>아직 계정이 없으시다면?</span>
-            <Link to="/signup"> 
+            <Link to='/signup'>
               <HighlightSpan> 회원가입 </HighlightSpan>
             </Link>
           </div>
         </SigninBlockRow>
       </SigninBlock>
-      
     </SigninLayout>
   );
-}
+};
 const SigninLayout = styled.div`
-  height:calc(100vh - 4rem);
+  height: calc(100vh - 4rem);
   ${styles.layout.marginContainer}
   font-size: var(--fontSize18);
-  display:flex;
+  display: flex;
   justify-content: center;
-`
+`;
 
 const SigninTitle = styled.span`
   font-size: 2rem;
@@ -92,28 +107,32 @@ const SigninTitle = styled.span`
 
 const HighlightSpan = styled.span`
   color: ${styles.palette.unifolioBlue};
-`
+`;
 
 const SigninBlock = styled.div`
-  width: 60%;  
-  display:flex;
-  flex-direction:column; 
+  width: 60%;
+  display: flex;
+  flex-direction: column;
 `;
 const SigninBlockRow = styled.div`
   padding-top: 1.5rem;
   font-size: 1.2rem;
-  
-  display:flex;
+
+  display: flex;
   justify-content: space-evenly;
 
-  ${props => props.marginTop && css`margin-top: ${props.marginTop};`}
+  ${(props) =>
+    props.marginTop &&
+    css`
+      margin-top: ${props.marginTop};
+    `}
 `;
 
 const SigninBlockRowSpaceBetween = styled(SigninBlockRow)`
   justify-content: space-between;
 `;
 
-const SigninBlockCenterSection = styled.div`
+const SigninBlockCenterSection = styled.form`
   margin-top: 40px;
 
   display: flex;
@@ -125,17 +144,17 @@ const SigninBlockCenterSection = styled.div`
 `;
 
 const SigninBlockBottomSection = styled.div`
-  padding-top:1rem;
-  
-  display:flex;
+  padding-top: 1rem;
+
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 const SigninSocialsSection = styled.div`
-  padding-top:1.5rem;
+  padding-top: 1.5rem;
   display: flex;
   justify-content: center;
-  #naverIdLogin{
+  #naverIdLogin {
     width: 2rem;
     height: 2rem;
   }
@@ -149,18 +168,22 @@ const SigninSocialsSection = styled.div`
   button + button {
     margin-left: 24px;
   }
-`
-const SigninIdInput = styled.input.attrs(
-  props => ({ type: "text", name: "email", placeholder: "User ID" })
-)`
+`;
+const SigninIdInput = styled.input.attrs((props) => ({
+  type: 'text',
+  name: 'email',
+  placeholder: 'User ID',
+}))`
   height: 3rem;
   border: none;
   border-bottom: 1px solid gray;
   padding: 0 1rem;
 `;
-const SigninPasswordInput = styled.input.attrs(
-  props => ({type: "password", name:"password", placeholder: "Password"})
-)`
+const SigninPasswordInput = styled.input.attrs((props) => ({
+  type: 'password',
+  name: 'password',
+  placeholder: 'Password',
+}))`
   height: 3rem;
   border: none;
   border-bottom: 1px solid gray;
@@ -172,29 +195,29 @@ const SigninSubmitButton = styled.button`
   margin-top: 1rem;
   border: none;
   cursor: pointer;
-  ${ ({ signinState }) => signinState.email && signinState.password 
-    ? css`
-        color: white;
-        background-color: ${styles.palette.unifolioBlue};
-      `
-    : css`
-      color: "#BCB6B6";
-    `
-  }
+  ${({ signinState }) =>
+    signinState.email && signinState.password
+      ? css`
+          color: white;
+          background-color: ${styles.palette.unifolioBlue};
+        `
+      : css`
+          color: '#BCB6B6';
+        `}
 `;
 
 const SigninRememberCheckBoxLayer = styled.div`
   font-size: 16px;
   color: ${styles.palette.unifolioBlue};
-  
+
   display: flex;
   align-items: center;
-  
+
   ::after {
-    content: "아이디 저장";
+    content: '아이디 저장';
     margin-left: 10px;
   }
-  
+
   input[type='checkbox']:checked + label {
     background-color: ${styles.palette.unifolioBlue};
   }
@@ -206,21 +229,20 @@ const SigninCheckBoxInput = styled.input`
 const SigninCheckBoxInputLabel = styled.label`
   width: 1.2rem;
   height: 1.2rem;
-  
+
   border: 1px solid ${styles.palette.unifolioBlue};
   cursor: pointer;
 `;
-
 
 const SigninForgotPassword = styled.div`
   font-size: 16px;
   color: ${styles.palette.unifolioBlue};
   background-color: none;
-  
+
   cursor: pointer;
-  
+
   &::after {
-    content: "아이디 / 비밀번호 찾기"
+    content: '아이디 / 비밀번호 찾기';
   }
 `;
 
