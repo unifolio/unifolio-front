@@ -31,25 +31,20 @@ const UnionParticipatePage = () => {
 
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
 
-      // post notice 재정의
-      unionDetails.post_info.notice = await Promise.all(
-        unionDetails.post_info.notice.map(async ({ post_id }) => {
-          const { data: unionPost } = await API.get.posts(post_id);
-          return unionPost;
-        })
-      );
-      // unconfirmed_p 재정의
-      unionDetails.post_info.unconfirmed_p = await Promise.all(
-        unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
-          const { data: unionConversation } = await API.get.posts(post_id);
-          return unionConversation;
-        })
-      );
-
-      // GET union/manage/22 =>
-      // Q : 포스트의 전체 정보를 내려줄 것인지?
-      //     아니면 포스트의 primary key만 내려줘서 조회를 따로 할것인지?
-      // A : 전체 정보를 보내주는 것이 원래의 의도였음.
+      // // post notice 재정의
+      // unionDetails.post_info.notice = await Promise.all(
+      //   unionDetails.post_info.notice.map(async ({ post_id }) => {
+      //     const { data: unionPost } = await API.get.posts(post_id);
+      //     return unionPost;
+      //   })
+      // );
+      // // unconfirmed_p 재정의
+      // unionDetails.post_info.unconfirmed_p = await Promise.all(
+      //   unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
+      //     const { data: unionConversation } = await API.get.posts(post_id);
+      //     return unionConversation;
+      //   })
+      // );
 
       console.log(unionDetails);
       setUnionData(unionDetails.union_info);

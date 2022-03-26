@@ -4,17 +4,8 @@ import styled from "styled-components";
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
 import ParticipationListItem from "./ParticipationListItem";
-const ParticipationList = ({
-  title,
-  object,
-  data,
-  participantsConversationData,
-}) => {
-  console.log(
-    "=== participantsConversationData ===",
-    participantsConversationData,
-    data
-  );
+const ParticipationList = ({ title, data, participantsConversationData }) => {
+  console.log( "=== participantsConversationData ===", data, participantsConversationData);
   const parentRef = useRef(null);
   const childRef = useRef(null);
   const [isCollapse, setIsCollapse] = useState(false);
@@ -47,7 +38,7 @@ const ParticipationList = ({
         <Title>{title}</Title>
         <ButtonGroup>
           <ParticipationCount>
-            {object} {data.length}명
+            대화상대 {data.length}명
           </ParticipationCount>
           <Conditional condition={isCollapse}>
             <SUpArrow onClick={handleButtonClick} />
