@@ -15,6 +15,7 @@ const UnionOrganizeConfirmModal = ({
     <UnionCommonModal
       isModalActive={isModalActive}
       handleModalVisibility={handleModalVisibility}
+      color='#f3f3f3'
     >
       <ModalLayout>
         <ModalHeader>
