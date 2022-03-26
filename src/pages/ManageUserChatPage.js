@@ -11,7 +11,7 @@ import ChatList from "components/Union-manage/chat/ChatList";
 import ManageHeader from "components/Union-manage/ManageHeader";
 import InfoSection from "composition/UnionManage/UserChat/InfoSection";
 
-import UnionCommonModal from "components/Modal/UnionCommonModal";
+import UnionCommonModal from "components/Modal/UnionCommon";
 import RequestReadyParticipate from "composition/UnionParticipate/Modal/RequestReadyParticipate";
 
 import useFetchUserToken from "hooks/useFetchUserToken";

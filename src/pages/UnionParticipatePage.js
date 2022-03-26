@@ -8,7 +8,7 @@ import NoticeList from "components/Union-manage/notice/NoticeList";
 import PostList from "components/Union-manage/post/PostList";
 import EditorUser from "components/Union-manage/EditorUser";
 
-import UnionCommonModal from "components/Modal/UnionCommonModal";
+import UnionCommonModal from "components/Modal/UnionCommon";
 import RequestParticipate from "composition/UnionParticipate/Modal/RequestParticipate";
 
 import useFetchUserToken from "hooks/useFetchUserToken";
