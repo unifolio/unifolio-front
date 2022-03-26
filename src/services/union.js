@@ -90,6 +90,12 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
+      unionCommunicatedList: ({userId}) => {
+        const response = axiosInstance
+          .get(`${END_POINT}/unions/manage/communicatedlist/${userId}`)
+          .then(response => response.data).catch(e => e.response);
+        return response;
+      }
     },
     post: {
       newUnion: (data) => {
