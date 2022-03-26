@@ -6,16 +6,20 @@ import { dateFormating } from 'lib/dateFormat';
 const UnionCard = ({ history, idx, union, openModal }) => {
   console.log(union);
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
-    console.log(recruitment_end_date, recruitment_start_date)
-    const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date)) / 1000 / 60 / 60 / 24;
+    const remainDateInteger =
+      (new Date(recruitment_end_date) - new Date(recruitment_start_date)) /
+      1000 /
+      60 /
+      60 /
+      24;
     if (remainDateInteger >= 1) {
-      return `${Math.floor(remainDateInteger)}일 남음`;
+      return `${Math.floor(Number(remainDateInteger / 24))}일 남음`;
     }
     return `${Number(remainDateInteger * 24)}시간 남음`;
   };
 
   const calculateMillionWon = (won) => {
-    return (won * 1000000).toLocaleString('ko');
+    return won / 1000000;
   };
 
   const onClickParticipateButton = () => {
@@ -37,8 +41,8 @@ const UnionCard = ({ history, idx, union, openModal }) => {
           </div>
           <div className='column column-5'>
             {union.invest_category.map((each, i) => (
-              <span className="grey" key={`${each.category}-${Math.random()}`}>
-                {each.category}&nbsp;
+              <span className='grey' key={`${each.category}-${Math.random()}`}>
+                {each.category},
               </span>
             ))}
           </div>
@@ -49,9 +53,9 @@ const UnionCard = ({ history, idx, union, openModal }) => {
           <div className='column column-1'>
             <span className='grey'>출자 총액</span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
-              {calculateMillionWon(union.expected_amount)} 원
+          <div className='column column-5'>
+            <span className='bold'>
+              {calculateMillionWon(union.expected_amount)} 백만원
             </span>
           </div>
         </div>
@@ -59,9 +63,9 @@ const UnionCard = ({ history, idx, union, openModal }) => {
           <div className='column column-1'>
             <span className='grey'>현재 출자액 </span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
-              {calculateMillionWon(union.collected_amount)} 원
+          <div className='column column-5'>
+            <span className='bold'>
+              {calculateMillionWon(union.collected_amount)}
             </span>
           </div>
         </div>
@@ -69,9 +73,9 @@ const UnionCard = ({ history, idx, union, openModal }) => {
           <div className='column column-1'>
             <span className='grey'>최소 출자액</span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
-              구좌당 {calculateMillionWon(union.amount_per_account)} 원 |
+          <div className='column column-5'>
+            <span className='bold'>
+              구좌당 {calculateMillionWon(union.amount_per_account)} 백만원 |
               최소 {union.min_of_account}구좌
             </span>
           </div>
