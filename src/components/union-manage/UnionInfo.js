@@ -1,8 +1,11 @@
-import Conditional from 'components/common/Conditional';
-import { amountFormating } from 'lib/amountFormat';
-import { dateFormating } from 'lib/dateFormat';
 import React from 'react';
 import styled from 'styled-components';
+
+import Conditional from 'components/common/Conditional';
+
+import { amountFormating, amountFormatingMultiply } from 'lib/amountFormat';
+import { dateFormating } from 'lib/dateFormat';
+
 const UnionInfo = ({unionData}) => {
     console.log(unionData);
     return(
@@ -33,11 +36,11 @@ const UnionInfo = ({unionData}) => {
                     </InfoRow>
                     <InfoRow>
                         <Category>출자총액 / 현재 출자액</Category>
-                        <InfoSummary> {amountFormating(unionData.expected_amount)} / {amountFormating(unionData.collected_amount)} (목표금액의 {(unionData.collected_amount/unionData.expected_amount)*100}%) </InfoSummary>
+                        <InfoSummary> {amountFormatingMultiply(unionData.expected_amount)} / {amountFormatingMultiply(unionData.collected_amount)} (목표금액의 {(unionData.collected_amount/unionData.expected_amount)*100}%) </InfoSummary>
                     </InfoRow>
                     <InfoRow>
                         <Category>최소출자액 / 최소구좌수</Category>
-                        <InfoSummary> {amountFormating(unionData.amount_per_account*unionData.min_of_account)} / {unionData.min_of_account}구좌 </InfoSummary>
+                        <InfoSummary> {amountFormatingMultiply(unionData.amount_per_account*unionData.min_of_account)} / {unionData.min_of_account}구좌 </InfoSummary>
                     </InfoRow>
                 </InfoMain>
             </InfoSection>
