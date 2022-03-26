@@ -13,16 +13,16 @@ const UnionManageLists = ({ myUnions }) => {
     <>
       {myUnions?.map((union, i) => {
         return (
-          <UnionManageCardsCell key={`union-${union.id}`}>
+          <UnionCardsCell key={`union-${union.id}`}>
             <UnionManageCard union={union} id={union.id} />
-          </UnionManageCardsCell>
+          </UnionCardsCell>
         );
       })}
     </>
   );
 };
 
-const UnionManageCardsCell = styled.div`
+const UnionCardsCell = styled.div`
   margin: 0.5rem;
   place-items: center;
   display: flex;
