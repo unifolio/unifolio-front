@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 const UnionDetailInfo = ({ unionData }) => {
-    console.log("unionData", unionData)
     
     const remainDate = () => {
         const remain = Math.ceil((new Date(unionData.recruitment_end_date).getTime() - Date.now()) / (1000*60*60*24));
         return remain >= 0 ? remain : "초과";
     }
     
-    if (!unionData) return <>로딩중</>
+    if (!unionData) return <></>;
     
     return (
             <UnionInfoSection>

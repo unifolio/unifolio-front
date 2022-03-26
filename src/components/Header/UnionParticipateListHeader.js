@@ -6,13 +6,13 @@ import Responsive from "components/common/Responsive.js";
 
 import palette from "lib/styles/palette.js";
 
-const UnionManageListHeader = ({ history, current }) => {
+const UnionParticipateListHeader = ({ history, current }) => {
   const handleClickHeaderItem = (value) => {
-    history.push(`/union/my-unions-manage?mode=${value}`);
+    history.push(`/union/my-participate-unions?mode=${value}`);
   };
 
   useEffect(() => {
-    history.push(`/union/my-unions-manage?mode=ready`);
+    history.push(`/union/my-participate-unions?mode=ready`);
   }, []);
 
   return (
@@ -76,4 +76,4 @@ const HeaderItem = styled.div`
     `}
 `;
 
-export default withRouter(UnionManageListHeader);
+export default withRouter(UnionParticipateListHeader);

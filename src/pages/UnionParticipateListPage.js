@@ -1,29 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import qs from "qs";
 
 import Responsive from "components/common/Responsive";
-import UnionManageListHeader from "components/Header/UnionManageListHeader";
-import UnionManageLists from "composition/UnionManage/UnionManageLists";
+import UnionParticipateListHeader from "components/Header/UnionParticipateListHeader";
+
+import UnionList from "composition/UnionParticipate/UnionList";
 
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from "lib/api";
 
-const UnionManageListPage = ({ location }) => {
-  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+const UnionParticipateListPage = ({location}) => {
   const $mainRef = useRef();
   const { user } = useFetchUserToken();
   const [myReadyUnions, setMyReadyUnions] = useState();
-  const [myCompleteUnions, setMyCompleteUnions] = useState();
+  const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+  // const [myCompleteUnions, setMyCompleteUnions] = useState();
 
   useEffect(() => {
     const fetchUnionData = async () => {
       const userId = user?.id;
       if (!userId) return;
+      
+      const unionList = await API.get.unionCommunicatedList({userId});
+      setMyReadyUnions(unionList);
 
-      const { data: myUnionsData } = await API.get.unionManageOwner(userId);
-      setMyReadyUnions(myUnionsData.filter((union) => !union.is_recruited));
-      setMyCompleteUnions(myUnionsData.filter((union) => union.is_recruited));
+      // const { data: myUnionsData } = await API.get.unionManageOwner(userId);
+      // setMyReadyUnions(myUnionsData.filter((union) => !union.is_recruited));
+      // setMyCompleteUnions(myUnionsData.filter((union) => union.is_recruited));
     };
     fetchUnionData();
   }, [user]);
@@ -31,9 +35,9 @@ const UnionManageListPage = ({ location }) => {
   const mainSectionSelector = (current = "ready") => {
     switch (current) {
       case "ready":
-        return <UnionManageLists myUnions={myReadyUnions} />;
+        return <UnionList myUnions={myReadyUnions} />;
       case "complete":
-        return <UnionManageLists myUnions={myCompleteUnions} />;
+        return <UnionList myUnions={myReadyUnions} />;
       default:
         return (
           <div style={{ width: "100%" }}> 상단의 메뉴를 선택해주세요 </div>
@@ -41,10 +45,10 @@ const UnionManageListPage = ({ location }) => {
     }
   };
 
-  if (!user || (!myReadyUnions && !myCompleteUnions)) return <></>;
+  if (!(user && myReadyUnions)) return <></>;
   return (
     <>
-      <UnionManageListHeader current={query.mode ?? "my-unions-manage"} />
+      <UnionParticipateListHeader current={query.mode ?? "my-participate-unions"} />
       <FindingPagePosition className="UnionManageListPage">
         <MainSectionPosition>
           <MainSection ref={$mainRef}>
@@ -91,4 +95,4 @@ const MainSection = styled.main`
     grid-template-columns: repeat(auto-fill, minmax(297px, 329px));
   }
 `;
-export default UnionManageListPage;
+export default UnionParticipateListPage;

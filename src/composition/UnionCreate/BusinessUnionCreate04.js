@@ -52,8 +52,8 @@ const BusinessUnionCreate04 = ({ user, unionCreateInputData, onClickNext, onClic
     console.log(formData)
 		onClickNext({ 
       ...formData, 
-      phone_union: `${formData.phone_union_1}-${formData.phone_union_2}-${formData.phone_union_3}`,
-      fax_union: `${formData.fax_union_1}-${formData.fax_union_2}-${formData.fax_union_3}`
+      phone_union: Number(`${formData.phone_union_1}${formData.phone_union_2}${formData.phone_union_3}`),
+      fax_union: Number(`${formData.fax_union_1}${formData.fax_union_2}${formData.fax_union_3}`)
     }, 4);
 	};
   

@@ -11,7 +11,7 @@ import ChatList from "components/Union-manage/chat/ChatList";
 import ManageHeader from "components/Union-manage/ManageHeader";
 import InfoSection from "composition/UnionManage/UserChat/InfoSection";
 
-import UnionCommonModal from "components/Modal/UnionCommonModal";
+import UnionCommonModal from "components/Modal/UnionCommon";
 import RequestReadyParticipate from "composition/UnionParticipate/Modal/RequestReadyParticipate";
 
 import useFetchUserToken from "hooks/useFetchUserToken";
@@ -56,30 +56,27 @@ const ManageUserChatPage = ({ match }) => {
         userId: receiverId,
       });
 
-      // console.log(" ***** unionManageUserData ", unionManageUserData);
       setReceiverRequestData({
         amount_per_account: unionManageUserData.amount_per_account,
         request_invest_account: unionManageUserData.request_invest_account,
       });
 
-      const { data: receiver } = await API.get.userGeneral({
-        userId: receiverId,
-      }); // 채팅하는 사람의 idx
+      const { data: receiver } = await API.get.userGeneral({ userId: receiverId }); // 채팅하는 사람의 idx
 
       // post notice 재정의
-      unionDetails.post_info.notice = await Promise.all(
-        unionDetails.post_info.notice.map(async ({ post_id }) => {
-          const { data: unionPost } = await API.get.posts(post_id);
-          return unionPost;
-        })
-      );
-      // unconfirmed_p 재정의
-      unionDetails.post_info.unconfirmed_p = await Promise.all(
-        unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
-          const { data: unionConversation } = await API.get.posts(post_id);
-          return unionConversation;
-        })
-      );
+      // unionDetails.post_info.notice = await Promise.all(
+      //   unionDetails.post_info.notice.map(async ({ post_id }) => {
+      //     const { data: unionPost } = await API.get.posts(post_id);
+      //     return unionPost;
+      //   })
+      // );
+      // // unconfirmed_p 재정의
+      // unionDetails.post_info.unconfirmed_p = await Promise.all(
+      //   unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
+      //     const { data: unionConversation } = await API.get.posts(post_id);
+      //     return unionConversation;
+      //   })
+      // );
 
       // const allPosts = await API.get.posts();
 

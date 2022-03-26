@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import Logo from "../../assets/images/logo.png";
+import useFetchUserToken from "hooks/useFetchUserToken";
 
 const Navbar = () => {
-  const { page } = useParams();
+  const { user } = useFetchUserToken();
+
   const isLogin = () => {
     const accessToken = localStorage.getItem("unifolioAccess");
     if (!accessToken) return false;
@@ -26,12 +29,21 @@ const Navbar = () => {
             <Link to="/finding" className="button home">
               조합 참여
             </Link>
-            <Link to="/union/my-unions-manage" className="button manage">
-              조합 관리
-            </Link>
-            <Link to="/union/new" className="button create">
-              조합 만들기
-            </Link>
+            {user?.role === "business" && (
+              <>
+                <Link to="/union/my-unions-manage" className="button manage">
+                  조합 관리
+                </Link>
+                <Link to="/union/new" className="button create">
+                  조합 만들기
+                </Link>
+              </>
+            )}
+            {user?.role === "general" && (
+              <Link to="/union/my-participate-unions" className="button manage">
+                참여 조합 보기
+              </Link>
+            )}
           </div>
           <div className="header-right">
             <Link to="/profile" className="button my">

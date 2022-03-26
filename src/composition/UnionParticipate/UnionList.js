@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import UnionManageCard from "components/common/UnionManageCard";
+import UnionCard from "components/common/UnionCard";
 
-const UnionManageLists = ({ myUnions }) => {
+const UnionList = ({ myUnions }) => {
   if (myUnions?.length === 0 || !myUnions) {
     console.log(`unions ${myUnions?.length}`);
     return <div>해당 상태의 조합이 존재하지 않습니다</div>;
@@ -14,7 +14,7 @@ const UnionManageLists = ({ myUnions }) => {
       {myUnions?.map((union, i) => {
         return (
           <UnionCardsCell key={`union-${union.id}`}>
-            <UnionManageCard union={union} id={union.id} />
+            <UnionCard union={union} id={union.id} />
           </UnionCardsCell>
         );
       })}
@@ -28,4 +28,4 @@ const UnionCardsCell = styled.div`
   display: flex;
 `;
 
-export default UnionManageLists;
+export default UnionList;

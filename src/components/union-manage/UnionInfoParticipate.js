@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Conditional from "components/common/Conditional";
-import { amountFormating } from "lib/amountFormat";
+import { amountFormating, amountFormatingMultiply } from "lib/amountFormat";
 import { dateFormating } from "lib/dateFormat";
 
 import API from "lib/api";
@@ -51,15 +51,15 @@ const UnionInfoParticipate = ({
           <InfoRow>
             <Category>출자총액 / 현재 출자액</Category>
             <InfoSummary>
-              {amountFormating(unionData.expected_amount)} /
-              {amountFormating(unionData.collected_amount)} (목표금액의
+              {amountFormatingMultiply(unionData.expected_amount)} /
+              {amountFormatingMultiply(unionData.collected_amount)} (목표금액의
               {(unionData.collected_amount / unionData.expected_amount) * 100}%)
             </InfoSummary>
           </InfoRow>
           <InfoRow>
             <Category>최소출자액 / 최소구좌수</Category>
             <InfoSummary>
-              {amountFormating(
+              {amountFormatingMultiply(
                 unionData.amount_per_account * unionData.min_of_account
               )}
               / {unionData.min_of_account}구좌

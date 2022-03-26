@@ -42,7 +42,25 @@ const postService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response; 
       }
+    },
+    patch: {
+      posts: (data) => {
+        const formData = new FormData();
+        for (const key in data ) {
+          formData.append(key, data[key]);
+        }
+        const response = axios
+          .patch(`${END_POINT}/posts/${data.post_id}/`, formData)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response; 
+      }
     }
+
   }
 }
 
