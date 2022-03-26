@@ -18,7 +18,7 @@ const useFetchUserToken = () => {
       if (tokenData.accessToken === null) {
         // alert('로그인 기록이 없습니다 1');
         // localStorage.removeItem('unifolioUser');
-        history.push('/signin');
+        if (history.location.pathname !== '/signin' || history.location.pathname !== '/signup' || history.location.pathname !== '/') history.push('/signin');
       }
       
       const response = await API.post.tokenToGetUser(tokenData);
@@ -45,7 +45,7 @@ const useFetchUserToken = () => {
         // history.push('/signin');
       }
     };
-    if (user === null) fetchData(); 
+    if (user === null && history.location.pathname !== '/signin' && history.location.pathname !== '/signup' && history.location.pathname !== '/') fetchData(); 
   }, [user, history.location.pathname]);
 
   return { user };
