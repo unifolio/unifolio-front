@@ -49,7 +49,7 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
   const handlePrev = () => {};
   const handleNext = async () => {
     const response = await API.get.userSMSVerify(
-      signupState.phoneNumber,
+      Number(signupState.phoneNumber),
       signupState.authCode,
     );
     console.log(response);
@@ -57,7 +57,7 @@ const Signup03 = ({ onClickNext, onClickBack }) => {
     onClickNext(
       {
         ...signupState,
-        phone_number: signupState.phoneNumber,
+        phone_number: Number(signupState.phoneNumber),
         auth_code: signupState.authCode,
       },
       3,

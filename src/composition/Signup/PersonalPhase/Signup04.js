@@ -46,7 +46,6 @@ const Signup04 = ({ onClickNext, onClickBack }) => {
       },
       4,
     );
-    // onClickNext({...signupState, phone_number: signupState.phoneNumber, auth_code: signupState.authCode }, 3);
   };
   return (
     <SignupRowBlock>
