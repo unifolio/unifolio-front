@@ -56,31 +56,29 @@ const UnionOrganizeConfirmModal = ({
         <ModalBody>
           <BodyContentsRow>
             <SubTitle>운용사(GP)</SubTitle>
-            <GPName>{`황철순 엑셀러레이터 5천만원 (10%)`}</GPName>
+            <GPName>{`${unionData.owner.name} 엑셀러레이터 5천만원 (10%)`}</GPName>
           </BodyContentsRow>
           <BodyContentsRowLP>
             <SubTitle>출자자(LP)</SubTitle>
             <LPGrid>
-              <LPCard>
-                <span>신지훈</span>
-                <LPCardAmount>{`5천만원  (10%)`}</LPCardAmount>
-              </LPCard>
-              <LPCard>
-                <span>신지훈</span>
-                <LPCardAmount>{`5천만원  (10%)`}</LPCardAmount>
-              </LPCard>
-              <LPCard>
-                <span>신지훈</span>
-                <LPCardAmount>{`5천만원  (10%)`}</LPCardAmount>
-              </LPCard>
-              <LPCard>
-                <span>신지훈</span>
-                <LPCardAmount>{`5천만원  (10%)`}</LPCardAmount>
-              </LPCard>
-              <LPCard>
-                <span>신지훈</span>
-                <LPCardAmount>{`5천만원  (10%)`}</LPCardAmount>
-              </LPCard>
+              {unionData.participants.map((participant) => {
+                return (
+                  <LPCard key={participant.id}>
+                    <span>{participant.name}</span>
+                    <LPCardAmount>{`${
+                      (participant.my_invest_account *
+                        participant.my_invest_account) /
+                      10
+                    }천만원  (${
+                      (unionData.collected_amount /
+                        ((participant.my_invest_account *
+                          participant.my_invest_account) /
+                          100)) *
+                      100
+                    }%)`}</LPCardAmount>
+                  </LPCard>
+                );
+              })}
             </LPGrid>
           </BodyContentsRowLP>
         </ModalBody>
