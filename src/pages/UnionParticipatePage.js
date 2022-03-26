@@ -4,12 +4,13 @@ import { Link, useParams } from "react-router-dom";
 import Responsive from "components/common/Responsive";
 import UnionInfoParticipate from "components/Union-manage/UnionInfoParticipate";
 import ParticipationList from "components/Union-manage/participation/ParticipationList";
+
 import NoticeList from "components/Union-manage/notice/NoticeList";
 import PostList from "components/Union-manage/post/PostList";
 import EditorUser from "components/Union-manage/EditorUser";
 
 import UnionCommonModal from "components/Modal/UnionCommon";
-import RequestParticipate from "composition/UnionParticipate/Modal/RequestParticipate";
+import RequestParticipateModal from "composition/UnionParticipate/Modal/RequestParticipate";
 
 import useFetchUserToken from "hooks/useFetchUserToken";
 import API from "lib/api";
@@ -30,21 +31,6 @@ const UnionParticipatePage = () => {
       if (!userId) return;
 
       const { data: unionDetails } = await API.get.unionDetail(unionId); // 유니언의 상세 정보
-
-      // // post notice 재정의
-      // unionDetails.post_info.notice = await Promise.all(
-      //   unionDetails.post_info.notice.map(async ({ post_id }) => {
-      //     const { data: unionPost } = await API.get.posts(post_id);
-      //     return unionPost;
-      //   })
-      // );
-      // // unconfirmed_p 재정의
-      // unionDetails.post_info.unconfirmed_p = await Promise.all(
-      //   unionDetails.post_info.unconfirmed_p.map(async ({ post_id }) => {
-      //     const { data: unionConversation } = await API.get.posts(post_id);
-      //     return unionConversation;
-      //   })
-      // );
 
       console.log(unionDetails);
       setUnionData(unionDetails.union_info);
@@ -102,7 +88,7 @@ const UnionParticipatePage = () => {
         isModalActive={isModalActive}
         handleModalVisibility={handleModalVisibility}
       >
-        <RequestParticipate
+        <RequestParticipateModal
           unionData={unionData}
           handleClickRequestParticipate={handleClickRequestParticipate}
         />

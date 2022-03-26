@@ -1,9 +1,12 @@
-import Conditional from "components/common/Conditional";
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import styled from "styled-components";
+
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
+
+import Conditional from "components/common/Conditional";
 import ParticipationListItem from "./ParticipationListItem";
+
 const ParticipationList = ({ title, data, participantsConversationData }) => {
   console.log( "=== participantsConversationData ===", data, participantsConversationData);
   const parentRef = useRef(null);
@@ -27,6 +30,15 @@ const ParticipationList = ({ title, data, participantsConversationData }) => {
     [isCollapse]
   );
 
+  const mergeConversationData = () => {
+    const targetData = [...participantsConversationData].reverse();
+    
+    return targetData.filter((participantConversation, idx) => {
+      const foundIndex = data.findIndex((iteratedConversationUser) => iteratedConversationUser.id === participantConversation.writer_id);
+      return foundIndex === idx || foundIndex === -1
+    })
+  }
+
   useEffect(() => {
     setIsLoading(false);
   }, [participantsConversationData, data]);
@@ -38,7 +50,7 @@ const ParticipationList = ({ title, data, participantsConversationData }) => {
         <Title>{title}</Title>
         <ButtonGroup>
           <ParticipationCount>
-            대화상대 {data.length}명
+            대화상대 {mergeConversationData().length}명
           </ParticipationCount>
           <Conditional condition={isCollapse}>
             <SUpArrow onClick={handleButtonClick} />
@@ -50,19 +62,7 @@ const ParticipationList = ({ title, data, participantsConversationData }) => {
       </SectionHeader>
       <ListWrapper ref={parentRef}>
         <ul ref={childRef}>
-          {data?.map((tempuser, idx) => {
-            const participantConversationData =
-              participantsConversationData.filter(
-                ({ writer }) => tempuser.id === writer
-              );
-            return (
-              <ParticipationListItem
-                key={idx}
-                data={tempuser}
-                participantConversationData={participantConversationData}
-              />
-            );
-          })}
+          <ParticipationListItem participantConversationData={mergeConversationData()} />
         </ul>
       </ListWrapper>
     </ListSection>

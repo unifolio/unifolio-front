@@ -14,7 +14,7 @@ import {
   UnionCreatePage,
   UnionManageListPage,
   ManageUnionChatPage,
-  ManageUserChatPage,
+  UnionManageChatPage,
   UnionCreateBusinessPage,
   UsersVerifyPage,
   UnionParticipatePage,
@@ -41,12 +41,8 @@ function App() {
         exact
       />
       
-      <Route component={ManageUserChatPage} path="/union/manage/userchat/:id" />
-      <Route
-        component={ManageUnionChatPage}
-        path="/union/manage/unionchat"
-        exact
-      />
+      {/* <Route component={ManageUserChatPage} path="/union/manage/userchat/:id" /> */}
+      <Route component={UnionManageChatPage} path="/union/manage/:unionId/userchat/:receiverId" />
       <Route component={UnionCreatePage} path="/union-create/personal" />
       <Route
         component={UnionCreateBusinessPage}

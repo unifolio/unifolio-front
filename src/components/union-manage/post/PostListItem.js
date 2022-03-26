@@ -1,25 +1,27 @@
 import React, { useEffect, useRef, useState, createRef } from "react";
 import styled from "styled-components";
+import Conditional from "components/common/Conditional";
+// import Editor from "components/Union-manage/Editor";
+import Editor from "components/Union-manage/EditorUser";
+
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
-import Conditional from "components/common/Conditional";
 
-const NoticeListItem = ({ unconfirmed_p }) => {
-  console.log("unconfirmed_p", unconfirmed_p);
+const PostListItem = ({ unconfirmed_p }) => {
   const $parentRefs = useRef(null);
   const $childRefs = useRef(null);
-  //   const [isCollapse, setIsCollapse] = useState(false);
-  const [isCollapses, setIsCollapses] = useState();
+  const [postStates, setPostStates] = useState();
+  // console.log("unconfirmed_p", unconfirmed_p);
 
   useEffect(() => {
     if (!unconfirmed_p) return;
-    setIsCollapses(unconfirmed_p?.map((_) => false));
+    setPostStates(unconfirmed_p?.map((_) => ({isCollapse: false, isModifing: false}) ));
     $parentRefs.current = unconfirmed_p?.map((_) => createRef());
     $childRefs.current = unconfirmed_p?.map((_) => createRef());
     console.log("$parentRefs.current", $parentRefs.current);
   }, [unconfirmed_p]);
 
-  const handleButtonClick = (idx) => {
+  const handleArrowButtonClick = (idx) => {
     console.log("isclicked", $parentRefs.current[idx]);
     // if (parentRef.current === null || childRef.current === null) {
     //   return;
@@ -31,36 +33,46 @@ const NoticeListItem = ({ unconfirmed_p }) => {
       $parentRefs.current[
         idx
       ].current.style.height = `${$childRefs.current[idx].current.clientHeight}px`;
+      $parentRefs.current[idx].current.style.height = "100%";
     }
-    setIsCollapses((prevIsCollapses) =>
-      prevIsCollapses.map((prevState, stateIdx) =>
-        idx === stateIdx ? !prevState : prevState
-      )
-    );
+    setPostStates((prevStates) =>
+      prevStates.map((prevState, stateIdx) => idx === stateIdx ? {...prevState, isCollapse: !prevState.isCollapse} : {...prevState, isCollapse: prevState.isCollapse} 
+    ));
   };
 
-  if (!unconfirmed_p || !isCollapses) return <></>;
+  const handleClickModifyButton = (post_id, idx) => {
+    console.log("수정!!", post_id, idx)
+    setPostStates((prevStates) =>
+      prevStates.map((prevState, stateIdx) => idx === stateIdx ? {...prevState, isModifing: !prevState.isModifing} : {...prevState, isModifing: prevState.isModifing} 
+    ));
+  }
+  if (!unconfirmed_p || !postStates) return <></>;
   return unconfirmed_p.map(
-    ({ id, title, content, writer, writer_id, created_at }, idx) => (
-      <li key={id}>
+    ({ post_id, title, content, writer, writer_id, created_at, receiver_id }, idx) => (
+      <li key={post_id}>
         <ListItemHeader>
           <Category>{created_at}</Category>
+          {}
           <Contents>{title}</Contents>
+
           <Date>
             <ButtonGroup>
-              <Conditional condition={isCollapses[idx]}>
-                <SUpArrow onClick={() => handleButtonClick(idx)} />
+              <Conditional condition={postStates[idx].isCollapse}>
+                <SUpArrow onClick={() => handleArrowButtonClick(idx)} />
               </Conditional>
-              <Conditional condition={!isCollapses[idx]}>
-                <SBottomArrow onClick={() => handleButtonClick(idx)} />
+              <Conditional condition={!postStates[idx].isCollapse}>
+                <SBottomArrow onClick={() => handleArrowButtonClick(idx)} />
               </Conditional>
             </ButtonGroup>
           </Date>
         </ListItemHeader>
         <FormWrapper ref={$parentRefs.current[idx]}>
           <ContentSection ref={$childRefs.current[idx]}>
-            <NoticeContents> {content} </NoticeContents>
-            <Button> 수정하기 </Button>
+            <NoticeContents id={`editor-post-${post_id}`}> 
+              {postStates[idx].isModifing ? <Editor modifyingInfo={ {post_id, title, content, writer_id, receiver_id} } /> : content} 
+            </NoticeContents>
+            <Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>
+            
           </ContentSection>
         </FormWrapper>
       </li>
@@ -68,7 +80,7 @@ const NoticeListItem = ({ unconfirmed_p }) => {
   );
 };
 
-export default NoticeListItem;
+export default PostListItem;
 
 const ListItemHeader = styled.header`
   padding: 16px;

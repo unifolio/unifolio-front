@@ -1,14 +1,28 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import styled from "styled-components";
+import Conditional from "components/common/Conditional";
+import Editor from "../Editor";
+
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
-import Conditional from "components/common/Conditional";
+
+import useFetchUserToken from "hooks/useFetchUserToken";
 
 const ChatListItem = ({ post }) => {
   const parentRef = useRef(null);
   const childRef = useRef(null);
   const [isCollapse, setIsCollapse] = useState(false);
+  const { user } = useFetchUserToken();
 
+  // useEffect(() => {
+  //   editorInstance.current = new EditorJS({
+  //     holder: "unifolio-editorjs",
+  //     // holder: modifyingInfo ? `editor-post-${modifyingInfo.post_id}` : "unifolio-editorjs", 
+  //     placeholder: modifyingInfo && modifyingInfo.content
+  //   });
+  //   $postTitle.current.value = modifyingInfo && modifyingInfo.title;
+  // }, []);
+  
   const handleButtonClick = useCallback(
     (event) => {
       event.stopPropagation();
@@ -24,10 +38,13 @@ const ChatListItem = ({ post }) => {
     },
     [isCollapse]
   );
+  
+  if (!user) return <></>
+  
   return (
     <li>
       <ListItemHeader>
-        <Category>달리는 토끼 바람</Category>
+        <Category>{post.writer.name}</Category>
         <Contents>{post.title}</Contents>
         <Date>
           <span>0000.00.00 / 0000.00.00</span>
@@ -44,7 +61,7 @@ const ChatListItem = ({ post }) => {
       <FormWrapper ref={parentRef}>
         <ContentSection ref={childRef}>
           <NoticeContents>{post.content}</NoticeContents>
-          <Button>수정하기</Button>
+          {post.writer.id === user.id && <Button>수정하기</Button>}
         </ContentSection>
       </FormWrapper>
     </li>

@@ -5,8 +5,8 @@ import PostListItem from "./PostListItem";
 import MockPostListItem from "./MockPostListItem";
 
 const PostList = ({ postData, editor = null }) => {
-  console.log("==== postList", postData);
-  console.log("***", postData.unconfirmed_p);
+  // console.log("==== postList", postData);
+  // console.log("***", postData.unconfirmed_p);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,14 +21,10 @@ const PostList = ({ postData, editor = null }) => {
       </SectionHeader>
       <ListMain>
         {postData.unconfirmed_p?.length !== 0 ? (
-          <PostListItem unconfirmed_p={postData.unconfirmed_p} />
+          <PostListItem unconfirmed_p={postData.unconfirmed_p} editor={editor} />
         ) : (
-          <>
-            <MockPostListItem />
-            <MockPostListItem />
-          </>
+          <MockPostListItem />
         )}
-
         {!!editor && editor}
       </ListMain>
     </ListSection>

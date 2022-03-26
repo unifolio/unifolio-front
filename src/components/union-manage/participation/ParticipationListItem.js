@@ -1,42 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const ParticipationListItem = ({ data, participantConversationData }) => {
-  console.log("participantConversationData", participantConversationData);
+const ParticipationListItem = ({ participantConversationData }) => {
+  const { id } = useParams();
+  
   return (
-    <Link to={`/union/manage/userchat/${data.id}`}>
-      <ListItem>
-        <UserNickName>{data.name}</UserNickName>
-        {participantConversationData.length !== 0 ? (
-          participantConversationData.map((data) => (
-            <React.Fragment key={data.id}>
-              <Contents>{data.title}</Contents>
-              <Date>
-                <span>
-                  {new window.Date(data.created).toLocaleDateString()}
-                </span>
-                <div>
-                  <span>
-                    {new window.Date(data.created).toLocaleTimeString()} (0분전)
-                  </span>
-                </div>
-              </Date>
-            </React.Fragment>
-          ))
-        ) : (
-          <>
-            <Contents>목업 데이터 입니다</Contents>
-            <Date>
-              <span>0000년 00월 00일</span>
-              <div>
-                <span>00:00:00 (0분전)</span>
-              </div>
-            </Date>
-          </>
-        )}
+    participantConversationData.map((conversationData) => (
+      <ListItem key={conversationData.post_id}>
+        <Link to={`/union/manage/${id}/userchat/${conversationData?.writer_id}`}>
+          <UserNickName>{conversationData?.name}</UserNickName>
+          <Contents>{conversationData.title}</Contents>
+          <Date>
+            <span>
+              {new window.Date(conversationData.created).toLocaleDateString()}
+            </span>
+            <div>
+              <span>
+                {new window.Date(conversationData.created).toLocaleTimeString()} (0분전)
+              </span>
+            </div>
+          </Date>
+        </Link>
       </ListItem>
-    </Link>
+    ))
   );
 };
 

@@ -1,43 +1,47 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 
-const ManagerDetailInfo = () => {
-    return(
-    <UserInfoSection>
-        <Header>                        
-            <UserInfoLeft>
-                <Title>운용사 상세정보</Title>
-            </UserInfoLeft>
-            <UserInfoRight>
-                <User>A 액셀러레이터</User>
-            </UserInfoRight>
-        </Header>
-        <InfoMain>
-            <InfoRow>
-                <Category>운용사 정보</Category>
-                <InfoList>
-                    <InfoSummary >A 엑셀러레이터는 인공지능 전문가들을 필두로 하여 가능성이 높은 스타트업에 투자를 해왔습니다. 총 N 년간의 노하우로 보다 높은 수익률을 보장합니다.</InfoSummary>                            
-                </InfoList>
-            </InfoRow>
-            <UserInfoListRow>
-                <Category>투자 이력</Category>
-                <InfoListWrapper>
+import useFetchUserToken from "hooks/useFetchUserToken";
+import API from 'lib/api';
+
+const ManagerDetailInfo = ({ unionData }) => {
+    const { user } = useFetchUserToken();
+
+    useEffect(() => {
+        console.log("user", user)
+    }, [user])
+    
+    if (!user) return <></>
+    return (
+        <UserInfoSection>
+            <Header>                        
+                <UserInfoLeft>
+                    <Title>운용사 상세정보</Title>
+                </UserInfoLeft>
+                <UserInfoRight>
+                    <User>{unionData.owner.corporate_name}</User>
+                </UserInfoRight>
+            </Header>
+            <InfoMain>
+                <InfoRow>
+                    <Category>운용사 정보</Category>
                     <InfoList>
-                        <CatagoryBG > 커머스</CatagoryBG>                            
-                        <InfoPosition> 투자대비 500% 수익</InfoPosition>
+                        <InfoSummary>{user.introduction}</InfoSummary>
                     </InfoList>
-                    <InfoList>
-                        <CatagoryBG > 커머스</CatagoryBG>                            
-                        <InfoPosition> 투자대비 500% 수익</InfoPosition>
-                    </InfoList>
-                    <InfoList>
-                        <CatagoryBG > 커머스</CatagoryBG>                            
-                        <InfoPosition> 투자대비 500% 수익</InfoPosition>
-                    </InfoList>
-                </InfoListWrapper>
-            </UserInfoListRow>
-        </InfoMain>
-    </UserInfoSection>
+                </InfoRow>
+                <UserInfoListRow>
+                    <Category>투자 이력</Category>
+                    <InfoListWrapper>
+                        {user.invest_history.map((history, idx) => (
+                            <InfoList key={`${history.company}-${idx}`}>
+                                <CatagoryBG > {history.category.category} </CatagoryBG>                            
+                                <InfoPosition> {history.description} </InfoPosition>
+                            </InfoList>    
+                        ))}
+                    </InfoListWrapper>
+                </UserInfoListRow>
+            </InfoMain>
+        </UserInfoSection>
     )
 
 }

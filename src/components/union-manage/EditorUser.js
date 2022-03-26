@@ -1,17 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import EditorJS from "@editorjs/editorjs";
 import API from "lib/api";
 
-const EditorUser = ({ noticePrimaryInfo = null }) => {
+const EditorUser = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
   const editorInstance = useRef();
   const $postTitle = useRef();
   const $postFiles = useRef([]);
   const [isValid, setIsValid] = useState(true);
+  if(modifyingInfo) console.log("modifyingInfo", modifyingInfo)
 
   useEffect(() => {
-    editorInstance.current = new EditorJS("unifolio-editorjs");
+    editorInstance.current = new EditorJS({
+      holder: "unifolio-editorjs",
+      // holder: modifyingInfo ? `editor-post-${modifyingInfo.post_id}` : "unifolio-editorjs", 
+      placeholder: modifyingInfo && modifyingInfo.content
+    });
+    $postTitle.current.value = modifyingInfo && modifyingInfo.title;
   }, []);
 
   const handleChangeFile = (e) => {
@@ -41,24 +48,26 @@ const EditorUser = ({ noticePrimaryInfo = null }) => {
           title: $postTitle.current.value,
           content: content,
           is_notice: false,
-          union: Number(noticePrimaryInfo && noticePrimaryInfo.unionId),
-          writer: Number(noticePrimaryInfo && noticePrimaryInfo.userId),
-          receiver: Number(noticePrimaryInfo && noticePrimaryInfo.ownerId),
+          writer: modifyingInfo ? Number(modifyingInfo.writer_id) : Number(noticePrimaryInfo && noticePrimaryInfo.userId),
         };
+        if (noticePrimaryInfo) postData.union = Number(noticePrimaryInfo.unionId);
+        if (modifyingInfo) postData.post_id = Number(modifyingInfo.post_id)
 
-        if ($postFiles.current?.length !== 0) {
-          console.log("$postFiles.current", $postFiles.current);
-          $postFiles.current.forEach((file, i) => {
-            postData[`post_file${i + 1}`] = file;
+        if (modifyingInfo) {
+          API.patch.posts(postData).then(response => {
+            if (response.status === 200) {
+              alert("수정이 완료되었습니다.");
+              window.location.reload();
+            }
+          })
+        } else {
+          API.post.posts(postData).then((response) => {
+            if (response.status === 201) {
+              alert("작성이 완료되었습니다.");
+              window.location.reload();
+            }
           });
         }
-
-        API.post.posts(postData).then((response) => {
-          if (response.status === 201) {
-            alert("문의사항 작성이 완료되었습니다.");
-            window.location.reload();
-          }
-        });
       })
       .catch((error) => {
         console.log("Saving failed: ", error);

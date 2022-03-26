@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const RequestReadyParticipate = ({
@@ -11,8 +11,7 @@ const RequestReadyParticipate = ({
   // console.log(unionData);
   // console.log(userData);
 
-  const { participants, expected_amount, collected_amount, min_of_account } =
-    unionData;
+  const { participants, expected_amount, collected_amount, min_of_account } = unionData;
   const { amount_per_account, request_invest_account } = userRequestData;
   const min_of_amount_per_account = min_of_account * amount_per_account;
   const amountCalculator = (value) => (value * 1000000).toLocaleString();

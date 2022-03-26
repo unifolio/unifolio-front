@@ -31,6 +31,7 @@ const FindingPage = ({ location }) => {
     $modalRef = useRef();
   const { user } = useFetchUserToken();
   console.log(filterValue);
+  
   useEffect(() => {
     if (user && user.career.length !== 0 && user.education.length !== 0) {
       setIsModalActive(false);

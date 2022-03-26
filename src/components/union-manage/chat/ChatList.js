@@ -17,7 +17,7 @@ const ChatList = ({ title, postData = null }) => {
     <ListSection>
       <SectionHeader>
         <Title>{title}</Title>
-        <More>이전 36개 대화 모두 보기</More>
+        <More>{postData.length}개 대화 모두 보기</More>
       </SectionHeader>
       <ListMain>
         {postData?.map((post) => {
@@ -34,7 +34,7 @@ export default ChatList;
 
 const ListSection = styled.section`
   margin-top: 69px;
-  padding-bottom: 130px;
+  padding-bottom: 69px;
 `;
 
 const SectionHeader = styled.header`

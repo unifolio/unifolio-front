@@ -4,14 +4,20 @@ import styled from "styled-components";
 import EditorJS from "@editorjs/editorjs";
 import API from "lib/api";
 
-const Editor = ({ noticePrimaryInfo = null }) => {
+const Editor = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
   const editorInstance = useRef();
   const $postTitle = useRef();
   const $postFiles = useRef([]);
   const [isValid, setIsValid] = useState(true);
+  if(modifyingInfo) console.log("modifyingInfo", modifyingInfo)
 
   useEffect(() => {
-    editorInstance.current = new EditorJS("unifolio-editorjs");
+    editorInstance.current = new EditorJS({
+      holder: "unifolio-editorjs",
+      // holder: modifyingInfo ? `editor-post-${modifyingInfo.post_id}` : "unifolio-editorjs", 
+      placeholder: modifyingInfo && modifyingInfo.content
+    });
+    $postTitle.current.value = modifyingInfo && modifyingInfo.title;
   }, []);
 
   const handleChangeFile = (e) => {
@@ -41,8 +47,9 @@ const Editor = ({ noticePrimaryInfo = null }) => {
           title: $postTitle.current.value,
           content: content,
           is_notice: true,
-          union: Number(noticePrimaryInfo && noticePrimaryInfo.unionId),
-          writer: Number(noticePrimaryInfo && noticePrimaryInfo.userId),
+          union:  Number(noticePrimaryInfo && noticePrimaryInfo.unionId),
+          writer: modifyingInfo ? Number(modifyingInfo.writer_id) : Number(noticePrimaryInfo && noticePrimaryInfo.userId),
+          post_id: modifyingInfo && Number(modifyingInfo.post_id)
         };
 
         if ($postFiles.current?.length !== 0) {
@@ -52,12 +59,21 @@ const Editor = ({ noticePrimaryInfo = null }) => {
           });
         }
 
-        API.post.posts(postData).then((response) => {
-          if (response.status === 201) {
-            alert("공지사항 작성이 완료되었습니다.");
-            window.location.reload();
-          }
-        });
+        if (modifyingInfo) {
+          API.patch.posts(postData).then(response => {
+            if (response.status === 201) {
+              alert("공지사항 작성이 완료되었습니다.");
+              // window.location.reload();
+            }
+          })
+        } else {
+          API.post.posts(postData).then((response) => {
+            if (response.status === 201) {
+              alert("공지사항 작성이 완료되었습니다.");
+              window.location.reload();
+            }
+          });
+        }
       })
       .catch((error) => {
         console.log("Saving failed: ", error);

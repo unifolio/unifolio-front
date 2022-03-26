@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import qs from "qs";
 
 import Responsive from "components/common/Responsive";
-
 import UnionManageListHeader from "components/Header/UnionManageListHeader";
-
 import UnionManageLists from "composition/UnionManage/UnionManageLists";
 
 import useFetchUserToken from "hooks/useFetchUserToken";
