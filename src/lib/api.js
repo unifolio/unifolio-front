@@ -48,6 +48,7 @@ const API = {
     },
   },
   patch: {},
+  put: {},
 
   mergeWith: function (serviceInstance) {
     try {
