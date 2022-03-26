@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const UnionCommonModal = ({
   isModalActive = false,
@@ -26,12 +26,13 @@ const UnionCommonModalLayout = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const UnionCommonModalCenterLayout = styled.div`
   min-width: 600px;
   min-height: 500px;
-  background-color: #ffffff;
+  background-color: #f3f3f3;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 `;

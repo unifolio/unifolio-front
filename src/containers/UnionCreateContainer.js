@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
-import { Personal, Business } from "composition/UnionCreate";
-import UnionCreateHeaderBusiness from "components/Header/UnionCreateHeaderBusiness";
+import { Personal, Business } from 'composition/UnionCreate';
+import UnionCreateHeaderBusiness from 'components/Header/UnionCreateHeaderBusiness';
 
-import useFetchUserToken from "hooks/useFetchUserToken";
-import API from "lib/api";
+import useFetchUserToken from 'hooks/useFetchUserToken';
+import API from 'lib/api';
 
 import {
   addExecutiveMemberInfo,
@@ -15,7 +15,7 @@ import {
   addUnionInvestInfo,
   addUnionDetailPlanInfo,
   getUnionCreateStateThunk,
-} from "modules/reducers/unionCreate";
+} from 'modules/reducers/unionCreate';
 
 const UnionCreateContainer = ({ type }) => {
   const [process, setProcess] = useState(1);
@@ -25,8 +25,8 @@ const UnionCreateContainer = ({ type }) => {
   const unionCreateInputData = useSelector((state) => state.unionCreate);
 
   const handleClickNext = async (formData, process) => {
-    if (type !== "business") {
-      console.log("비즈니스 계정이 아닙니다");
+    if (type !== 'business') {
+      console.log('비즈니스 계정이 아닙니다');
       return false;
     }
     switch (process) {
@@ -66,28 +66,28 @@ const UnionCreateContainer = ({ type }) => {
           return { category: categoryData.category.category };
         });
         const response = await API.post.newUnionBusiness(data);
-        if (response.status === 200 || response.status === 201) {
-          alert("조합 생성이 완료되었습니다");
+        if (response.data.status === 200 || response.data.status === 201) {
+          alert('조합 생성이 완료되었습니다');
         } else {
-          alert("not ok");
+          alert('not ok');
           console.log(response);
           // window.location.href = '/signin';
         }
         break;
       default:
-        console.error("회원가입 에러");
+        console.error('회원가입 에러');
     }
     setProcess((prevProcess) => prevProcess + 1); // 프로세스 값 갱신
   };
 
   const handleClickBack = (targetProcess) => {
-    if (type === "business") {
+    if (type === 'business') {
       setProcess(targetProcess);
     }
   };
 
   const renderSteps = () => {
-    if (type === "business") {
+    if (type === 'business') {
       switch (process) {
         case 1:
           if (user)
