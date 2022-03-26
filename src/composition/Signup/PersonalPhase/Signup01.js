@@ -43,12 +43,12 @@ const Signup01 = ({ onClickNext }) => {
     setSignupState((state) => ({ ...state, nickname: target.value }));
   };
   const emailRegExp =
-    /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    /^([\w\.\_\-])*[a-zA-Z0-9]+([\w\.\_\-])*([a-zA-Z0-9])+([\w\.\_\-])+@([a-zA-Z0-9]+\.)+[a-zA-Z0-9]{2,8}$/;
   const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,16}$/;
   const handleNext = () => {
     if (!emailRegExp.test(signupState.email)) {
       emailRef.current.focus();
-      setErrorMessage('Email 형식이 옳바르지 않습니다.');
+      setErrorMessage('Email 형식이 올바르지 않습니다.');
     } else if (!passwordRegExp.test(signupState.password)) {
       passwordRef.current.focus();
       setErrorMessage('비밀번호는 영문, 숫자 포함 10~16자리이어야 합니다.');
