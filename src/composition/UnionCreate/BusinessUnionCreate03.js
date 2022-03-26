@@ -563,6 +563,7 @@ const BusinessUnionCreate03 = ({
                 <Input
                   name={`real_period`}
                   value={real_period}
+                  type={"number"}
                   style={{ width: "90%" }}
                   size="large"
                   placeholder="조합 존속 기간"
@@ -576,6 +577,7 @@ const BusinessUnionCreate03 = ({
                 <Input
                   name={`extend_year`}
                   value={extend_year}
+                  type={"number"}
                   style={{ width: "90%" }}
                   size="large"
                   placeholder="존속기간 만료시 최대 연장기간"
