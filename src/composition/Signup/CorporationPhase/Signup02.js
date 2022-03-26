@@ -98,14 +98,27 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
     } else if (value.length < 6) {
       tmp += value.substr(0, 3);
       tmp += '-';
-      tmp += str.substr(3);
-      return value;
+      tmp += value.substr(3);
+      return tmp;
     } else if (value.length < 11) {
       tmp += value.substr(0, 3);
       tmp += '-';
       tmp += value.substr(3, 2);
       tmp += '-';
       tmp += value.substr(5);
+      return tmp;
+    }
+    return str;
+  };
+  const addAutoHyphen_bubinNum = (str) => {
+    const value = str.replace(/[^0-9]/g, '');
+    let tmp = '';
+    if (value.length < 7) {
+      return value;
+    } else {
+      tmp += value.substr(0, 6);
+      tmp += '-';
+      tmp += value.substr(6);
       return tmp;
     }
     return str;
@@ -129,18 +142,19 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
     return false;
   };
   const handleCorporateRegistration = (e) => {
-    if (e.target.value.length > 13) {
+    if (e.target.value.length > 14) {
       alert('법인등록번호는 13자를 초과할 수 없습니다.');
       e.target.value = e.target.value.slice(0, e.target.value.length - 1);
       return;
     }
-    setCorporateRegistration(e.target.value);
+    setCorporateRegistration(addAutoHyphen_bubinNum(e.target.value));
   };
   function checkVaildBubinNum(bubinNum) {
-    var as_Biz_no = String(bubinNum);
-    var I_TEMP_SUM = 0;
+    bubinNum = bubinNum.replace(/-/gi, '');
+    const as_Biz_no = String(bubinNum);
+    let I_TEMP_SUM = 0;
 
-    var I_CHK_DIGIT = 0;
+    let I_CHK_DIGIT = 0;
 
     if (bubinNum.length != 13) {
       return false;
@@ -211,7 +225,7 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
         </div>
         <br />
         <SignupCorporateRegistrationInput
-          value={corporate_registration}
+          value={addAutoHyphen_bubinNum(corporate_registration)}
           onChange={handleCorporateRegistration}
         />
         <br />
@@ -289,7 +303,7 @@ const SignupCorporationNameInput = styled.input.attrs((props) => ({
 const SignupCompanyRegistrationNumberInput = styled.input.attrs((props) => ({
   type: 'text',
   name: 'company_registration_number',
-  placeholder: '사업자등록번호(10자리) (123-12-12345)',
+  placeholder: '사업자등록번호(10자리)',
 }))`
   width: 100%;
   ${styles.layout.signInput}
@@ -298,7 +312,7 @@ const SignupCompanyRegistrationNumberInput = styled.input.attrs((props) => ({
 const SignupCorporateRegistrationInput = styled.input.attrs((props) => ({
   type: 'text',
   name: 'corporate_registration',
-  placeholder: '법인등록번호(13자리) (1234567891234)',
+  placeholder: '법인등록번호(13자리)',
 }))`
   ${styles.layout.signInput}
 `;
