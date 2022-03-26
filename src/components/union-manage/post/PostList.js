@@ -5,15 +5,21 @@ import PostListItem from "./PostListItem";
 import MockPostListItem from "./MockPostListItem";
 
 const PostList = ({ postData, editor = null }) => {
-  // console.log("==== postList", postData);
+  console.log("==== postList", postData);
   // console.log("***", postData.unconfirmed_p);
   const [isLoading, setIsLoading] = useState(true);
 
+  const mergePosts = () => {
+    console.log([...postData.unconfirmed_p, ...postData.confirmed_p])
+    return [...postData.unconfirmed_p, ...postData.confirmed_p].sort((prev, next) => prev.post_id - next.post_id)
+  }
+
   useEffect(() => {
     setIsLoading(false);
-  }, [postData.unconfirmed_p]);
+  }, [postData.unconfirmed_p, postData.confirmed_p]);
 
-  if (isLoading) return <></>;
+  if (isLoading || !postData) return <></>;
+  
   return (
     <ListSection>
       <SectionHeader>
@@ -21,7 +27,8 @@ const PostList = ({ postData, editor = null }) => {
       </SectionHeader>
       <ListMain>
         {postData.unconfirmed_p?.length !== 0 ? (
-          <PostListItem unconfirmed_p={postData.unconfirmed_p} editor={editor} />
+          // <PostListItem unconfirmed_p={postData.unconfirmed_p} editor={editor} />
+          <PostListItem unconfirmed_p={mergePosts()} editor={editor} />
         ) : (
           <MockPostListItem />
         )}

@@ -13,15 +13,7 @@ const NoticeList = ({ postData, editor = null }) => {
       <ListMain>
         {postData.notice?.length !== 0 ? (
           <NoticeListItem noticeData={postData.notice} />
-        ) : (
-          <>
-            <MockNoticeListItem />
-            <MockNoticeListItem />
-            <MockNoticeListItem />
-            <MockNoticeListItem />
-          </>
-        )}
-
+        ) : (<MockNoticeListItem />)}
         {!!editor && editor}
       </ListMain>
     </ListSection>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import EditorJS from "@editorjs/editorjs";
 import API from "lib/api";
 
-const Editor = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
+const Editor = ({ is_notice, noticePrimaryInfo = null, modifyingInfo = null }) => {
   const editorInstance = useRef();
   const $postTitle = useRef();
   const $postFiles = useRef([]);
@@ -40,17 +40,18 @@ const Editor = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
         outputData.blocks.forEach(({ data }) => {
           content += data.text + "\n";
         });
-
+        // receiver
         const postData = {
           pno: 3,
           password: String(1234),
           title: $postTitle.current.value,
           content: content,
-          is_notice: true,
-          union:  Number(noticePrimaryInfo && noticePrimaryInfo.unionId),
+          is_notice: is_notice,
           writer: modifyingInfo ? Number(modifyingInfo.writer_id) : Number(noticePrimaryInfo && noticePrimaryInfo.userId),
-          post_id: modifyingInfo && Number(modifyingInfo.post_id)
         };
+        if (noticePrimaryInfo) postData.union = Number(noticePrimaryInfo.unionId);
+        if (modifyingInfo) postData.post_id = Number(modifyingInfo.post_id)
+        if (!is_notice) postData.receiver = modifyingInfo ? Number(modifyingInfo.receiver_id) : Number(noticePrimaryInfo && noticePrimaryInfo.receiverId)
 
         if ($postFiles.current?.length !== 0) {
           console.log("$postFiles.current", $postFiles.current);
@@ -61,15 +62,15 @@ const Editor = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
 
         if (modifyingInfo) {
           API.patch.posts(postData).then(response => {
-            if (response.status === 201) {
-              alert("공지사항 작성이 완료되었습니다.");
-              // window.location.reload();
+            if (response.status === 200) {
+              alert("수정이 완료되었습니다.");
+              window.location.reload();
             }
           })
         } else {
           API.post.posts(postData).then((response) => {
             if (response.status === 201) {
-              alert("공지사항 작성이 완료되었습니다.");
+              alert("작성이 완료되었습니다.");
               window.location.reload();
             }
           });

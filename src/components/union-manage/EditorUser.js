@@ -49,6 +49,7 @@ const EditorUser = ({ noticePrimaryInfo = null, modifyingInfo = null }) => {
           content: content,
           is_notice: false,
           writer: modifyingInfo ? Number(modifyingInfo.writer_id) : Number(noticePrimaryInfo && noticePrimaryInfo.userId),
+          receiver: noticePrimaryInfo ? Number(noticePrimaryInfo.ownerId) : Number(modifyingInfo && modifyingInfo.receiver_id),
         };
         if (noticePrimaryInfo) postData.union = Number(noticePrimaryInfo.unionId);
         if (modifyingInfo) postData.post_id = Number(modifyingInfo.post_id)

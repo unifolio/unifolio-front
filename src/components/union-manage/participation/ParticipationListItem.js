@@ -2,8 +2,11 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import useFetchUserToken from "hooks/useFetchUserToken";
+
 const ParticipationListItem = ({ participantConversationData }) => {
   const { id } = useParams();
+  const { user } = useFetchUserToken();
   
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     console.log(recruitment_end_date, recruitment_start_date)
@@ -13,11 +16,11 @@ const ParticipationListItem = ({ participantConversationData }) => {
     }
     return `${Math.floor(remainDateInteger* 24)}시간 전`;
   };
-
+  if (!user) return <></>
   return (
     participantConversationData.map((conversationData) => (
       <ListItem key={conversationData.post_id}>
-        <Link to={`/union/manage/${id}/userchat/${conversationData?.writer_id}`}>
+        <Link to={`/union/manage/${id}/userchat/${user.id === conversationData?.writer_id ? conversationData?.receiver_id : conversationData?.writer_id}`}>
           <UserNickName>{conversationData?.name}</UserNickName>
           <Contents>{conversationData.title}</Contents>
           <Date>

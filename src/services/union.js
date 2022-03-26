@@ -25,9 +25,9 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
       },
       union: (id) => {
         const response = axiosInstance
-          .get(`${END_POINT}/${id}`)
+          .get(`${END_POINT}/unions/${id}/`)
           .then((response) => {
-            return response;
+            return response.data;
           })
           .catch((error) => {
             return error.response;
