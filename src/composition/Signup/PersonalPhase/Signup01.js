@@ -48,7 +48,7 @@ const Signup01 = ({ onClickNext }) => {
   const handleNext = () => {
     if (!emailRegExp.test(signupState.email)) {
       emailRef.current.focus();
-      setErrorMessage('Email 형식이 옳바르지 않습니다.');
+      setErrorMessage('Email 형식이 올바르지 않습니다.');
     } else if (!passwordRegExp.test(signupState.password)) {
       passwordRef.current.focus();
       setErrorMessage('비밀번호는 영문, 숫자 포함 10~16자리이어야 합니다.');

@@ -140,7 +140,7 @@ const SignupContainer = ({ history }) => {
           dispatch(addAgreement({ ...formData, role: current }));
           const data = dispatch(getSignupStateThunk());
           const response = await API.post.userSignupBusiness(data);
-
+          console.log(response);
           if (response.data.status === 201) {
             alert('회원가입이 완료되었습니다');
             history.push('/signin');

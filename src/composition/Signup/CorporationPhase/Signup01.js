@@ -43,7 +43,7 @@ const Signup01 = ({ signupInputData, onClickNext }) => {
   const handleSubmit = (e) => {
     if (!emailRegExp.test(email)) {
       emailRef.current.focus();
-      setErrorMessage('Email 형식이 옳바르지 않습니다.');
+      setErrorMessage('Email 형식이 올바르지 않습니다.');
     } else if (!passwordRegExp.test(password.value)) {
       $password.current.focus();
       setErrorMessage('비밀번호는 영문, 숫자 포함 10~16자리이어야 합니다.');
@@ -73,7 +73,7 @@ const Signup01 = ({ signupInputData, onClickNext }) => {
         $password.current.type = 'text';
       }
     } else if (key === 'passwordCheck') {
-      if (password.isVisible) {
+      if (passwordCheck.isVisible) {
         passwordCheck.isVisible = false;
         $passwordCheck.current.type = 'password';
       } else {
