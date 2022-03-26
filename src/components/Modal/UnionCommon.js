@@ -5,10 +5,14 @@ const UnionCommonModal = ({
   isModalActive = false,
   handleModalVisibility,
   children,
+  color = '#fff',
 }) => {
   return isModalActive ? (
     <UnionCommonModalLayout onClick={() => handleModalVisibility(false)}>
-      <UnionCommonModalCenterLayout onClick={(e) => e.stopPropagation()}>
+      <UnionCommonModalCenterLayout
+        color={color}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </UnionCommonModalCenterLayout>
     </UnionCommonModalLayout>
@@ -32,7 +36,7 @@ const UnionCommonModalLayout = styled.div`
 const UnionCommonModalCenterLayout = styled.div`
   min-width: 600px;
   min-height: 500px;
-  background-color: #f3f3f3;
+  background-color: ${({ color }) => color};
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 `;

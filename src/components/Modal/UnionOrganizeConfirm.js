@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import UnionCommonModal from './UnionCommon';
 import CancelImage from '../../assets/images/cancel.png';
-import { axiosInstance } from 'lib/api';
+import API from 'lib/api';
 
 const UnionOrganizeConfirmModal = ({
   isModalActive,
@@ -10,11 +10,15 @@ const UnionOrganizeConfirmModal = ({
   unionData,
 }) => {
   console.log(unionData);
-
+  const onClickComplete = async () => {
+    const response = await API.put.unionComplete(unionData.id);
+    if (response.data.is_recruited) handleModalVisibility(false);
+  };
   return (
     <UnionCommonModal
       isModalActive={isModalActive}
       handleModalVisibility={handleModalVisibility}
+      color='#f3f3f3'
     >
       <ModalLayout>
         <ModalHeader>
@@ -45,7 +49,9 @@ const UnionOrganizeConfirmModal = ({
               {unionData.collected_amount || 0}억원
             </HeaderSubTitleContents>
           </SubTitleModule>
-          <ConfirmButton>현재 상태에서 조합 결성하기</ConfirmButton>
+          <ConfirmButton onClick={onClickComplete}>
+            현재 상태에서 조합 결성하기
+          </ConfirmButton>
         </ModalHeader>
         <ModalBody>
           <BodyContentsRow>
