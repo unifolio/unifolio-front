@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import Accordion from "components/common/Accordion/Accordion";
-import Responsive from "components/common/Responsive";
-import LandingCard from "components/Landing/LandingCard";
+import Accordion from 'components/common/Accordion/Accordion';
+import Responsive from 'components/common/Responsive';
+import LandingCard from 'components/Landing/LandingCard';
 
-import { ReactComponent as LandingLogo } from "../assets/svgs/LandingLogo.svg";
-import { ReactComponent as Person } from "../assets/svgs/Person.svg";
-import { ReactComponent as Company } from "../assets/svgs/Company.svg";
-import JokeImage from "../assets/images/landing.png";
-import JokeImage2 from "../assets/images/landing2.png";
+import { ReactComponent as LandingLogo } from '../assets/svgs/LandingLogo.svg';
+import { ReactComponent as Person } from '../assets/svgs/Person.svg';
+import { ReactComponent as Company } from '../assets/svgs/Company.svg';
+import JokeImage from '../assets/images/landing.png';
+import JokeImage2 from '../assets/images/landing2.png';
 
-import API from "lib/api";
+import API from 'lib/api';
 
 const LandingPage = () => {
   const [landingData, setLandingData] = useState();
@@ -19,11 +19,12 @@ const LandingPage = () => {
     const fetchLandingData = async () => {
       const { data: unionsData } = await API.get.unions();
       const { data: unionsWaitingData } = await API.get.unionsWaiting();
-      const usersData = await API.get.users();
+      const usersData = await API.get.usersGeneral();
+      console.log(usersData);
       setLandingData({
-        unionsCount: unionsData.length,
+        unionsCount: unionsData.length - unionsWaitingData.length,
         unionsWaitingCount: unionsWaitingData.length,
-        usersCount: usersData.length,
+        usersCount: usersData.data.length,
       });
     };
     fetchLandingData();
@@ -43,16 +44,16 @@ const LandingPage = () => {
       </TopSection>
       <TopCardsSection>
         <LandingCard
-          title="출자 대기중인 출자자"
-          number={`${landingData?.usersCount ?? ""}`}
+          title='출자 대기중인 출자자'
+          number={`${landingData?.usersCount ?? ''}`}
         />
         <LandingCard
-          title="결성 대기중인 개인투자조합"
-          number={`${landingData?.unionsWaitingCount ?? ""}`}
+          title='결성 대기중인 개인투자조합'
+          number={`${landingData?.unionsWaitingCount ?? ''}`}
         />
         <LandingCard
-          title="결성 완료된 개인투자조합"
-          number={`${landingData?.unionsCount ?? ""}`}
+          title='결성 완료된 개인투자조합'
+          number={`${landingData?.unionsCount ?? ''}`}
         />
       </TopCardsSection>
       <MiddleSection1>
@@ -65,7 +66,7 @@ const LandingPage = () => {
           </SectionSummary>
           <ImageSectionOuterLayout>
             <ServiceImageLayout>
-              <img src={JokeImage} style={{ width: "100%" }} />
+              <img src={JokeImage} style={{ width: '100%' }} />
             </ServiceImageLayout>
           </ImageSectionOuterLayout>
         </SectionLayout>
@@ -80,7 +81,7 @@ const LandingPage = () => {
             자동으로 제공합니다.
           </Section3Summary>
           <ImageSectionOuterLayoutNoGap>
-            <img src={JokeImage2} style={{ width: "100%" }} />
+            <img src={JokeImage2} style={{ width: '100%' }} />
           </ImageSectionOuterLayoutNoGap>
         </SectionLayout>
       </MiddleSection3>

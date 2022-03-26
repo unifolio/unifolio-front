@@ -197,7 +197,7 @@ const Signup02 = ({ onClickNext, onClickBack, signupInputData }) => {
           /-/gi,
           '',
         ),
-        corporate_registration,
+        corporate_registration: corporate_registration.replace(/-/gi, ''),
         address_postcode_business: postcode,
         address_business: address,
         address_detail_business: addressDetail,
