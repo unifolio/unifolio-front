@@ -46,13 +46,14 @@ const UnionParticipatePage = () => {
     setIsModalActive(value ?? true);
   };
 
-  const handleClickRequestParticipate = () => {
+  const handleClickRequestParticipate = (requestAccount) => {
+    
     const fetchUnionRequest = async () => {
       const requestResult = await API.post.unionRequest({
         user: user.id,
         union: unionData.id,
-        request_invest_account: 10,
-        amount_per_account: 10,
+        request_invest_account: Number(requestAccount), // 출자 요청 구좌수
+        amount_per_account: Number(unionData.amount_per_account) , // 1구좌당 금액 900만
       });
       alert("요청이 전송되었습니다.");
     };
