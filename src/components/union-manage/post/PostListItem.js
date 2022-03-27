@@ -7,11 +7,13 @@ import Editor from "components/Union-manage/EditorUser";
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
 
+import useFetchUserToken from "hooks/useFetchUserToken";
+
 const PostListItem = ({ unconfirmed_p }) => {
   const $parentRefs = useRef(null);
   const $childRefs = useRef(null);
   const [postStates, setPostStates] = useState();
-  // console.log("unconfirmed_p", unconfirmed_p);
+  const { user } = useFetchUserToken();
 
   useEffect(() => {
     if (!unconfirmed_p) return;
@@ -30,9 +32,9 @@ const PostListItem = ({ unconfirmed_p }) => {
     if ($parentRefs.current[idx].current.clientHeight > 0) {
       $parentRefs.current[idx].current.style.height = "0";
     } else {
-      $parentRefs.current[
-        idx
-      ].current.style.height = `${$childRefs.current[idx].current.clientHeight}px`;
+      // $parentRefs.current[
+      //   idx
+      // ].current.style.height = `${$childRefs.current[idx].current.clientHeight}px`;
       $parentRefs.current[idx].current.style.height = "100%";
     }
     setPostStates((prevStates) =>
@@ -41,15 +43,15 @@ const PostListItem = ({ unconfirmed_p }) => {
   };
 
   const handleClickModifyButton = (post_id, idx) => {
-    console.log("수정!!", post_id, idx)
     setPostStates((prevStates) =>
       prevStates.map((prevState, stateIdx) => idx === stateIdx ? {...prevState, isModifing: !prevState.isModifing} : {...prevState, isModifing: prevState.isModifing} 
     ));
   }
+  
   if (!unconfirmed_p || !postStates) return <></>;
   return unconfirmed_p.map(
     ({ post_id, title, content, writer, writer_id, created_at, receiver_id }, idx) => (
-      <li key={post_id}>
+      <li key={`post-${post_id}`}>
         <ListItemHeader>
           <Category>{created_at}</Category>
           {}
@@ -71,8 +73,10 @@ const PostListItem = ({ unconfirmed_p }) => {
             <NoticeContents id={`editor-post-${post_id}`}> 
               {postStates[idx].isModifing ? <Editor modifyingInfo={ {post_id, title, content, writer_id, receiver_id} } /> : content} 
             </NoticeContents>
-            <Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>
-            
+            {writer === user?.id && postStates[idx].isModifing 
+              ? (<Button onClick={() => handleClickModifyButton(post_id, idx)}> 취소하기 </Button>)
+              : (<Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>) 
+            }
           </ContentSection>
         </FormWrapper>
       </li>

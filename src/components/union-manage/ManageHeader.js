@@ -2,8 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as LeftArrow } from "../../assets/svgs/LeftArrow.svg";
 
-const ManageHeader = ({ match, title, backPage, handleClickApprove }) => {
+const ManageHeader = ({ title, is_participant, backPage, handleClickApprove, handleClickDeny }) => {
 
+  const handleConfirm = (confirmMsgType) => {
+    if (confirmMsgType === "approve") {
+      const confirmResult = window.confirm("정말 이 유저를 참여시키겠습니까?");
+      if (confirmResult) handleClickApprove();
+    } else if (confirmMsgType === "deny") {
+      const confirmResult = window.confirm("정말 이 유저를 퇴장시키겠습니까?");
+      if (confirmResult) handleClickDeny();
+    }
+    
+  }
   return (
     <Header>
       <BackButton>
@@ -11,9 +21,16 @@ const ManageHeader = ({ match, title, backPage, handleClickApprove }) => {
         {/* <Link to={match}>{backPage}</Link> */}
       </BackButton>
       <Title>{title}</Title>
-      <JoinButton onClick={handleClickApprove}>
-        조합 참여 승인 및 거절
-      </JoinButton>
+      {is_participant || (
+        <div>
+          <JoinButton onClick={() => handleConfirm("approve")}>
+            조합 참여 승인
+          </JoinButton>
+          <JoinButton onClick={() => handleConfirm("deny")}>
+            조합 참여 거절
+          </JoinButton>
+        </div>
+      )}
     </Header>
   );
 };
@@ -39,7 +56,9 @@ const Title = styled.h1`
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
+  
   margin-bottom: 0;
+  margin-left: 74px
 `;
 const JoinButton = styled.button`
   cursor: pointer;
@@ -49,4 +68,8 @@ const JoinButton = styled.button`
   color: #fff;
   font-weight: bold;
   border: 0;
+
+  & + & {
+    margin-left: 10px;
+  }
 `;

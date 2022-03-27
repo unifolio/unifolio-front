@@ -13,7 +13,6 @@ import {
   UnionDocumentPage,
   UnionCreatePage,
   UnionManageListPage,
-  ManageUnionChatPage,
   UnionManageChatPage,
   UnionCreateBusinessPage,
   UsersVerifyPage,
@@ -41,7 +40,6 @@ function App() {
         exact
       />
       
-      {/* <Route component={ManageUserChatPage} path="/union/manage/userchat/:id" /> */}
       <Route component={UnionManageChatPage} path="/union/manage/:unionId/userchat/:receiverId" />
       <Route component={UnionCreatePage} path="/union-create/personal" />
       <Route

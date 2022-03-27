@@ -31,10 +31,11 @@ const ParticipationList = ({ title, data, participantsConversationData }) => {
   );
 
   const mergeConversationData = () => {
+    console.log("participantsConversationDataparticipantsConversationData", participantsConversationData)
     const targetData = [...participantsConversationData].reverse();
     
     return targetData.filter((participantConversation, idx) => {
-      const foundIndex = data.findIndex((iteratedConversationUser) => iteratedConversationUser.id === participantConversation.writer_id);
+      const foundIndex = data.findIndex((iteratedConversationUser) => iteratedConversationUser.id === participantConversation.writer_id || iteratedConversationUser.id === participantConversation.receiver_id);
       return foundIndex === idx || foundIndex === -1
     })
   }

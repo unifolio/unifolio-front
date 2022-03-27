@@ -1,57 +1,71 @@
 import React, { useEffect, useRef, useState, createRef } from "react";
 import styled from "styled-components";
+
+import Conditional from "components/common/Conditional";
+import Editor from "components/Union-manage/Editor";
+
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
-import Conditional from "components/common/Conditional";
+
+import useFetchUserToken from "hooks/useFetchUserToken";
 
 const NoticeListItem = ({ noticeData }) => {
   console.log("noticeData", noticeData);
   const $parentRefs = useRef(null);
   const $childRefs = useRef(null);
-  //   const [isCollapse, setIsCollapse] = useState(false);
-  const [isCollapses, setIsCollapses] = useState();
+  // const [isCollapses, setIsCollapses] = useState();
+  const [postStates, setPostStates] = useState();
+  const { user } = useFetchUserToken();
 
   useEffect(() => {
     if (!noticeData) return;
-    setIsCollapses(noticeData?.map((_) => false));
+    // setIsCollapses(noticeData?.map((_) => false));
+    setPostStates(noticeData?.map((_) => ({isCollapse: false, isModifing: false}) ));
     $parentRefs.current = noticeData?.map((_) => createRef());
     $childRefs.current = noticeData?.map((_) => createRef());
     console.log("$parentRefs.current", $parentRefs.current);
   }, [noticeData]);
 
   const handleButtonClick = (idx) => {
-    console.log("isclicked", $parentRefs.current[idx]);
-    // if (parentRef.current === null || childRef.current === null) {
-    //   return;
-    // }
-
     if ($parentRefs.current[idx].current.clientHeight > 0) {
       $parentRefs.current[idx].current.style.height = "0";
     } else {
-      $parentRefs.current[
-        idx
-      ].current.style.height = `${$childRefs.current[idx].current.clientHeight}px`;
+      // $parentRefs.current[
+      //   idx
+      // ].current.style.height = `${$childRefs.current[idx].current.clientHeight}px`;
+      $parentRefs.current[idx].current.style.height = "100%";
     }
-    setIsCollapses((prevIsCollapses) =>
-      prevIsCollapses.map((prevState, stateIdx) =>
-        idx === stateIdx ? !prevState : prevState
-      )
-    );
+    // setIsCollapses((prevIsCollapses) =>
+    //   prevIsCollapses.map((prevState, stateIdx) =>
+    //     idx === stateIdx ? !prevState : prevState
+    //   )
+    // );
+    setPostStates((prevStates) =>
+      prevStates.map((prevState, stateIdx) => idx === stateIdx ? {...prevState, isCollapse: !prevState.isCollapse} : {...prevState, isCollapse: prevState.isCollapse} 
+    ));
   };
 
-  if (!noticeData || !isCollapses) return <></>;
+  const handleClickModifyButton = (post_id, idx) => {
+    console.log("수정!!", post_id, idx)
+    setPostStates((prevStates) =>
+      prevStates.map((prevState, stateIdx) => idx === stateIdx ? {...prevState, isModifing: !prevState.isModifing} : {...prevState, isModifing: prevState.isModifing} 
+    ));
+  }
+
+  if (!noticeData || !postStates) return <></>;
+  console.log(noticeData)
   return noticeData.map(
-    ({ id, title, content, writer, writer_id, created_at }, idx) => (
-      <li key={id}>
+    ({ post_id, title, content, writer, writer_id, receiver, created_at }, idx) => (
+      <li key={`notice-${post_id}`}>
         <ListItemHeader>
           <Category>{created_at}</Category>
           <Contents>{title}</Contents>
           <Date>
             <ButtonGroup>
-              <Conditional condition={isCollapses[idx]}>
+              <Conditional condition={postStates[idx].isCollapse}>
                 <SUpArrow onClick={() => handleButtonClick(idx)} />
               </Conditional>
-              <Conditional condition={!isCollapses[idx]}>
+              <Conditional condition={!postStates[idx].isCollapse}>
                 <SBottomArrow onClick={() => handleButtonClick(idx)} />
               </Conditional>
             </ButtonGroup>
@@ -59,8 +73,17 @@ const NoticeListItem = ({ noticeData }) => {
         </ListItemHeader>
         <FormWrapper ref={$parentRefs.current[idx]}>
           <ContentSection ref={$childRefs.current[idx]}>
-            <NoticeContents> {content} </NoticeContents>
-            <Button> 수정하기 </Button>
+            <NoticeContents id={`editor-post-${post_id}`}> 
+              {postStates[idx].isModifing 
+                ? <Editor is_notice={true} modifyingInfo={ {post_id, title, content, writer,writer_id, receiver} } /> 
+                : content
+              }  
+            </NoticeContents>
+            {/* {writer_id === user?.id && <Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>} */}
+            {writer === user?.id && postStates[idx].isModifing 
+              ? (<Button onClick={() => handleClickModifyButton(post_id, idx)}> 취소하기 </Button>)
+              : (<Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>) 
+            }
           </ContentSection>
         </FormWrapper>
       </li>

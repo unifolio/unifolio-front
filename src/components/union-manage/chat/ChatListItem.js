@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import Conditional from "components/common/Conditional";
-import Editor from "../Editor";
+import Editor from "components/Union-manage/Editor";
 
 import { ReactComponent as BottomArrow } from "../../../assets/svgs/BottomArrow-S.svg";
 import { ReactComponent as UpArrow } from "../../../assets/svgs/UpArrow-S.svg";
@@ -11,17 +11,8 @@ import useFetchUserToken from "hooks/useFetchUserToken";
 const ChatListItem = ({ post }) => {
   const parentRef = useRef(null);
   const childRef = useRef(null);
-  const [isCollapse, setIsCollapse] = useState(false);
+  const [isCollapse, setIsCollapse] = useState({isCollapse: false, isModifing: false});
   const { user } = useFetchUserToken();
-
-  // useEffect(() => {
-  //   editorInstance.current = new EditorJS({
-  //     holder: "unifolio-editorjs",
-  //     // holder: modifyingInfo ? `editor-post-${modifyingInfo.post_id}` : "unifolio-editorjs", 
-  //     placeholder: modifyingInfo && modifyingInfo.content
-  //   });
-  //   $postTitle.current.value = modifyingInfo && modifyingInfo.title;
-  // }, []);
   
   const handleButtonClick = useCallback(
     (event) => {
@@ -32,27 +23,33 @@ const ChatListItem = ({ post }) => {
       if (parentRef.current.clientHeight > 0) {
         parentRef.current.style.height = "0";
       } else {
-        parentRef.current.style.height = `${childRef.current.clientHeight}px`;
+        parentRef.current.style.height = "100%";
       }
-      setIsCollapse(!isCollapse);
+      setIsCollapse({isCollapse: !isCollapse, isModifing: false});
     },
     [isCollapse]
   );
+
+  const handleClickModifyButton = (post_id) => {
+    console.log("수정!!", post_id)
+    setIsCollapse((prevState) => ({...prevState, isModifing: !prevState.isModifing}));
+  }
   
   if (!user) return <></>
   
   return (
     <li>
       <ListItemHeader>
-        <Category>{post.writer.name}</Category>
+        <Category>{post.writer.name ?? post.writer.corporate_name}</Category>
         <Contents>{post.title}</Contents>
         <Date>
-          <span>0000.00.00 / 0000.00.00</span>
+          {/* <span>0000.00.00 / 0000.00.00</span> */}
+          {/* <span>{new window.Date().toLocaleString()}</span> */}
           <ButtonGroup>
-            <Conditional condition={isCollapse}>
+            <Conditional condition={isCollapse.isCollapse}>
               <SUpArrow onClick={handleButtonClick} />
             </Conditional>
-            <Conditional condition={!isCollapse}>
+            <Conditional condition={!isCollapse.isCollapse}>
               <SBottomArrow onClick={handleButtonClick} />
             </Conditional>
           </ButtonGroup>
@@ -60,8 +57,19 @@ const ChatListItem = ({ post }) => {
       </ListItemHeader>
       <FormWrapper ref={parentRef}>
         <ContentSection ref={childRef}>
-          <NoticeContents>{post.content}</NoticeContents>
-          {post.writer.id === user.id && <Button>수정하기</Button>}
+        <NoticeContents id={`editor-post-${post.id}`}> 
+            {isCollapse.isModifing 
+              ? <Editor is_notice={false} modifyingInfo={{...post, post_id: post.id, receiver_id: post.receiver, writer_id: post.writer_id ?? user?.id}} /> 
+              : post.content
+            }  
+          </NoticeContents>
+          {/* {writer_id === user?.id && <Button onClick={() => handleClickModifyButton(post_id, idx)}> 수정하기 </Button>} */}
+          {post.writer.id === user.id && isCollapse.isModifing 
+            ? (<Button onClick={() => handleClickModifyButton(post.id)}> 취소하기 </Button>)
+            : (<Button onClick={() => handleClickModifyButton(post.id)}> 수정하기 </Button>) 
+          }
+          {/* <NoticeContents>{post.content}</NoticeContents>
+          {post.writer.id === user.id && <Button>수정하기</Button>} */}
         </ContentSection>
       </FormWrapper>
     </li>

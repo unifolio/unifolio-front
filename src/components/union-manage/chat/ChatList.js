@@ -21,7 +21,7 @@ const ChatList = ({ title, postData = null }) => {
       </SectionHeader>
       <ListMain>
         {postData?.map((post) => {
-          console.log("post", post);
+          // console.log("post", post);
           return <ChatListItem post={post} />;
         })}
         {!postData && <MockChatListItem />}

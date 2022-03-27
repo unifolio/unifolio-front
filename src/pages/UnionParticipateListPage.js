@@ -14,8 +14,8 @@ const UnionParticipateListPage = ({location}) => {
   const $mainRef = useRef();
   const { user } = useFetchUserToken();
   const [myReadyUnions, setMyReadyUnions] = useState();
+  const [myCompleteUnions, setMyCompleteUnions] = useState();
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-  // const [myCompleteUnions, setMyCompleteUnions] = useState();
 
   useEffect(() => {
     const fetchUnionData = async () => {
@@ -23,11 +23,11 @@ const UnionParticipateListPage = ({location}) => {
       if (!userId) return;
       
       const unionList = await API.get.unionCommunicatedList({userId});
-      setMyReadyUnions(unionList);
+      // setMyReadyUnions(unionList);
 
       // const { data: myUnionsData } = await API.get.unionManageOwner(userId);
-      // setMyReadyUnions(myUnionsData.filter((union) => !union.is_recruited));
-      // setMyCompleteUnions(myUnionsData.filter((union) => union.is_recruited));
+      setMyReadyUnions(unionList.filter((union) => !union.is_recruited));
+      setMyCompleteUnions(unionList.filter((union) => union.is_recruited));
     };
     fetchUnionData();
   }, [user]);
@@ -37,7 +37,7 @@ const UnionParticipateListPage = ({location}) => {
       case "ready":
         return <UnionList myUnions={myReadyUnions} />;
       case "complete":
-        return <UnionList myUnions={myReadyUnions} />;
+        return <UnionList myUnions={myCompleteUnions} />;
       default:
         return (
           <div style={{ width: "100%" }}> 상단의 메뉴를 선택해주세요 </div>

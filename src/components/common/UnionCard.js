@@ -90,7 +90,7 @@ const UnionCard = ({ history, idx, union, openModal }) => {
                 union.recruitment_end_date,
                 union.recruitment_start_date,
               )}
-              ({dateFormating(union.recruitment_end_date)})
+              ({dateFormating(union.recruitment_end_date)} 까지)
             </span>
           </div>
         </div>
