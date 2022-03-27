@@ -201,7 +201,7 @@ const Filter = ({
               {categories &&
                 (moreCategory ? categories : categories?.slice(0, 5)).map(
                   (item, index) => (
-                    <FilterListItem key={index}>
+                    <FilterListItem key={index + item.category + 'wait'}>
                       <FilterCheckBox
                         type='checkbox'
                         name='회사 분야'
@@ -261,7 +261,9 @@ const Filter = ({
                 {categories &&
                   (moreCategory ? categories : categories?.slice(0, 5)).map(
                     (item, index) => (
-                      <FilterListItem key={index + `${item}`}>
+                      <FilterListItem
+                        key={index + `${item.category}` + 'bussi'}
+                      >
                         <FilterCheckBox
                           type='checkbox'
                           name='투자 분야'
@@ -409,14 +411,10 @@ const Filter = ({
     const rendering = () => {
       if (mode === 'waiting-people') {
         const itemComponent = [];
-        itemComponent.push(
-          <MiniFilterName key='최대 출자 가능액'>
-            최대 출자 가능액
-          </MiniFilterName>,
-        );
+        itemComponent.push(<MiniFilterName>최대 출자 가능액</MiniFilterName>);
         itemComponent.push(
           <>
-            <MiniFilterValue key='금액'>
+            <MiniFilterValue>
               {(peopleAmountRange === 0 && '전체 금액') ||
                 (peopleAmountRange === 1 && '5백만원 미만') ||
                 (peopleAmountRange === 2 && '5백만원 ~ 1천만원 미만') ||
@@ -426,19 +424,15 @@ const Filter = ({
           </>,
         );
         if (peopleCareersId.length !== 0) {
-          itemComponent.push(
-            <MiniFilterName key='회사 분야'>회사 분야</MiniFilterName>,
-          );
+          itemComponent.push(<MiniFilterName>회사 분야</MiniFilterName>);
           peopleCareersId.map((career) => {
             itemComponent.push(
-              <MiniFilterValue key={career.id}>
-                {career.category}
-              </MiniFilterValue>,
+              <MiniFilterValue>{career.category}</MiniFilterValue>,
             );
           });
         }
         return (
-          <MiniFilterListItem key={itemComponent}>
+          <MiniFilterListItem key='출자 대기중인 출자자 필터'>
             {itemComponent}
           </MiniFilterListItem>
         );
@@ -447,35 +441,27 @@ const Filter = ({
         if (!!endDate) {
           itemComponent.push(
             <>
-              <MiniFilterName key='조합 상태'>조합 상태</MiniFilterName>
-              <MiniFilterValue key={'결성이 임박한 조합'}>
-                결성이 임박한 조합
-              </MiniFilterValue>
+              <MiniFilterName>조합 상태</MiniFilterName>
+              <MiniFilterValue>결성이 임박한 조합</MiniFilterValue>
               <br />
             </>,
           );
         }
 
         if (unionCategoriesId.length !== 0) {
-          itemComponent.push(
-            <MiniFilterName key='xnwk 분야'>투자 분야</MiniFilterName>,
-          );
+          itemComponent.push(<MiniFilterName>투자 분야</MiniFilterName>);
           unionCategoriesId.map((category) => {
             itemComponent.push(
-              <MiniFilterValue key={category.id}>
-                {category.category}
-              </MiniFilterValue>,
+              <MiniFilterValue>{category.category}</MiniFilterValue>,
             );
           });
           itemComponent.push(<br />);
         }
 
-        itemComponent.push(
-          <MiniFilterName key='출자 총액'>출자 총액</MiniFilterName>,
-        );
+        itemComponent.push(<MiniFilterName>출자 총액</MiniFilterName>);
         itemComponent.push(
           <>
-            <MiniFilterValue key='최소 출자액 금액'>
+            <MiniFilterValue>
               {(collectAmountRange === 0 && '전체 금액') ||
                 (collectAmountRange === 1 && '2억원 미만') ||
                 (collectAmountRange === 2 && '2억원 ~ 4억원 미만') ||
@@ -484,12 +470,10 @@ const Filter = ({
             <br />
           </>,
         );
-        itemComponent.push(
-          <MiniFilterName key='최소 출자액'>최소 출자액</MiniFilterName>,
-        );
+        itemComponent.push(<MiniFilterName>최소 출자액</MiniFilterName>);
         itemComponent.push(
           <>
-            <MiniFilterValue key='최소 출자액 금액'>
+            <MiniFilterValue>
               {(unionAmountRange === 0 && '전체 금액') ||
                 (unionAmountRange === 1 && '5백만원 미만') ||
                 (unionAmountRange === 2 && '5백만원 ~ 1천만원 미만') ||
@@ -499,7 +483,7 @@ const Filter = ({
           </>,
         );
         return (
-          <MiniFilterListItem key={itemComponent}>
+          <MiniFilterListItem key='결성 대기중인 개인투자조합 필터'>
             {itemComponent}
           </MiniFilterListItem>
         );

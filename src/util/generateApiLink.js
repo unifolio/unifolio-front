@@ -72,7 +72,6 @@ export const generateApiLinkUnion = (
           { arrayFormat: 'comma' },
         )
       : null;
-  console.log(endDate);
   return `${END_POINT}/unions/waiting/?${
     endDate ? `recruitment_end_date=${endDate.replace(/"/g, '')}&` : ''
   }${

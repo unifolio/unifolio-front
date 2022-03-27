@@ -90,12 +90,13 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
           });
         return response;
       },
-      unionCommunicatedList: ({userId}) => {
+      unionCommunicatedList: ({ userId }) => {
         const response = axiosInstance
           .get(`${END_POINT}/unions/manage/communicatedlist/${userId}`)
-          .then(response => response.data).catch(e => e.response);
+          .then((response) => response.data)
+          .catch((e) => e.response);
         return response;
-      }
+      },
     },
     post: {
       newUnion: (data) => {
@@ -147,6 +148,20 @@ const unionService = ({ axios, axiosInstance, END_POINT }) => {
       unionDenyRequest: (data) => {
         const response = axios
           .put(`${END_POINT}/unions/manage/request/deny`, data)
+          .then((response) => {
+            return response.data;
+          })
+          .catch((error) => {
+            return error.response;
+          });
+        return response;
+      },
+      unionComplete: (id) => {
+        const response = axios
+          .put(`${END_POINT}/unions/manage/${id}/complete`, {
+            is_recruited: true,
+            is_completed: true,
+          })
           .then((response) => {
             return response.data;
           })

@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-import { dateFormating } from "lib/dateFormat";
+import { dateFormating } from 'lib/dateFormat';
+import { amountFormatingMultiply } from 'lib/amountFormat';
 
 const UnionManageCard = ({ history, union, id }) => {
-  
   const calculateDate = (recruitment_end_date, recruitment_start_date) => {
     console.log(recruitment_end_date, recruitment_start_date)
     const remainDateInteger = (new Date(recruitment_end_date) - new Date(recruitment_start_date)) / 1000 / 60 / 60 / 24;
@@ -24,50 +24,48 @@ const UnionManageCard = ({ history, union, id }) => {
   };
   return (
     <CardLayout>
-      <section className="title">
+      <section className='title'>
         <UnionName>{union.name}</UnionName>
       </section>
-      <section className="contents default-info">
-        <div className="row">
+      <section className='contents default-info'>
+        <div className='row'>
           <span>{union?.description}</span>
         </div>
-        <div className="row">
-          <div className="column column-1">
-            <span className="grey">투자 분야 </span>
+        <div className='row'>
+          <div className='column column-1'>
+            <span className='grey'>투자 분야 </span>
           </div>
-          <div className="column column-5">
+          <div className='column column-5'>
             {union.invest_category.map((each, i) => (
-              <span className="grey" key={`${each.category}-${Math.random()}`}>
+              <span className='grey' key={`${each.category}-${Math.random()}`}>
                 {each.category}&nbsp;
               </span>
             ))}
           </div>
         </div>
       </section>
-      <section className="contents financial-info">
-        <div className="row">
-          <div className="column column-1">
-            <span className="grey">출자 총액</span>
+      <section className='contents financial-info'>
+        <div className='row'>
+          <div className='column column-1'>
+            <span className='grey'>출자 총액</span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
-              {calculateMillionWon(union.expected_amount)} 원
+          <div className='column column-5'>
+            <span className='bold'>
+              {amountFormatingMultiply(union.expected_amount)}
             </span>
           </div>
         </div>
-        <div className="row">
-          <div className="column column-1">
-            <span className="grey">현재 출자액 </span>
+        <div className='row'>
+          <div className='column column-1'>
+            <span className='grey'>현재 출자액 </span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
-              {calculateMillionWon(union.collected_amount)}
-            </span>
+          <div className='column column-5'>
+            <span className='bold'>{union.collected_amount || 0}백만원</span>
           </div>
         </div>
-        <div className="row">
-          <div className="column column-1">
-            <span className="grey">최소 출자액</span>
+        <div className='row'>
+          <div className='column column-1'>
+            <span className='grey'>최소 출자액</span>
           </div>
           <div className="column column-5">
             <span className="bold">
@@ -76,25 +74,25 @@ const UnionManageCard = ({ history, union, id }) => {
             </span>
           </div>
         </div>
-        <div className="row">
-          <div className="column column-1">
-            <span className="grey">모집기간</span>
+        <div className='row'>
+          <div className='column column-1'>
+            <span className='grey'>모집기간</span>
           </div>
-          <div className="column column-5">
-            <span className="bold">
+          <div className='column column-5'>
+            <span className='bold'>
               {calculateDate(
                 union.recruitment_end_date,
-                union.recruitment_start_date
+                union.recruitment_start_date,
               )}
               ({dateFormating(union.recruitment_end_date)} 까지)
             </span>
           </div>
         </div>
       </section>
-      <section className="bottom-button">
-        <div className="row center">
+      <section className='bottom-button'>
+        <div className='row center'>
           <Button
-            className="participate-button"
+            className='participate-button'
             onClick={onClickParticipateButton}
           >
             참여 하기
